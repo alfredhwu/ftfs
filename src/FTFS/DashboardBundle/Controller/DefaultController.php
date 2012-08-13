@@ -11,10 +11,10 @@ class DefaultController extends Controller
     public function indexAction($name)
     {
         $message = \Swift_Message::newInstance()
-            ->setSubject('Hello Email')
-            ->setFrom('support@fujitsu-telecom.fr')
-            ->setTo('fujitsukefu@gmail.com')
-            ->setBody('hello coucou !!!')
+            ->setSubject('Do not replay !!!')
+            ->setFrom('noreply@fujitsu-telecom.fr')
+            ->setTo('alfredhwu@gmail.com')
+            ->setBody('this is an automatic mail send by ftfs support service !!!')
         ;
         $this->get('mailer')->send($message);
         return $this->render('FTFSDashboardBundle:Default:index.html.twig', array('name' => $name));
