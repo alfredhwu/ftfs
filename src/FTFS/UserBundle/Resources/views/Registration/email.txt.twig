@@ -1,0 +1,21 @@
+{% block subject %}
+{% autoescape false %}
+[Don't reply]Confirmation of account registration at FTFS Support Service
+{# 'registration.email.subject'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}, 'FOSUserBundle') #}
+{% endautoescape %}
+{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+{# 'registration.email.message'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}, 'FOSUserBundle') #}
+Hello {{ user.username }},
+
+Your account has been successfully created. To finish activating your account - please visit the following link:
+{{ confirmationUrl }}
+
+Best Regards,
+FTFS Support Service
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}{% endblock %}

@@ -20,6 +20,9 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    form:
+        resources:
+            - ':Form:fields.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -68,7 +71,7 @@ fos_user:
     user_class:     FTFS\UserBundle\Entity\User
     from_email:
         address:    noreply@fujitsu-telecom.fr
-        sender_name: automatic mail
+        sender_name: Support Service - Fujitsu Telcom France SAS - 
     profile:
         form:
     change_password:

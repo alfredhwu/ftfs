@@ -1,16 +1,16 @@
-; These parameters can be imported into other config files
-; by enclosing the key with % (like %database_user%)
-; Comments start with ';', as in php.ini
 [parameters]
     database_driver="pdo_mysql"
     database_host="localhost"
     database_port=""
     database_name="ftfs"
-    database_user="root"
-    database_password="epmit"
+    database_user="symfony"
+    database_password="symfony"
     mailer_transport="smtp"
-    mailer_host="localhost"
-    mailer_user=""
-    mailer_password=""
+    mailer_encryption="ssl"
+    mailer_authmode="login"
+    mailer_host="smtp.dingwen-wu.eu"
+    mailer_port="465"
+    mailer_user="noreply.ftfs@dingwen-wu.eu"
+    mailer_password="to be completed ..."
     locale="en"
     secret="316154a8bd8fe1f3987e501d0c3cc0ec7ee850ea"
