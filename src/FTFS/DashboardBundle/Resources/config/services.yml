@@ -1,0 +1,7 @@
+parameters:
+#    ftfs_dashboard.example.class: FTFS\DashboardBundle\Example
+
+services:
+#    ftfs_dashboard.example:
+#        class: %ftfs_dashboard.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
