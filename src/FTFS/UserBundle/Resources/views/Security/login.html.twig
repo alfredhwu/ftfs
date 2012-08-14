@@ -12,7 +12,9 @@
     <div class="span6">
         <form action="{{ path('fos_user_security_check') }}" method="post" class="form-horizontal">
             <fieldset>
-                <legend>Sign in with your username and password</legend>
+                <legend style="text-align:center">
+                    Welcome to Fujitsu Telecom France SAS Support Service 
+                </legend>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">    
                 {% if error %}
                     <div class="alert alert-error">{{ error|trans({}, 'FOSUserBundle') }}</div>
@@ -39,7 +41,11 @@
                 </div>
                 <div class="form-actions">
                     <input class="btn btn-primary" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
-                    <a href="{{ path('fos_user_registration_register') }}" class="btn btn-success">Register</a>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    <a href="{{ path('fos_user_registration_register') }}" ><u>Forget your password?</u></a>
+                    <a class="pull-right" href="{{ path('fos_user_registration_register') }}" >Register</a>
                 </div>
             </fieldset>
         </form>
