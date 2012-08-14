@@ -1,0 +1,23 @@
+{% block subject %}
+{% autoescape false %}
+[no reply] Reset Password for {{ user.username }} at FTFS Support Service Site
+{# 'resetting.email.subject'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}, 'FOSUserBundle') #}
+{% endautoescape %}
+{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Hello {{ user.username }},
+
+You have recently requested to reset your password for the FTFS Support Service Site. To reset your password,  please visite the following link:
+{{ confirmationUrl }}
+{# 'resetting.email.message'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}, 'FOSUserBundle') #}
+
+If you have not requested the password resetting, just ignore this email.
+
+Best Regards,
+FTFS Support Service
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}{% endblock %}

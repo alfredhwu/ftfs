@@ -1,0 +1,9 @@
+{% extends "FOSUserBundle::base.html.twig" %}
+
+{% block fos_user_content %}
+<p class="alert alert-info">
+{{ 'resetting.check_email'|trans({'%email%': email}, 'FOSUserBundle') }}
+</p>
+<p><span class="label label-info">Attention</span> With security issues considered, any password resetting request will be expired in three minutes. Please check your email box (including the spam) in time in order to reset your password.</p>
+<p>If you have any problems when resetting your password, please contact <a href="mailto:support@fujitsu-telecom.fr">support@fujitsu-telecom.fr</a>.</p>
+{% endblock %}
