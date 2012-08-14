@@ -1,7 +1,7 @@
 {% extends "FTFSUserBundle::base.html.twig" %}
 
 {% block fos_user_content %}
-<div class="span6 well">
+<div class="well">
     <p>{{ 'registration.check_email'|trans({'%email%': user.email}, 'FOSUserBundle') }}</p>
     <p>If you didn't see the mail in your inbox, please check your spam. In case you couldn't find it in the spam either, please contact the support service team at <a href="mailto:support@fujitsu-telecom.fr">support@fujitsu-telecom.fr</a>.</p>
 </div>

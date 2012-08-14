@@ -4,7 +4,7 @@
 <form action="{{ path('fos_user_security_check') }}" method="post" class="form-horizontal">
     <fieldset>
         <legend style="text-align:center">
-            Welcome to Fujitsu Telecom France SAS Support Service 
+            Welcome to Fujitsu Telecom France SAS <br> Support Service 
         </legend>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">    
         {% if error %}
@@ -36,7 +36,10 @@
             &nbsp;
             &nbsp;
             <a href="{{ path('fos_user_resetting_request') }}" ><u>Forget your password?</u></a>
-            <a class="pull-right" href="{{ path('fos_user_registration_register') }}" >Register</a>
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <a href="{{ path('fos_user_registration_register') }}" >Register</a>
         </div>
     </fieldset>
 </form>
