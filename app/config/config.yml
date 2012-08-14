@@ -82,7 +82,7 @@ fos_user:
             #from_email: #if not default
         form:
     resetting:
-        token_ttl:
+        token_ttl:      180
         email:
             #from_email: #if not default
         #    template:   FTFSUserBundle:User:resetting.email.twig

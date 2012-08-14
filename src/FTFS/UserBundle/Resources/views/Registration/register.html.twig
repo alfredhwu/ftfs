@@ -1,25 +1,15 @@
-{% extends "FTFSUserBundle::layout.html.twig" %}
+{% extends "FOSUserBundle::base.html.twig" %}
 
-{% block navbar_session %}
-{% endblock %}
+{% form_theme form theme %}
 
-{% block navbar_menu %}
-{% endblock %}
-
-{% block body %}
-<div class="row-fluid">
-    <div class="span3"></div>
-    <div class="span6">
-        <form action="{{ path('fos_user_registration_register') }}" method="post" class="form-horizontal" {{ form_enctype(form) }}>
-            <fieldset>
-                <legend>Registration</legend>
-                {{ form_widget(form) }}
-                <div class="form-actions">
-                    <input class="btn btn-primary" type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
-                </div>
-            </fieldset>
-        </form>
-    </div>
-    <div class="span3"></div>
-</div>
+{% block fos_user_content %}
+<form action="{{ path('fos_user_registration_register') }}" method="post" class="form-horizontal" {{ form_enctype(form) }}>
+    <fieldset>
+        <legend>Registration</legend>
+        {{ form_widget(form) }}
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+        </div>
+    </fieldset>
+</form>
 {% endblock %}
