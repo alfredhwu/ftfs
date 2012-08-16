@@ -1,7 +1,72 @@
 {% extends "FTFSUserBundle::layout.html.twig" %}
 
+{% block body_menu %}
+{% include "FTFSUserBundle:Profile:body_menu.html.twig" %}
+{% endblock %}
+
+{% block login_status %}
+{% endblock %}
+
 {% block fos_user_content %}
-<a href="#">Change Profile</a>
-<a href="#">Change Password</a>
-{% include "FOSUserBundle:Profile:show_content.html.twig" %}
+<table>
+    <legend>
+        User Profile
+        <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary pull-right">
+            <i class="icon-edit icon-white"></i>
+            Modify
+        </a>
+    </legend>
+    <tr>
+        <th style="text-align:right">{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}</th>
+        <td>&nbsp;&nbsp;{{ user.username }}</td>
+    </tr>
+    <tr>
+        <th style="text-align:right">{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}</th>
+        <td>&nbsp;&nbsp;{{ user.email }}</td>
+    </tr>
+    <tr>
+        <th style="text-align:right">{{ 'profile.show.last_login'|trans({}, 'FOSUserBundle') }}</th>
+        <td>&nbsp;&nbsp;{{ user.lastLogin|date('Y-m-d H:i:s') }}</td>
+    </tr>
+    <tr>
+        <th style="text-align:right">{{ 'profile.show.roles'|trans({}, 'FOSUserBundle') }}</th>
+        <td>&nbsp;&nbsp;{{ user.roles }}</td>
+    </tr>
+    <tr>
+        <th>&nbsp;&nbsp;</th>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="text-align:right">{{ 'profile.show.name'|trans({}, 'FOSUserBundle') }}</th>
+        <td>&nbsp;&nbsp;{{ user.title }}&nbsp; {{ user.firstName }} {{ user.surname }}</td>
+    </tr>
+    <tr>
+        <th style="text-align:right">{{ 'profile.show.company'|trans({}, 'FOSUserBundle') }}</th>
+        <td>&nbsp;&nbsp;{{ user.company }}</td>
+    </tr>
+    <tr>
+        <th style="text-align:right">{{ 'profile.show.address'|trans({}, 'FOSUserBundle') }}</th>
+        <td>&nbsp;&nbsp;{{ user.address }}</td>
+    </tr>
+    <tr>
+        <th style="text-align:right">{{ 'profile.show.office_phone'|trans({}, 'FOSUserBundle') }}</th>
+        <td>&nbsp;&nbsp;{{ user.officePhone }}</td>
+    </tr>
+    <tr>
+        <th style="text-align:right">{{ 'profile.show.office_fax'|trans({}, 'FOSUserBundle') }}</th>
+        <td>&nbsp;&nbsp;{{ user.officeFax }}</td>
+    </tr>
+    <tr>
+        <th style="text-align:right">{{ 'profile.show.mobile_phone'|trans({}, 'FOSUserBundle') }}</th>
+        <td>&nbsp;&nbsp;{{ user.mobilePhone }}</td>
+    </tr>
+    <tr>
+        <th style="text-align:right">{{ 'profile.show.other_phone_1'|trans({}, 'FOSUserBundle') }}</th>
+        <td>&nbsp;&nbsp;{{ user.otherPhone1 }}</td>
+    </tr>
+    <tr>
+        <th style="text-align:right">{{ 'profile.show.other_phone_2'|trans({}, 'FOSUserBundle') }}</th>
+        <td>&nbsp;&nbsp;{{ user.otherPhone2 }}</td>
+    </tr>
+</table>
 {% endblock fos_user_content %}

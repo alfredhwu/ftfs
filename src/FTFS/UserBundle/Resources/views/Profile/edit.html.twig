@@ -1,5 +1,37 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
+{% extends "FTFSUserBundle::layout.html.twig" %}
+
+{% form_theme form theme %}
+
+{% block body_menu %}
+{% include "FTFSUserBundle:Profile:body_menu.html.twig" %}
+{% endblock %}
+
+{% block login_status %}
+{% endblock %}
 
 {% block fos_user_content %}
-{% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="form-horizontal">
+    <fieldset>
+        {{ form_row(form.user.username) }}
+        {{ form_row(form.current) }}
+        {{ form_row(form.user.email) }}
+        {{ form_row(form.user.title) }}
+        {{ form_row(form.user.surname) }}
+        {{ form_row(form.user.first_name) }}
+        {{ form_row(form.user.company ) }}
+        {{ form_row(form.user.address ) }}
+        {{ form_row(form.user.office_phone ) }}
+        {{ form_row(form.user.office_fax ) }}
+        {{ form_row(form.user.mobile_phone ) }}
+        {{ form_row(form.user.other_phone_1 ) }}
+        {{ form_row(form.user.other_phone_2 ) }}
+        {{ form_rest(form) }}
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" />
+            &nbsp;
+            &nbsp;
+            <a href="{{ path('fos_user_profile_show') }}" class="btn">Cancel</a>
+        </div>
+    </fieldset>
+</form>
 {% endblock fos_user_content %}

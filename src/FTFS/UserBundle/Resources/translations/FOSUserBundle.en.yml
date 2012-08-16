@@ -1,0 +1,40 @@
+# translation files that overwrite the FOS/UserBundle?Resources/translations/FOSUserBundle.en.yml
+
+# Form field labels
+security.login.username: "Username / Email:"
+
+profile:
+    show:
+        name:       "Name"
+        company:    "Company"
+        address:    "Address"
+        office_phone: "Office Phone"
+        office_fax: "Office Fax"
+        mobile_phone: "Mobile Phone"
+        other_phone_1: "Other Phone 1"
+        other_phone_2: "Other Phone 2"
+        last_login: "Last Login"
+        roles:      "Roles"
+
+fos_user_registration_form_title: "Title:"
+fos_user_registration_form_surname: "Surname:"
+fos_user_registration_form_first_name: "First Name:"
+fos_user_registration_form_company: "Company:"
+fos_user_registration_form_address: "Office Address (optional):"
+fos_user_registration_form_office_phone: "Office phone:"
+fos_user_registration_form_office_fax: "Office fax (optional):"
+fos_user_registration_form_mobile_phone: "Mobile phone (optional):"
+fos_user_registration_form_other_phone_1: "Other phone (optional):"
+fos_user_registration_form_other_phone_2: "Other phone (optional):"
+
+fos_user_profile_form_user_title: "Title:"
+fos_user_profile_form_user_surname: "Surname:"
+fos_user_profile_form_user_first_name: "First Name:"
+fos_user_profile_form_user_company: "Company:"
+fos_user_profile_form_user_address: "Office Address (optional):"
+fos_user_profile_form_user_office_phone: "Office phone:"
+fos_user_profile_form_user_office_fax: "Office fax (optional):"
+fos_user_profile_form_user_mobile_phone: "Mobile phone (optional):"
+fos_user_profile_form_user_other_phone_1: "Other phone (optional):"
+fos_user_profile_form_user_other_phone_2: "Other phone (optional):"
+

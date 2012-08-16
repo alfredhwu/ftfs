@@ -10,6 +10,7 @@
     </ul>
 {% endblock %}
 {% block body_content %}
+    {% block login_status %}
     <div>
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
@@ -20,12 +21,16 @@
             <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
         {% endif%}
     </div>
+    {% endblock %}
 
+    {% block flash_message %}
     {% for key, message in app.session.getFlashes() %}
-    <div class="{{ key }}">
+    <div class="{{ key }} alert alert-info">
         {{ message|trans({}, 'FOSUserBundle') }}
     </div>
     {% endfor %}
+    {% endblock%}
+
     <div>
         {% block fos_user_content %}
         {% endblock %}

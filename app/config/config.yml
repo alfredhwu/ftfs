@@ -74,6 +74,7 @@ fos_user:
         sender_name: Support Service - Fujitsu Telcom France SAS - 
     profile:
         form:
+            type:   ftfs_user_profile
     change_password:
         form:
     registration:
@@ -81,6 +82,7 @@ fos_user:
             enabled:    true
             #from_email: #if not default
         form:
+            type:   ftfs_user_registration
     resetting:
         token_ttl:      180
         email:

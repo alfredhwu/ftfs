@@ -1,4 +1,4 @@
-{% extends "FOSUserBundle::base.html.twig" %}
+{% extends "FTFSUserBundle::base.html.twig" %}
 
 {% form_theme form theme %}
 
@@ -9,6 +9,10 @@
         {{ form_widget(form) }}
         <div class="form-actions">
             <input class="btn btn-primary" type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+            &nbsp;
+            Or
+            &nbsp;
+            <a href="{{ path('fos_user_security_login') }}"><u>login</u></a>
         </div>
     </fieldset>
 </form>
