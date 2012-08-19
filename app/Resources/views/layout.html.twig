@@ -15,7 +15,13 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="#">User</a>
+                                <a href="#">Asset</a>
+                            </li>
+                            <li>
+                                <a href="#">Product</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('FTFSUserBundle_user_index') }}">User</a>
                             </li>
                             <li>
                                 <a href="#">Help</a>
@@ -27,19 +33,17 @@
 {% block body %}
             <div class="row-fluid">
                 <div id="menu" class="span3">
-{% block body_menu %}
-{% block menu %}
                 <ul class="nav nav-list well">
+                {% block body_menu %}
                     <li class="nav-header">List header</li>
                     <li class="active"><a href="#"><i class="icon-home"></i>Home</a></li>
                     <li><a href="#"><i class="icon-home"></i>Home</a></li>
                     <li><a href="#"><i class="icon-home"></i>Home</a></li>
                     <li><a href="#"><i class="icon-home"></i>Home</a></li>
+                {% endblock body_menu %}
                 </ul>
-{% endblock menu %}
-{% endblock body_menu %}
                 </div>
-                <div id="content" class="span9">
+                <div id="content" class="span9" style="overflow:auto;">
 {% block body_content %}
 {% block showbox %}
                     <p>bienvenue !!! </p>

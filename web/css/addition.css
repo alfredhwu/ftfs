@@ -1,0 +1,35 @@
+.table-smart thead th, 
+.table-smart td {
+    vertical-align: middle;
+}
+.table-smart th {
+    min-width: 84px;
+}
+
+table .cell-tiny {
+    min-width: 11px;
+}
+
+table .cell-mini {
+    min-width: 22px;
+}
+
+table .cell-small {
+    min-width: 44px;
+}
+
+table .cell-medium {
+    min-width: 84px;
+}
+
+table .cell-large {
+    min-width: 124px;
+}
+
+table .cell-huge {
+    min-width: 164px;
+}
+
+table .cell-max {
+    min-width: 204px;
+}

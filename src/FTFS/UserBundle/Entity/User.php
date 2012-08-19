@@ -48,7 +48,7 @@ class User extends BaseUser
     protected $company;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $address;
 
@@ -59,23 +59,22 @@ class User extends BaseUser
     protected $office_phone;
     
     /**
-     * @Assert\NotBlank(message="Please enter your office fax number.", groups={"Registration", "Profile"})
-     * @ORM\Column(type="string", length="255")
+     * @ORM\Column(type="string", length="255", nullable=true)
      */
     protected $office_fax;
 
     /**
-     * @ORM\Column(type="string", length="255")
+     * @ORM\Column(type="string", length="255", nullable=true)
      */
     protected $mobile_phone;
 
     /**
-     * @ORM\Column(type="string", length="255")
+     * @ORM\Column(type="string", length="255", nullable=true)
      */
     protected $other_phone_1;
 
     /**
-     * @ORM\Column(type="string", length="255")
+     * @ORM\Column(type="string", length="255", nullable=true)
      */
     protected $other_phone_2;
 

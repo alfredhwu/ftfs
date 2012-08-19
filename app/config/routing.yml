@@ -2,6 +2,14 @@ FTFSDashboardBundle:
     resource: "@FTFSDashboardBundle/Resources/config/routing.yml"
     prefix:   /
 
+FTFSUserBundle:
+    resource: "@FTFSUserBundle/Resources/config/routing/user_routing.yml"
+    prefix:   /admin/user
+
+FTFSUserBundle_role:
+    resource: "@FTFSUserBundle/Resources/config/routing/role_routing.yml"
+    prefix:   /admin/role
+
 # fos_userbundle routing rules
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

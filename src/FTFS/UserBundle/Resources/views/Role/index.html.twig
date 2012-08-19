@@ -1,0 +1,25 @@
+{% extends "::layout.html.twig" %}
+
+{% block body_menu %}
+{% include "FTFSUserBundle::body_menu.html.twig" %}
+{% endblock %}
+
+{% block body_content %}
+    <h3>ROLE_SUPER_ADMIN</h3>
+    <p>ROLE_ADMIN</p>
+    <p>delete operation: dangerous</p>
+
+    <h3>ROLE_ADMIN</h3>
+    <p>ROLE_AGENT, ROLE_CLIENT</p>
+    <p>Admin: User, Product, Asset</p>
+
+    <h3>ROLE_AGENT</h3>
+    <p>ROLE_USER</p>
+    <p>Service Ticket</p>
+
+    <h3>ROLE_CLIENT</h3>
+    <p>ROLE_USER</p>
+    <p>Request</p>
+    <h3>ROLE_USER</h3>
+    <p>Home, Service, Help</p>
+{% endblock body_content %}

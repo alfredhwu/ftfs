@@ -38,3 +38,18 @@ fos_user_profile_form_user_mobile_phone: "Mobile phone (optional):"
 fos_user_profile_form_user_other_phone_1: "Other phone (optional):"
 fos_user_profile_form_user_other_phone_2: "Other phone (optional):"
 
+ftfs_user_edit_username: "Username:"
+ftfs_user_edit_email: "Email:"
+ftfs_user_edit_title: "Title:"
+ftfs_user_edit_surname: "Surname:"
+ftfs_user_edit_first_name: "First Name:"
+ftfs_user_edit_company: "Company:"
+ftfs_user_edit_address: "Office Address (optional):"
+ftfs_user_edit_office_phone: "Office phone:"
+ftfs_user_edit_office_fax: "Office fax (optional):"
+ftfs_user_edit_mobile_phone: "Mobile phone (optional):"
+ftfs_user_edit_other_phone_1: "Other phone (optional):"
+ftfs_user_edit_other_phone_2: "Other phone (optional):"
+
+ftfs_user_edit_roles_roles: "Roles:"
+

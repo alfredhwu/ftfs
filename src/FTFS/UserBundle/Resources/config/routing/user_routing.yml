@@ -1,0 +1,19 @@
+FTFSUserBundle_user_index:
+    pattern:  /
+    defaults: { _controller: FTFSUserBundle:User:index }
+
+FTFSUserBundle_user_show:
+    pattern:  /show/{id}
+    defaults: { _controller: FTFSUserBundle:User:show }
+
+FTFSUserBundle_user_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: FTFSUserBundle:User:edit }
+
+FTFSUserBundle_user_edit_roles:
+    pattern:  /edit_roles/{id}
+    defaults: { _controller: FTFSUserBundle:User:editRoles }
+
+FTFSUserBundle_user_edit_password:
+    pattern:  /edit_password/{id}
+    defaults: { _controller: FTFSUserBundle:User:editPassword }

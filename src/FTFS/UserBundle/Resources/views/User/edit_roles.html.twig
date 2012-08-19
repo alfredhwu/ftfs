@@ -1,0 +1,24 @@
+{% extends "FTFSUserBundle::layout.html.twig" %}
+
+{% form_theme form "FTFSUserBundle::form.html.twig" %}
+
+{% block body_menu %}
+{% include "FTFSUserBundle:User:edit_body_menu.html.twig" with { 'id' : id } %}
+{% endblock %}
+
+{% block body_content %}
+<form class="form-horizontal" action="{{ path('FTFSUserBundle_user_edit_roles', { 'id' : id }) }}" {{ form_enctype(form) }} method="POST">
+    <fieldset>
+        <legend>
+            Select Roles for <a href="{{ path('FTFSUserBundle_user_show', { 'id' : id }) }}">{{ user.title }} {{ user.firstName }} {{ user.surname }}</a> of {{ user.company }}
+            <span class="btn-group pull-right">
+                <input class="btn btn-primary" type="submit" value="Save">
+            </span>
+        </legend>
+        {{ form_widget(form) }}
+    </fieldset>
+    <div class="form-actions">
+        <input class="btn btn-primary" type="submit" value="Save Modifications">
+    </div>
+</form>
+{% endblock body_content %}
