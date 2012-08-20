@@ -10,7 +10,7 @@
     <thead>
         <tr>
             <th class="cell-mini">#</th>
-            <th>Roles</th>
+            <th>Group</th>
             <th>Username</th>
             <th class="cell-huge">E-mail</th>
             <th>Surname</th>
@@ -31,7 +31,13 @@
                     {{ i }}<i class="icon-edit"></i>
                 </a>
             </td>
-            <td>Roles</td>
+            <td>
+            {% if user.group is empty %}
+            Visitor
+            {% else %}
+            {{ user.group }}
+            {% endif %}
+            </td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.surname }}</td>

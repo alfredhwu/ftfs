@@ -1,9 +1,11 @@
 {% block menu_content %}
     <li class="nav-header">User Management</li>
-    <li><a href="{{ path('FTFSUserBundle_user_index') }}"><i class="icon-user"></i> All users</a></li>
+    <li><a href="{{ path('FTFSUserBundle_user_index') }}"><i class="icon-user"></i> All Users</a></li>
+    <li><a href="#"><i class="icon-home"></i> Invite a user</a></li>
     <li><a href="#"><i class="icon-home"></i> Add a user</a></li>
-    <li><a href="#"><i class="icon-home"></i> Home</a></li>
 
-    <li class="nav-header">Role Management</li>
-    <li><a href="{{ path('FTFSUserBundle_role_index') }}"><i class="icon-home"></i> All roles</a></li>
+    <li class="nav-header">Group Management</li>
+    <li><a href="{{ path('fos_user_group_list') }}"><i class="icon-home"></i> All Groups</a></li>
+    <li><a href="{{ path('fos_user_group_new') }}"><i class="icon-home"></i> Add a group</a></li>
+    <li><a href="{{ path('FTFSUserBundle_role_index') }}"><i class="icon-home"></i> All Roles</a></li>
 {% endblock %}
