@@ -1,0 +1,16 @@
+{% extends '::menu.html.twig' %}
+{% block menu_content %}
+    <li class="nav-header">
+    <li class="nav-header">My Service Requests</li>
+    <li><a href="#"><i class="icon-home"></i> All Service Requests</a></li>
+    <li><a href="#"><i class="icon-home"></i> Requests Accepted</a></li>
+    <li><a href="#"><i class="icon-home"></i> Requests Rejected</a></li>
+    <li><a href="#"><i class="icon-home"></i> Requests Awaiting</a></li>
+    <li><a href="#"><i class="icon-home"></i> Requests Unsent</a></li>
+    <li class="nav-header">My Service Tickets</li>
+    <li><a href="#"><i class="icon-home"></i> All Service Tickets</a></li>
+    <li><a href="#"><i class="icon-home"></i> Services Opened</a></li>
+    <li><a href="#"><i class="icon-home"></i> Services in Process</a></li>
+    <li><a href="#"><i class="icon-home"></i> Services Closed</a></li>
+    {{ parent() }}
+{% endblock %}
