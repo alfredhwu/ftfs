@@ -2,7 +2,7 @@
 
 {% block navbar_menu %}
                         <ul class="nav">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="{{ path('FTFSDashboardBundle_homepage') }}">Home</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     Service 
@@ -40,15 +40,14 @@
                     <li><a href="#"><i class="icon-home"></i>Home</a></li>
                     <li><a href="#"><i class="icon-home"></i>Home</a></li>
                     <li><a href="#"><i class="icon-home"></i>Home</a></li>
+                    {% include '::menu.html.twig' %}
                 {% endblock body_menu %}
                 </ul>
                 </div>
                 <div id="content" class="span9" style="overflow:auto;">
-{% block body_content %}
-{% block showbox %}
+                {% block body_content %}
                     <p>bienvenue !!! </p>
-{% endblock showbox %}
-{% endblock body_content %}
+                {% endblock body_content %}
                 </div>
             </div>
 {% endblock body %}
