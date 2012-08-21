@@ -10,9 +10,9 @@ FTFSUserBundle_user_edit:
     pattern:  /{username}/edit
     defaults: { _controller: FTFSUserBundle:User:edit }
 
-FTFSUserBundle_user_edit_group:
-    pattern:  /{username}/edit_group
-    defaults: { _controller: FTFSUserBundle:User:editGroup }
+FTFSUserBundle_user_edit_roles:
+    pattern:  /{username}/edit_roles
+    defaults: { _controller: FTFSUserBundle:User:editRoles }
 
 FTFSUserBundle_user_edit_password:
     pattern:  /{username}/edit_password

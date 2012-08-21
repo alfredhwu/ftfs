@@ -10,7 +10,7 @@
     <thead>
         <tr>
             <th class="cell-mini">#</th>
-            <th>Group</th>
+            <th>Roles</th>
             <th>Username</th>
             <th class="cell-huge">E-mail</th>
             <th>Surname</th>
@@ -32,11 +32,9 @@
                 </a>
             </td>
             <td>
-            {% if user.group is empty %}
-            Visitor
-            {% else %}
-            {{ user.group }}
-            {% endif %}
+            {% for role in user.roles %}
+            {{ role }};
+            {% endfor %}
             </td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>

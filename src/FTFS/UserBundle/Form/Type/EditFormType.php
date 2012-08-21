@@ -10,9 +10,6 @@ class EditFormType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder->add('username')
-                ->add('group', 'text', array(
-                    'read_only' => true,
-                ))
                 ->add('email', 'email', array(
                     'read_only' => true,
                 ))

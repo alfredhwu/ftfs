@@ -2,7 +2,7 @@
 {% block menu_content %}
     <li class="nav-header">User Profile</li>
     <li><a href="{{ path('FTFSUserBundle_user_edit', { 'username' : username }) }}"><i class="icon-user"></i> Modify Profile</a></li>
-    <li><a href="{{ path('FTFSUserBundle_user_edit_group', { 'username' : username }) }}"><i class="icon-user"></i> Modify Group</a></li>
+    <li><a href="{{ path('FTFSUserBundle_user_edit_roles', { 'username' : username }) }}"><i class="icon-user"></i> Modify Roles</a></li>
     <li><a href="{{ path('FTFSUserBundle_user_edit_password', { 'username' : username }) }}"><i class="icon-user"></i> Reset Password</a></li>
     <li><a href="{{ path('FTFSUserBundle_user_edit_password', { 'username' : username }) }}"><i class="icon-user"></i> Lock This User</a></li>
     {{ parent() }}

@@ -78,15 +78,6 @@ class User extends BaseUser
      */
     protected $other_phone_2;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Group")
-     * @ORM\JoinTable(name="ftfs_user_group_relation",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
-     */
-    protected $group;
-
     public function __construct()
     {
         parent::__construct();
@@ -302,25 +293,5 @@ class User extends BaseUser
     public function getAddress()
     {
         return $this->address;
-    }
-
-    /**
-     * Set group
-     *
-     * @param FTFS\UserBundle\Entity\Group $group
-     */
-    public function setGroup(\FTFS\UserBundle\Entity\Group $group)
-    {
-        $this->group = $group;
-    }
-
-    /**
-     * Get group
-     *
-     * @return FTFS\UserBundle\Entity\Group 
-     */
-    public function getGroup()
-    {
-        return $this->group;
     }
 }

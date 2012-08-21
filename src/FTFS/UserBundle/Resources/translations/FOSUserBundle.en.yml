@@ -55,12 +55,4 @@ ftfs_user_edit_mobile_phone: "Mobile phone (optional):"
 ftfs_user_edit_other_phone_1: "Other phone (optional):"
 ftfs_user_edit_other_phone_2: "Other phone (optional):"
 
-ftfs_user_edit_group:   "Group:"
-ftfs_user_edit_group_group: "Select a group:"
-
-fos_user_group_form_roles: "Roles:"
-fos_user_group_form_roles_ROLE_ADMIN: "ROLE_AGENT"
-fos_user_group_form_roles_ROLE_AGENT: "ROLE_AGENT"
-fos_user_group_form_roles_ROLE_CLIENT: "ROLE_CLIENT"
-fos_user_group_form_roles_ROLE_USER: "ROLE_USER"
-
+ftfs_user_edit_roles_roles: "Select the roles:"
