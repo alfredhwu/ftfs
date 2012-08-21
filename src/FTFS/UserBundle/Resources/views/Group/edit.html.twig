@@ -1,5 +1,20 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
-{% block fos_user_content %}
-{% include "FOSUserBundle:Group:edit_content.html.twig" %}
-{% endblock fos_user_content %}
+{% form_theme form theme %}
+
+{% block body_menu %}
+{% include "FTFSUserBundle::body_menu.html.twig" %}
+{% endblock %}
+
+{% block body_content %}
+<form action="{{ path('fos_user_group_edit', {'groupname': groupname} ) }}" {{ form_enctype(form) }} method="POST" class="form-horizontal">
+    <legend>Group modification</legend>
+    <fieldset>
+    {{ form_widget(form) }}
+    </fieldset>
+    <div class="form-actions">
+        <input class="btn btn-primary" type="submit" value="{{ 'group.edit.submit'|trans([], 'FOSUserBundle') }}" />
+        <a class="btn" href="{{ path('fos_user_group_list') }}">Cancel</a>
+    </div>
+</form>
+{% endblock %}

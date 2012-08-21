@@ -5,7 +5,7 @@ namespace FTFS\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FTFS\UserBundle\Entity\User;
 use FTFS\UserBundle\Form\Type\EditFormType;
-use FTFS\UserBundle\Form\Type\EditRolesFormType;
+use FTFS\UserBundle\Form\Type\EditGroupFormType;
 
 class UserController extends Controller
 {
@@ -17,44 +17,35 @@ class UserController extends Controller
         return $this->render('FTFSUserBundle:User:index.html.twig', array('users' => $users));
     }
 
-    public function showAction($id)
+    public function showAction($username)
     {
         $userManager = $this->get('fos_user.user_manager');
         $users = $userManager->findUsers();
         return $this->render('FTFSUserBundle:User:index.html.twig', array('users' => $users));
     }
 
-    public function editAction(User $user)
+    public function editAction($username)
     {
+        $user = $this->get('fos_user.user_manager')->findUserByUsername($username);
         $form = $this->createForm(new EditFormType('\FTFS\UserBundle\Entity\User'), $user);
 
         return $this->render('FTFSUserBundle:User:edit.html.twig', array(
-            'id' => $user->getId(),
-            'entity' => $user,
+            'user' => $user,
             'form' => $form->createView(),
         ));
     }
 
-    public function deleteAction()
+    public function deleteAction($username)
     {
         $userManager = $this->get('fos_user.user_manager');
         $users = $userManager->findUsers();
         return $this->render('FTFSUserBundle:User:index.html.twig', array('users' => $users));
     }
 
-    public function editRolesAction(User $user)
+    public function editGroupAction($username)
     {
-        //$form = $this->createForm(new EditRolesFormType('\FTFS\UserBundle\Entity\User'), $user);
-        $defaultData = array('message' => 'msg');
-        $form = $this->createFormBuilder($defaultData)
-            ->add('role', 'choice', array(
-                'choices' => array(
-                    'ROLE_ADMIN' => 'administrator',
-                    'ROLE_AGENT' => 'agent',
-                    'ROLE_CLIENT' => 'client',
-                ),
-            ))->getForm(); 
-
+        $user = $this->get('fos_user.user_manager')->findUserByUsername($username);
+        $form = $this->createForm(new EditGroupFormType('\FTFS\UserBundle\Entity\User'), $user);
         $request = $this->get('request');
 
         if($request->getMethod() === 'POST')
@@ -63,23 +54,16 @@ class UserController extends Controller
 
             if($form->isValid())
             {
-                $roles = $user->getRoles();
-                foreach($roles as $role)
-                {
-                    $user->removeRole($role);
-                }
                 $this->get('fos_user.user_manager')->updateUser($user);
-        //        $data = $form->getData();
-         //       $user->addRole($data['role']);
             }
-            return $this->render('FTFSUserBundle:User:edit_roles.html.twig', array(
+            return $this->render('FTFSUserBundle:User:edit_group.html.twig', array(
                 'id' => $user->getId(),
                 'user' => $user,
                 'form' => $form->createView(),
             ));
         }
 
-        return $this->render('FTFSUserBundle:User:edit_roles.html.twig', array(
+        return $this->render('FTFSUserBundle:User:edit_group.html.twig', array(
             'id' => $user->getId(),
             'user' => $user,
             'form' => $form->createView(),

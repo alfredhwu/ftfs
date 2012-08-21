@@ -96,3 +96,4 @@ fos_user:
     group: 
         group_class: FTFS\UserBundle\Entity\Group
         form:
+            type:   ftfs_user_group

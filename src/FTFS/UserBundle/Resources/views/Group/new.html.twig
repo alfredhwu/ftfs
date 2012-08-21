@@ -1,5 +1,19 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
-{% block fos_user_content %}
-{% include "FOSUserBundle:Group:new_content.html.twig" %}
-{% endblock fos_user_content %}
+{% form_theme form theme %}
+
+{% block body_menu %}
+{% include "FTFSUserBundle::body_menu.html.twig" %}
+{% endblock %}
+
+{% block body_content %}
+<form action="{{ path('fos_user_group_new') }}" {{ form_enctype(form) }} method="POST" class="form-horizontal">
+    <legend>New Group</legend>
+    <fieldset>
+    {{ form_widget(form) }}
+    </fieldset>
+    <div class="form-actions">
+        <input class="btn btn-primary" type="submit" value="{{ 'group.new.submit'|trans([], 'FOSUserBundle') }}" />
+    </div>
+</form>
+{% endblock %}
