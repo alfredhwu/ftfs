@@ -8,14 +8,15 @@
 {% endblock %}
 
 {% block fos_user_content %}
+<h2>
+    User Profile
+    <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary pull-right">
+        <i class="icon-edit icon-white"></i>
+        Modify
+    </a>
+</h2>
+<hr>
 <table>
-    <legend>
-        User Profile
-        <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary pull-right">
-            <i class="icon-edit icon-white"></i>
-            Modify
-        </a>
-    </legend>
     <tr>
         <th style="text-align:right">{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}</th>
         <td>&nbsp;&nbsp;{{ user.username }}</td>
@@ -30,7 +31,12 @@
     </tr>
     <tr>
         <th style="text-align:right">{{ 'profile.show.roles'|trans({}, 'FOSUserBundle') }}</th>
-        <td>&nbsp;&nbsp;{{ user.roles }}</td>
+        <td>
+            &nbsp;&nbsp;
+            {% for role in user.roles %}
+            {{ role }};
+            {% endfor %}
+        </td>
     </tr>
     <tr>
         <th>&nbsp;&nbsp;</th>
