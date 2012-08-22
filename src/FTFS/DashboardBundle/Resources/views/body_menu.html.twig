@@ -1,6 +1,6 @@
 {% extends '::menu.html.twig' %}
 {% block menu_content %}
-    <li class="nav-header">
+{% if is_granted('ROLE_CLIENT') %}
     <li class="nav-header">My Service Requests</li>
     <li><a href="#"><i class="icon-home"></i> All Service Requests</a></li>
     <li><a href="#"><i class="icon-home"></i> Requests Accepted</a></li>
@@ -10,7 +10,17 @@
     <li class="nav-header">My Service Tickets</li>
     <li><a href="#"><i class="icon-home"></i> All Service Tickets</a></li>
     <li><a href="#"><i class="icon-home"></i> Services Opened</a></li>
-    <li><a href="#"><i class="icon-home"></i> Services in Process</a></li>
+    <li><a href="#"><i class="icon-home"></i> Services Delivered</a></li>
     <li><a href="#"><i class="icon-home"></i> Services Closed</a></li>
+{% elseif is_granted('ROLE_AGENT') %}
+    <li class="nav-header">Service Requests</li>
+    <li><a href="#"><i class="icon-home"></i> All New Service Requests</a></li>
+    <li><a href="#"><i class="icon-home"></i> Urgent Requests </a></li>
+    <li class="nav-header">My Service Tickets</li>
+    <li><a href="#"><i class="icon-home"></i> All Service Tickets</a></li>
+    <li><a href="#"><i class="icon-home"></i> Services Opened</a></li>
+    <li><a href="#"><i class="icon-home"></i> Services Delivered</a></li>
+    <li><a href="#"><i class="icon-home"></i> Services Closed</a></li>
+{% endif %}
     {{ parent() }}
 {% endblock %}

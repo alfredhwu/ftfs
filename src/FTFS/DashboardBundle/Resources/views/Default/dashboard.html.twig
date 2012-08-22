@@ -3,18 +3,4 @@
 
 {% block body_content %}
 dashboard
-
-{% if is_granted('ROLE_ADMIN') %}
-<p>admin</p>
-{% endif %}
-{% if is_granted('ROLE_CLIENT') %}
-<p>client</p>
-{% endif %}
-{% if is_granted('ROLE_AGENT') %}
-<p>agent</p>
-{% endif %}
-{% if is_granted('ROLE_USER') %}
-<p>user</p>
-{% endif %}
-
 {% endblock %}
