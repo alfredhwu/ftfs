@@ -26,17 +26,19 @@ security:
             anonymous:  false 
             remember_me:
                 key:    %secret%
+            #######################################only for dev to be deleted ...
+            switch_user: { role: ROLE_ALLOWED_TO_SWITCH, parameter: _su } 
 
     access_control:
        # - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
        # - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
        # - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-       # - { path: ^/admin/, roles: ROLE_ADMIN }
+        - { path: ^/admin/, roles: ROLE_ADMIN }
         #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
 
     role_hierarchy:
         ROLE_AGENT:       ROLE_USER
         ROLE_CLIENT:      ROLE_USER
-        ROLE_ADMIN:       [ROLE_USER, ROLE_AGENT, ROLE_CLIENT]
+        ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
