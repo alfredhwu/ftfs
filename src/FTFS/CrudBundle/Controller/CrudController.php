@@ -27,10 +27,11 @@ abstract class CrudController extends Controller
         return new $entityClass;
     }
 
-    protected function getEntityType()
+    protected function getEntityType($is_show_mode=false)
     {
         $entityTypeClass = '\\'.$this->vendor.'\\'.$this->bundle.'\\Form\\'.$this->entity.'Type';
-        return new $entityTypeClass;
+        $is_show_mode = (! $is_show_mode) ? false : true;
+        return new $entityTypeClass($is_show_mode);
     }
 
     protected function getPrefix()
@@ -38,30 +39,76 @@ abstract class CrudController extends Controller
         return strtolower($this->vendor.'_'.$this->bundle.'_'.$this->entity);
     }
 
-    protected function getViewIndex()
+    protected function getNamespace()
     {
-        return $this->vendor.$this->bundle.':'.$this->entity.':index.html.twig';
+        return $this->vendor.$this->bundle.':'.$this->entity;
     }
-
-    protected function getViewNew()
-    {
-        return $this->vendor.$this->bundle.':'.$this->entity.':new.html.twig';
-    }
-
 
     public function indexAction()
     {
-        return $this->render($this->getViewIndex());
+        $entities = $this->getDoctrine()->getEntityManager()->getRepository($this->getNamespace())->findAll();
+        return $this->render($this->getNamespace().':index.html.twig', array('entities' => $entities));
+    }
+
+    public function showAction($id)
+    {
+        throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('showAction called');
+    }
+
+    public function editAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository($this->getNamespace())->find($id);
+
+        if(!$entity)
+        {
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('entity not found');
+        }
+
+        $form = $this->createForm($this->getEntityType(), $entity);
+
+        $request = $this->get('request');
+
+        if('POST'===$request->getMethod())
+        {
+            $form->bindRequest($request);
+            if($form->isValid())
+            {
+                $em->flush();         
+                return $this->indexAction();
+            }
+        }
+        return $this->render($this->getNamespace().':edit.html.twig', array(
+            'entity' => $entity,
+            'form' => $form->createView(),
+            'prefix' => $this->getPrefix(),
+        ));
+    }
+
+    public function deleteAction($id)
+    {
+        throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('deleteAction called');
     }
 
     public function newAction()
     {
-
         $entity = $this->getEntity();
-
         $form = $this->createForm($this->getEntityType(), $entity);
 
-        return $this->render($this->getViewNew(), array(
+        $request = $this->get('request');
+
+        if('POST'===$request->getMethod())
+        {
+            $form->bindRequest($request);
+            if($form->isValid())
+            {
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($entity);
+                $em->flush();         
+                return $this->indexAction();
+            }
+        }
+        return $this->render($this->getNamespace().':new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
             'prefix' => $this->getPrefix(),

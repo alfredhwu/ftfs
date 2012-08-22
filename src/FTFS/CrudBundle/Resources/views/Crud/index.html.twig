@@ -1,1 +1,37 @@
-crud index
+{% block index_content %}
+<table class="table table-bordered table-striped table-condensed table-smart">
+    <thead>
+        <tr>
+            <th class="cell-tiny">#</th>
+            <th class="cell-tiny">Actions</th>
+            {% block thead %}
+            {% endblock %}
+        </tr>
+    </thead>
+    <tbody>
+    {% set i = 0 %}
+    {% for entity in entities %}
+        {% set i = i+1 %}
+        <tr>
+            <td>
+                {{ i }}
+            </td>
+            <td>
+                <a href="{{ path('ftfs_servicebundle_servicetype_delete', { 'id' : entity.id }) }}">
+                    <i class="icon icon-remove-circle"></i>
+                </a>
+                <a href="{{ path('ftfs_servicebundle_servicetype_edit', { 'id' : entity.id }) }}">
+                    <i class="icon icon-edit"></i>
+                </a>
+                <a href="{{ path('ftfs_servicebundle_servicetype_show', { 'id' : entity.id }) }}">
+                    <i class="icon icon-eye-open"></i>
+                </a>
+            </td>
+            {% block tbody %}
+            {% endblock %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

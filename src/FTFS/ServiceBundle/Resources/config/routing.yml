@@ -33,16 +33,16 @@ ftfs_servicebundle_servicetype_new:
     defaults: { _controller: FTFSServiceBundle:ServiceType:new }
 
 ftfs_servicebundle_servicetype_show:
-    pattern:  /type/{typename}/show
-    defaults: { _controller: FTFSServiceBundle:ServiceType:index }
+    pattern:  /type/show/{id}
+    defaults: { _controller: FTFSServiceBundle:ServiceType:show }
 
 ftfs_servicebundle_servicetype_edit:
-    pattern:  /type/{typename}/edit
-    defaults: { _controller: FTFSServiceBundle:ServiceType:index }
+    pattern:  /type/edit/{id}
+    defaults: { _controller: FTFSServiceBundle:ServiceType:edit }
 
 ftfs_servicebundle_servicetype_delete:
-    pattern:  /type/{typename}/delete
-    defaults: { _controller: FTFSServiceBundle:ServiceType:index }
+    pattern:  /type/delete/{id}
+    defaults: { _controller: FTFSServiceBundle:ServiceType:delete }
 
 ## service request
 ftfs_servicebundle_servicerequest_index:

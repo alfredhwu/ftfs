@@ -1,0 +1,11 @@
+{% extends "FTFSCrudBundle:Crud:index.html.twig" %}
+
+{% block thead %}
+<th>{{ 'ftfs.servicebundle.servicetype.table.name' | trans({}, 'crud') }}</th>
+<th>{{ 'ftfs.servicebundle.servicetype.table.description' | trans({}, 'crud') }}</th>
+{% endblock %}
+
+{% block tbody %}
+<td>{{ entity.name }}</td>
+<td>{{ entity.description }}</td>
+{% endblock %}

@@ -1,2 +1,18 @@
-ftfs_servicebundle_servicetype_new_form_legend: "New Service Type"
-ftfs_servicebundle_servicetype_name: "Service Name" 
+ftfs:
+    servicebundle:
+        service:
+        servicerequest:
+        servicetype:
+            form:
+                legend: 
+                    new: "New Service Type"
+                    edit: "Edit Service Type"
+                    show: "Service Type Details"
+                name:   "Service Name:"
+                description: "Service Description:"
+                submit: "Submit"
+                cancel: "Cancel"
+            table:
+                caption: "Service Type List"
+                name:   "Service Name"
+                description: "Service Description"
