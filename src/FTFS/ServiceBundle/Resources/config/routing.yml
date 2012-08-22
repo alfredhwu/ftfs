@@ -1,0 +1,3 @@
+FTFSServiceBundle_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: FTFSServiceBundle:Default:index }
