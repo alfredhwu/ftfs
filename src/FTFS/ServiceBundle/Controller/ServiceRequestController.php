@@ -5,11 +5,11 @@ namespace FTFS\ServiceBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
-class DefaultController extends Controller
+class ServiceRequestController extends Controller
 {
     
     public function indexAction()
     {
-        return $this->render('FTFSServiceBundle:Default:index.html.twig');
+        return $this->render('FTFSServiceBundle:ServiceRequest:index.html.twig');
     }
 }

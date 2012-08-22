@@ -1,0 +1,12 @@
+{% block form %}
+<form class="form-horizontal" action="{{ path(prefix~'_new') }}" method="post" {{ form_enctype(form) }}>
+    <legend>{{ prefix~'_new_form_legend'|trans([], 'crud') }}</legend>
+    <fieldset>
+    {{ form_widget(form) }}
+    </fieldset>
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary">
+        <a href="#" class="btn">Cancel</a>
+    </div>
+</form>
+{% endblock %}

@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new FTFS\UserBundle\FTFSUserBundle(),
             new FTFS\DashboardBundle\FTFSDashboardBundle(),
             new FTFS\ServiceBundle\FTFSServiceBundle(),
+            new FTFS\CrudBundle\FTFSCrudBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

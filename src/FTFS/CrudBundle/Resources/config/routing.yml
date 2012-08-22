@@ -1,0 +1,3 @@
+FTFSCrudBundle_homepage:
+    pattern:  /
+    defaults: { _controller: FTFSCrudBundle:Default:index }

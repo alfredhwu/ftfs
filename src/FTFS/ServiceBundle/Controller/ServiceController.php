@@ -5,7 +5,7 @@ namespace FTFS\ServiceBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
-class DefaultController extends Controller
+class ServiceController extends Controller
 {
     
     public function indexAction()
