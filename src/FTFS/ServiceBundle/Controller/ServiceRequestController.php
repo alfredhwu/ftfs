@@ -14,6 +14,7 @@ class ServiceRequestController extends BaseController
     protected function initEntity($entity)
     {
         $entity->setRequestedAt(new \DateTime('now'));
+        $entity->setStatus('new');
         return $entity;
     }
 }

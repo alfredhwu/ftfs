@@ -1,19 +1,30 @@
 {% extends "FTFSCrudBundle:Crud:index.html.twig" %}
 
+{% block operations %}
+    {{ parent() }}
+    <a href="{{ path(prefix~'_assign', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'_table_action_assign_tooltip')|replace('_', '.')|trans({}, 'crud') }}">
+        <i class="icon-share"></i>
+    </a>
+{% endblock %}
+
 {% block thead %}
-<th>{{ 'ftfs.servicebundle.servicerequest.table.name' | trans({}, 'crud') }}</th>
-<th>{{ 'ftfs.servicebundle.servicerequest.table.requested.by' | trans({}, 'crud') }}</th>
-<th>{{ 'ftfs.servicebundle.servicerequest.table.requested.at' | trans({}, 'crud') }}</th>
-<th>{{ 'ftfs.servicebundle.servicerequest.table.last.modified.at' | trans({}, 'crud') }}</th>
-<th>{{ 'ftfs.servicebundle.servicerequest.table.summary' | trans({}, 'crud') }}</th>
-<th>{{ 'ftfs.servicebundle.servicerequest.table.asset.name' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.servicebundle.servicerequest.table.name' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.servicebundle.servicerequest.table.status' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.servicebundle.servicerequest.table.last.modified.at' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.servicebundle.servicerequest.table.assigned.to' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.servicebundle.servicerequest.table.requested.by' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.servicebundle.servicerequest.table.requested.at' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.servicebundle.servicerequest.table.summary' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.servicebundle.servicerequest.table.asset.name' | trans({}, 'crud') }}</th>
 {% endblock %}
 
 {% block tbody %}
-<td>{{ entity.name }}</td>
-<td>{{ entity.requestedBy }}</td>
-<td>{{ entity.requestedAt | date('Y-m-d H:i:s') }}</td>
-<td>{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}</td>
-<td>{{ entity.summary }}</td>
-<td>{{ entity.assetName }}</td>
+    <td>{{ entity.name }}</td>
+    <td>{{ entity.status }}</td>
+    <td>{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}</td>
+    <td>{{ entity.assignedTo }}</td>
+    <td>{{ entity.requestedBy }}</td>
+    <td>{{ entity.requestedAt | date('Y-m-d H:i:s') }}</td>
+    <td>{{ entity.summary }}</td>
+    <td>{{ entity.assetName }}</td>
 {% endblock %}

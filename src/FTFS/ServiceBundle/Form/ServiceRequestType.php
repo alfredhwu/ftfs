@@ -27,13 +27,17 @@ class ServiceRequestType extends AbstractType
                 ))
                 ->add('requested_at', null, array(
                     'read_only' => true,
-                    'date_widget' => 'single_text',
-                    'time_widget' => 'single_text',
+                    'widget' => 'single_text',
+                ))
+                ->add('status', null, array(
+                    'read_only' => true,
+                ))
+                ->add('assigned_to', null, array(
+                    'read_only' => true,
                 ))
                 ->add('last_modified_at', null, array(
                     'read_only' => true,
-                    'date_widget' => 'single_text',
-                    'time_widget' => 'single_text',
+                    'widget' => 'single_text',
                 ))
                 ->add('summary', null, array(
                     'read_only' => true,

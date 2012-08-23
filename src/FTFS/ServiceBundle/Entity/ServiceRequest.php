@@ -43,6 +43,20 @@ class ServiceRequest
     private $requested_at;
 
     /**
+     * @var string $assigned_to
+     *
+     * @ORM\Column(name="assigned_to", type="string", length=255, nullable="true")
+     */
+    private $assigned_to;
+
+    /**
+     * @var string $status
+     *
+     * @ORM\Column(name="status", type="string", length=255)
+     */
+    private $status;
+
+    /**
      * @var datetime $last_modified_at
      *
      * @ORM\Column(name="last_modified_at", type="datetime", nullable=true)
@@ -219,5 +233,45 @@ class ServiceRequest
     public function getAssetName()
     {
         return $this->asset_name;
+    }
+
+    /**
+     * Set assigned_to
+     *
+     * @param string $assignedTo
+     */
+    public function setAssignedTo($assignedTo)
+    {
+        $this->assigned_to = $assignedTo;
+    }
+
+    /**
+     * Get assigned_to
+     *
+     * @return string 
+     */
+    public function getAssignedTo()
+    {
+        return $this->assigned_to;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

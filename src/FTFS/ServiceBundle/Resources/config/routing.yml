@@ -4,6 +4,10 @@ ftfs_servicebundle_homepage:
 
 ## service ticket ##############################################################
 #
+ftfs_servicebundle_service_assign:
+    pattern:  /assign/{id}
+    defaults: { _controller: FTFSServiceBundle:Service:show }
+
 ftfs_servicebundle_service_index:
     pattern:  /list
     defaults: { _controller: FTFSServiceBundle:Service:index }
@@ -48,6 +52,10 @@ ftfs_servicebundle_servicetype_delete:
 
 ## service request ############################################################
 #
+ftfs_servicebundle_servicerequest_assign:
+    pattern:  /request/assign/{id}
+    defaults: { _controller: FTFSServiceBundle:ServiceRequest:new }
+
 ftfs_servicebundle_servicerequest_index:
     pattern:  /request/list
     defaults: { _controller: FTFSServiceBundle:ServiceRequest:index }

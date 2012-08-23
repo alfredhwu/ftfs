@@ -12,19 +12,16 @@ ftfs:
                 priority:   "Priority:"
                 status:     "Status:"
                 request.received.at: "Request Received at:"
+                assigned.to: "Assigned to:"
                 opened.at:  "Ticket Opened at:"
                 resolved.at: "Ticket Resolved at:"
                 closed.at:  "Ticket Closed at:"
-                last.modified.at:       "Last Modified at:"
-                action:
-                    save:   "Save"
-                    cancel: "Cancel"
-                    list:   "Back to list"
-                    edit:   "Modify"
+                last.modified.at:    "Last Modified at:"
             table:
                 caption:    "Service Ticket List"
                 action:
                     new:    "Add a new service ticket"
+                    assign.tooltip: "Assgin"
                 operations: "Operations"
                 name:       "Service Ticket No"
                 type:       "Service Type"
@@ -32,10 +29,11 @@ ftfs:
                 priority:   "Priority"
                 status:     "Status"
                 request.received.at: "Request Received at"
+                assigned.to: "Assigned to"
                 opened.at:  "Ticket Opened at"
                 resolved.at: "Ticket Resolved at"
                 closed.at:  "Ticket Closed at"
-                last.modified.at:       "Last Modified at"
+                last.modified.at:    "Last Modified at"
         servicerequest:
             form:
                 legend: 
@@ -44,22 +42,24 @@ ftfs:
                     show:   "Service Request Details"
                 name:       "Service Type Name:"
                 requested.by: "Requested by:"
+                requested.at: "Requested at:"
+                status:     "Status:"
+                assigned.to:  "Assigned to:"
+                last.modified.at: "Last modified at:"
                 summary:    "Short description of the problem:"
                 detail:     "Detail description of the problem:"
                 asset.name: "Related Asset Name:"
-                action:
-                    save:   "Save"
-                    cancel: "Cancel"
-                    list:   "Back to list"
-                    edit:   "Modify"
             table:
                 caption:    "Service Request List"
                 action:
                     new:    "Add a new service request"
+                    assign.tooltip: "Assgin"
                 operations: "Operations"
                 name:       "Service Request No"
                 requested.by: "Requested by"
                 requested.at: "Requested at"
+                status:     "Status"
+                assigned.to:  "Assigned to"
                 last.modified.at:   "Last Modified at"
                 summary:   "Problem summary"
                 detail:    "Details"
@@ -72,11 +72,6 @@ ftfs:
                     show:   "Service Type Details"
                 name:       "Service Type Name:"
                 description: "Service Description:"
-                action:
-                    save:   "Save"
-                    cancel: "Cancel"
-                    list:   "Back to list"
-                    edit:   "Modify"
             table:
                 caption:    "Service Type List"
                 action:

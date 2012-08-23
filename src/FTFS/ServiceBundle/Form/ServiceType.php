@@ -34,19 +34,27 @@ class ServiceType extends AbstractType
                 ->add('status', null, array(
                     'read_only' => true,
                 ))
+                ->add('assigned_to', null, array(
+                    'read_only' => true,
+                ))
                 ->add('request_received_at', null, array(
+                    'widget' => 'single_text',
                     'read_only' => true,
                 ))
                 ->add('opened_at', null, array(
+                    'widget' => 'single_text',
                     'read_only' => true,
                 ))
                 ->add('resolved_at', null, array(
+                    'widget' => 'single_text',
                     'read_only' => true,
                 ))
                 ->add('closed_at', null, array(
+                    'widget' => 'single_text',
                     'read_only' => true,
                 ))
                 ->add('last_modified_at', null, array(
+                    'widget' => 'single_text',
                     'read_only' => true,
                 ))
             ;

@@ -57,6 +57,13 @@ class Service
     private $status;
 
     /**
+     * @var datetime $last_modified_at
+     *
+     * @ORM\Column(name="last_modified_at", type="datetime", nullable="true")
+     */
+    private $last_modified_at;
+
+    /**
      * @var datetime $request_received_at
      *
      * @ORM\Column(name="request_received_at", type="datetime")
@@ -71,6 +78,13 @@ class Service
     private $opened_at;
 
     /**
+     * @var string $assigned_to
+     *
+     * @ORM\Column(name="assigned_to", type="string", length=255, nullable="true")
+     */
+    private $assigned_to;
+
+    /**
      * @var datetime $resolved_at
      *
      * @ORM\Column(name="resolved_at", type="datetime", nullable="true")
@@ -83,13 +97,6 @@ class Service
      * @ORM\Column(name="closed_at", type="datetime", nullable="true")
      */
     private $closed_at;
-
-    /**
-     * @var datetime $last_modified_at
-     *
-     * @ORM\Column(name="last_modified_at", type="datetime", nullable="true")
-     */
-    private $last_modified_at;
 
     /**
      * Get id
@@ -299,5 +306,25 @@ class Service
     public function getLastModifiedAt()
     {
         return $this->last_modified_at;
+    }
+
+    /**
+     * Set assigned_to
+     *
+     * @param string $assignedTo
+     */
+    public function setAssignedTo($assignedTo)
+    {
+        $this->assigned_to = $assignedTo;
+    }
+
+    /**
+     * Get assigned_to
+     *
+     * @return string 
+     */
+    public function getAssignedTo()
+    {
+        return $this->assigned_to;
     }
 }

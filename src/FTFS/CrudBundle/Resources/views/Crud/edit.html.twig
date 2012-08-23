@@ -7,11 +7,11 @@
     <legend>
         <span>{{ (prefix~'_form_legend_edit')|replace({'_' : '.'})|trans({}, 'crud') }}</span>
         <div class="btn-group pull-right">
-            <button class="btn btn-small" type="submit">
+            <button class="btn btn-small" type="submit" rel="tooltip" title="{{ 'ftfs.crud.form.action.edit.update.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
                 <i class="icon-ok"></i>
             </button>
-            <a class="btn btn-small" href="{{ path(prefix~'_index') }}">
-                <i class="icon-list"></i>
+            <a class="btn btn-small" href="{{ path(prefix~'_show', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.form.action.edit.cancel.tooltip'|trans({}, 'crud') }}" data-placement="left">
+                <i class="icon-remove"></i>
             </a>
         </div>
     </legend>
@@ -19,8 +19,8 @@
     {{ form_widget(form) }}
     </fieldset>
     <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="{{ (prefix~'_form_action_save')|replace({'_' : '.'})|trans({}, 'crud') }}">
-        <a href="#" class="btn">{{ (prefix~'_form_action_cancel')|replace({'_' : '.'})|trans({}, 'crud') }}</a>
+        <input type="submit" class="btn btn-primary" value="{{ 'ftfs.crud.form.action.edit.update'|trans({}, 'crud') }}">
+        <a href="{{ path(prefix~'_show', { 'id' : entity.id }) }}" class="btn">{{ 'ftfs.crud.form.action.edit.cancel'|trans({}, 'crud') }}</a>
     </div>
 </form>
 {% endblock %}

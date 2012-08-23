@@ -2,4 +2,26 @@
 ftfs:
     crud:
         flash:
-            succeed: "success"
+            succeed:    "success"
+        form:
+            action:
+                new:
+                    save:   "Save"
+                    save.tooltip:   "Save"
+                    cancel: "Cancel"
+                    cancel.tooltip: "Back to List"
+                show:
+                    modify:   "Modify"
+                    modify.tooltip:   "Modify"
+                    list: "Back to List"
+                    list.tooltip: "Back to List"
+                edit:
+                    update: "Update"
+                    update.tooltip: "Update"
+                    cancel: "Cancel"
+                    cancel.tooltip: "Cancel"
+        table:
+            action:
+                show.tooltip:   "Show"
+                edit.tooltip:   "Edit"
+                delete.tooltip: "Delete"
