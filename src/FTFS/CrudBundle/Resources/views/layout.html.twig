@@ -1,0 +1,11 @@
+{% block flash_message %}
+{% for key, message in app.session.getFlashes() %}
+<div class="alert alert-{{ key|trans({}, 'crud') }} alert-block fade in">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{ message|trans({}, 'crud') }}
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block crud %}
+{% endblock %}

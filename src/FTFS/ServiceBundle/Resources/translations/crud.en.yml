@@ -8,11 +8,24 @@ ftfs:
                     new: "New Service Type"
                     edit: "Edit Service Type"
                     show: "Service Type Details"
-                name:   "Service Name:"
+                name:   "Service Type Name:"
                 description: "Service Description:"
-                submit: "Submit"
-                cancel: "Cancel"
+                action:
+                    save: "Save"
+                    cancel: "Cancel"
+                    list:   "Back to list"
+                    edit:   "Modify"
             table:
                 caption: "Service Type List"
+                action:
+                    new: "Add a new service type"
+                operations: "Operations"
                 name:   "Service Name"
                 description: "Service Description"
+    crud:
+        flash:
+            created: "New service type created successfully !"
+            deleted: "Service type deleted !"
+            updated: "Service type upedated !"
+
+

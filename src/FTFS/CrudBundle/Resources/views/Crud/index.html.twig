@@ -1,9 +1,25 @@
-{% block index_content %}
+{% extends "FTFSCrudBundle::layout.html.twig" %}
+
+{% block crud %}
+<div>
+    <h2 class="pull-left">{{ (prefix~'_table_caption')|replace('_', '.')|trans({}, 'crud') }}</h2>
+    <form class="form-search pull-right">
+        <input type="text" class="search-query input-small" placeholder="search">
+        <button type="submit" class="btn btn-small"><i class="icon-search"></i></button>
+    </form>
+    <span class="pull-right">&nbsp;&nbsp;</span>
+    <a class="btn btn-success pull-right" href="{{ path(prefix~'_new') }}">
+        <i class="icon-edit icon-white"></i>
+        {{ (prefix~'_table_action_new')|replace('_', '.')|trans({}, 'crud') }}
+    </a>
+    <br>
+</div>
+<hr>
 <table class="table table-bordered table-striped table-condensed table-smart">
     <thead>
         <tr>
             <th class="cell-tiny">#</th>
-            <th class="cell-tiny">Actions</th>
+            <th class="cell-tiny">{{ (prefix~'_table_operations')|replace('_', '.')|trans({}, 'crud') }}</th>
             {% block thead %}
             {% endblock %}
         </tr>
@@ -17,14 +33,14 @@
                 {{ i }}
             </td>
             <td>
-                <a href="{{ path('ftfs_servicebundle_servicetype_delete', { 'id' : entity.id }) }}">
-                    <i class="icon icon-remove-circle"></i>
+                <a href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}">
+                    <i class="icon-remove-circle"></i>
                 </a>
-                <a href="{{ path('ftfs_servicebundle_servicetype_edit', { 'id' : entity.id }) }}">
-                    <i class="icon icon-edit"></i>
+                <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}">
+                    <i class="icon-pencil"></i>
                 </a>
-                <a href="{{ path('ftfs_servicebundle_servicetype_show', { 'id' : entity.id }) }}">
-                    <i class="icon icon-eye-open"></i>
+                <a href="{{ path(prefix~'_show', { 'id' : entity.id }) }}">
+                    <i class="icon-eye-open"></i>
                 </a>
             </td>
             {% block tbody %}

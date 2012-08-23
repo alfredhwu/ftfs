@@ -1,1 +1,32 @@
-Hello {{ name }}!
+{% extends "FTFSCrudBundle::layout.html.twig" %}
+
+{% form_theme form "FTFSCrudBundle::form.html.twig" %}
+
+{% block crud %}
+<form class="form-horizontal">
+    <legend>
+        <span>{{ (prefix~'_form_legend_show')|replace({'_' : '.'})|trans({}, 'crud') }}</span>
+        <div class="btn-group pull-right">
+            <a class="btn btn-small" href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}">
+                <i class="icon-pencil"></i>
+            </a>
+            <a class="btn btn-small" href="{{ path(prefix~'_index') }}">
+                <i class="icon-list"></i>
+            </a>
+        </div>
+    </legend>
+    <fieldset>
+    {{ form_widget(form) }}
+    </fieldset>
+    <div class="form-actions">
+        <a href="{{ path(prefix~'_index') }}" class="btn btn-primary">
+            <i class="icon-list icon-white"></i>
+            {{ (prefix~'_form_action_list')|replace({'_' : '.'})|trans({}, 'crud') }}
+        </a>
+        <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" class="btn">
+            <i class="icon-pencil"></i>
+            {{ (prefix~'_form_action_edit')|replace({'_' : '.'})|trans({}, 'crud') }}
+        </a>
+    </div>
+</form>
+{% endblock %}

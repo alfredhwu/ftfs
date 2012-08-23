@@ -1,14 +1,26 @@
+{% extends "FTFSCrudBundle::layout.html.twig" %}
+
 {% form_theme form "FTFSCrudBundle::form.html.twig" %}
 
-{% block form %}
+{% block crud %}
 <form class="form-horizontal" action="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" method="post" {{ form_enctype(form) }}>
-    <legend>{{ (prefix~'_form_legend_edit')|replace({'_' : '.'})|trans({}, 'crud') }}</legend>
+    <legend>
+        <span>{{ (prefix~'_form_legend_edit')|replace({'_' : '.'})|trans({}, 'crud') }}</span>
+        <div class="btn-group pull-right">
+            <button class="btn btn-small" type="submit">
+                <i class="icon-ok"></i>
+            </button>
+            <a class="btn btn-small" href="{{ path(prefix~'_index') }}">
+                <i class="icon-list"></i>
+            </a>
+        </div>
+    </legend>
     <fieldset>
     {{ form_widget(form) }}
     </fieldset>
     <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="{{ (prefix~'_form_submit')|replace({'_' : '.'})|trans({}, 'crud') }}">
-        <a href="#" class="btn">{{ (prefix~'_form_cancel')|replace({'_' : '.'})|trans({}, 'crud') }}</a>
+        <input type="submit" class="btn btn-primary" value="{{ (prefix~'_form_action_save')|replace({'_' : '.'})|trans({}, 'crud') }}">
+        <a href="#" class="btn">{{ (prefix~'_form_action_cancel')|replace({'_' : '.'})|trans({}, 'crud') }}</a>
     </div>
 </form>
 {% endblock %}

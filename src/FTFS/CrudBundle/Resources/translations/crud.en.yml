@@ -1,0 +1,5 @@
+#flash
+ftfs:
+    crud:
+        flash:
+            succeed: "success"
