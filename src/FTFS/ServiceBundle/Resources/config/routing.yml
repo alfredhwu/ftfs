@@ -2,28 +2,30 @@ ftfs_servicebundle_homepage:
     pattern:  /
     defaults: { _controller: FTFSServiceBundle:Default:index }
 
-## service ticket
+## service ticket ##############################################################
+#
 ftfs_servicebundle_service_index:
     pattern:  /list
     defaults: { _controller: FTFSServiceBundle:Service:index }
 
 ftfs_servicebundle_service_new:
     pattern:  /new
-    defaults: { _controller: FTFSServiceBundle:Service:index }
+    defaults: { _controller: FTFSServiceBundle:Service:new }
 
 ftfs_servicebundle_service_show:
-    pattern:  /{servicename}/show
-    defaults: { _controller: FTFSServiceBundle:Service:index }
+    pattern:  /show/{id}
+    defaults: { _controller: FTFSServiceBundle:Service:show }
 
 ftfs_servicebundle_service_edit:
-    pattern:  /{servicename}/edit
-    defaults: { _controller: FTFSServiceBundle:Service:index }
+    pattern:  /edit/{id}
+    defaults: { _controller: FTFSServiceBundle:Service:edit }
 
 ftfs_servicebundle_service_delete:
-    pattern:  /{servicename}/delete
-    defaults: { _controller: FTFSServiceBundle:Service:index }
+    pattern:  /delete/{id}
+    defaults: { _controller: FTFSServiceBundle:Service:delete }
 
-## service type
+## service type ##############################################################
+#
 ftfs_servicebundle_servicetype_index:
     pattern:  /type/list
     defaults: { _controller: FTFSServiceBundle:ServiceType:index }
@@ -44,24 +46,25 @@ ftfs_servicebundle_servicetype_delete:
     pattern:  /type/delete/{id}
     defaults: { _controller: FTFSServiceBundle:ServiceType:delete }
 
-## service request
+## service request ############################################################
+#
 ftfs_servicebundle_servicerequest_index:
     pattern:  /request/list
     defaults: { _controller: FTFSServiceBundle:ServiceRequest:index }
 
 ftfs_servicebundle_servicerequest_new:
     pattern:  /request/new
-    defaults: { _controller: FTFSServiceBundle:ServiceRequest:index }
+    defaults: { _controller: FTFSServiceBundle:ServiceRequest:new }
 
 ftfs_servicebundle_servicerequest_show:
-    pattern:  /request/{requestname}/show
-    defaults: { _controller: FTFSServiceBundle:ServiceRequest:index }
+    pattern:  /request/show/{id}
+    defaults: { _controller: FTFSServiceBundle:ServiceRequest:show }
 
 ftfs_servicebundle_servicerequest_edit:
-    pattern:  /request/{requestname}/edit
-    defaults: { _controller: FTFSServiceBundle:ServiceRequest:index }
+    pattern:  /request/edit/{id}
+    defaults: { _controller: FTFSServiceBundle:ServiceRequest:edit }
 
 ftfs_servicebundle_servicerequest_delete:
-    pattern:  /request/{requestname}/delete
-    defaults: { _controller: FTFSServiceBundle:ServiceRequest:index }
+    pattern:  /request/delete/{id}
+    defaults: { _controller: FTFSServiceBundle:ServiceRequest:delete }
 

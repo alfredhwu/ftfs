@@ -1,0 +1,19 @@
+{% extends "FTFSCrudBundle:Crud:index.html.twig" %}
+
+{% block thead %}
+<th>{{ 'ftfs.servicebundle.servicerequest.table.name' | trans({}, 'crud') }}</th>
+<th>{{ 'ftfs.servicebundle.servicerequest.table.requested.by' | trans({}, 'crud') }}</th>
+<th>{{ 'ftfs.servicebundle.servicerequest.table.requested.at' | trans({}, 'crud') }}</th>
+<th>{{ 'ftfs.servicebundle.servicerequest.table.last.modified.at' | trans({}, 'crud') }}</th>
+<th>{{ 'ftfs.servicebundle.servicerequest.table.summary' | trans({}, 'crud') }}</th>
+<th>{{ 'ftfs.servicebundle.servicerequest.table.asset.name' | trans({}, 'crud') }}</th>
+{% endblock %}
+
+{% block tbody %}
+<td>{{ entity.name }}</td>
+<td>{{ entity.requestedBy }}</td>
+<td>{{ entity.requestedAt | date('Y-m-d H:i:s') }}</td>
+<td>{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}</td>
+<td>{{ entity.summary }}</td>
+<td>{{ entity.assetName }}</td>
+{% endblock %}

@@ -15,16 +15,22 @@ abstract class CrudController extends Controller
     {
         $args = preg_split("/\//", $entityNameSpace);
         if(count($args)!=3) {
-            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Entity namespace "'.$entityNameSpace.'" cannot be resolved correctly; Entity namespace must be of the form "[vendor]/[bundle]/[entity]".');
+            throw $this->createNotFoundException('Entity namespace "'.$entityNameSpace.'" cannot be resolved correctly; Entity namespace must be of the form "[vendor]/[bundle]/[entity]".');
         }
         $this->vendor = $args[0];
         $this->bundle = $args[1];
         $this->entity = $args[2];
     }
+
+    protected function initEntity($entity)
+    {
+        return $entity;
+    }
+
     protected function getEntity()
     {
         $entityClass = '\\'.$this->vendor.'\\'.$this->bundle.'\\Entity\\'.$this->entity;
-        return new $entityClass;
+        return $this->initEntity(new $entityClass);
     }
 
     protected function getEntityType($is_show_mode=false)

@@ -1,26 +1,88 @@
 ftfs:
     servicebundle:
         service:
-        servicerequest:
-        servicetype:
             form:
                 legend: 
-                    new: "New Service Type"
-                    edit: "Edit Service Type"
-                    show: "Service Type Details"
-                name:   "Service Type Name:"
-                description: "Service Description:"
+                    new:    "New Service Ticket"
+                    edit:   "Edit Service Ticket"
+                    show:   "Service Ticket Details"
+                name:       "Service Ticket No:"
+                type:       "Service Type:"
+                severity:   "Severity:"
+                priority:   "Priority:"
+                status:     "Status:"
+                request.received.at: "Request Received at:"
+                opened.at:  "Ticket Opened at:"
+                resolved.at: "Ticket Resolved at:"
+                closed.at:  "Ticket Closed at:"
+                last.modified.at:       "Last Modified at:"
                 action:
-                    save: "Save"
+                    save:   "Save"
                     cancel: "Cancel"
                     list:   "Back to list"
                     edit:   "Modify"
             table:
-                caption: "Service Type List"
+                caption:    "Service Ticket List"
                 action:
-                    new: "Add a new service type"
+                    new:    "Add a new service ticket"
                 operations: "Operations"
-                name:   "Service Name"
+                name:       "Service Ticket No"
+                type:       "Service Type"
+                severity:   "Severity"
+                priority:   "Priority"
+                status:     "Status"
+                request.received.at: "Request Received at"
+                opened.at:  "Ticket Opened at"
+                resolved.at: "Ticket Resolved at"
+                closed.at:  "Ticket Closed at"
+                last.modified.at:       "Last Modified at"
+        servicerequest:
+            form:
+                legend: 
+                    new:    "New Service Request"
+                    edit:   "Edit Service Request"
+                    show:   "Service Request Details"
+                name:       "Service Type Name:"
+                requested.by: "Requested by:"
+                summary:    "Short description of the problem:"
+                detail:     "Detail description of the problem:"
+                asset.name: "Related Asset Name:"
+                action:
+                    save:   "Save"
+                    cancel: "Cancel"
+                    list:   "Back to list"
+                    edit:   "Modify"
+            table:
+                caption:    "Service Request List"
+                action:
+                    new:    "Add a new service request"
+                operations: "Operations"
+                name:       "Service Request No"
+                requested.by: "Requested by"
+                requested.at: "Requested at"
+                last.modified.at:   "Last Modified at"
+                summary:   "Problem summary"
+                detail:    "Details"
+                asset.name:   "Related Asset Name:"
+        servicetype:
+            form:
+                legend: 
+                    new:    "New Service Type"
+                    edit:   "Edit Service Type"
+                    show:   "Service Type Details"
+                name:       "Service Type Name:"
+                description: "Service Description:"
+                action:
+                    save:   "Save"
+                    cancel: "Cancel"
+                    list:   "Back to list"
+                    edit:   "Modify"
+            table:
+                caption:    "Service Type List"
+                action:
+                    new:    "Add a new service type"
+                operations: "Operations"
+                name:       "Service Name"
                 description: "Service Description"
     crud:
         flash:

@@ -1,0 +1,223 @@
+<?php
+
+namespace FTFS\ServiceBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * FTFS\ServiceBundle\Entity\ServiceRequest
+ *
+ * @ORM\Table(name="ftfs_service_request")
+ * @ORM\Entity
+ */
+class ServiceRequest
+{
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $name
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @var string $requested_by
+     *
+     * @ORM\Column(name="requested_by", type="string", length=255)
+     */
+    private $requested_by;
+
+    /**
+     * @var datetime $requested_at
+     *
+     * @ORM\Column(name="requested_at", type="datetime")
+     */
+    private $requested_at;
+
+    /**
+     * @var datetime $last_modified_at
+     *
+     * @ORM\Column(name="last_modified_at", type="datetime", nullable=true)
+     */
+    private $last_modified_at;
+
+    /**
+     * @var text $summary
+     *
+     * @ORM\Column(name="summary", type="text")
+     */
+    private $summary;
+
+    /**
+     * @var text $detail
+     *
+     * @ORM\Column(name="detail", type="text", nullable=true)
+     */
+    private $detail;
+
+    /**
+     * @var string $asset_name
+     *
+     * @ORM\Column(name="asset_name", type="string", length=255)
+     */
+    private $asset_name;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set requested_by
+     *
+     * @param string $requestedBy
+     */
+    public function setRequestedBy($requestedBy)
+    {
+        $this->requested_by = $requestedBy;
+    }
+
+    /**
+     * Get requested_by
+     *
+     * @return string 
+     */
+    public function getRequestedBy()
+    {
+        return $this->requested_by;
+    }
+
+    /**
+     * Set requested_at
+     *
+     * @param datetime $requestedAt
+     */
+    public function setRequestedAt($requestedAt)
+    {
+        $this->requested_at = $requestedAt;
+    }
+
+    /**
+     * Get requested_at
+     *
+     * @return datetime 
+     */
+    public function getRequestedAt()
+    {
+        return $this->requested_at;
+    }
+
+    /**
+     * Set last_modified_at
+     *
+     * @param datetime $lastModifiedAt
+     */
+    public function setLastModifiedAt($lastModifiedAt)
+    {
+        $this->last_modified_at = $lastModifiedAt;
+    }
+
+    /**
+     * Get last_modified_at
+     *
+     * @return datetime 
+     */
+    public function getLastModifiedAt()
+    {
+        return $this->last_modified_at;
+    }
+
+    /**
+     * Set summary
+     *
+     * @param text $summary
+     */
+    public function setSummary($summary)
+    {
+        $this->summary = $summary;
+    }
+
+    /**
+     * Get summary
+     *
+     * @return text 
+     */
+    public function getSummary()
+    {
+        return $this->summary;
+    }
+
+    /**
+     * Set detail
+     *
+     * @param text $detail
+     */
+    public function setDetail($detail)
+    {
+        $this->detail = $detail;
+    }
+
+    /**
+     * Get detail
+     *
+     * @return text 
+     */
+    public function getDetail()
+    {
+        return $this->detail;
+    }
+
+    /**
+     * Set asset_name
+     *
+     * @param string $assetName
+     */
+    public function setAssetName($assetName)
+    {
+        $this->asset_name = $assetName;
+    }
+
+    /**
+     * Get asset_name
+     *
+     * @return string 
+     */
+    public function getAssetName()
+    {
+        return $this->asset_name;
+    }
+}

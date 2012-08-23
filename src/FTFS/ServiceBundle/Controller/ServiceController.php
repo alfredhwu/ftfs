@@ -2,14 +2,21 @@
 
 namespace FTFS\ServiceBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FTFS\CrudBundle\Controller\CrudController as BaseController;
 
 
-class ServiceController extends Controller
+class ServiceController extends BaseController
 {
-    
-    public function indexAction()
+    public function __construct()
     {
-        return $this->render('FTFSServiceBundle:Default:index.html.twig');
+        parent::__construct("FTFS/ServiceBundle/Service");
+    }
+
+    protected function initEntity($entity)
+    {
+        $entity->setRequestReceivedAt(new \DateTime('now'));
+        $entity->setOpenedAt(new \DateTime('now'));
+        $entity->setStatus("opened");
+        return $entity;
     }
 }

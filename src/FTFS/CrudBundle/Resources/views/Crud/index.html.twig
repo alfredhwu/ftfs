@@ -1,20 +1,16 @@
 {% extends "FTFSCrudBundle::layout.html.twig" %}
 
 {% block crud %}
-<div>
-    <h2 class="pull-left">{{ (prefix~'_table_caption')|replace('_', '.')|trans({}, 'crud') }}</h2>
-    <form class="form-search pull-right">
-        <input type="text" class="search-query input-small" placeholder="search">
-        <button type="submit" class="btn btn-small"><i class="icon-search"></i></button>
-    </form>
-    <span class="pull-right">&nbsp;&nbsp;</span>
-    <a class="btn btn-success pull-right" href="{{ path(prefix~'_new') }}">
-        <i class="icon-edit icon-white"></i>
-        {{ (prefix~'_table_action_new')|replace('_', '.')|trans({}, 'crud') }}
-    </a>
-    <br>
-</div>
+<h2>{{ (prefix~'_table_caption')|replace('_', '.')|trans({}, 'crud') }}</h2>
 <hr>
+<a class="btn btn-success pull-left" href="{{ path(prefix~'_new') }}">
+    <i class="icon-edit icon-white"></i>
+    {{ (prefix~'_table_action_new')|replace('_', '.')|trans({}, 'crud') }}
+</a>
+<form class="form-search pull-right">
+    <input type="text" class="search-query input-medium" placeholder="search">
+    <button type="submit" class="btn btn-primary btn-small"><i class="icon-search icon-white"></i></button>
+</form>
 <table class="table table-bordered table-striped table-condensed table-smart">
     <thead>
         <tr>
