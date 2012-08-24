@@ -1,3 +1,25 @@
 FTFSDashboardBundle_homepage:
     pattern:  /
     defaults: { _controller: FTFSDashboardBundle:Default:index }
+
+## service request routing for client
+ftfs_dashboardbundle_myservicerequest_index:
+    pattern:  /myrequest/list/
+    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:index }
+
+ftfs_dashboardbundle_myservicerequest_new:
+    pattern:  /myrequest/new
+    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:new }
+
+ftfs_dashboardbundle_myservicerequest_show:
+    pattern:  /myrequest/show/{id}
+    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:show }
+
+ftfs_dashboardbundle_myservicerequest_edit:
+    pattern:  /myrequest/edit/{id}
+    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:edit }
+
+ftfs_dashboardbundle_myservicerequest_delete:
+    pattern:  /myrequest/delete/{id}
+    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:delete }
+

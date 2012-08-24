@@ -7,24 +7,37 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 abstract class CrudController extends Controller
 {
-    protected $vendor;
-    protected $bundle;
-    protected $entity;
+    protected array $namespaces;
 
-    public function __construct($entityNameSpace)
+    public function __construct(array $namespaces)
     {
-        $args = preg_split("/\//", $entityNameSpace);
-        if(count($args)!=3) {
-            throw $this->createNotFoundException('Entity namespace "'.$entityNameSpace.'" cannot be resolved correctly; Entity namespace must be of the form "[vendor]/[bundle]/[entity]".');
+        if(! array_key_exists('model', $namespaces)
+        {
+            throw $this->createInternalErrorException('error');
         }
-        $this->vendor = $args[0];
-        $this->bundle = $args[1];
-        $this->entity = $args[2];
+
+        $namespace = $namespaces['model'];
+        $this->namespaces['model'] = $this->interprate($namespace);
+
+        if(array_key_exists('controller', $namespaces))
+        {
+            $namespace = $namespaces['controller'];
+        }
+        $this->namespaces['controller'] = $this->interprate($namespace);
+
+        if(array_key_exists('view', $namespaces)
+        {
+            $namespace = $namespaces['view'];
+        }
+        $this->namespaces['view'] = $this->interprate($namespace);
     }
 
-    protected function initEntity($entity)
+    private function interprate(string $namespace)
     {
-        return $entity;
+        $args = preg_split("/\//", $namespace);
+        if(count($args)!=3) {
+            throw $this->createNotFoundException('Namespace "'.$namespace.'" cannot be resolved correctly; Entity namespace must be of the form "[vendor]/[bundle]/[entity]".');
+        return $args;
     }
 
     protected function getEntity()
@@ -48,6 +61,14 @@ abstract class CrudController extends Controller
     {
         return $this->vendor.$this->bundle.':'.$this->entity;
     }
+
+
+    //
+    protected function initEntity($entity)
+    {
+        return $entity;
+    }
+
 
     public function indexAction()
     {

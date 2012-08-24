@@ -2,7 +2,7 @@
 {% block menu_content %}
 {% if is_granted('ROLE_CLIENT') %}
     <li class="nav-header">My Service Requests</li>
-    <li><a href="#"><i class="icon-home"></i> All Service Requests</a></li>
+    <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index') }}"><i class="icon-home"></i> All Service Requests</a></li>
     <li><a href="#"><i class="icon-home"></i> Requests Accepted</a></li>
     <li><a href="#"><i class="icon-home"></i> Requests Rejected</a></li>
     <li><a href="#"><i class="icon-home"></i> Requests Awaiting</a></li>
