@@ -80,9 +80,26 @@ class ServiceRequest
     /**
      * @var string $asset_name
      *
-     * @ORM\Column(name="asset_name", type="string", length=255)
+     * @ORM\Column(name="asset_name", type="string", length=255, nullable=true)
      */
     private $asset_name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Service")
+     */
+    private $service_deployed;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ServiceType")
+     */
+    private $service_requested;
+
+    /**
+     * @var string $requested_via
+     *
+     * @ORM\Column(name="requested_via", type="string", length=255, nullable=true)
+     */
+    private $requested_via;
 
 
     /**
@@ -153,6 +170,46 @@ class ServiceRequest
     public function getRequestedAt()
     {
         return $this->requested_at;
+    }
+
+    /**
+     * Set assigned_to
+     *
+     * @param string $assignedTo
+     */
+    public function setAssignedTo($assignedTo)
+    {
+        $this->assigned_to = $assignedTo;
+    }
+
+    /**
+     * Get assigned_to
+     *
+     * @return string 
+     */
+    public function getAssignedTo()
+    {
+        return $this->assigned_to;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
@@ -236,42 +293,62 @@ class ServiceRequest
     }
 
     /**
-     * Set assigned_to
+     * Set requested_via
      *
-     * @param string $assignedTo
+     * @param string $requestedVia
      */
-    public function setAssignedTo($assignedTo)
+    public function setRequestedVia($requestedVia)
     {
-        $this->assigned_to = $assignedTo;
+        $this->requested_via = $requestedVia;
     }
 
     /**
-     * Get assigned_to
+     * Get requested_via
      *
      * @return string 
      */
-    public function getAssignedTo()
+    public function getRequestedVia()
     {
-        return $this->assigned_to;
+        return $this->requested_via;
     }
 
     /**
-     * Set status
+     * Set service_deployed
      *
-     * @param string $status
+     * @param FTFS\ServiceBundle\Entity\Service $serviceDeployed
      */
-    public function setStatus($status)
+    public function setServiceDeployed(\FTFS\ServiceBundle\Entity\Service $serviceDeployed)
     {
-        $this->status = $status;
+        $this->service_deployed = $serviceDeployed;
     }
 
     /**
-     * Get status
+     * Get service_deployed
      *
-     * @return string 
+     * @return FTFS\ServiceBundle\Entity\Service 
      */
-    public function getStatus()
+    public function getServiceDeployed()
     {
-        return $this->status;
+        return $this->service_deployed;
+    }
+
+    /**
+     * Set service_requested
+     *
+     * @param FTFS\ServiceBundle\Entity\ServiceType $serviceRequested
+     */
+    public function setServiceRequested(\FTFS\ServiceBundle\Entity\ServiceType $serviceRequested)
+    {
+        $this->service_requested = $serviceRequested;
+    }
+
+    /**
+     * Get service_requested
+     *
+     * @return FTFS\ServiceBundle\Entity\ServiceType 
+     */
+    public function getServiceRequested()
+    {
+        return $this->service_requested;
     }
 }

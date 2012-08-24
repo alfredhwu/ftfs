@@ -40,15 +40,18 @@ ftfs:
                     new:    "New Service Request"
                     edit:   "Edit Service Request"
                     show:   "Service Request Details"
-                name:       "Service Type Name:"
+                name:       "Service Request No. :"
+                service.requested: "Requested Serviece:"
+                status:     "Request Status:"
+                last.modified.at: "Last modified at:"
                 requested.by: "Requested by:"
                 requested.at: "Requested at:"
-                status:     "Status:"
+                requested.via: "Requested via:"
                 assigned.to:  "Assigned to:"
-                last.modified.at: "Last modified at:"
+                asset.name: "Related Asset No. :"
+                service.deployed: "Related Service No. :"
                 summary:    "Short description of the problem:"
                 detail:     "Detail description of the problem:"
-                asset.name: "Related Asset Name:"
             table:
                 caption:    "Service Request List"
                 action:
@@ -56,14 +59,17 @@ ftfs:
                     assign.tooltip: "Assgin"
                 operations: "Operations"
                 name:       "Service Request No"
+                service.requested:  "Service Type Requested"
+                status:     "Status"
+                last.modified.at:   "Last Modified at"
                 requested.by: "Requested by"
                 requested.at: "Requested at"
-                status:     "Status"
+                requested.via: "Requested via"
                 assigned.to:  "Assigned to"
-                last.modified.at:   "Last Modified at"
                 summary:   "Problem summary"
                 detail:    "Details"
-                asset.name:   "Related Asset Name:"
+                asset.name:   "Related Asset No."
+                service.deployed:   "Related Service No."
         servicetype:
             form:
                 legend: 
@@ -71,13 +77,24 @@ ftfs:
                     edit:   "Edit Service Type"
                     show:   "Service Type Details"
                 name:       "Service Type Name:"
+                active:     "Is This Service Type Enabled?"
                 description: "Service Description:"
             table:
                 caption:    "Service Type List"
                 action:
                     new:    "Add a new service type"
+                    active:
+                        activate:   "Enable"
+                        activate.tooltip:   "Click to enable this type"
+                        deactivate: "Disable"    
+                        deactivate.tooltip:   "Click to disable this type"
                 operations: "Operations"
                 name:       "Service Name"
+                active:
+                    title:  "Status"
+                    value:
+                        active:   "enabled"
+                        inactive:  "disabled"
                 description: "Service Description"
     crud:
         flash:

@@ -31,9 +31,11 @@
             </td>
             <td>
                 {% block operations %}
+                {% if removable is defined and removable %}
                 <a href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.delete.tooltip'|trans({}, 'crud') }}">
                     <i class="icon-trash"></i>
                 </a>
+                {% endif %}
                 <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.edit.tooltip'|trans({}, 'crud') }}">
                     <i class="icon-pencil"></i>
                 </a>

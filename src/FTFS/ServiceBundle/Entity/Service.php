@@ -29,9 +29,7 @@ class Service
     private $name;
 
     /**
-     * @var string $type
-     *
-     * @ORM\Column(name="type", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="ServiceType")
      */
     private $type;
 
@@ -99,6 +97,16 @@ class Service
     private $closed_at;
 
     /**
+     * Get __toString
+     *
+     * @return string 
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
      * Get id
      *
      * @return integer 
@@ -126,26 +134,6 @@ class Service
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set type
-     *
-     * @param string $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string 
-     */
-    public function getType()
-    {
-        return $this->type;
     }
 
     /**
@@ -209,6 +197,26 @@ class Service
     }
 
     /**
+     * Set last_modified_at
+     *
+     * @param datetime $lastModifiedAt
+     */
+    public function setLastModifiedAt($lastModifiedAt)
+    {
+        $this->last_modified_at = $lastModifiedAt;
+    }
+
+    /**
+     * Get last_modified_at
+     *
+     * @return datetime 
+     */
+    public function getLastModifiedAt()
+    {
+        return $this->last_modified_at;
+    }
+
+    /**
      * Set request_received_at
      *
      * @param datetime $requestReceivedAt
@@ -246,6 +254,26 @@ class Service
     public function getOpenedAt()
     {
         return $this->opened_at;
+    }
+
+    /**
+     * Set assigned_to
+     *
+     * @param string $assignedTo
+     */
+    public function setAssignedTo($assignedTo)
+    {
+        $this->assigned_to = $assignedTo;
+    }
+
+    /**
+     * Get assigned_to
+     *
+     * @return string 
+     */
+    public function getAssignedTo()
+    {
+        return $this->assigned_to;
     }
 
     /**
@@ -289,42 +317,22 @@ class Service
     }
 
     /**
-     * Set last_modified_at
+     * Set type
      *
-     * @param datetime $lastModifiedAt
+     * @param FTFS\ServiceBundle\Entity\ServiceType $type
      */
-    public function setLastModifiedAt($lastModifiedAt)
+    public function setType(\FTFS\ServiceBundle\Entity\ServiceType $type)
     {
-        $this->last_modified_at = $lastModifiedAt;
+        $this->type = $type;
     }
 
     /**
-     * Get last_modified_at
+     * Get type
      *
-     * @return datetime 
+     * @return FTFS\ServiceBundle\Entity\ServiceType 
      */
-    public function getLastModifiedAt()
+    public function getType()
     {
-        return $this->last_modified_at;
-    }
-
-    /**
-     * Set assigned_to
-     *
-     * @param string $assignedTo
-     */
-    public function setAssignedTo($assignedTo)
-    {
-        $this->assigned_to = $assignedTo;
-    }
-
-    /**
-     * Get assigned_to
-     *
-     * @return string 
-     */
-    public function getAssignedTo()
-    {
-        return $this->assigned_to;
+        return $this->type;
     }
 }

@@ -13,6 +13,7 @@ ftfs:
                 show:
                     modify:   "Modify"
                     modify.tooltip:   "Modify"
+                    delete.tooltip:   "delete"
                     list: "Back to List"
                     list.tooltip: "Back to List"
                 edit:

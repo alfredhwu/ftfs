@@ -1,6 +1,6 @@
 {% extends "FTFSServiceBundle::layout.html.twig" %}
 
 {% block body_content %}
-{% include 'FTFSServiceBundle:ServiceRequest:index_content.html.twig' %}
+{% include 'FTFSServiceBundle:ServiceRequest:index_content.html.twig' with { 'removable' : true } %}
 {% endblock %}
 

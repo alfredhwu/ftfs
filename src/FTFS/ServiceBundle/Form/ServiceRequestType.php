@@ -7,20 +7,66 @@ use Symfony\Component\Form\FormBuilder;
 
 class ServiceRequestType extends AbstractType
 {
-    private $is_show_mode;
+    private $options;
 
-    public function __construct($is_show_mode=false)
+    public function __construct(array $options)
     {
-        $this->is_show_mode = (! $is_show_mode) ? false : true;
+        $this->options = $options;
     }
 
     public function buildForm(FormBuilder $builder, array $options)
     {
-        if($this->is_show_mode)
+        if(array_key_exists('view', $this->options))
         {
+            $view = $this->options['view'];
+        }else{
+            $view = 'default';
+        } 
+        if( 'edit' === $view || 'new' === $view )
+        {
+            $builder
+                ->add('name')
+                ->add('service_requested', null, array(
+                    'empty_value' => 'Other service',
+                    'required' => false,
+                ))
+                ->add('requested_by')
+                ->add('requested_via', 'choice', array(
+                    'empty_value' => 'Not speciated',
+                    'preferred_choices' => array('Web'),
+                    'required' => false,
+                    'choices' => array(
+                        'Web' => 'Web',
+                        'Telephone' => 'Telephone',
+                    ),
+                ))
+                ->add('asset_name', 'choice', array(
+                    'empty_value' => 'Not speciated',
+                    'required' => false,
+                    'choices' => array(
+                        'frx33333' => 'frx33333',
+                        'frx44444' => 'frx44444',
+                    ),
+                ))
+                ->add('summary')
+                ->add('detail', null, array(
+                    'required' => false,
+                ))
+            ;
+        }else{
             $builder
                 ->add('name', null, array(
                     'read_only' => true,
+                ))
+                ->add('service_requested', 'text', array(
+                    'read_only' => true,
+                ))
+                ->add('status', null, array(
+                    'read_only' => true,
+                ))
+                ->add('last_modified_at', null, array(
+                    'read_only' => true,
+                    'widget' => 'single_text',
                 ))
                 ->add('requested_by', null, array(
                     'read_only' => true,
@@ -29,39 +75,23 @@ class ServiceRequestType extends AbstractType
                     'read_only' => true,
                     'widget' => 'single_text',
                 ))
-                ->add('status', null, array(
+                ->add('requested_via', null, array(
                     'read_only' => true,
                 ))
                 ->add('assigned_to', null, array(
                     'read_only' => true,
                 ))
-                ->add('last_modified_at', null, array(
+                ->add('asset_name', null, array(
                     'read_only' => true,
-                    'widget' => 'single_text',
+                ))
+                ->add('service_deployed', 'text', array(
+                    'read_only' => true,
                 ))
                 ->add('summary', null, array(
                     'read_only' => true,
                 ))
                 ->add('detail', null, array(
                     'read_only' => true,
-                ))
-                ->add('asset_name', null, array(
-                    'read_only' => true,
-                ))
-            ;
-        }else{
-            $builder
-                ->add('name')
-                ->add('requested_by')
-                ->add('summary')
-                ->add('detail', null, array(
-                    'required' => false,
-                ))
-                ->add('asset_name', 'choice', array(
-                    'choices' => array(
-                        'frx33333' => 'frx33333',
-                        'frx44444' => 'frx44444',
-                    ),
                 ))
             ;
         }

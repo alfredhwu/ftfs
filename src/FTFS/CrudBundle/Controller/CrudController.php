@@ -33,11 +33,10 @@ abstract class CrudController extends Controller
         return $this->initEntity(new $entityClass);
     }
 
-    protected function getEntityType($is_show_mode=false)
+    protected function getEntityType(array $options)
     {
         $entityTypeClass = '\\'.$this->vendor.'\\'.$this->bundle.'\\Form\\'.$this->entity.'Type';
-        $is_show_mode = (! $is_show_mode) ? false : true;
-        return new $entityTypeClass($is_show_mode);
+        return new $entityTypeClass($options);
     }
 
     protected function getPrefix()
@@ -69,7 +68,7 @@ abstract class CrudController extends Controller
             throw $this->createNotFoundException('Entity not found !');        
         }
 
-        $form = $this->createForm($this->getEntityType(true), $entity);
+        $form = $this->createForm($this->getEntityType(array('view' => 'show')), $entity);
 
         return $this->render($this->getNamespace().':show.html.twig', array(
             'entity' => $entity,
@@ -88,7 +87,7 @@ abstract class CrudController extends Controller
             throw $this->createNotFoundException('Entity not found !');        
         }
 
-        $form = $this->createForm($this->getEntityType(), $entity);
+        $form = $this->createForm($this->getEntityType(array( 'view' => 'edit' )), $entity);
 
         $request = $this->get('request');
 
@@ -129,7 +128,7 @@ abstract class CrudController extends Controller
     public function newAction()
     {
         $entity = $this->getEntity();
-        $form = $this->createForm($this->getEntityType(), $entity);
+        $form = $this->createForm($this->getEntityType(array('view' => 'new')), $entity);
 
         $request = $this->get('request');
 

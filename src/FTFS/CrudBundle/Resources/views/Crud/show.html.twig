@@ -7,6 +7,11 @@
     <legend>
         <span>{{ (prefix~'_form_legend_show')|replace({'_' : '.'})|trans({}, 'crud') }}</span>
         <div class="btn-group pull-right">
+            {% if removable is defined and removable %}
+            <a class="btn btn-small" href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.form.action.show.delete.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
+                <i class="icon-trash"></i>
+            </a>
+            {% endif %}
             <a class="btn btn-small" href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.form.action.show.modify.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
                 <i class="icon-pencil"></i>
             </a>

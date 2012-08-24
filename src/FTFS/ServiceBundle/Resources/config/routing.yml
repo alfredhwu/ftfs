@@ -50,6 +50,9 @@ ftfs_servicebundle_servicetype_delete:
     pattern:  /type/delete/{id}
     defaults: { _controller: FTFSServiceBundle:ServiceType:delete }
 
+ftfs_servicebundle_servicetype_activate:
+    pattern:  /type/activate/{id}
+    defaults: { _controller: FTFSServiceBundle:ServiceType:activate }
 ## service request ############################################################
 #
 ftfs_servicebundle_servicerequest_assign:
