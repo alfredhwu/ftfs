@@ -9,11 +9,11 @@
 
 {% block thead %}
     <th>{{ 'ftfs.servicebundle.service.table.name' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.servicebundle.service.table.status' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.servicebundle.service.table.last.modified.at' | trans({}, 'crud') }}</th>
     <th>{{ 'ftfs.servicebundle.service.table.type' | trans({}, 'crud') }}</th>
     <th>{{ 'ftfs.servicebundle.service.table.severity' | trans({}, 'crud') }}</th>
     <th>{{ 'ftfs.servicebundle.service.table.priority' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.service.table.status' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.service.table.last.modified.at' | trans({}, 'crud') }}</th>
     <th>{{ 'ftfs.servicebundle.service.table.assigned.to' | trans({}, 'crud') }}</th>
     <th>{{ 'ftfs.servicebundle.service.table.request.received.at' | trans({}, 'crud') }}</th>
     <th>{{ 'ftfs.servicebundle.service.table.opened.at' | trans({}, 'crud') }}</th>
@@ -23,11 +23,11 @@
 
 {% block tbody %}
     <td>{{ entity.name }}</td>
+    <td>{{ entity.status }}</td>
+    <td>{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}</td>
     <td>{{ entity.type }}</td>
     <td>{{ entity.severity }}</td>
     <td>{{ entity.priority }}</td>
-    <td>{{ entity.status }}</td>
-    <td>{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}</td>
     <td>{{ entity.assignedTo }}</td>
     <td>{{ entity.requestReceivedAt | date('Y-m-d H:i:s') }}</td>
     <td>{{ entity.openedAt | date('Y-m-d H:i:s') }}</td>

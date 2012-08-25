@@ -8,7 +8,9 @@ class ServiceRequestController extends BaseController
 {
     public function __construct()
     {
-        parent::__construct("FTFS/ServiceBundle/ServiceRequest");
+        parent::__construct(array(
+            'model' => "FTFS/ServiceBundle/ServiceRequest"
+        ));
     }
 
     protected function initEntity($entity)

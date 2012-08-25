@@ -9,9 +9,9 @@
 
 {% block thead %}
     <th>{{ 'ftfs.servicebundle.servicerequest.table.name' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.service.requested' | trans({}, 'crud') }}</th>
     <th>{{ 'ftfs.servicebundle.servicerequest.table.status' | trans({}, 'crud') }}</th>
     <th>{{ 'ftfs.servicebundle.servicerequest.table.last.modified.at' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.servicebundle.servicerequest.table.service.requested' | trans({}, 'crud') }}</th>
     <th>{{ 'ftfs.servicebundle.servicerequest.table.requested.by' | trans({}, 'crud') }}</th>
     <th>{{ 'ftfs.servicebundle.servicerequest.table.requested.at' | trans({}, 'crud') }}</th>
     <th>{{ 'ftfs.servicebundle.servicerequest.table.requested.via' | trans({}, 'crud') }}</th>
@@ -24,9 +24,9 @@
 
 {% block tbody %}
     <td>{{ entity.name }}</td>
-    <td>{{ entity.serviceRequested }}</td>
     <td>{{ entity.status }}</td>
     <td>{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}</td>
+    <td>{{ entity.serviceRequested }}</td>
     <td>{{ entity.requestedBy }}</td>
     <td>{{ entity.requestedAt | date('Y-m-d H:i:s') }}</td>
     <td>{{ entity.requestedVia }}</td>

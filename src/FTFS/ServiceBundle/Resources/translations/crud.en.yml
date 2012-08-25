@@ -84,9 +84,7 @@ ftfs:
                 action:
                     new:    "Add a new service type"
                     active:
-                        activate:   "Enable"
                         activate.tooltip:   "Click to enable this type"
-                        deactivate: "Disable"    
                         deactivate.tooltip:   "Click to disable this type"
                 operations: "Operations"
                 name:       "Service Name"
