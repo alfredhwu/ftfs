@@ -54,7 +54,7 @@ abstract class CrudController extends Controller
     protected function getEntity()
     {
         $entityClass = '\\'.$this->namespaces['model']['vendor'].'\\'.$this->namespaces['model']['bundle'].'\\Entity\\'.$this->namespaces['model']['entity'];
-        return $this->initEntity(new $entityClass);
+        return new $entityClass;
     }
 
     /**
@@ -101,15 +101,34 @@ abstract class CrudController extends Controller
     }
 
     /**
-     * init entity while construction
+     * pre init entity while construction
      */
-    abstract protected function initEntity($entity);
+    protected function preInitEntity($entity, $request){
+        // ToDo: pre init entity
+    }
+
+    /**
+     * post init entity while construction
+     */
+    protected function postInitEntity($entity, $request){
+        // ToDo: post init entity
+    }
+
+
+    /**
+     * get entity list for index Action
+     */
+    protected function getEntityList()
+    {
+        return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findAll();
+    }
+
 
     public function indexAction()
     {
-        $entities = $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findAll();
+ //       $entities = $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findAll();
         return $this->render($this->getViewPath().':index.html.twig', array(
-            'entities' => $entities,
+            'entities' => $this->getEntityList(),
             'prefix' => $this->getRoutingPrefix(),
         ));
     }
@@ -183,16 +202,20 @@ abstract class CrudController extends Controller
 
     public function newAction()
     {
+        $request = $this->get('request');
+
         $entity = $this->getEntity();
+        $this->preInitEntity($entity, $request);
+
         $form = $this->createForm($this->getEntityType(array('view' => 'new')), $entity);
 
-        $request = $this->get('request');
 
         if('POST'===$request->getMethod())
         {
             $form->bindRequest($request);
             if($form->isValid())
             {
+                $this->postInitEntity($entity, $request);
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($entity);
                 $em->flush();         

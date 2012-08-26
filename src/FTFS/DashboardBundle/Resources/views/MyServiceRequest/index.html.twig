@@ -1,0 +1,6 @@
+{% extends "FTFSDashboardBundle::layout.html.twig" %}
+
+{% block body_content %}
+{% include 'FTFSDashboardBundle:MyServiceRequest:index_content.html.twig' with { 'removable' : true } %}
+{% endblock %}
+

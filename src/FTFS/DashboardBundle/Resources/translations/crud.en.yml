@@ -1,0 +1,4 @@
+ftfs.dashboardbundle.myservicerequest.table:
+    table:      "All my requests"
+    action.new: "Add a new request"
+    operations: "Operations"
