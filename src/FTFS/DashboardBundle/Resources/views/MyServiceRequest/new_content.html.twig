@@ -1,10 +1,10 @@
 {% extends 'FTFSCrudBundle:Crud:new_content.html.twig' %}
 
 {% block crud_actions_icons %}
-    <a href="javascript: submitform('nosend')" class="btn btn-small" type="submit" rel="tooltip" title="{{ (prefix|replace('_', '.'))~'.form.action.new.save.nosend.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
+    <a href="javascript: submitform('nosend')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'_form_action_new_save_nosend_tooltip')|replace('_', '.')|trans({}, 'crud') }}" data-placement="bottom">
         <i class="icon-ok"></i>
     </a>
-    <a href="javascript: submitform('send')" class="btn btn-small" type="submit" rel="tooltip" title="{{ (prefix|replace('_', '.'))~'.form.action.new.save.send.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
+    <a href="javascript: submitform('send')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'_form_action_new_save_send_tooltip')|replace('_', '.')|trans({}, 'crud') }}" data-placement="bottom">
         <i class="icon-envelope"></i>
     </a>
     <a class="btn btn-small" href="{{ path(prefix~'_index') }}" rel="tooltip" title="{{ 'ftfs.crud.form.action.new.cancel.tooltip'|trans({}, 'crud') }}" data-placement="left">
@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block crud_form %}
-    <input type="hidden" id="init_mode" name="init_mode" value="nosave">
+    <input type="hidden" name="init_mode" value="nosave">
     {{ parent() }}
 {% endblock %}
 
@@ -26,10 +26,10 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="javascript: submitform('nosend')">{{ (prefix|replace('_', '.'))~'.form.action.new.save.nosend'|trans({}, 'crud') }}</a>
+                    <a href="javascript: submitform('nosend')">{{ (prefix~'_form_action_new_save_nosend')|replace('_', '.')|trans({}, 'crud') }}</a>
                 </li>
                 <li>
-                    <a href="javascript: submitform('send')">{{ (prefix|replace('_', '.'))~'.form.action.new.save.send'|trans({}, 'crud') }}</a>
+                    <a href="javascript: submitform('send')">{{ (prefix~'_form_action_new_save_send')|replace('_', '.')|trans({}, 'crud') }}</a>
                 </li>
             </ul>
         </div>

@@ -1,4 +1,43 @@
-ftfs.dashboardbundle.myservicerequest.table:
-    table:      "All my requests"
-    action.new: "Add a new request"
-    operations: "Operations"
+ftfs.dashboardbundle.myservicerequest:
+    table:
+        caption:    "My Service Request List"
+        table:      "All my requests"
+        operations: "Operations"
+        action.new: "Request a Service"
+        status:
+            unsent:         "Unsent"
+            unsent.class:   "label label-warning"
+            awaiting:       "Awaiting"
+            awaiting.class: "label label-info"
+            accepted:       "Accepted"
+            accepted.class: "label label-success"
+            rejected:       "Rejected"
+            rejected.class: "label label-important"
+    form:
+        legend.show: "Service Request Detail"
+        legend.new:  "New Service Request"
+        legend.edit: "Modify Service Request"
+        action:
+            new.save: 
+                nosend: "Save without sending"
+                nosend.tooltip: "Save without sending"
+                nosend.success.flash: "New service request created but not yet sent !"
+                send:   "Save and send"
+                send.tooltip:   "Save and send"
+                send.success.flash:   "New service request created and sent !"
+            edit.update:
+                send:   "Update and Send"
+                send.tooltip:   "Update and Send"
+                send.success.flash:     "Service request updated and sent !"
+                resend: "Update and Resend"
+                resend.tooltip: "Update and Resend"
+                nosend: "Update without sending"
+                nosend.tooltip: "Update without sending"
+                nosend.success.flash:   "Service request updated but not yet sent !"
+            show:
+                send:   "Send" 
+                send.tooltip:   "Send" 
+        flash.success.created:
+            sent:
+            nosent:
+            

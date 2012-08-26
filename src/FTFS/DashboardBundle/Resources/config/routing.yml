@@ -12,14 +12,20 @@ ftfs_dashboardbundle_myservicerequest_new:
     defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:new }
 
 ftfs_dashboardbundle_myservicerequest_show:
-    pattern:  /myrequest/show/{id}
+    pattern:  /myrequest/{id}/show
     defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:show }
 
 ftfs_dashboardbundle_myservicerequest_edit:
-    pattern:  /myrequest/edit/{id}
+    pattern:  /myrequest/{id}/edit
     defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:edit }
 
 ftfs_dashboardbundle_myservicerequest_delete:
-    pattern:  /myrequest/delete/{id}
+    pattern:  /myrequest/{id}/delete
     defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:delete }
+
+
+ftfs_dashboardbundle_myservicerequest_send:
+    pattern:  /myrequest/{id}/send
+    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:send }
+
 

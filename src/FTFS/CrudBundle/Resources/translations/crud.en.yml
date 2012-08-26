@@ -1,28 +1,32 @@
 #flash
-ftfs:
-    crud:
-        flash:
-            succeed:    "success"
-        form:
-            action:
-                new:
-                    save:   "Save"
-                    save.tooltip:   "Save"
-                    cancel: "Cancel"
-                    cancel.tooltip: "Back to List"
-                show:
-                    modify:   "Modify"
-                    modify.tooltip:   "Modify"
-                    delete.tooltip:   "delete"
-                    list: "Back to List"
-                    list.tooltip: "Back to List"
-                edit:
-                    update: "Update"
-                    update.tooltip: "Update"
-                    cancel: "Cancel"
-                    cancel.tooltip: "Cancel"
-        table:
-            action:
-                show.tooltip:   "Show"
-                edit.tooltip:   "Edit"
-                delete.tooltip: "Delete"
+ftfs.crud:
+    flash:
+        success: "success"
+        created: "New entity created !"
+        deleted: "Entity deleted !"
+        updated: "Entity upedated !"
+    form:
+        action:
+            new:
+                save:   "Save"
+                save.tooltip:   "Save"
+                cancel: "Cancel"
+                cancel.tooltip: "Back to List"
+            show:
+                modify:   "Modify"
+                modify.tooltip:   "Modify"
+                delete.tooltip:   "delete"
+                list: "Back to List"
+                list.tooltip: "Back to List"
+            edit:
+                update: "Update"
+                update.tooltip: "Update"
+                cancel: "Cancel"
+                cancel.tooltip: "Cancel"
+                list: "Abandon to list"
+                list.tooltip: "Abandon modifications and go back to list"
+    table:
+        action:
+            show.tooltip:   "Show"
+            edit.tooltip:   "Edit"
+            delete.tooltip: "Delete"

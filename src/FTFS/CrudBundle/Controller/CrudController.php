@@ -112,6 +112,15 @@ abstract class CrudController extends Controller
      */
     protected function postInitEntity($entity, $request){
         // ToDo: post init entity
+        $this->get('session')->setFlash('ftfs.crud.flash.success', 'ftfs.crud.flash.created.sucess'); 
+    }
+
+    /**
+     * post update entity
+     */
+    protected function postUpdateEntity($entity, $request){
+        // ToDo: post update entity
+        $this->get('session')->setFlash('ftfs.crud.flash.success', 'ftfs.crud.flash.updated.sucess'); 
     }
 
 
@@ -171,8 +180,8 @@ abstract class CrudController extends Controller
             $form->bindRequest($request);
             if($form->isValid())
             {
+                $this->postUpdateEntity($entity, $request);
                 $em->flush();         
-                $this->get('session')->setFlash('ftfs.crud.flash.succeed', 'ftfs.crud.flash.updated'); 
                 return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
             }
         }
@@ -196,7 +205,7 @@ abstract class CrudController extends Controller
         $em->remove($entity);
         $em->flush();
 
-        $this->get('session')->setFlash('ftfs.crud.flash.succeed', 'ftfs.crud.flash.deleted'); 
+        $this->get('session')->setFlash('ftfs.crud.flash.success', 'ftfs.crud.flash.deleted.success'); 
         return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_index'));
     }
 
@@ -219,7 +228,6 @@ abstract class CrudController extends Controller
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($entity);
                 $em->flush();         
-                $this->get('session')->setFlash('ftfs.crud.flash.succeed', 'ftfs.crud.flash.created'); 
                 return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $entity->getId())));
             }
         }

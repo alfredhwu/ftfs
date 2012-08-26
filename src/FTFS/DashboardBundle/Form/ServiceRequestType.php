@@ -23,8 +23,51 @@ class ServiceRequestType extends AbstractType
         }else{
             $view = 'default';
         } 
-        if( 'edit' === $view || 'new' === $view )
+        if( 'edit' === $view )
         {
+            $builder
+                ->add('name')
+                ->add('service_requested', null, array(
+                    'empty_value' => 'Other service',
+                    'required' => false,
+                ))
+                ->add('status', null, array(
+                    'read_only' => true,
+                ))
+                ->add('last_modified_at', null, array(
+                    'read_only' => true,
+                    'widget' => 'single_text',
+                ))
+                ->add('requested_by', null, array(
+                    'read_only' => true,
+                ))
+                ->add('requested_at', null, array(
+                    'read_only' => true,
+                    'widget' => 'single_text',
+                ))
+                ->add('requested_via', 'choice', array(
+                    'empty_value' => 'Not speciated',
+                    'preferred_choices' => array('Web'),
+                    'required' => false,
+                    'choices' => array(
+                        'Web' => 'Web',
+                        'Telephone' => 'Telephone',
+                    ),
+                ))
+                ->add('asset_name', 'choice', array(
+                    'empty_value' => 'Not speciated',
+                    'required' => false,
+                    'choices' => array(
+                        'frx33333' => 'frx33333',
+                        'frx44444' => 'frx44444',
+                    ),
+                ))
+                ->add('summary')
+                ->add('detail', null, array(
+                    'required' => false,
+                ))
+            ;
+        }elseif( 'new' === $view ){
             $builder
                 ->add('name')
                 //->add('requested_by')

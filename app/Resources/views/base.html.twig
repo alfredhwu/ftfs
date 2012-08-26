@@ -53,13 +53,24 @@
 
                             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                                 <i class="icon-user"></i> 
-                                {{ app.user.username }}
+                                Alfred WU
+                                ({{ app.user.username }})
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ path('fos_user_profile_show') }}">Profile</a></li>
+                                <li><a href="{{ path('fos_user_profile_show') }}">
+                                    <i class="icon-user"></i>
+                                    Profile
+                                </a></li>
+                                <li><a href="{{ path('fos_user_profile_show') }}">
+                                    <i class="icon-wrench"></i>
+                                    Preference
+                                </a></li>
                                 <li class="divider"></li>
-                                <li><a href="{{ path('fos_user_security_logout') }}">Sign Out</a></li>
+                                <li><a href="{{ path('fos_user_security_logout') }}">
+                                    <i class="icon-off"></i>
+                                    Sign Out
+                                </a></li>
                             </ul>
                         {% else %}
 

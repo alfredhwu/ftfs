@@ -17,13 +17,32 @@ class MyServiceRequestController extends BaseController
     protected function postInitEntity($entity, $request)
     {
         $entity->setRequestedBy($this->get('security.context')->getToken()->getUser());
-        $entity->setRequestedAt(new \DateTime('now'));
+        $session = $this->get('session');
+
         $init_mode = $request->get('init_mode');
         if('send'==$init_mode)
         {
             $entity->setStatus('awaiting');
+            $session->setFlash('ftfs.crud.flash.success', 'ftfs.dashboardbundle.myservicerequest.form.action.new.save.send.success.flash');
         }else{
             $entity->setStatus('unsent');
+            $session->setFlash('ftfs.crud.flash.success', 'ftfs.dashboardbundle.myservicerequest.form.action.new.save.nosend.success.flash');
+        }
+    }
+
+    protected function postUpdateEntity($entity, $request)
+    {
+        $entity->setLastModifiedAt(new \DateTime('now'));
+        $session = $this->get('session');
+        
+        $update_mode = $request->get('update_mode');
+        if('send'==$update_mode)
+        {
+            $entity->setRequestedAt(new \DateTime('now'));
+            $entity->setStatus('awaiting');
+            $session->setFlash('ftfs.crud.flash.success', 'ftfs.dashboardbundle.myservicerequest.form.edit.update.send.success.flash');
+        }else{
+            $session->setFlash('ftfs.crud.flash.success', 'ftfs.dashboardbundle.myservicerequest.form.edit.update.nosend.success.flash');
         }
     }
 

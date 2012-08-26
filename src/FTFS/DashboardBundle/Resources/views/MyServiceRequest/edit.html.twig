@@ -1,5 +1,17 @@
 {% extends "FTFSDashboardBundle::layout.html.twig" %}
 
 {% block body_content %}
-{% include 'FTFSCrudBundle:Crud:edit_content.html.twig'%}
+{% include 'FTFSDashboardBundle:MyServiceRequest:edit_content.html.twig'%}
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        function submitform(updatemode)
+        {
+            form = document.forms["{{ prefix~'_form' }}"];
+            form.update_mode.value = updatemode;
+            form.submit();
+        }
+    </script>
 {% endblock %}
