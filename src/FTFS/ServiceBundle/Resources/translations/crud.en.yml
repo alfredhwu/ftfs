@@ -26,7 +26,8 @@ ftfs.servicebundle:
             type:       "Service Type"
             severity:   "Severity"
             priority:   "Priority"
-            status:     "Status"
+            status:     
+                title:  "Status"
             request.received.at: "Request Received at"
             assigned.to: "Assigned to"
             opened.at:  "Ticket Opened at"

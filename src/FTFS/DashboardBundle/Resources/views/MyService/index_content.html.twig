@@ -1,0 +1,29 @@
+{% extends "FTFSCrudBundle:Crud:index_content.html.twig" %}
+
+{% block thead %}
+    <th>{{ 'ftfs.dashboardbundle.myservice.table.name' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.dashboardbundle.myservice.table.status.title' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.dashboardbundle.myservice.table.last.modified.at' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.dashboardbundle.myservice.table.type' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.dashboardbundle.myservice.table.severity' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.dashboardbundle.myservice.table.priority' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.dashboardbundle.myservice.table.assigned.to' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.dashboardbundle.myservice.table.request.received.at' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.dashboardbundle.myservice.table.opened.at' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.dashboardbundle.myservice.table.resolved.at' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.dashboardbundle.myservice.table.closed.at' | trans({}, 'crud') }}</th>
+{% endblock %}
+
+{% block tbody %}
+    <td>{{ entity.name }}</td>
+    <td>{{ entity.status }}</td>
+    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+    <td>{{ entity.type }}</td>
+    <td>{{ entity.severity }}</td>
+    <td>{{ entity.priority }}</td>
+    <td>{{ entity.assignedTo }}</td>
+    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.requestReceivedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.openedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.resolvedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.closedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+{% endblock %}

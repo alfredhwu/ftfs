@@ -2,7 +2,8 @@ FTFSDashboardBundle_homepage:
     pattern:  /
     defaults: { _controller: FTFSDashboardBundle:Default:index }
 
-## service request routing for client
+############################################################################# Service Request
+## service request routing 
 ftfs_dashboardbundle_myservicerequest_index:
     pattern:  /myrequest/list/
     defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:index }
@@ -40,3 +41,26 @@ ftfs_dashboardbundle_myservicerequest_accept:
 ftfs_dashboardbundle_myservicerequest_reject:
     pattern:  /myrequest/{id}/reject
     defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:reject }
+
+############################################################################ service ticket
+## service routing
+ftfs_dashboardbundle_myservice_index:
+    pattern:  /myservice/list/
+    defaults: { _controller: FTFSDashboardBundle:MyService:index }
+
+ftfs_dashboardbundle_myservice_new:
+    pattern:  /myservice/new
+    defaults: { _controller: FTFSDashboardBundle:MyService:new }
+
+ftfs_dashboardbundle_myservice_show:
+    pattern:  /myservice/{id}/show
+    defaults: { _controller: FTFSDashboardBundle:MyService:show }
+
+ftfs_dashboardbundle_myservice_edit:
+    pattern:  /myservice/{id}/edit
+    defaults: { _controller: FTFSDashboardBundle:MyService:edit }
+
+ftfs_dashboardbundle_myservice_delete:
+    pattern:  /myservice/{id}/delete
+    defaults: { _controller: FTFSDashboardBundle:MyService:delete }
+

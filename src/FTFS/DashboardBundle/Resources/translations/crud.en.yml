@@ -1,3 +1,4 @@
+###################################################################################### my request
 ftfs.dashboardbundle.myservicerequest:
     table:
         caption:    "Service Request List"
@@ -11,6 +12,7 @@ ftfs.dashboardbundle.myservicerequest:
             take.tooltip:   "Take this request"
             take.success.flash:  "Taken successfully !"
         status:
+            title:             "Status" 
             10.rejected:       "Rejected"
             10.rejected.class: "label label-important"
             20.unsent:         "Unsent"
@@ -62,4 +64,22 @@ ftfs.dashboardbundle.myservicerequest:
         flash.success.created:
             sent:
             nosent:
-            
+################################################################################### my service            
+ftfs.dashboardbundle.myservice:
+    table:
+        caption:    "Service Ticket List"
+        action:
+            new:    "Add a new service ticket"
+        operations: "Operations"
+        name:       "Service Ticket No"
+        type:       "Service Type"
+        severity:   "Severity"
+        priority:   "Priority"
+        status:     
+            title:  "Status"
+        request.received.at: "Request Received at"
+        assigned.to: "Assigned to"
+        opened.at:  "Ticket Opened at"
+        resolved.at: "Ticket Resolved at"
+        closed.at:  "Ticket Closed at"
+        last.modified.at:    "Last Modified at"
