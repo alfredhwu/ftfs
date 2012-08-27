@@ -14,10 +14,10 @@ class ServiceTypeController extends BaseController
         ));
     }
 
-    protected function initEntity($entity)
+    protected function postInitEntity($entity, $request)
     {
         $entity->setActive(true);
-        return $entity;
+        $this->get('session')->setFlash('ftfs.crud.flash.success', 'ftfs.crud.flash.created.sucess'); 
     }
 
     public function activateAction($id)

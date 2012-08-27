@@ -1,0 +1,17 @@
+{% extends "FTFSDashboardBundle:MyServiceRequest:index_content.html.twig" %}
+
+{% block operations %}
+    <a href="{{ path(prefix~'_show', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.show.tooltip'|trans({}, 'crud') }}">
+        <i class="icon-eye-open"></i>
+    </a>
+    {% if entity.assignedTo == app.user.username and entity.status == '30_awaiting' %}
+        <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.edit.tooltip'|trans({}, 'crud') }}">
+            <i class="icon-pencil"></i>
+        </a>
+    {% endif %}
+    {% if entity.assignedTo is null and entity.status == '30_awaiting' %}
+        <a href="{{ path(prefix~'_take', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.dashboardbundle.myservicerequest.table.action.take.tooltip'|trans({}, 'crud') }}">
+            <i class="icon-hand-up"></i>
+        </a>
+    {% endif %}
+{% endblock %}

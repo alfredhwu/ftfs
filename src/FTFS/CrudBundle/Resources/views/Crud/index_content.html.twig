@@ -1,6 +1,17 @@
 {% extends "FTFSCrudBundle::layout.html.twig" %}
 
 {% block crud %}
+{% if addable is defined and not addable %}
+<h2 class="pull-left">{{ (prefix~'_table_caption')|replace('_', '.')|trans({}, 'crud') }}</h2>
+<form class="form-search pull-right">
+    <div class="input-append">
+        <input type="text" class="search-query input-medium" placeholder="search"><button type="submit" class="btn btn-primary btn-small"><i class="icon-search icon-white"></i></button>
+    </div>
+</form>
+<br>
+<br>
+<hr>
+{% else %}
 <h2>{{ (prefix~'_table_caption')|replace('_', '.')|trans({}, 'crud') }}</h2>
 <hr>
 <a class="btn btn-success pull-left" href="{{ path(prefix~'_new') }}">
@@ -12,6 +23,7 @@
         <input type="text" class="search-query input-medium" placeholder="search"><button type="submit" class="btn btn-primary btn-small"><i class="icon-search icon-white"></i></button>
     </div>
 </form>
+{% endif %}
 <table class="table table-bordered table-striped table-condensed table-smart">
     <thead>
         <tr>

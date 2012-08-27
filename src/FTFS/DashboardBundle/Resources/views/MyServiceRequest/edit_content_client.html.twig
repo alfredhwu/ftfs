@@ -4,7 +4,7 @@
     <a href="javascript: submitform('nosend')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'_form_action_edit_update_nosend_tooltip')|replace('_', '.')|trans({}, 'crud') }}" data-placement="bottom">
         <i class="icon-ok"></i>
     </a>
-    {% if 'rejected'==entity.status %}
+    {% if '10_rejected'==entity.status %}
     <a href="javascript: submitform('send')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'_form_action_edit_update_resend_tooltip')|replace('_', '.')|replace('_', '.')|trans({}, 'crud') }}" data-placement="bottom">
         <i class="icon-envelope"></i>
     </a>
@@ -30,21 +30,48 @@
 {% block crud_actions %}
     <div class="btn-toolbar">
         <div class="btn-group dropup">
+            {% if '10_rejected'==entity.status %}
+            <a class="btn btn-primary" href="javascript: submitform('send')">
+                <i class="icon-envelope icon-white"></i>
+                {{ (prefix~'_form_action_edit_update_resend')|replace('_', '.')|trans({}, 'crud') }}
+            </a>
+            {% else %}
+            <a class="btn btn-primary" href="javascript: submitform('send')">
+                <i class="icon-envelope icon-white"></i>
+                {{ (prefix~'_form_action_edit_update_send')|replace('_', '.')|trans({}, 'crud') }}
+            </a>
+            {% endif %}
             <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-                Submit
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                {% if 'rejected'==entity.status %}
-                <li><a href="javascript: submitform('send')">{{ (prefix~'_form_action_edit_update_resend')|replace('_', '.')|trans({}, 'crud') }}</a></li>
+                {% if '10_rejected'==entity.status %}
+                <li><a href="javascript: submitform('send')">
+                    <i class="icon-envelope"></i>
+                    {{ (prefix~'_form_action_edit_update_resend')|replace('_', '.')|trans({}, 'crud') }}
+                </a></li>
                 {% else %}
-                <li><a href="javascript: submitform('send')">{{ (prefix~'_form_action_edit_update_send')|replace('_', '.')|trans({}, 'crud') }}</a></li>
+                <li><a href="javascript: submitform('send')">
+                    <i class="icon-envelope"></i>
+                    {{ (prefix~'_form_action_edit_update_send')|replace('_', '.')|trans({}, 'crud') }}
+                </a></li>
                 {% endif %}
-                <li><a href="javascript: submitform('nosend')">{{ (prefix~'_form_action_edit_update_nosend')|replace('_', '.')|trans({}, 'crud') }}</a></li>
+                <li><a href="javascript: submitform('nosend')">
+                    <i class="icon-ok"></i>
+                    {{ (prefix~'_form_action_edit_update_nosend')|replace('_', '.')|trans({}, 'crud') }}
+                </a></li>
             </ul>
         </div>
         <div class="btn-group">
             <a href="{{ path(prefix~'_show', { 'id' : entity.id }) }}" class="btn">{{ 'ftfs.crud.form.action.edit.cancel'|trans({}, 'crud') }}</a>
         </div>
     </div>
+    <script>
+        function submitform(updatemode)
+        {
+            form = document.forms["{{ prefix~'_form' }}"];
+            form.update_mode.value = updatemode;
+            form.submit();
+        }
+    </script>
 {% endblock %}

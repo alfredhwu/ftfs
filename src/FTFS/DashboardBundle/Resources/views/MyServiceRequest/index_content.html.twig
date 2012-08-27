@@ -15,29 +15,13 @@
     <th>{{ 'ftfs.servicebundle.servicerequest.table.detail' | trans({}, 'crud') }}</th>
 {% endblock %}
 
-{% block operations %}
-    <a href="{{ path(prefix~'_show', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.show.tooltip'|trans({}, 'crud') }}">
-        <i class="icon-eye-open"></i>
-    </a>
-    {% if entity.status in ['unsent', 'rejected'] %}
-        <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.edit.tooltip'|trans({}, 'crud') }}">
-            <i class="icon-pencil"></i>
-        </a>
-        {% if removable is defined and removable %}
-        <a href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.delete.tooltip'|trans({}, 'crud') }}">
-            <i class="icon-trash"></i>
-        </a>
-        {% endif %}
-    {% endif %}
-{% endblock %}
-
 {% block tbody %}
     <td>{{ entity.name }}</td>
     <td><span class="{{ (prefix~'_table_status_'~entity.status~'_class')|replace('_', '.')|trans({}, 'crud') }}">{{ (prefix~'_table_status_'~entity.status)|replace('_', '.')|trans({}, 'crud') }}</span></td>
-    <td>{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}</td>
+    <td>{% if entity.lastModifiedAt is not null %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     <td>{{ entity.serviceRequested }}</td>
     <td>{{ entity.requestedBy }}</td>
-    <td>{{ entity.requestedAt | date('Y-m-d H:i:s') }}</td>
+    <td>{% if entity.lastModifiedAt is not null %}{{ entity.requestedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     <td>{{ entity.requestedVia }}</td>
     <td>{{ entity.assignedTo }}</td>
     <td>{{ entity.assetName }}</td>

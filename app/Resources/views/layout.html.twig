@@ -2,7 +2,7 @@
 
 {% block navbar_menu %}
     <ul class="nav">
-        <li><a href="{{ path('FTFSDashboardBundle_homepage') }}">Home</a></li>
+        <li><a href="{{ path('FTFSDashboardBundle_homepage') }}">Dashboard</a></li>
         {% if is_granted('ROLE_CLIENT') %}
         {# if client, no view of admin #}
         {% elseif is_granted('ROLE_ADMIN') %}

@@ -1,4 +1,4 @@
-{% extends "FTFSCrudBundle:Crud:index.html.twig" %}
+{% extends "FTFSCrudBundle:Crud:index_content.html.twig" %}
 
 {% block operations %}
     {{ parent() }}
@@ -9,7 +9,7 @@
 
 {% block thead %}
     <th>{{ 'ftfs.servicebundle.servicerequest.table.name' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.status' | trans({}, 'crud') }}</th>
+    <th>{{ 'ftfs.servicebundle.servicerequest.table.status.title' | trans({}, 'crud') }}</th>
     <th>{{ 'ftfs.servicebundle.servicerequest.table.last.modified.at' | trans({}, 'crud') }}</th>
     <th>{{ 'ftfs.servicebundle.servicerequest.table.service.requested' | trans({}, 'crud') }}</th>
     <th>{{ 'ftfs.servicebundle.servicerequest.table.requested.by' | trans({}, 'crud') }}</th>
@@ -24,7 +24,7 @@
 
 {% block tbody %}
     <td>{{ entity.name }}</td>
-    <td>{{ entity.status }}</td>
+    <td><span class="{{ (prefix~'_table_status_'~entity.status~'_class')|replace('_', '.')|trans({}, 'crud') }}">{{ (prefix~'_table_status_'~entity.status)|replace('_', '.')|trans({}, 'crud') }}</span></td>
     <td>{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}</td>
     <td>{{ entity.serviceRequested }}</td>
     <td>{{ entity.requestedBy }}</td>

@@ -23,9 +23,20 @@ ftfs_dashboardbundle_myservicerequest_delete:
     pattern:  /myrequest/{id}/delete
     defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:delete }
 
-
+## oper client 
 ftfs_dashboardbundle_myservicerequest_send:
     pattern:  /myrequest/{id}/send
     defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:send }
 
-
+## oper agent
+ftfs_dashboardbundle_myservicerequest_take:
+    pattern:  /myrequest/{id}/take
+    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:take }
+    
+ftfs_dashboardbundle_myservicerequest_accept:
+    pattern:  /myrequest/{id}/accept
+    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:accept }
+    
+ftfs_dashboardbundle_myservicerequest_reject:
+    pattern:  /myrequest/{id}/reject
+    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:reject }

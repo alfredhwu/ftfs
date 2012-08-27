@@ -13,10 +13,22 @@ class ServiceRequestController extends BaseController
         ));
     }
 
-    protected function initEntity($entity)
+    protected function postInitEntity($entity, $request)
     {
         $entity->setRequestedAt(new \DateTime('now'));
-        $entity->setStatus('new');
-        return $entity;
+        $entity->setLastModifiedAt(new \DateTime('now'));
+        $entity->setStatus('20_unsent');
+        $this->get('session')->setFlash('ftfs.crud.flash.success', 'ftfs.crud.flash.created.sucess'); 
+    }
+
+    protected function getEntityList()
+    {
+        return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findBy(
+            array(
+            ),
+            array(
+                'last_modified_at' => 'desc',
+            )
+        );
     }
 }
