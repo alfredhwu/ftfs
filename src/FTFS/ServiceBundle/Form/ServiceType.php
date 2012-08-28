@@ -30,6 +30,10 @@ class ServiceType extends AbstractType
                     'read_only' => true,
                 ))
                 ->add('type')
+                ->add('requested_by')
+                ->add('summary')
+                ->add('detail')
+                ->add('asset_name')
                 ->add('status', null, array(
                     'read_only' => true,
                 ))
@@ -76,6 +80,10 @@ class ServiceType extends AbstractType
             $builder
                 ->add('name')
                 ->add('type')
+                ->add('requested_by')
+                ->add('summary')
+                ->add('detail')
+                ->add('asset_name')
                 ->add('severity', 'choice', array(
                     'choices' => array(
                         100 => 'Very High',
@@ -102,6 +110,18 @@ class ServiceType extends AbstractType
                     'read_only' => true,
                 ))
                 ->add('type', 'text', array(
+                    'read_only' => true,
+                ))
+                ->add('requested_by', null, array(
+                    'read_only' => true,
+                ))
+                ->add('summary', null, array(
+                    'read_only' => true,
+                ))
+                ->add('detail', null, array(
+                    'read_only' => true,
+                ))
+                ->add('asset_name', null, array(
                     'read_only' => true,
                 ))
                 ->add('status', null, array(

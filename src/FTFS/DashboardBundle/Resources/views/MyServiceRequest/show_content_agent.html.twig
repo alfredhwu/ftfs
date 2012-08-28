@@ -1,53 +1,58 @@
 {% extends 'FTFSCrudBundle:Crud:show_content.html.twig' %}
 
 {% block crud_actions_icons %}
-    {% if entity.assignedTo==app.user.username and entity.status=='30_awaiting' %}
+    {% if entity.status=='30_awaiting' %}
+        {% if entity.assignedTo==app.user.username %}
         {# new arriving request assigned to me #}
         <a class="btn btn-small" href="{{ path(prefix~'_accept', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.accept.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
-            <i class="icon-share-alt"></i>
+            <i class="icon-share"></i>
         </a>
         <a class="btn btn-small" href="{{ path(prefix~'_reject', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.reject.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-ban-circle"></i>
         </a>
-    {% endif %}
-    {% if entity.assignedTo is null and entity.status == '30_awaiting' %}
-        {# new arriving request, not assigned #}
+        <a class="btn btn-small" href="{{ path(prefix~'_transfer', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.transfer.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+            <i class="icon-hand-right"></i>
+        </a>
+        {% else %}
+        {# new arriving request #}
         <a class="btn btn-small" href="{{ path(prefix~'_take', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.take.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-hand-up"></i>
         </a>
+        {% endif %}
     {% endif %}
 {% endblock %}
 
 {% block crud_actions %}
-    {% if entity.assignedTo==app.user.username and entity.status=='30_awaiting' %}
-    <div class="btn-group dropup">
-        {# new arriving request assigned to me #}
-        <a href="{{ path(prefix~'_accept', { 'id' : entity.id }) }}" class="btn">
-            <i class="icon-share-alt"></i>
-            {{ (prefix~'.form.action.show.accept')|trans({}, 'crud') }}
-        </a>
-        <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-            <li><a href="{{ path(prefix~'_reject', { 'id' : entity.id }) }}">
-                <i class="icon-ban-circle"></i>
-                {{ (prefix~'.form.action.show.reject')|trans({}, 'crud') }}
-            </a></li>
-            <li><a href="{{ path(prefix~'_accept', { 'id' : entity.id }) }}">
-                <i class="icon-share-alt"></i>
+    {% if entity.status=='30_awaiting' %}
+        {% if entity.assignedTo==app.user.username %}
+        <div class="btn-group dropup">
+            {# new arriving request assigned to me #}
+            <a href="{{ path(prefix~'_accept', { 'id' : entity.id }) }}" class="btn">
+                <i class="icon-share"></i>
                 {{ (prefix~'.form.action.show.accept')|trans({}, 'crud') }}
-            </a></li>
-        </ul>
-    </div>
-    {% endif %}
-    {% if entity.assignedTo is null and entity.status == '30_awaiting' %}
-    <div class="btn-group">
-        {# new arriving request, not assigned #}
-        <a href="{{ path(prefix~'_take', { 'id' : entity.id }) }}" class="btn">
-            <i class="icon-hand-up"></i>
-            {{ (prefix~'.form.action.show.take')|trans({}, 'crud') }}
-        </a>
-    </div>
+            </a>
+            <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ path(prefix~'_reject', { 'id' : entity.id }) }}">
+                    <i class="icon-ban-circle"></i>
+                    {{ (prefix~'.form.action.show.reject')|trans({}, 'crud') }}
+                </a></li>
+                <li><a href="{{ path(prefix~'_accept', { 'id' : entity.id }) }}">
+                    <i class="icon-share"></i>
+                    {{ (prefix~'.form.action.show.accept')|trans({}, 'crud') }}
+                </a></li>
+            </ul>
+        </div>
+        {% else %}
+        <div class="btn-group">
+            {# new arriving request #}
+            <a href="{{ path(prefix~'_take', { 'id' : entity.id }) }}" class="btn">
+                <i class="icon-hand-up"></i>
+                {{ (prefix~'.form.action.show.take')|trans({}, 'crud') }}
+            </a>
+        </div>
+        {% endif %}
     {% endif %}
 {% endblock %}

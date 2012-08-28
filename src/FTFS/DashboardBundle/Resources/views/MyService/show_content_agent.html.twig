@@ -1,0 +1,37 @@
+{% extends 'FTFSCrudBundle:Crud:show_content.html.twig' %}
+
+{% if is_granted('ROLE_AGENT') %}
+    {% block crud_actions_icons %}
+    {% if entity.status == '10_opened' %}
+        {% if entity.assignedTo == app.user.username %}
+        <a class="btn btn-small" href="{{ path(prefix~'_transfer', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.transfer.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+            <i class="icon-hand-right"></i>
+        </a>
+        {% else %}
+        <a class="btn btn-small" href="{{ path(prefix~'_take', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.take.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+            <i class="icon-hand-up"></i>
+        </a>
+        {% endif %}
+    {% endif %}
+    {% endblock %}
+
+    {% block crud_actions %}
+    {% if entity.status == '10_opened' %}
+        {% if entity.assignedTo == app.user.username %}
+        <div class=btn-group>
+            <a href="{{ path(prefix~'_transfer', { 'id' : entity.id }) }}" class="btn">
+                <i class="icon-hand-right"></i>
+                {{ (prefix~'.form.action.show.transfer')|trans({}, 'crud') }}
+            </a>
+        </div>
+        {% else %}
+        <div class=btn-group>
+            <a href="{{ path(prefix~'_take', { 'id' : entity.id }) }}" class="btn">
+                <i class="icon-hand-up"></i>
+                {{ (prefix~'.form.action.show.take')|trans({}, 'crud') }}
+            </a>
+        </div>
+        {% endif %}
+    {% endif %}
+    {% endblock %}
+{% endif %}

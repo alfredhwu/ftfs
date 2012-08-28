@@ -1,14 +1,13 @@
 {% extends "FTFSCrudBundle::layout.html.twig" %}
 
 {% block crud %}
-{% if addable is defined and not addable %}
+{% if read_only is defined and read_only %}
 <h2 class="pull-left">{{ (prefix~'.table.caption')|trans({}, 'crud') }}</h2>
 <form class="form-search pull-right">
     <div class="input-append">
         <input type="text" class="search-query input-medium" placeholder="search"><button type="submit" class="btn btn-primary btn-small"><i class="icon-search icon-white"></i></button>
     </div>
 </form>
-<br>
 <br>
 <hr>
 {% else %}
@@ -42,18 +41,20 @@
                 {{ i }}
             </td>
             <td>
-                {% block operations %}
                 <a href="{{ path(prefix~'_show', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.show.tooltip'|trans({}, 'crud') }}">
                     <i class="icon-eye-open"></i>
                 </a>
-                <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.edit.tooltip'|trans({}, 'crud') }}">
-                    <i class="icon-pencil"></i>
-                </a>
-                {% if removable is defined and removable %}
-                <a href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.delete.tooltip'|trans({}, 'crud') }}">
-                    <i class="icon-trash"></i>
-                </a>
-                {% endif %}
+                {% block operations %}
+                    {% if read_only is not defined or not read_only %}
+                    <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.edit.tooltip'|trans({}, 'crud') }}">
+                        <i class="icon-pencil"></i>
+                    </a>
+                        {% if removable is defined and removable %}
+                        <a href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.delete.tooltip'|trans({}, 'crud') }}">
+                            <i class="icon-trash"></i>
+                        </a>
+                        {% endif %}
+                    {% endif %}
                 {% endblock %}
             </td>
             {% block tbody %}

@@ -1,9 +1,6 @@
 {% extends "FTFSDashboardBundle:MyServiceRequest:index_content.html.twig" %}
 
 {% block operations %}
-    <a href="{{ path(prefix~'_show', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.show.tooltip'|trans({}, 'crud') }}">
-        <i class="icon-eye-open"></i>
-    </a>
     {% if entity.status in ['20_unsent', '10_rejected'] %}
         <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.edit.tooltip'|trans({}, 'crud') }}">
             <i class="icon-pencil"></i>
@@ -14,7 +11,7 @@
         </a>
         {% endif %}
         {% if entity.status == '20_unsent' %}
-        <a href="{{ path(prefix~'_send', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.dashboardbundle.myservicerequest.table.action.send.tooltip'|trans({}, 'crud') }}">
+        <a href="{{ path(prefix~'_send', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.table.action.send.tooltip')|trans({}, 'crud') }}">
             <i class="icon-envelope"></i>
         </a>
         {% endif %}

@@ -36,7 +36,36 @@ class MyServiceController extends BaseController
 
         if($context->isGranted('ROLE_CLIENT'))
         {
-            return null;
+            $status = $this->getRequest()->query->get('status');
+            if($status)
+            {
+                return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findBy(
+                    array(
+                        'requested_by' => $this->get('security.context')->getToken()->getUser(),
+                        //'assigned_to' => $this->get('security.context')->getToken()->getUser(),
+                        'status' => $status,
+                    ),
+                    array(
+                        'status' => 'asc',
+                        'priority' => 'asc',
+                        'severity' => 'asc',
+                        'last_modified_at' => 'desc',
+                    )
+                );
+            }
+            // all my requests
+            return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findBy(
+                array(
+                    'requested_by' => $this->get('security.context')->getToken()->getUser(),
+                    //'assigned_to' => $this->get('security.context')->getToken()->getUser(),
+                ),
+                array(
+                    'status' => 'asc',
+                    'priority' => 'asc',
+                    'severity' => 'asc',
+                    'last_modified_at' => 'desc',
+                )
+            );
         }
         if($context->isGranted('ROLE_AGENT')){
             $status = $this->getRequest()->query->get('status');

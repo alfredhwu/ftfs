@@ -7,10 +7,13 @@
 {% endif %}
     <li class="divider"></li>
 
-    <li><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : '10_opened' }) }}"><i class="icon-indent-left"></i> My Services Opened</a></li>
-    <li><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : '20_delivered' }) }}"><i class="icon-indent-left"></i> My Services Delivered</a></li>
-    <li><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : '30_closed' }) }}"><i class="icon-indent-left"></i> My Services Closed</a></li>
+    <li><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : '10_opened' }) }}"><i class="icon-indent-left"></i> My Tickets Opened</a></li>
+    <li><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : '20_delivered' }) }}"><i class="icon-indent-left"></i> My Tickets Delivered</a></li>
+    <li><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : '30_closed' }) }}"><i class="icon-indent-left"></i> My Tickets Closed</a></li>
 {% if is_granted('ROLE_CLIENT') %}
+    <li class="divider">
+    <li><a href="#"><i class="icon-globe"></i> All My Shared Tickets (not yet available) </a></li>
+    
     <li class="nav-header">My Service Requests</li>
     <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index') }}"><i class="icon-tags"></i> All My Service Requests</a></li>
     <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_new') }}"><i class="icon-edit"></i> Rquest a Service </a></li>
@@ -28,8 +31,8 @@
     <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index', { 'filter' : 'newassigned' }) }}"><i class="icon-tag"></i> My New Assigned Requests </a></li>
     <li class="divider">
 
-    <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index', { 'filter' : 'urgent' }) }}"><i class="icon-list-alt"></i> All New Urgent Requests </a></li>
     <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index', { 'filter' : 'new' }) }}"><i class="icon-list-alt"></i> All New Service Requests</a></li>
+    <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index', { 'filter' : 'urgent' }) }}"><i class="icon-list-alt"></i> All New Urgent Requests </a></li>
     <li class="divider">
 
     <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index', { 'filter' : 'all' }) }}"><i class="icon-globe"></i> All Service Requests</a></li>

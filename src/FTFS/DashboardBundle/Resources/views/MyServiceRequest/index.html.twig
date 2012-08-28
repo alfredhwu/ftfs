@@ -1,14 +1,16 @@
 {% extends "FTFSDashboardBundle::layout.html.twig" %}
 
 {% block body_content %}
-{% if is_granted('ROLE_CLIENT') %}
-    {% include 'FTFSDashboardBundle:MyServiceRequest:index_content_client.html.twig' 
-            with { 'removable' : true } %}
-{% elseif is_granted('ROLE_AGENT') %}
-    {% include 'FTFSDashboardBundle:MyServiceRequest:index_content_agent.html.twig' 
-            with { 'removable' : true , 'addable' : false } %}
-{% else %}
-    <h1> error : you have to be either role_agent or role_client in order to see this page !</h1>
-{% endif %}
+    {% if is_granted('ROLE_CLIENT') %}
+        {% include 'FTFSDashboardBundle:MyServiceRequest:index_content_client.html.twig' with { 
+            'removable' : true, 
+        } %}
+    {% elseif is_granted('ROLE_AGENT') %}
+        {% include 'FTFSDashboardBundle:MyServiceRequest:index_content_agent.html.twig' with { 
+            'read_only' : true 
+        } %}
+    {% else %}
+        <h1> error : you have to be either role_agent or role_client in order to see this page !</h1>
+    {% endif %}
 {% endblock %}
 

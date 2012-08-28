@@ -1,5 +1,13 @@
 {% extends "FTFSDashboardBundle::layout.html.twig" %}
 
 {% block body_content %}
-{% include 'FTFSDashboardBundle:MyService:show_content.html.twig' %}
+    {% if is_granted('ROLE_AGENT') %}
+        {% include 'FTFSDashboardBundle:MyService:show_content_agent.html.twig' with {
+            'read_only' : not (entity.assignedTo == app.user.username) or entity.status != '10_opened'
+        } %}
+    {% elseif is_granted('ROLE_CLIENT') %}
+        {% include 'FTFSDashboardBundle:MyService:show_content_client.html.twig' with { 
+            'read_only' : true 
+        } %}
+    {% endif %}
 {% endblock %}

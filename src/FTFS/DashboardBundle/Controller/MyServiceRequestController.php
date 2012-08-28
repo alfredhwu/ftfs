@@ -26,10 +26,10 @@ class MyServiceRequestController extends BaseController
         {
             $entity->setRequestedAt(new \DateTime('now'));
             $entity->setStatus('30_awaiting');
-            $session->setFlash('ftfs.crud.flash.success', 'ftfs.dashboardbundle.myservicerequest.form.action.new.save.send.success.flash');
+            $session->setFlash('ftfs.crud.flash.success', $this->getRoutingPrefix().'.form.action.new.save.send.success.flash');
         }else{
             $entity->setStatus('20_unsent');
-            $session->setFlash('ftfs.crud.flash.success', 'ftfs.dashboardbundle.myservicerequest.form.action.new.save.nosend.success.flash');
+            $session->setFlash('ftfs.crud.flash.success', $this->getRoutingPrefix().'.form.action.new.save.nosend.success.flash');
         }
     }
 
@@ -41,14 +41,14 @@ class MyServiceRequestController extends BaseController
         $update_mode = $request ? $request->get('update_mode') : null;
         if('nosend'==$update_mode)
         {
-            $session->setFlash('ftfs.crud.flash.success', 'ftfs.dashboardbundle.myservicerequest.form.action.edit.update.nosend.success.flash');
+            $session->setFlash('ftfs.crud.flash.success', $this->getRoutingPrefix().'.form.action.edit.update.nosend.success.flash');
         }else{
             if(!$entity->getRequestedAt())
             {
                 $entity->setRequestedAt(new \DateTime('now'));
             }
             $entity->setStatus('30_awaiting');
-            $session->setFlash('ftfs.crud.flash.success', 'ftfs.dashboardbundle.myservicerequest.form.action.edit.update.send.success.flash');
+            $session->setFlash('ftfs.crud.flash.success', $this->getRoutingPrefix().'.form.action.edit.update.send.success.flash');
         }
     }
 
@@ -172,7 +172,7 @@ class MyServiceRequestController extends BaseController
         }
         
         // check no sending a sent request
-        if(is_null($entity->getStatus()) || 'unsent'==$entity->getStatus())
+        if(is_null($entity->getStatus()) || '20_unsent'==$entity->getStatus())
         {
             $this->postUpdateEntity($entity, null);
             $entity->setStatus("30_awaiting"); 
@@ -198,9 +198,9 @@ class MyServiceRequestController extends BaseController
         {
             $entity->setLastModifiedAt(new \DateTime('now'));
             $entity->setAssignedTo($this->get('security.context')->getToken()->getUser());
-            $this->get('session')->setFlash('ftfs.crud.flash.success', 'ftfs.dashboardbundle.myservicerequest.table.action.take.success.flash');
+            $this->get('session')->setFlash('ftfs.crud.flash.success', $this->getRoutingPrefix().'.table.action.take.success.flash');
             $em->flush();
-            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_edit', array( 
+            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array( 
                 'id' => $entity->getId(),
             )));
         }
