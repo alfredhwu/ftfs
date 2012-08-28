@@ -1,9 +1,42 @@
 ###################################################################################### my request
-ftfs.dashboardbundle.myservicerequest:
+ftfs_dashboardbundle_myservicerequest:
     table:
         caption:    "Service Request List"
-        table:      "All my requests"
+        name:       "Service Request No. "
         operations: "Operations"
+        last.modified.at:   "Last Modified at"
+        service.requested:  "Requested Service"
+        requested.by:   "Requested by"
+        requested.at:   "Requested at"
+        requested.via:  "Requested via"
+        assigned.to:    "Assigned to"
+        asset.name:     "Related Asset No. "
+        service.deployed:   "Related Service Ticket No. "
+        summary:    "Summary Description"
+        detail:     "Detail Description"
+        last.modified.at:   "Last Modified at"
+        status:
+            title:             "Status" 
+            10_rejected:       "Rejected"
+            10_rejected.class: "label label-important"
+            20_unsent:         "Unsent"
+            20_unsent.class:   "label label-warning"
+            30_awaiting:       "Awaiting"
+            30_awaiting.class: "label label-info"
+            40_accepted:       "Accepted"
+            40_accepted.class: "label label-success"
+        severity:
+            title:  "Severity"
+            100:    "Very High"
+            100.class:  "label label-important"
+            200:    "High"
+            200.class:  "label label-warning"
+            300:    "Normal"
+            300.class:  "label label-info"
+            400:    "Low"
+            400.class:  "label label-inverse"
+            500:    "Very Low"
+            500.class:  "label"
         action:
             new:    "Request a Service"
             send:   "Quick send"
@@ -11,16 +44,6 @@ ftfs.dashboardbundle.myservicerequest:
             take:   "Take this request"
             take.tooltip:   "Take this request"
             take.success.flash:  "Taken successfully !"
-        status:
-            title:             "Status" 
-            10.rejected:       "Rejected"
-            10.rejected.class: "label label-important"
-            20.unsent:         "Unsent"
-            20.unsent.class:   "label label-warning"
-            30.awaiting:       "Awaiting"
-            30.awaiting.class: "label label-info"
-            40.accepted:       "Accepted"
-            40.accepted.class: "label label-success"
     form:
         legend.show: "Service Request Detail"
         legend.new:  "New Service Request"
@@ -64,22 +87,51 @@ ftfs.dashboardbundle.myservicerequest:
         flash.success.created:
             sent:
             nosent:
+
 ################################################################################### my service            
-ftfs.dashboardbundle.myservice:
+ftfs_dashboardbundle_myservice:
     table:
         caption:    "Service Ticket List"
         action:
-            new:    "Add a new service ticket"
+            new:    "Open a New Service Ticket"
         operations: "Operations"
         name:       "Service Ticket No"
         type:       "Service Type"
-        severity:   "Severity"
-        priority:   "Priority"
+        severity:
+            title:  "Severity"
+            100:    "Very High"
+            100.class:  "label label-important"
+            200:    "High"
+            200.class:  "label label-warning"
+            300:    "Normal"
+            300.class:  "label label-info"
+            400:    "Low"
+            400.class:  "label label-inverse"
+            500:    "Very Low"
+            500.class:  "label"
+        priority:
+            title:  "Priority"
+            100:    "Very High"
+            100.class:  "label label-important"
+            200:    "High"
+            200.class:  "label label-warning"
+            300:    "Normal"
+            300.class:  "label label-info"
+            400:    "Low"
+            400.class:  "label label-inverse"
+            500:    "Very Low"
+            500.class:  "label"
         status:     
-            title:  "Status"
+            title:  "Status" 
+            10:     "Open"
+            10.class:   "label label-success"
+            20:     "Delivered"
+            20.class:   "label label-info"
+            30:     "Closed"
+            30.class:   "label label-inverse"
         request.received.at: "Request Received at"
-        assigned.to: "Assigned to"
-        opened.at:  "Ticket Opened at"
-        resolved.at: "Ticket Resolved at"
-        closed.at:  "Ticket Closed at"
+        assigned.to:    "Assigned to"
+        opened.at:      "Ticket Opened at"
+        resolved.at:    "Ticket Resolved at"
+        closed.at:      "Ticket Closed at"
         last.modified.at:    "Last Modified at"

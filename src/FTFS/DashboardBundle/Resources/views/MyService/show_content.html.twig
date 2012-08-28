@@ -1,0 +1,5 @@
+{% if entity.assignedTo == app.user.username %}
+    {% include 'FTFSCrudBundle:Crud:show_content.html.twig' %}
+{% else %}
+    {% include 'FTFSCrudBundle:Crud:show_content.html.twig' with { 'read_only' : true } %}
+{% endif %}

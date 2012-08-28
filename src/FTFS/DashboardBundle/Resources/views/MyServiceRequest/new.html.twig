@@ -4,14 +4,3 @@
 {% include 'FTFSDashboardBundle:MyServiceRequest:new_content.html.twig'%}
 {% endblock %}
 
-{% block javascript %}
-    {{ parent() }}
-    <script>
-        function submitform(initmode)
-        {
-            form = document.forms["{{ prefix~'_form' }}"];
-            form.init_mode.value = initmode;
-            form.submit();
-        }
-    </script>
-{% endblock %}

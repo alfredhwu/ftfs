@@ -50,6 +50,13 @@ class ServiceRequest
     private $assigned_to;
 
     /**
+     * @var smallint $severity
+     *
+     * @ORM\Column(name="severity", type="smallint")
+     */
+    private $severity;
+
+    /**
      * @var string $status
      *
      * @ORM\Column(name="status", type="string", length=255)
@@ -350,5 +357,25 @@ class ServiceRequest
     public function getServiceRequested()
     {
         return $this->service_requested;
+    }
+
+    /**
+     * Set severity
+     *
+     * @param smallint $severity
+     */
+    public function setSeverity($severity)
+    {
+        $this->severity = $severity;
+    }
+
+    /**
+     * Get severity
+     *
+     * @return smallint 
+     */
+    public function getSeverity()
+    {
+        return $this->severity;
     }
 }

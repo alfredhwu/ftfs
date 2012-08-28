@@ -14,39 +14,56 @@ class MyServiceController extends BaseController
         ));
     }
 
+    /**
+     * post init entity while construction
+     */
+    protected function postInitEntity($entity, $request){
+        // ?? ticket without request ??
+        $entity->setStatus('10_opened');
+        $entity->setAssignedTo($this->get('security.context')->getToken()->getUser());
+        $entity->setLastModifiedAt(new \DateTime('now'));
+        $entity->setRequestReceivedAt(new \DateTime('now'));
+        $entity->setOpenedAt(new \DateTime('now'));
+        $this->get('session')->setFlash('ftfs.crud.flash.success', 'ftfs.crud.flash.created.sucess'); 
+    }
+
+    /**
+     * get entity list for index Action
+     */
     protected function getEntityList()
     {
         $context = $this->get('security.context');
-        if($context->isGranted('ROLE_AGENT'))
+
+        if($context->isGranted('ROLE_CLIENT'))
         {
-            $filter = $this->getRequest()->query->get('filter');
-            switch($filter)
-            {
-                case 'new':
-                    // all new arriving requests not yet assigned
-                    return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findBy(
-                        array(
-                            'status' => '30_awaiting',
-                            'assigned_to' => null,
-                        ),
-                        array(
-                            'status' => 'asc',
-                            'last_modified_at' => 'desc',
-                        )
-                    );
-                    break;
-            }
-        }elseif($context->isGranted('ROLE_CLIENT')){
+            return null;
+        }
+        if($context->isGranted('ROLE_AGENT')){
             $status = $this->getRequest()->query->get('status');
+            if('all'==$status)
+            {
+                return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findBy(
+                    array(),
+                    array(
+                        'status' => 'asc',
+                        'priority' => 'asc',
+                        'severity' => 'asc',
+                        'last_modified_at' => 'desc',
+                    )
+                );
+            }
             if($status)
             {
                 return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findBy(
                     array(
                        // 'requested_by' => $this->get('security.context')->getToken()->getUser(),
+                        'assigned_to' => $this->get('security.context')->getToken()->getUser(),
                         'status' => $status,
                     ),
                     array(
                         'status' => 'asc',
+                        'priority' => 'asc',
+                        'severity' => 'asc',
                         'last_modified_at' => 'desc',
                     )
                 );
@@ -55,13 +72,17 @@ class MyServiceController extends BaseController
             return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findBy(
                 array(
                    // 'requested_by' => $this->get('security.context')->getToken()->getUser(),
+                    'assigned_to' => $this->get('security.context')->getToken()->getUser(),
                 ),
                 array(
                     'status' => 'asc',
+                    'priority' => 'asc',
+                    'severity' => 'asc',
                     'last_modified_at' => 'desc',
                 )
             );
         }        
-        throw new \Exception('You don\'t have the right to see this page !');
+        // return null if not authorized
+        return null;
     }
 }

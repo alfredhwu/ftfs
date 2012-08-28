@@ -1,23 +1,25 @@
 {% extends "FTFSCrudBundle:Crud:index_content.html.twig" %}
 
 {% block thead %}
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.name' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.status.title' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.last.modified.at' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.service.requested' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.requested.by' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.requested.at' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.requested.via' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.assigned.to' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.asset.name' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.service.deployed' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.summary' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.detail' | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.name') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.status.title') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.severity.title') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.last.modified.at') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.service.requested') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.requested.by') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.requested.at') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.requested.via') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.assigned.to') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.asset.name') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.service.deployed') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.summary') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.detail') | trans({}, 'crud') }}</th>
 {% endblock %}
 
 {% block tbody %}
     <td>{{ entity.name }}</td>
-    <td><span class="{{ (prefix~'_table_status_'~entity.status~'_class')|replace('_', '.')|trans({}, 'crud') }}">{{ (prefix~'_table_status_'~entity.status)|replace('_', '.')|trans({}, 'crud') }}</span></td>
+    <td><span class="{{ (prefix~'.table.status.'~entity.status~'.class')|trans({}, 'crud') }}">{{ (prefix~'.table.status.'~entity.status)|trans({}, 'crud') }}</span></td>
+    <td><span class="{{ (prefix~'.table.severity.'~entity.severity~'.class')|trans({}, 'crud') }}">{{ (prefix~'.table.severity.'~entity.severity)|trans({}, 'crud') }}</span></td>
     <td>{% if entity.lastModifiedAt is not null %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     <td>{{ entity.serviceRequested }}</td>
     <td>{{ entity.requestedBy }}</td>

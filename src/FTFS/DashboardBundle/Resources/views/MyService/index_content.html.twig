@@ -1,26 +1,37 @@
 {% extends "FTFSCrudBundle:Crud:index_content.html.twig" %}
 
 {% block thead %}
-    <th>{{ 'ftfs.dashboardbundle.myservice.table.name' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.dashboardbundle.myservice.table.status.title' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.dashboardbundle.myservice.table.last.modified.at' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.dashboardbundle.myservice.table.type' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.dashboardbundle.myservice.table.severity' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.dashboardbundle.myservice.table.priority' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.dashboardbundle.myservice.table.assigned.to' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.dashboardbundle.myservice.table.request.received.at' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.dashboardbundle.myservice.table.opened.at' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.dashboardbundle.myservice.table.resolved.at' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.dashboardbundle.myservice.table.closed.at' | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.name') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.status.title') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.severity.title') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.priority.title') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.last.modified.at') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.type') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.assigned.to') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.request.received.at') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.opened.at') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.resolved.at') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.closed.at') | trans({}, 'crud') }}</th>
+{% endblock %}
+
+{% block operations %}
+    <a href="{{ path(prefix~'_show', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.show.tooltip'|trans({}, 'crud') }}">
+        <i class="icon-eye-open"></i>
+    </a>
+    {% if entity.assignedTo == app.user.username %}
+    <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.edit.tooltip'|trans({}, 'crud') }}">
+        <i class="icon-pencil"></i>
+    </a>
+    {% endif %}
 {% endblock %}
 
 {% block tbody %}
     <td>{{ entity.name }}</td>
-    <td>{{ entity.status }}</td>
+    <td><span class="{{ (prefix~'.table.status.'~entity.status~'.class')|trans({}, 'crud') }}">{{ (prefix~'.table.status.'~entity.status)|trans({}, 'crud') }}</span></td>
+    <td><span class="{{ (prefix~'.table.severity.'~entity.severity~'.class')|trans({}, 'crud') }}">{{ (prefix~'.table.severity.'~entity.severity)|trans({}, 'crud') }}</td>
+    <td><span class="{{ (prefix~'.table.priority.'~entity.priority~'.class')|trans({}, 'crud') }}">{{ (prefix~'.table.priority.'~entity.priority)|trans({}, 'crud') }}</td>
     <td>{% if entity.lastModifiedAt is not empty %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     <td>{{ entity.type }}</td>
-    <td>{{ entity.severity }}</td>
-    <td>{{ entity.priority }}</td>
     <td>{{ entity.assignedTo }}</td>
     <td>{% if entity.lastModifiedAt is not empty %}{{ entity.requestReceivedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     <td>{% if entity.lastModifiedAt is not empty %}{{ entity.openedAt | date('Y-m-d H:i:s') }}{% endif %}</td>

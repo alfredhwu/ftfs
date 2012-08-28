@@ -1,14 +1,11 @@
 {% extends 'FTFSCrudBundle:Crud:new_content.html.twig' %}
 
 {% block crud_actions_icons %}
-    <a href="javascript: submitform('nosend')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'_form_action_new_save_nosend_tooltip')|replace('_', '.')|trans({}, 'crud') }}" data-placement="bottom">
+    <a href="javascript: submitform('nosend')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'.form.action.new.save.nosend.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
         <i class="icon-ok"></i>
     </a>
-    <a href="javascript: submitform('send')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'_form_action_new_save_send_tooltip')|replace('_', '.')|trans({}, 'crud') }}" data-placement="bottom">
+    <a href="javascript: submitform('send')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'.form.action.new.save.send.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
         <i class="icon-envelope"></i>
-    </a>
-    <a class="btn btn-small" href="{{ path(prefix~'_index') }}" rel="tooltip" title="{{ 'ftfs.crud.form.action.new.cancel.tooltip'|trans({}, 'crud') }}" data-placement="left">
-        <i class="icon-list"></i>
     </a>
 {% endblock %}
 
@@ -18,23 +15,36 @@
 {% endblock %}
 
 {% block crud_actions %}
-    <div class="btn-toolbar">
-        <div class="btn-group dropup">
-            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-                Submit
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="javascript: submitform('nosend')">{{ (prefix~'_form_action_new_save_nosend')|replace('_', '.')|trans({}, 'crud') }}</a>
-                </li>
-                <li>
-                    <a href="javascript: submitform('send')">{{ (prefix~'_form_action_new_save_send')|replace('_', '.')|trans({}, 'crud') }}</a>
-                </li>
-            </ul>
-        </div>
-        <div class="btn-group">
-            <a href="{{ path(prefix~'_index') }}" class="btn">{{ 'ftfs.crud.form.action.new.cancel'|trans({}, 'crud') }}</a>
-        </div>
+    <div class="btn-group dropup">
+        <a class="btn btn-primary" href="javascript: submitform('nosend')">
+            <i class="icon-ok icon-white"></i>
+            {{ (prefix~'.form.action.new.save.nosend')|trans({}, 'crud') }}
+        </a>
+        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="javascript: submitform('send')">
+                    <i class="icon-envelope"></i>
+                    {{ (prefix~'.form.action.new.save.send')|trans({}, 'crud') }}
+                </a>
+            </li>
+            <li>
+                <a href="javascript: submitform('nosend')">
+                    <i class="icon-ok"></i>
+                    {{ (prefix~'.form.action.new.save.nosend')|trans({}, 'crud') }}
+                </a>
+            </li>
+        </ul>
     </div>
+
+    <script>
+        function submitform(initmode)
+        {
+            form = document.forms["{{ prefix~'_form' }}"];
+            form.init_mode.value = initmode;
+            form.submit();
+        }
+    </script>
 {% endblock %}

@@ -22,49 +22,37 @@ class ServiceType extends AbstractType
         }else{
             $view = 'default';
         } 
-        if( 'edit' === $view || 'new' === $view )
+        switch($view)
         {
-            $builder
-                ->add('name')
-                ->add('type')
-                ->add('severity', 'choice', array(
-                    'choices' => array(
-                        '1/5' => '1/5',
-                        '2/5' => '2/5',
-                        '3/5 normal' => '3/5 normal',
-                        '4/5' => '4/5',
-                        '5/5' => '5/5',
-                    ),
-                ))
-                ->add('priority', 'choice', array(
-                    'choices' => array(
-                        '1/5' => '1/5',
-                        '2/5' => '2/5',
-                        '3/5 normal' => '3/5 normal',
-                        '4/5' => '4/5',
-                        '5/5' => '5/5',
-                    ),
-                ))
-            ;
-        }else{
+        case 'edit':
             $builder
                 ->add('name', null, array(
                     'read_only' => true,
                 ))
-                ->add('type', 'text', array(
-                    'read_only' => true,
-                ))
-                ->add('severity', null, array(
-                    'read_only' => true,
-                ))
-                ->add('priority', null, array(
-                    'read_only' => true,
-                ))
+                ->add('type')
                 ->add('status', null, array(
+                    'read_only' => true,
+                ))
+                ->add('last_modified_at', null, array(
+                    'widget' => 'single_text',
                     'read_only' => true,
                 ))
                 ->add('assigned_to', null, array(
                     'read_only' => true,
+                ))
+                ->add('severity', 'choice', array(
+                    'choices' => array(
+                        100 => 'very urgent',
+                        200 => 'urgent',
+                        300 => 'normal',
+                    ),
+                ))
+                ->add('priority', 'choice', array(
+                    'choices' => array(
+                        200 => 'superior',
+                        300 => 'normal',
+                        400 => 'inferior',
+                    ),
                 ))
                 ->add('request_received_at', null, array(
                     'widget' => 'single_text',
@@ -82,7 +70,69 @@ class ServiceType extends AbstractType
                     'widget' => 'single_text',
                     'read_only' => true,
                 ))
+            ;
+            break;
+        case 'new':
+            $builder
+                ->add('name')
+                ->add('type')
+                ->add('severity', 'choice', array(
+                    'choices' => array(
+                        100 => 'Very High',
+                        200 => 'High',
+                        300 => 'Normal',
+                        400 => 'Low',
+                        500 => 'Very Low',
+                    ),
+                ))
+                ->add('priority', 'choice', array(
+                    'choices' => array(
+                        100 => 'Very High',
+                        200 => 'High',
+                        300 => 'Normal',
+                        400 => 'Low',
+                        500 => 'Very Low',
+                    ),
+                ))
+            ;
+            break;
+        default:
+            $builder
+                ->add('name', null, array(
+                    'read_only' => true,
+                ))
+                ->add('type', 'text', array(
+                    'read_only' => true,
+                ))
+                ->add('status', null, array(
+                    'read_only' => true,
+                ))
                 ->add('last_modified_at', null, array(
+                    'widget' => 'single_text',
+                    'read_only' => true,
+                ))
+                ->add('assigned_to', null, array(
+                    'read_only' => true,
+                ))
+                ->add('severity', null, array(
+                    'read_only' => true,
+                ))
+                ->add('priority', null, array(
+                    'read_only' => true,
+                ))
+                ->add('request_received_at', null, array(
+                    'widget' => 'single_text',
+                    'read_only' => true,
+                ))
+                ->add('opened_at', null, array(
+                    'widget' => 'single_text',
+                    'read_only' => true,
+                ))
+                ->add('resolved_at', null, array(
+                    'widget' => 'single_text',
+                    'read_only' => true,
+                ))
+                ->add('closed_at', null, array(
                     'widget' => 'single_text',
                     'read_only' => true,
                 ))

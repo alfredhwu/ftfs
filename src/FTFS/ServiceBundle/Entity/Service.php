@@ -34,16 +34,16 @@ class Service
     private $type;
 
     /**
-     * @var string $severity
+     * @var smallint $severity
      *
-     * @ORM\Column(name="severity", type="string", length=255)
+     * @ORM\Column(name="severity", type="smallint")
      */
     private $severity;
 
     /**
-     * @var string $priority
+     * @var smallint $priority
      *
-     * @ORM\Column(name="priority", type="string", length=255)
+     * @ORM\Column(name="priority", type="smallint")
      */
     private $priority;
 
@@ -139,7 +139,7 @@ class Service
     /**
      * Set severity
      *
-     * @param string $severity
+     * @param smallint $severity
      */
     public function setSeverity($severity)
     {
@@ -149,7 +149,7 @@ class Service
     /**
      * Get severity
      *
-     * @return string 
+     * @return smallint 
      */
     public function getSeverity()
     {
@@ -159,7 +159,7 @@ class Service
     /**
      * Set priority
      *
-     * @param string $priority
+     * @param smallint $priority
      */
     public function setPriority($priority)
     {
@@ -169,7 +169,7 @@ class Service
     /**
      * Get priority
      *
-     * @return string 
+     * @return smallint 
      */
     public function getPriority()
     {

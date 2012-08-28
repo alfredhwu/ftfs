@@ -27,6 +27,15 @@ class ServiceRequestType extends AbstractType
         {
             $builder
                 ->add('name')
+                ->add('severity', 'choice', array(
+                    'choices' => array(
+                        100 => 'Very High',
+                        200 => 'High',
+                        300 => 'Normal',
+                        400 => 'Low',
+                        500 => 'Very Low',
+                    ),
+                ))
                 ->add('service_requested', null, array(
                     'empty_value' => 'Other service',
                     'required' => false,
@@ -70,6 +79,16 @@ class ServiceRequestType extends AbstractType
         }elseif( 'new' === $view ){
             $builder
                 ->add('name')
+                ->add('severity', 'choice', array(
+                    'choices' => array(
+                        100 => 'Very High',
+                        200 => 'High',
+                        300 => 'Normal',
+                        400 => 'Low',
+                        500 => 'Very Low',
+                    ),
+                    'preferred_choices' => array(300),
+                ))
                 //->add('requested_by')
                 ->add('service_requested', null, array(
                     'empty_value' => 'Other service',
@@ -100,6 +119,9 @@ class ServiceRequestType extends AbstractType
         }else{
             $builder
                 ->add('name', null, array(
+                    'read_only' => true,
+                ))
+                ->add('severity', null, array(
                     'read_only' => true,
                 ))
                 ->add('service_requested', 'text', array(

@@ -41,6 +41,7 @@ ftfs.servicebundle:
                 edit:   "Edit Service Request"
                 show:   "Service Request Details"
             name:       "Service Request No. :"
+            severity:   "Severity:"
             service.requested: "Requested Serviece:"
             status:     "Request Status:"
             last.modified.at: "Last modified at:"

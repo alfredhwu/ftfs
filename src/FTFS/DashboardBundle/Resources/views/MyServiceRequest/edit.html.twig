@@ -3,10 +3,8 @@
 {% block body_content %}
 {% if is_granted('ROLE_CLIENT') %}
     {% include 'FTFSDashboardBundle:MyServiceRequest:edit_content_client.html.twig'%}
-{% elseif is_granted('ROLE_AGENT') %}
-    {% include 'FTFSDashboardBundle:MyServiceRequest:edit_content_agent.html.twig'%}
 {% else %}
-    <h1> error : you have to be either role_agent or role_client in order to see this page !</h1>
+    <h1> error : you have to have role_client in order to see this page !</h1>
 {% endif %}
 {% endblock %}
 

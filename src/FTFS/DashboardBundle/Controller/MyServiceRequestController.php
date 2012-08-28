@@ -75,23 +75,21 @@ class MyServiceRequestController extends BaseController
                         ),
                         array(
                             'status' => 'asc',
+                            'severity' => 'asc',
                             'last_modified_at' => 'desc',
                         )
                     );
                     break;
                 case 'urgent':
                     // new arriving urgent requests
-                    throw new \Exception('not available yet, be patient :-)');
-                    return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findBy(
-                        array(
-                            'status' => '30_awaiting',
-                            'assigned_to' => null,
-                        ),
-                        array(
-                            'status' => 'asc',
-                            'requested_at' => 'desc',
-                        )
-                    );
+                    $er = $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath());
+                    return $er->createQueryBuilder('e')
+                                ->where('e.severity < 300')
+                                ->andWhere("e.status = '30_awaiting'")
+                                ->andWhere("e.assigned_to is NULL")
+                                ->orderBy('e.severity', 'asc')
+                                ->orderBy('e.requested_at', 'desc')
+                                ->getQuery()->getResult();
                     break;
                 case 'newassigned':
                     // all new requests assigned to me
@@ -102,9 +100,11 @@ class MyServiceRequestController extends BaseController
                         ),
                         array(
                             'status' => 'asc',
+                            'severity' => 'asc',
                             'requested_at' => 'desc',
                         )
                     );
+                    break;
                 case 'all':
                     // all requests not yet assigned
                     return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findBy(
@@ -112,6 +112,7 @@ class MyServiceRequestController extends BaseController
                         ),
                         array(
                             'status' => 'asc',
+                            'severity' => 'asc',
                             'last_modified_at' => 'desc',
                         )
                     );
@@ -124,10 +125,10 @@ class MyServiceRequestController extends BaseController
                         ),
                         array(
                             'status' => 'asc',
+                            'severity' => 'asc',
                             'requested_at' => 'desc',
                         )
                     );
-                    break;
             }
         }elseif($context->isGranted('ROLE_CLIENT')){
             $status = $this->getRequest()->query->get('status');
@@ -140,6 +141,7 @@ class MyServiceRequestController extends BaseController
                     ),
                     array(
                         'status' => 'asc',
+                        'severity' => 'asc',
                         'last_modified_at' => 'desc',
                     )
                 );
@@ -151,6 +153,7 @@ class MyServiceRequestController extends BaseController
                 ),
                 array(
                     'status' => 'asc',
+                    'severity' => 'asc',
                     'last_modified_at' => 'desc',
                 )
             );

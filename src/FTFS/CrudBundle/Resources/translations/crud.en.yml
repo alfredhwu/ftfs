@@ -11,13 +11,13 @@ ftfs.crud:
                 save:   "Save"
                 save.tooltip:   "Save"
                 cancel: "Cancel"
-                cancel.tooltip: "Back to List"
+                cancel.tooltip: "Back to list"
             show:
                 modify:   "Modify"
                 modify.tooltip:   "Modify"
                 delete.tooltip:   "delete"
                 list: "Back to List"
-                list.tooltip: "Back to List"
+                list.tooltip: "Back to list"
             edit:
                 update: "Update"
                 update.tooltip: "Update"
