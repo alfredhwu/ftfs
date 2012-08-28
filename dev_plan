@@ -1,0 +1,43 @@
+## dev plan
+
+===================iss1@nav console==============================
+navigateur based console ...
+
+
+===================iss2@fos group================================
+fos group realization, depreciated
+
+===================iss3@service  ================================
+service 
+
+===================iss4@perso errs===============================
+
+===================iss5@dashboard================================
+access control: routing, controller, view: client...
+oper take, transfer, create, abandon => role_agent
+show page personnalization
+
+===================iss6@others=======================
+asset, product
+ticket, rma, configuration
+timezone, language support
+
+
+2012-08-09:
+2012-08-08:
+2012-08-07:
+2012-08-06:
+2012-08-05:
+2012-08-04:
+2012-08-03:
+================================    week 1
+2012-08-02:
+2012-09-01:
+
+2012-08-31: iss5@
+2012-08-30: iss5@
+2012-08-29: iss5@
+
+2012-08-28: iss5@
+2012-08-27: iss5@
+
