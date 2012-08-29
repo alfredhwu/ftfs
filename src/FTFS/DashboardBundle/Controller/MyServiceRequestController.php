@@ -171,9 +171,17 @@ class MyServiceRequestController extends BaseController
                 break;
 
             // restricted to its owner: requested_by
-            case 'send':
             case 'edit':
             case 'delete':
+                if($entity->getStatus()!= '10_rejected')
+                {
+                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" cannot apply on a request rejected !');
+                }
+            case 'send':
+                if($entity->getStatus()!= '20_unsent')
+                {
+                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" cannot apply on a request already send !');
+                }
                 if($entity->getRequestedBy()!=$current_user)
                 {
                     throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" is reserved to its owner !');
