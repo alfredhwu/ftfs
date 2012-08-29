@@ -1,5 +1,13 @@
 {% extends "FTFSDashboardBundle::layout.html.twig" %}
 
 {% block body_content %}
-{% include 'FTFSCrudBundle:Crud:edit_content.html.twig'%}
+    {% if is_granted('ROLE_AGENT') %}
+        {% if '10_opened' == entity.status %}
+            {% include 'FTFSDashboardBundle:MyService:edit_content_agent.html.twig'%}
+        {% else %}
+            <h1> error : you can only edit a request with status opened !</h1>
+        {% endif %}
+    {% else %}
+        <h1> error : you have to have role_agent in order to see this page !</h1>
+    {% endif %}
 {% endblock %}

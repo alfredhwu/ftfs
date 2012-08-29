@@ -1,10 +1,10 @@
-################################################################ SERVICE #######################
-ftfs_servicebundle_service:
+ftfs.servicebundle.servicetype:
     form:
-        legend: 
-            new:    "New Service Ticket"
-            edit:   "Edit Service Ticket"
-            show:   "Service Ticket Details"
+        name:       "Service Type Name:"
+        active:     "Is This Service Type Enabled?"
+        description: "Service Description:"
+ftfs.servicebundle.service:
+    form:
         name:       "Service Ticket No:"
         type:       "Service Type:"
         severity:   "Severity:"
@@ -20,13 +20,7 @@ ftfs_servicebundle_service:
         resolved.at: "Ticket Resolved at:"
         closed.at:  "Ticket Closed at:"
         last.modified.at:    "Last Modified at:"
-ftfs_servicebundle_service:
     table:
-        caption:    "Service Ticket List"
-        action:
-            new:    "Add a new service ticket"
-            assign.tooltip: "Assgin"
-        operations: "Operations"
         name:       "Service Ticket No"
         type:       "Service Type"
         severity:
@@ -71,13 +65,8 @@ ftfs_servicebundle_service:
         resolved.at: "Ticket Resolved at"
         closed.at:  "Ticket Closed at"
         last.modified.at:    "Last Modified at"
-################################################################ SERVICE REQUEST #####################
-ftfs_servicebundle_servicerequest:
+ftfs.servicebundle.servicerequest:
     form:
-        legend: 
-            new:    "New Service Request"
-            edit:   "Edit Service Request"
-            show:   "Service Request Details"
         name:       "Service Request No. :"
         severity:   "Severity:"
         service.requested: "Requested Serviece:"
@@ -92,23 +81,30 @@ ftfs_servicebundle_servicerequest:
         summary:    "Short description of the problem:"
         detail:     "Detail description of the problem:"
     table:
-        caption:    "Service Request List"
-        action:
-            new:    "Add a new service request"
-            assign.tooltip: "Assgin"
-        operations: "Operations"
         name:       "Service Request No"
-        service.requested:  "Service Type Requested"
         status:
-            title:             "Status"
-            10.rejected:       "Rejected"
-            10.rejected.class: "label label-important"
-            20.unsent:         "Unsent"
-            20.unsent.class:   "label label-warning"
-            30.awaiting:       "Awaiting"
-            30.awaiting.class: "label label-info"
-            40.accepted:       "Accepted"
-            40.accepted.class: "label label-success"
+            title:             "Status" 
+            10_rejected:       "Rejected"
+            10_rejected.class: "label label-important"
+            20_unsent:         "Unsent"
+            20_unsent.class:   "label label-warning"
+            30_awaiting:       "Awaiting"
+            30_awaiting.class: "label label-info"
+            40_accepted:       "Accepted"
+            40_accepted.class: "label label-success"
+        severity:
+            title:  "Severity"
+            100:    "Very High"
+            100.class:  "label label-important"
+            200:    "High"
+            200.class:  "label label-warning"
+            300:    "Normal"
+            300.class:  "label label-info"
+            400:    "Low"
+            400.class:  "label label-inverse"
+            500:    "Very Low"
+            500.class:  "label"
+        service.requested:  "Service Type Requested"
         last.modified.at:   "Last Modified at"
         requested.by: "Requested by"
         requested.at: "Requested at"
@@ -118,6 +114,33 @@ ftfs_servicebundle_servicerequest:
         detail:    "Details"
         asset.name:   "Related Asset No."
         service.deployed:   "Related Service No."
+#
+################################################################ SERVICE #######################
+ftfs_servicebundle_service:
+    form:
+        legend: 
+            new:    "New Service Ticket"
+            edit:   "Edit Service Ticket"
+            show:   "Service Ticket Details"
+    table:
+        caption:    "Service Ticket List"
+        operations: "Operations"
+        action:
+            new:    "Add a new service ticket"
+            assign.tooltip: "Assgin"
+################################################################ SERVICE REQUEST #####################
+ftfs_servicebundle_servicerequest:
+    form:
+        legend: 
+            new:    "New Service Request"
+            edit:   "Edit Service Request"
+            show:   "Service Request Details"
+    table:
+        caption:    "Service Request List"
+        operations: "Operations"
+        action:
+            new:    "Add a new service request"
+            assign.tooltip: "Assgin"
 ################################################################ SERVICE TYPE #####################
 ftfs_servicebundle_servicetype:
         form:
@@ -125,9 +148,6 @@ ftfs_servicebundle_servicetype:
                 new:    "New Service Type"
                 edit:   "Edit Service Type"
                 show:   "Service Type Details"
-            name:       "Service Type Name:"
-            active:     "Is This Service Type Enabled?"
-            description: "Service Description:"
         table:
             caption:    "Service Type List"
             action:

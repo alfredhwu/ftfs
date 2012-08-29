@@ -1,30 +1,53 @@
 {% extends 'FTFSCrudBundle:Crud:show_content.html.twig' %}
 
-{% if is_granted('ROLE_AGENT') %}
-    {% block crud_actions_icons %}
+{% block crud_actions_icons %}
     {% if entity.status == '10_opened' %}
         {% if entity.assignedTo == app.user.username %}
+        <a class="btn btn-small" href="{{ path(prefix~'_deliver', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.deliver.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+            <i class="icon-shopping-cart"></i>
+        </a>
         <a class="btn btn-small" href="{{ path(prefix~'_transfer', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.transfer.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-hand-right"></i>
         </a>
-        {% else %}
+        <a class="btn btn-small" href="{{ path(prefix~'_cancel', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.cancel.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+            <i class="icon-remove-circle"></i>
+        </a>
+        {% elseif entity.assignedTo is null %}
         <a class="btn btn-small" href="{{ path(prefix~'_take', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.take.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-hand-up"></i>
         </a>
         {% endif %}
     {% endif %}
-    {% endblock %}
+{% endblock %}
 
-    {% block crud_actions %}
+{% block crud_actions %}
     {% if entity.status == '10_opened' %}
         {% if entity.assignedTo == app.user.username %}
-        <div class=btn-group>
-            <a href="{{ path(prefix~'_transfer', { 'id' : entity.id }) }}" class="btn">
-                <i class="icon-hand-right"></i>
-                {{ (prefix~'.form.action.show.transfer')|trans({}, 'crud') }}
+        <div class="btn-group dropup">
+            <a href="{{ path(prefix~'_deliver', { 'id' : entity.id }) }}" class="btn">
+                <i class="icon-shopping-cart"></i>
+                {{ (prefix~'.form.action.show.deliver')|trans({}, 'crud') }}
             </a>
+            <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ path(prefix~'_cancel', { 'id' : entity.id }) }}">
+                    <i class="icon-remove-circle"></i>
+                    {{ (prefix~'.form.action.show.cancel')|trans({}, 'crud') }}
+                </a></li>
+                <li>
+                <a href="{{ path(prefix~'_transfer', { 'id' : entity.id }) }}">
+                    <i class="icon-hand-right"></i>
+                    {{ (prefix~'.form.action.show.transfer')|trans({}, 'crud') }}
+                </a></li>
+                <li><a href="{{ path(prefix~'_deliver', { 'id' : entity.id }) }}">
+                    <i class="icon-shopping-cart"></i>
+                    {{ (prefix~'.form.action.show.deliver')|trans({}, 'crud') }}
+                </a></li>
+            </ul>
         </div>
-        {% else %}
+        {% elseif entity.assignedTo is null %}
         <div class=btn-group>
             <a href="{{ path(prefix~'_take', { 'id' : entity.id }) }}" class="btn">
                 <i class="icon-hand-up"></i>
@@ -33,5 +56,4 @@
         </div>
         {% endif %}
     {% endif %}
-    {% endblock %}
-{% endif %}
+{% endblock %}

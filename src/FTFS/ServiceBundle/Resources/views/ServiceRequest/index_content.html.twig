@@ -1,38 +1,8 @@
-{% extends "FTFSCrudBundle:Crud:index_content.html.twig" %}
+{% extends "FTFSServiceBundle:ServiceRequest:index_content_table.html.twig" %}
 
 {% block operations %}
     {{ parent() }}
     <a href="{{ path(prefix~'_assign', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'_table_action_assign_tooltip')|replace('_', '.')|trans({}, 'crud') }}">
         <i class="icon-share"></i>
     </a>
-{% endblock %}
-
-{% block thead %}
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.name' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.status.title' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.last.modified.at' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.service.requested' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.requested.by' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.requested.at' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.requested.via' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.assigned.to' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.asset.name' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.service.deployed' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.summary' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.servicerequest.table.detail' | trans({}, 'crud') }}</th>
-{% endblock %}
-
-{% block tbody %}
-    <td>{{ entity.name }}</td>
-    <td><span class="{{ (prefix~'_table_status_'~entity.status~'_class')|replace('_', '.')|trans({}, 'crud') }}">{{ (prefix~'_table_status_'~entity.status)|replace('_', '.')|trans({}, 'crud') }}</span></td>
-    <td>{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}</td>
-    <td>{{ entity.serviceRequested }}</td>
-    <td>{{ entity.requestedBy }}</td>
-    <td>{{ entity.requestedAt | date('Y-m-d H:i:s') }}</td>
-    <td>{{ entity.requestedVia }}</td>
-    <td>{{ entity.assignedTo }}</td>
-    <td>{{ entity.assetName }}</td>
-    <td>{{ entity.serviceDeployed }}</td>
-    <td>{{ entity.summary }}</td>
-    <td>{{ entity.detail }}</td>
 {% endblock %}

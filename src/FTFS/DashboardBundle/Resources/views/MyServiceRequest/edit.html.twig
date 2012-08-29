@@ -1,10 +1,14 @@
 {% extends "FTFSDashboardBundle::layout.html.twig" %}
 
 {% block body_content %}
-{% if is_granted('ROLE_CLIENT') %}
-    {% include 'FTFSDashboardBundle:MyServiceRequest:edit_content_client.html.twig'%}
-{% else %}
-    <h1> error : you have to have role_client in order to see this page !</h1>
-{% endif %}
+    {% if is_granted('ROLE_CLIENT') %}
+        {% if entity.status in ['10_rejected', '20_unsent'] %}
+            {% include 'FTFSDashboardBundle:MyServiceRequest:edit_content_client.html.twig'%}
+        {% else %}
+            <h1> error : you can only edit a request with status rejected or unsent !</h1>
+        {% endif %}
+    {% else %}
+        <h1> error : you have to have role_client in order to see this page !</h1>
+    {% endif %}
 {% endblock %}
 

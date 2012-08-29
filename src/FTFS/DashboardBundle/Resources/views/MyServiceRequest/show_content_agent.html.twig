@@ -13,7 +13,7 @@
         <a class="btn btn-small" href="{{ path(prefix~'_transfer', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.transfer.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-hand-right"></i>
         </a>
-        {% else %}
+        {% elseif entity.assignedTo is null%}
         {# new arriving request #}
         <a class="btn btn-small" href="{{ path(prefix~'_take', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.take.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-hand-up"></i>
@@ -45,7 +45,7 @@
                 </a></li>
             </ul>
         </div>
-        {% else %}
+        {% elseif entity.assignedTo is null%}
         <div class="btn-group">
             {# new arriving request #}
             <a href="{{ path(prefix~'_take', { 'id' : entity.id }) }}" class="btn">

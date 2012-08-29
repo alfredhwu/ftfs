@@ -1,5 +1,9 @@
 {% extends "FTFSDashboardBundle::layout.html.twig" %}
 
 {% block body_content %}
-{% include 'FTFSCrudBundle:Crud:new_content.html.twig'%}
+    {% if is_granted('ROLE_AGENT') %}
+        {% include 'FTFSCrudBundle:Crud:new_content.html.twig'%}
+    {% else %}
+        <h1> error : you have to have role_client in order to create a request !</h1>
+    {% endif %}
 {% endblock %}

@@ -1,8 +1,11 @@
-{% extends "FTFSServiceBundle:ServiceRequest:index_content_table.html.twig" %}
+{% extends "FTFSServiceBundle:Service:index_content_table.html.twig" %}
 
 {% block operations %}
-    {% if entity.status == '30_awaiting' %}
-        {% if  entity.assignedTo == app.user.username %}
+    {% if  entity.status == '10_opened' %}
+        {% if entity.assignedTo == app.user.username %}
+        <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.edit.tooltip'|trans({}, 'crud') }}">
+            <i class="icon-pencil"></i>
+        </a>
         <a href="{{ path(prefix~'_transfer', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.table.action.transfer.tooltip')|trans({}, 'crud') }}">
             <i class="icon-hand-right"></i>
         </a>
@@ -12,5 +15,4 @@
         </a>
         {% endif %}
     {% endif %}
-    {{ parent() }}
 {% endblock %}

@@ -1,9 +1,9 @@
 {% extends "FTFSCrudBundle:Crud:index_content.html.twig" %}
 
 {% block thead %}
-<th>{{ 'ftfs.servicebundle.servicetype.table.name' | trans({}, 'crud') }}</th>
-<th>{{ 'ftfs.servicebundle.servicetype.table.active.title' | trans({}, 'crud') }}</th>
-<th class="cell-max">{{ 'ftfs.servicebundle.servicetype.table.description' | trans({}, 'crud') }}</th>
+<th>{{ (prefix~'.table.name')| trans({}, 'crud') }}</th>
+<th>{{ (prefix~'.table.active.title')| trans({}, 'crud') }}</th>
+<th class="cell-max">{{ (prefix~'.table.description')| trans({}, 'crud') }}</th>
 {% endblock %}
 
 {% block tbody %}
@@ -12,13 +12,13 @@
     {% if entity.active %}
         <a href="{{ path(prefix~'_activate', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'_table_action_active_activate_tooltip')|replace('_', '.')|trans({}, 'crud') }}">
             <span class="label label-success">
-                {{ 'ftfs.servicebundle.servicetype.table.active.value.active' | trans({}, 'crud') }}
+                {{ (prefix~'.table.active.value.active')| trans({}, 'crud') }}
             </span>
         </a>
     {% else %}
         <a href="{{ path(prefix~'_activate', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'_table_action_active_deactivate_tooltip')|replace('_', '.')|trans({}, 'crud') }}">
             <span class="label label-important">
-                {{ 'ftfs.servicebundle.servicetype.table.active.value.inactive' | trans({}, 'crud') }}
+                {{ (prefix~'.table.active.value.inactive')| trans({}, 'crud') }}
             </span>
         </a>
     {% endif %}
