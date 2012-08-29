@@ -13,11 +13,13 @@ service
 ===================iss4@perso errs===============================
 
 ===================iss5@dashboard================================
-access control: routing, controller, view: client...
+access control: routing, controller, view: client... >>>> fait@2012-08-30
 oper take, transfer, create, abandon => role_agent
 show page personnalization
-index page
-warning for dangerous operations ...
+index page: searching
+warning for dangerous operations, and messages  
+
+notification: syst, email
 
 ===================iss6@others=======================
 asset, product
@@ -34,13 +36,13 @@ timezone, language support
 2012-08-04:
 2012-08-03:
 ================================    week 1
-2012-08-02:
-2012-09-01:
+2012-08-02: iss5@
+2012-09-01: iss5@
 
 2012-08-31: iss5@
 2012-08-30: iss5@
-2012-08-29: iss5@
 
+2012-08-29: iss5@
 2012-08-28: iss5@
 2012-08-27: iss5@
 
