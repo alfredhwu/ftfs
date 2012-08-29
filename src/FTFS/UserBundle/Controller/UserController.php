@@ -56,7 +56,7 @@ class UserController extends Controller
             {
                 $this->get('fos_user.user_manager')->updateUser($user);
             }
-            return $this->redirect($this->generateUrl('FTFSUserBundle_user_index'));
+            return $this->redirect($this->generateUrl('ftfsuserbundle_user_index'));
         }
 
         return $this->render('FTFSUserBundle:User:edit_roles.html.twig', array(

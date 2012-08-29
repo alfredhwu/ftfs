@@ -7,10 +7,10 @@
 {% endblock %}
 
 {% block body_content %}
-<form class="form-horizontal" action="{{ path('FTFSUserBundle_user_edit_roles', { 'username' : user.username }) }}" {{ form_enctype(form) }} method="POST">
+<form class="form-horizontal" action="{{ path('ftfsuserbundle_user_edit_roles', { 'username' : user.username }) }}" {{ form_enctype(form) }} method="POST">
     <fieldset>
         <legend>
-            Roles for <a href="{{ path('FTFSUserBundle_user_show', { 'username' : user.username }) }}">{{ user.title }} {{ user.firstName }} {{ user.surname }} ({{ user.username }})</a> of {{ user.company }}
+            Roles for <a href="{{ path('ftfsuserbundle_user_show', { 'username' : user.username }) }}">{{ user.title }} {{ user.firstName }} {{ user.surname }} ({{ user.username }})</a> of {{ user.company }}
             <span class="btn-group pull-right">
                 <input class="btn btn-primary" type="submit" value="Save">
             </span>

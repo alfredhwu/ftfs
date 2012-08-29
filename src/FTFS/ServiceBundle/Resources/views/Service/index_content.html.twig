@@ -8,29 +8,37 @@
 {% endblock %}
 
 {% block thead %}
-    <th>{{ 'ftfs.servicebundle.service.table.name' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.service.table.status' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.service.table.last.modified.at' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.service.table.type' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.service.table.severity' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.service.table.priority' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.service.table.assigned.to' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.service.table.request.received.at' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.service.table.opened.at' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.service.table.resolved.at' | trans({}, 'crud') }}</th>
-    <th>{{ 'ftfs.servicebundle.service.table.closed.at' | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.name') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.status.title') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.severity.title') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.priority.title') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.last.modified.at') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.type') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.assigned.to') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.request.received.at') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.requested.by') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.summary') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.detail') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.asset.name') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.opened.at') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.resolved.at') | trans({}, 'crud') }}</th>
+    <th>{{ (prefix~'.table.closed.at') | trans({}, 'crud') }}</th>
 {% endblock %}
 
 {% block tbody %}
     <td>{{ entity.name }}</td>
     <td>{{ entity.status }}</td>
-    <td>{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}</td>
-    <td>{{ entity.type }}</td>
     <td>{{ entity.severity }}</td>
     <td>{{ entity.priority }}</td>
+    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+    <td>{{ entity.type }}</td>
     <td>{{ entity.assignedTo }}</td>
-    <td>{{ entity.requestReceivedAt | date('Y-m-d H:i:s') }}</td>
-    <td>{{ entity.openedAt | date('Y-m-d H:i:s') }}</td>
-    <td>{{ entity.resolvedAt | date('Y-m-d H:i:s') }}</td>
-    <td>{{ entity.closedAt | date('Y-m-d H:i:s') }}</td>
+    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.requestReceivedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+    <td>{{ entity.requestedBy }}</td>
+    <td>{{ entity.summary }}</td>
+    <td>{{ entity.detail }}</td>
+    <td>{{ entity.assetName }}</td>
+    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.openedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.resolvedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.closedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
 {% endblock %}

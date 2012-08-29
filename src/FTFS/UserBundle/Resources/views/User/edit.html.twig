@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body_content %}
-<form class="form-horizontal" action="{{ path('FTFSUserBundle_user_edit', { 'username' : user.username }) }}" {{ form_enctype(form) }} method="POST">
+<form class="form-horizontal" action="{{ path('ftfsuserbundle_user_edit', { 'username' : user.username }) }}" {{ form_enctype(form) }} method="POST">
     <fieldset>
         <legend>
             User Profile

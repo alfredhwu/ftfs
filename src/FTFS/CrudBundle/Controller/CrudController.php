@@ -51,10 +51,22 @@ abstract class CrudController extends Controller
      * namespace defined by 'model' entry in constructer
      * by default, \Vendor\Bundle\Entity\EntityName
      */
-    protected function getEntity()
+    protected function getEntity($action, $id = -1)
     {
-        $entityClass = '\\'.$this->namespaces['model']['vendor'].'\\'.$this->namespaces['model']['bundle'].'\\Entity\\'.$this->namespaces['model']['entity'];
-        return new $entityClass;
+        if($id == -1)
+        {
+            $entityClass = '\\'.$this->namespaces['model']['vendor'].'\\'.$this->namespaces['model']['bundle'].'\\Entity\\'.$this->namespaces['model']['entity'];
+            return new $entityClass;
+        }
+        $entity = $this->getDoctrine()
+                        ->getEntityManager()
+                        ->getRepository($this->getEntityPath())
+                        ->find($id);
+        if(!$entity)
+        {
+            throw $this->createNotFoundException('Entity not found !');        
+        }
+        return $entity;
     }
 
     /**
@@ -132,10 +144,8 @@ abstract class CrudController extends Controller
         return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findAll();
     }
 
-
     public function indexAction()
     {
- //       $entities = $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findAll();
         return $this->render($this->getViewPath().':index.html.twig', array(
             'entities' => $this->getEntityList(),
             'prefix' => $this->getRoutingPrefix(),
@@ -144,14 +154,7 @@ abstract class CrudController extends Controller
 
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $entity = $em->getRepository($this->getEntityPath())->find($id);
-
-        if(!$entity)
-        {
-            throw $this->createNotFoundException('Entity not found !');        
-        }
-
+        $entity = $this->getEntity('show', $id);
         $form = $this->createForm($this->getEntityType(array('view' => 'show')), $entity);
 
         return $this->render($this->getViewPath().':show.html.twig', array(
@@ -163,16 +166,8 @@ abstract class CrudController extends Controller
 
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $entity = $em->getRepository($this->getEntityPath())->find($id);
-
-        if(!$entity)
-        {
-            throw $this->createNotFoundException('Entity not found !');        
-        }
-
+        $entity = $this->getEntity('edit', $id);
         $form = $this->createForm($this->getEntityType(array( 'view' => 'edit' )), $entity);
-
         $request = $this->get('request');
 
         if('POST'===$request->getMethod())
@@ -181,7 +176,7 @@ abstract class CrudController extends Controller
             if($form->isValid())
             {
                 $this->postUpdateEntity($entity, $request);
-                $em->flush();         
+                $this->getDoctrine()->getEntityManager()->flush();         
                 return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
             }
         }
@@ -194,14 +189,9 @@ abstract class CrudController extends Controller
 
     public function deleteAction($id)
     {
+        $entity = $this->getEntity('delete', $id);
+
         $em = $this->getDoctrine()->getEntityManager();
-        $entity = $em->getRepository($this->getEntityPath())->find($id);
-
-        if(!$entity)
-        {
-            throw $this->createNotFoundException('Entity not found !');        
-        }
-
         $em->remove($entity);
         $em->flush();
 
@@ -212,8 +202,7 @@ abstract class CrudController extends Controller
     public function newAction()
     {
         $request = $this->get('request');
-
-        $entity = $this->getEntity();
+        $entity = $this->getEntity('new');
         $this->preInitEntity($entity, $request);
 
         $form = $this->createForm($this->getEntityType(array('view' => 'new')), $entity);

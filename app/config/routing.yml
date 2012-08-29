@@ -1,6 +1,14 @@
+# homepage of ftfs, routing to dashboardbundle:default:index by default,
+# to be updated in the prod version
+ftfshomepage:
+    pattern:  /
+    defaults: { _controller: FTFSDashboardBundle:Default:index }
+
+
+#############################################################################
 FTFSDashboardBundle:
     resource: "@FTFSDashboardBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /dashboard
 
 FTFSUserBundle:
     resource: "@FTFSUserBundle/Resources/config/routing/user_routing.yml"

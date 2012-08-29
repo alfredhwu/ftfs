@@ -34,6 +34,7 @@ security:
        # - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
        # - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, roles: ROLE_ADMIN }
+        - { path: ^/dashboard/, roles: [ROLE_CLIENT, ROLE_AGENT] }
         #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
 
     role_hierarchy:

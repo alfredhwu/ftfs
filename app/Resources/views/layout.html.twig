@@ -2,10 +2,10 @@
 
 {% block navbar_menu %}
     <ul class="nav">
-        <li><a href="{{ path('FTFSDashboardBundle_homepage') }}">Dashboard</a></li>
-        {% if is_granted('ROLE_CLIENT') %}
-        {# if client, no view of admin #}
-        {% elseif is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_CLIENT') or is_granted('ROLE_AGENT') %}
+        <li><a href="{{ path('ftfsdashboardbundle_homepage') }}">Dashboard</a></li>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 Service 
@@ -24,7 +24,7 @@
             <a href="#">Product</a>
         </li>
         <li>
-            <a href="{{ path('FTFSUserBundle_user_index') }}">User</a>
+            <a href="{{ path('ftfsuserbundle_user_index') }}">User</a>
         </li>
         {% endif %}
         <li>

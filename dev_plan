@@ -16,11 +16,14 @@ service
 access control: routing, controller, view: client...
 oper take, transfer, create, abandon => role_agent
 show page personnalization
+index page
+warning for dangerous operations ...
 
 ===================iss6@others=======================
 asset, product
 ticket, rma, configuration
 timezone, language support
+
 
 
 2012-08-09:
