@@ -26,8 +26,8 @@
 <table class="table table-bordered table-striped table-condensed table-smart">
     <thead>
         <tr>
-            <th class="cell-tiny">#</th>
-            <th class="cell-tiny">{{ (prefix~'.table.operations')|trans({}, 'crud') }}</th>
+            <th class="tight">#</th>
+            <th class="tight">{{ (prefix~'.table.operations')|trans({}, 'crud') }}</th>
             {% block thead %}
             {% endblock %}
         </tr>
@@ -37,10 +37,10 @@
     {% for entity in entities %}
         {% set i = i+1 %}
         <tr>
-            <td>
+            <td class="tight">
                 {{ i }}
             </td>
-            <td>
+            <td class="tight">
                 <a href="{{ path(prefix~'_show', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.show.tooltip'|trans({}, 'crud') }}">
                     <i class="icon-eye-open"></i>
                 </a>

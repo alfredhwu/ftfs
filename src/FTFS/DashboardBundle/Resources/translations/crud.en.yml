@@ -13,6 +13,8 @@ ftfs_dashboardbundle_myservicerequest:
             transfer:       "Transfer"
             transfer.tooltip:   "Transfer"
             transfer.success.flash:   "Request transfered successfully"
+            show.service:       "Show Related Service Ticket"
+            show.service.tooltip:       "Show Related Service Ticket"
     form:
         legend.show: "Service Request Detail"
         legend.new:  "New Service Request"
@@ -72,7 +74,7 @@ ftfs_dashboardbundle_myservice:
             take.success.flash: "Taken successfully !"
             transfer:       "Transfer"
             transfer.tooltip:   "Transfer"
-            transfer.success.flash:   "Request transfered successfully"
+            transfer.success.flash:     "Request transfered successfully"
     form:
         legend:
             show: "Service Ticket Detail"

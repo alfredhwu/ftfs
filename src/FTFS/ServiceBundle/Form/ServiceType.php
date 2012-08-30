@@ -30,20 +30,6 @@ class ServiceType extends AbstractType
                     'read_only' => true,
                 ))
                 ->add('type')
-                ->add('requested_by')
-                ->add('summary')
-                ->add('detail')
-                ->add('asset_name')
-                ->add('status', null, array(
-                    'read_only' => true,
-                ))
-                ->add('last_modified_at', null, array(
-                    'widget' => 'single_text',
-                    'read_only' => true,
-                ))
-                ->add('assigned_to', null, array(
-                    'read_only' => true,
-                ))
                 ->add('severity', 'choice', array(
                     'choices' => array(
                         100 => 'very urgent',
@@ -57,6 +43,22 @@ class ServiceType extends AbstractType
                         300 => 'normal',
                         400 => 'inferior',
                     ),
+                ))
+                ->add('assigned_to', null, array(
+                    'read_only' => true,
+                ))
+                ->add('summary', null, array(
+                    'read_only' => true,
+                ))
+                ->add('detail', null, array(
+                    'read_only' => true,
+                ))
+                ->add('asset_name')
+                ->add('requested_by', null, array(
+                    'read_only' => true,
+                ))
+                ->add('requested_via', null, array(
+                    'read_only' => true,
                 ))
                 ->add('request_received_at', null, array(
                     'widget' => 'single_text',
@@ -79,11 +81,6 @@ class ServiceType extends AbstractType
         case 'new':
             $builder
                 ->add('name')
-                ->add('type')
-                ->add('requested_by')
-                ->add('summary')
-                ->add('detail')
-                ->add('asset_name')
                 ->add('severity', 'choice', array(
                     'choices' => array(
                         100 => 'Very High',
@@ -92,6 +89,7 @@ class ServiceType extends AbstractType
                         400 => 'Low',
                         500 => 'Very Low',
                     ),
+                    'preferred_choices' => array(300),
                 ))
                 ->add('priority', 'choice', array(
                     'choices' => array(
@@ -101,7 +99,14 @@ class ServiceType extends AbstractType
                         400 => 'Low',
                         500 => 'Very Low',
                     ),
+                    'preferred_choices' => array(300),
                 ))
+                ->add('type')
+                ->add('requested_by')
+                ->add('requested_via')
+                ->add('summary')
+                ->add('detail')
+                ->add('asset_name')
             ;
             break;
         default:
@@ -113,6 +118,9 @@ class ServiceType extends AbstractType
                     'read_only' => true,
                 ))
                 ->add('requested_by', null, array(
+                    'read_only' => true,
+                ))
+                ->add('requested_via', null, array(
                     'read_only' => true,
                 ))
                 ->add('summary', null, array(

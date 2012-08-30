@@ -57,12 +57,23 @@ class MyServiceController extends BaseController
             $queryBuilder
                 ->andWhere('e.requested_by = :requested_by')
                 ->setParameter('requested_by', $current_user);
-            
-            if($status)
+
+            switch($status)
             {
-                $queryBuilder
-                    ->andWhere('e.status = :status')
-                    ->setParameter('status', $status);
+                case 'all':
+                    break;
+                case '10_opened':
+                case '20_delivered':
+                case '30_closed':
+                    $queryBuilder
+                        ->andWhere('e.status = :status')
+                        ->setParameter('status', $status);
+                    break;
+                default:        // by default if no filter is set, return opened, delivered
+                    $queryBuilder
+                        ->add('orderBy', 
+                                'e.status desc, e.priority asc, e.severity asc, e.last_modified_at desc')
+                        ->andWhere("e.status = '10_opened' or e.status = '20_delivered'");
             }
             return $queryBuilder->getQuery()->getResult();
         }
@@ -81,9 +92,14 @@ class MyServiceController extends BaseController
                 case '30_closed':
                     $queryBuilder
                         ->andWhere('e.status = :status')
-                        ->setParameter('status', $status);
-                default:        // all my services
+                        ->setParameter('status', $status)
+                        ->andWhere('e.assigned_to = :assigned_to')
+                        ->setParameter('assigned_to', $current_user);
+                    break;
+                default:        // all my services active
                     $queryBuilder
+                        ->andWhere('e.status = :status')
+                        ->setParameter('status', '10_opened')
                         ->andWhere('e.assigned_to = :assigned_to')
                         ->setParameter('assigned_to', $current_user);
             }
@@ -116,34 +132,99 @@ class MyServiceController extends BaseController
                     }
                 }
                 break;
-            // restricted to its owner: assigned_to
-            case 'edit':
-            case 'delete':
-            case 'transfer':
-            case 'open':
-            case 'deliver':
-            case 'cancel':
-                if($entity->getAssignedTo()!=$current_user)
-                {
-                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" is reserved to its owner !');
-                }
-                break;
+            // restricted to its owner: assigned_to, status: 10_opened
             case 'take':
                 if(!is_null($entity->getAssignedTo()))
                 {
                     throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The service request "'.$entity->getName().'" has already been taken !');
                 }
-                if(!$context->isGranted('ROLE_AGENT'))
+            case 'transfer':
+            case 'edit':
+            case 'open':
+            case 'deliver':
+            case 'cancel':
+                if($entity->getStatus()!= '10_opened')
                 {
-                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" is reserved to ROLE_AGENT !');
+                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" cannot apply on a request '.$entity->getStatus().' !');
                 }
+                if($entity->getAssignedTo()!=$current_user)
+                {
+                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" is reserved to its owner !');
+                }
+                break;
             case 'new':
                 if(!$context->isGranted('ROLE_AGENT'))
                 {
-                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" is reserved to ROLE_CLIENT !');
+                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" is reserved to syst agent !');
                 }
+                break;
+            // interdit
+            case 'delete':
+                throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "delete" is banned for security reasons, please contact the system administrator, if you really want to delete this service ticket ! By the way, you can cancel it if you want ! ');
+                break;
             default:
+                throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Unknow operation !');
         }
         return $entity;
+    }
+
+    /**
+     * deliver
+     * granted only to ROLE_AGENT
+     *
+     * reserved to owner
+     */
+    public function deliverAction($id)
+    {
+        $entity = $this->getEntity('deliver', $id);
+        throw new \Exception('not available yet');
+    }
+
+    /**
+     * cancel
+     * granted only to ROLE_AGENT
+     *
+     * reserved to owner
+     */
+    public function cancelAction($id)
+    {
+        $entity = $this->getEntity('cancel', $id);
+        throw new \Exception('not available yet');
+    }
+
+    /**
+     * open 
+     * granted only to ROLE_AGENT
+     *
+     * reserved to owner
+     */
+    public function openAction($id)
+    {
+        $entity = $this->getEntity('open', $id);
+        throw new \Exception('not available yet');
+    }
+
+    /**
+     * transfer 
+     * granted only to ROLE_AGENT
+     *
+     * reserved to owner
+     */
+    public function transferAction($id)
+    {
+        $entity = $this->getEntity('transfer', $id);
+        throw new \Exception('not available yet');
+    }
+
+    /**
+     * take 
+     * granted only to ROLE_AGENT
+     *
+     * reserved to owner
+     */
+    public function takeAction($id)
+    {
+        $entity = $this->getEntity('take', $id);
+        throw new \Exception('not available yet');
     }
 }

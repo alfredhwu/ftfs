@@ -1,10 +1,15 @@
 {% extends '::menu.html.twig' %}
 {% block menu_content %}
     <li class="nav-header">My Service Tickets</li>
-    <li><a href="{{ path('ftfs_dashboardbundle_myservice_index') }}"><i class="icon-list"></i> All My Service Tickets</a></li>
+    <li><a href="{{ path('ftfs_dashboardbundle_myservice_index') }}"><i class="icon-home"></i> My Current Service</a></li>
 {% if is_granted('ROLE_AGENT') %}
     <li><a href="{{ path('ftfs_dashboardbundle_myservice_new') }}"><i class="icon-edit"></i> Open a New Service Ticket</a></li>
 {% endif %}
+
+    <li class="divider"></li>
+
+    <li><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'all' }) }}"><i class="icon-list"></i> All My Service Tickets</a></li>
+
     <li class="divider"></li>
 
     <li><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : '10_opened' }) }}"><i class="icon-indent-left"></i> My Tickets Opened</a></li>
@@ -15,8 +20,12 @@
     <li><a href="#"><i class="icon-globe"></i> All My Shared Tickets (not yet available) </a></li>
     
     <li class="nav-header">My Service Requests</li>
-    <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index') }}"><i class="icon-tags"></i> All My Service Requests</a></li>
-    <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_new') }}"><i class="icon-edit"></i> Rquest a Service </a></li>
+    <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index') }}"><i class="icon-home"></i> My Current Requests</a></li>
+    <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_new') }}"><i class="icon-edit"></i> Request a Service </a></li>
+
+    <li class="divider"></li>
+
+    <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index', { 'status' : 'all' }) }}"><i class="icon-tags"></i> All My Service Requests</a></li>
     <li class="divider"></li>
     <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index', { 'status' : '10_rejected' }) }}"><i class="icon-tag"></i> My Requests Rejected</a></li>
     <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index', { 'status' : '20_unsent' }) }}"><i class="icon-tag"></i> My Requests Unsent</a></li>
@@ -25,14 +34,23 @@
 {% elseif is_granted('ROLE_AGENT') %}
     <li class="divider"></li>
     <li><a href="{{ path('ftfs_dashboardbundle_myservice_index', {'status' : 'all'}) }}"><i class="icon-globe"></i> All Services Deployed</a></li>
-
+    
     <li class="nav-header">Service Requests</li>
+    <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index') }}"><i class="icon-home"></i> My Current Requests</a></li>
+
+    <li class="divider">
+
     <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index', { 'filter' : 'assigned' }) }}"><i class="icon-tags"></i> All My Assigned Requests </a></li>
-    <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index', { 'filter' : 'newassigned' }) }}"><i class="icon-tag"></i> My New Assigned Requests </a></li>
+
+    <li class="divider">
+
+    <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index', { 'filter' : 'assignedawaiting' }) }}"><i class="icon-tag"></i> My Awaiting Requests </a></li>
+
     <li class="divider">
 
     <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index', { 'filter' : 'new' }) }}"><i class="icon-list-alt"></i> All New Service Requests</a></li>
     <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index', { 'filter' : 'urgent' }) }}"><i class="icon-list-alt"></i> All New Urgent Requests </a></li>
+
     <li class="divider">
 
     <li><a href="{{ path('ftfs_dashboardbundle_myservicerequest_index', { 'filter' : 'all' }) }}"><i class="icon-globe"></i> All Service Requests</a></li>

@@ -36,7 +36,7 @@ class ServiceRequestType extends AbstractType
                         500 => 'Very Low',
                     ),
                 ))
-                ->add('service_requested', null, array(
+                ->add('type', null, array(
                     'empty_value' => 'Other service',
                     'required' => false,
                 ))
@@ -90,7 +90,7 @@ class ServiceRequestType extends AbstractType
                     'preferred_choices' => array(300),
                 ))
                 //->add('requested_by')
-                ->add('service_requested', null, array(
+                ->add('type', null, array(
                     'empty_value' => 'Other service',
                     'required' => false,
                 ))
@@ -124,7 +124,7 @@ class ServiceRequestType extends AbstractType
                 ->add('severity', null, array(
                     'read_only' => true,
                 ))
-                ->add('service_requested', 'text', array(
+                ->add('type', 'text', array(
                     'read_only' => true,
                 ))
                 ->add('status', null, array(
@@ -150,7 +150,7 @@ class ServiceRequestType extends AbstractType
                 ->add('asset_name', null, array(
                     'read_only' => true,
                 ))
-                ->add('service_deployed', 'text', array(
+                ->add('service', 'text', array(
                     'read_only' => true,
                 ))
                 ->add('summary', null, array(

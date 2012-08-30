@@ -96,14 +96,24 @@ class MyServiceRequestController extends BaseController
             $queryBuilder
                 ->where('e.requested_by = :requested_by')
                 ->setParameter('requested_by', $current_user);
-            
+
             // filter by 'status', if required
             $status = $this->getRequest()->query->get('status');
-            if($status)
+            switch($status)
             {
-                $queryBuilder
-                    ->andWhere('e.status = :status')
-                    ->setParameter('status', $status);
+                case 'all':
+                    break;
+                case '10_rejected':
+                case '20_unsent':
+                case '30_awaiting':
+                case '40_accepted':
+                    $queryBuilder
+                        ->andWhere('e.status = :status')
+                        ->setParameter('status', $status);
+                    break;
+                default:        // by default if no filter is set, return rejected, unsent, awaiting requests
+                    $queryBuilder
+                        ->andWhere("e.status = '10_rejected' or e.status = '20_unsent' or e.status = '30_awaiting'");
             }
             return $queryBuilder->getQuery()->getResult();
         }        
@@ -125,12 +135,17 @@ class MyServiceRequestController extends BaseController
                     $queryBuilder->andWhere('e.assigned_to is null');
                 case 'all':         // all requests in the system
                     break;
-
-                case 'newassigned': // all new requests assgined to me 
+                case 'assignedawaiting': // all new requests assgined to me 
                     $queryBuilder->andWhere("e.status = '30_awaiting'");
-                default:            // assigned, all requests assgined to me
+                case 'assigned':        // assigned, all requests assgined to me
                     $queryBuilder->andWhere('e.assigned_to = :agent')
                                  ->setParameter('agent', $current_user);
+                    break;
+                default:            // all requestes assigned to me, awaiting or rejected
+                    $queryBuilder->andWhere("e.status = '30_awaiting' or e.status = '10_rejected'");
+                    $queryBuilder->andWhere('e.assigned_to = :agent')
+                                 ->setParameter('agent', $current_user);
+                    $queryBuilder->add('orderBy', 'e.status desc, e.severity asc, e.last_modified_at desc');
             }
             return $queryBuilder->getQuery()->getResult();
         }
@@ -170,35 +185,42 @@ class MyServiceRequestController extends BaseController
                 }
                 break;
 
-            // restricted to its owner: requested_by
-            case 'edit':
-            case 'delete':
-                if($entity->getStatus()!= '10_rejected')
-                {
-                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" cannot apply on a request rejected !');
-                }
+            // restricted to its owner: requested_by, status: 10_rejected or 20_unsent 
             case 'send':
                 if($entity->getStatus()!= '20_unsent')
                 {
-                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" cannot apply on a request already send !');
+                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" cannot apply on a request '.$entity->getStatus().' !');
+                }
+            case 'edit':
+            case 'delete':
+                if(('10_rejected' != $entity->getStatus()) && ('20_unsent' != $entity->getStatus()) )
+                {
+                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" cannot apply on a request '.$entity->getStatus().'!');
                 }
                 if($entity->getRequestedBy()!=$current_user)
                 {
                     throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" is reserved to its owner !');
                 }
                 break;      
-            // restricted to its owner: assigned_to
+            // restricted to its owner: assigned_to , status: 20_awaiting
             case 'transfer':
             case 'accept':
             case 'reject':
+                if($entity->getStatus()!= '30_awaiting')
+                {
+                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" cannot apply on a request '.$entity->getStatus().' !');
+                }
                 if($entity->getAssignedTo()!=$current_user)
                 {
                     throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" is reserved to its owner !');
                 }
                 break;      
-            // no restriction
             // should be granted as ROLE_AGENT
             case 'take':
+                if($entity->getStatus()!= '30_awaiting')
+                {
+                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" cannot apply on a request '.$entity->getStatus().' !');
+                }
                 if(!is_null($entity->getAssignedTo()))
                 {
                     throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The service request "'.$entity->getName().'" has already been taken !');
@@ -214,7 +236,9 @@ class MyServiceRequestController extends BaseController
                 {
                     throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" is reserved to ROLE_CLIENT !');
                 }
+                break;
             default:
+                throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Unknow operation !');
         }
         return $entity;
     }
@@ -265,7 +289,18 @@ class MyServiceRequestController extends BaseController
      */
     public function transferAction($id)
     {
-        return new \Exception('not available yet');
+        // transfer a request means to give up the control of a request to a list of people
+        // before the destination confirms the transferance, 
+        // the request is still in the original agent responsibility
+        // he cannot edit it though ;-) except he retakes it 
+        // maybe choose from a list of people, for instant, only to all
+        // here simple reassign the request to null
+        //
+        // only request awaiting can be transfered...
+        $entity = $this->getEntity('transfer', $id);
+        $entity->setAssignedTo(null);
+        $this->getDoctrine()->getEntityManager()->flush();
+        return $this->redirect($this->generateUrl('ftfs_dashboardbundle_myservicerequest_show', array('id' => $entity->getId())));
     }
 
     /**
@@ -276,7 +311,43 @@ class MyServiceRequestController extends BaseController
      */
     public function acceptAction($id)
     {
-        return new \Exception('not available yet');
+        // accept a request and use its information to open a new service ticket
+        // assign the new service ticket to user
+        // inform the client
+        $request = $this->getEntity('accept', $id);
+        $service = new \FTFS\ServiceBundle\Entity\Service;
+
+        $service->setName(substr_replace($request->getName(), 'ST', -2));
+        $service->setSeverity($request->getSeverity());
+        $service->setPriority(300);
+        $service->setStatus('10_opened');
+        $service->setAssignedTo($this->get('security.context')->getToken()->getUserName());
+
+        $service->setRequestedBy($request->getRequestedBy());
+        $service->setRequestedVia($request->getRequestedVia());
+        $service->setRequestReceivedAt($request->getRequestedAt());
+        // ManyToOne, check if is null
+        // very dangerous here, in case that if we delete a service type,
+        // many problems would occured in the future
+        $servicetype = $request->getType();
+        if(!is_null($servicetype))
+        {
+            $service->setType($servicetype);
+        }
+        $service->setSummary($request->getSummary());
+        $service->setDetail($request->getDetail());
+
+        $service->setAssetName($request->getAssetName());
+
+        $service->setOpenedAt(new \DateTime('now'));
+        $service->setLastModifiedAt(new \DateTime('now'));
+
+        $request->setService($service);
+        $request->setStatus('40_accepted');
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->persist($service);
+        $em->flush();
+        return $this->redirect($this->generateUrl('ftfs_dashboardbundle_myservice_edit', array('id' => $service->getId())));
     }
 
     /**
@@ -287,6 +358,15 @@ class MyServiceRequestController extends BaseController
      */
     public function rejectAction($id)
     {
-        return new \Exception('not available yet');
+        // popout a dialog to type into the observation:
+        // information not complete, please describe in detail
+        // 
+        //
+        // change the status as 10_rejected
+        $entity = $this->getEntity('reject', $id);
+        $entity->setStatus('10_rejected');
+        //$entity->setObservation('message');
+        $this->getDoctrine()->getEntityManager()->flush();
+        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
     }
 }

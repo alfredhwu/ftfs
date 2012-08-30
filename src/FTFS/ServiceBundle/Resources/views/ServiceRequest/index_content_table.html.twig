@@ -1,34 +1,38 @@
 {% extends "FTFSCrudBundle:Crud:index_content.html.twig" %}
 
 {% block thead %}
-    <th>{{ ('ftfs.servicebundle.servicerequest.table.name') | trans({}, 'crud') }}</th>
-    <th>{{ ('ftfs.servicebundle.servicerequest.table.status.title') | trans({}, 'crud') }}</th>
-    <th>{{ ('ftfs.servicebundle.servicerequest.table.severity.title') | trans({}, 'crud') }}</th>
-    <th>{{ ('ftfs.servicebundle.servicerequest.table.last.modified.at') | trans({}, 'crud') }}</th>
-    <th>{{ ('ftfs.servicebundle.servicerequest.table.service.requested') | trans({}, 'crud') }}</th>
+    <th class="tight">{{ ('ftfs.servicebundle.servicerequest.table.name') | trans({}, 'crud') }}</th>
+    <th class="tight">{{ ('ftfs.servicebundle.servicerequest.table.status.title') | trans({}, 'crud') }}</th>
+    <th class="tight">{{ ('ftfs.servicebundle.servicerequest.table.severity.title') | trans({}, 'crud') }}</th>
+    <th class="extend">{{ ('ftfs.servicebundle.servicerequest.table.summary') | trans({}, 'crud') }}</th>
+    <th>{{ ('ftfs.servicebundle.servicerequest.table.type') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.servicerequest.table.requested.by') | trans({}, 'crud') }}</th>
+    <th>{{ ('ftfs.servicebundle.servicerequest.table.assigned.to') | trans({}, 'crud') }}</th>
+    <th>{{ ('ftfs.servicebundle.servicerequest.table.last.modified.at') | trans({}, 'crud') }}</th>
+    {#
     <th>{{ ('ftfs.servicebundle.servicerequest.table.requested.at') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.servicerequest.table.requested.via') | trans({}, 'crud') }}</th>
-    <th>{{ ('ftfs.servicebundle.servicerequest.table.assigned.to') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.servicerequest.table.asset.name') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.servicerequest.table.service.deployed') | trans({}, 'crud') }}</th>
-    <th>{{ ('ftfs.servicebundle.servicerequest.table.summary') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.servicerequest.table.detail') | trans({}, 'crud') }}</th>
+    #}
 {% endblock %}
 
 
 {% block tbody %}
-    <td>{{ entity.name }}</td>
-    <td><span class="{{ ('ftfs.servicebundle.servicerequest.table.status.'~entity.status~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.servicerequest.table.status.'~entity.status)|trans({}, 'crud') }}</span></td>
-    <td><span class="{{ ('ftfs.servicebundle.servicerequest.table.severity.'~entity.severity~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.servicerequest.table.severity.'~entity.severity)|trans({}, 'crud') }}</span></td>
-    <td>{% if entity.lastModifiedAt is not null %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
-    <td>{{ entity.serviceRequested }}</td>
+    <td class="tight">{{ entity.name }}</td>
+    <td class="tight"><span class="{{ ('ftfs.servicebundle.servicerequest.table.status.'~entity.status~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.servicerequest.table.status.'~entity.status)|trans({}, 'crud') }}</span></td>
+    <td class="tight"><span class="{{ ('ftfs.servicebundle.servicerequest.table.severity.'~entity.severity~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.servicerequest.table.severity.'~entity.severity)|trans({}, 'crud') }}</span></td>
+    <td class="extend">{{ entity.summary }}</td>
+    <td>{{ entity.type }}</td>
     <td>{{ entity.requestedBy }}</td>
-    <td>{% if entity.lastModifiedAt is not null %}{{ entity.requestedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
-    <td>{{ entity.requestedVia }}</td>
     <td>{{ entity.assignedTo }}</td>
+    <td>{% if entity.lastModifiedAt is not null %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+    {#
+    <td>{% if entity.requestedAt is not null %}{{ entity.requestedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+    <td>{{ entity.requestedVia }}</td>
     <td>{{ entity.assetName }}</td>
     <td>{{ entity.serviceDeployed }}</td>
-    <td>{{ entity.summary }}</td>
     <td>{{ entity.detail }}</td>
+    #}
 {% endblock %}

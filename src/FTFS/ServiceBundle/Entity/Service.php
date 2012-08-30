@@ -76,6 +76,13 @@ class Service
     private $requested_by;
 
     /**
+     * @var string $requested_via
+     *
+     * @ORM\Column(name="requested_via", type="string", length=255, nullable=true)
+     */
+    private $requested_via;
+
+    /**
      * @var string $summary
      *
      * @ORM\Column(name="summary", type="text")
@@ -265,6 +272,106 @@ class Service
     }
 
     /**
+     * Set requested_by
+     *
+     * @param string $requestedBy
+     */
+    public function setRequestedBy($requestedBy)
+    {
+        $this->requested_by = $requestedBy;
+    }
+
+    /**
+     * Get requested_by
+     *
+     * @return string 
+     */
+    public function getRequestedBy()
+    {
+        return $this->requested_by;
+    }
+
+    /**
+     * Set requested_via
+     *
+     * @param string $requestedVia
+     */
+    public function setRequestedVia($requestedVia)
+    {
+        $this->requested_via = $requestedVia;
+    }
+
+    /**
+     * Get requested_via
+     *
+     * @return string 
+     */
+    public function getRequestedVia()
+    {
+        return $this->requested_via;
+    }
+
+    /**
+     * Set summary
+     *
+     * @param text $summary
+     */
+    public function setSummary($summary)
+    {
+        $this->summary = $summary;
+    }
+
+    /**
+     * Get summary
+     *
+     * @return text 
+     */
+    public function getSummary()
+    {
+        return $this->summary;
+    }
+
+    /**
+     * Set detail
+     *
+     * @param text $detail
+     */
+    public function setDetail($detail)
+    {
+        $this->detail = $detail;
+    }
+
+    /**
+     * Get detail
+     *
+     * @return text 
+     */
+    public function getDetail()
+    {
+        return $this->detail;
+    }
+
+    /**
+     * Set asset_name
+     *
+     * @param string $assetName
+     */
+    public function setAssetName($assetName)
+    {
+        $this->asset_name = $assetName;
+    }
+
+    /**
+     * Get asset_name
+     *
+     * @return string 
+     */
+    public function getAssetName()
+    {
+        return $this->asset_name;
+    }
+
+    /**
      * Set opened_at
      *
      * @param datetime $openedAt
@@ -362,85 +469,5 @@ class Service
     public function getType()
     {
         return $this->type;
-    }
-
-    /**
-     * Set requested_by
-     *
-     * @param string $requestedBy
-     */
-    public function setRequestedBy($requestedBy)
-    {
-        $this->requested_by = $requestedBy;
-    }
-
-    /**
-     * Get requested_by
-     *
-     * @return string 
-     */
-    public function getRequestedBy()
-    {
-        return $this->requested_by;
-    }
-
-    /**
-     * Set summary
-     *
-     * @param text $summary
-     */
-    public function setSummary($summary)
-    {
-        $this->summary = $summary;
-    }
-
-    /**
-     * Get summary
-     *
-     * @return text 
-     */
-    public function getSummary()
-    {
-        return $this->summary;
-    }
-
-    /**
-     * Set detail
-     *
-     * @param text $detail
-     */
-    public function setDetail($detail)
-    {
-        $this->detail = $detail;
-    }
-
-    /**
-     * Get detail
-     *
-     * @return text 
-     */
-    public function getDetail()
-    {
-        return $this->detail;
-    }
-
-    /**
-     * Set asset_name
-     *
-     * @param string $assetName
-     */
-    public function setAssetName($assetName)
-    {
-        $this->asset_name = $assetName;
-    }
-
-    /**
-     * Get asset_name
-     *
-     * @return string 
-     */
-    public function getAssetName()
-    {
-        return $this->asset_name;
     }
 }

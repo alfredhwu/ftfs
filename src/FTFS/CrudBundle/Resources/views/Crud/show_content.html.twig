@@ -14,7 +14,7 @@
         <a class="btn btn-small" href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.form.action.show.modify.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-pencil"></i>
         </a>
-            {% if removable is not defined or not removable %}
+            {% if removable is defined and removable %}
             <a class="btn btn-small" href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.form.action.show.delete.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
                 <i class="icon-trash"></i>
             </a>

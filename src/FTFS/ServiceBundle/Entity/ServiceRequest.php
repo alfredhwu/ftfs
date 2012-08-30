@@ -94,12 +94,12 @@ class ServiceRequest
     /**
      * @ORM\ManyToOne(targetEntity="Service")
      */
-    private $service_deployed;
+    private $service;
 
     /**
      * @ORM\ManyToOne(targetEntity="ServiceType")
      */
-    private $service_requested;
+    private $type;
 
     /**
      * @var string $requested_via
@@ -197,6 +197,26 @@ class ServiceRequest
     public function getAssignedTo()
     {
         return $this->assigned_to;
+    }
+
+    /**
+     * Set severity
+     *
+     * @param smallint $severity
+     */
+    public function setSeverity($severity)
+    {
+        $this->severity = $severity;
+    }
+
+    /**
+     * Get severity
+     *
+     * @return smallint 
+     */
+    public function getSeverity()
+    {
+        return $this->severity;
     }
 
     /**
@@ -320,62 +340,42 @@ class ServiceRequest
     }
 
     /**
-     * Set service_deployed
+     * Set service
      *
-     * @param FTFS\ServiceBundle\Entity\Service $serviceDeployed
+     * @param FTFS\ServiceBundle\Entity\Service $service
      */
-    public function setServiceDeployed(\FTFS\ServiceBundle\Entity\Service $serviceDeployed)
+    public function setService(\FTFS\ServiceBundle\Entity\Service $service)
     {
-        $this->service_deployed = $serviceDeployed;
+        $this->service = $service;
     }
 
     /**
-     * Get service_deployed
+     * Get service
      *
      * @return FTFS\ServiceBundle\Entity\Service 
      */
-    public function getServiceDeployed()
+    public function getService()
     {
-        return $this->service_deployed;
+        return $this->service;
     }
 
     /**
-     * Set service_requested
+     * Set type
      *
-     * @param FTFS\ServiceBundle\Entity\ServiceType $serviceRequested
+     * @param FTFS\ServiceBundle\Entity\ServiceType $type
      */
-    public function setServiceRequested(\FTFS\ServiceBundle\Entity\ServiceType $serviceRequested)
+    public function setType(\FTFS\ServiceBundle\Entity\ServiceType $type)
     {
-        $this->service_requested = $serviceRequested;
+        $this->type = $type;
     }
 
     /**
-     * Get service_requested
+     * Get type
      *
      * @return FTFS\ServiceBundle\Entity\ServiceType 
      */
-    public function getServiceRequested()
+    public function getType()
     {
-        return $this->service_requested;
-    }
-
-    /**
-     * Set severity
-     *
-     * @param smallint $severity
-     */
-    public function setSeverity($severity)
-    {
-        $this->severity = $severity;
-    }
-
-    /**
-     * Get severity
-     *
-     * @return smallint 
-     */
-    public function getSeverity()
-    {
-        return $this->severity;
+        return $this->type;
     }
 }

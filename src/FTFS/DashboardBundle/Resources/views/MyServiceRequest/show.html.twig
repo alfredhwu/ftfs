@@ -1,5 +1,6 @@
 {% extends "FTFSDashboardBundle::layout.html.twig" %}
 
+{# access control: dispatch by role #}
 {% block body_content %}
 {% if is_granted('ROLE_CLIENT') %}
     {% include 'FTFSDashboardBundle:MyServiceRequest:show_content_client.html.twig' 

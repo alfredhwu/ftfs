@@ -1,10 +1,7 @@
 {% extends "FTFSDashboardBundle::layout.html.twig" %}
 
 {% block body_content %}
-    {% if is_granted('ROLE_CLIENT') %}
-        {% include 'FTFSDashboardBundle:MyServiceRequest:new_content.html.twig'%}
-    {% else %}
-        <h1> error : you have to have role_client in order to create a request !</h1>
-    {% endif %}
+    {# reserved to ROLE_CLIENT, access controlled by controller #}
+    {% include 'FTFSDashboardBundle:MyServiceRequest:new_content.html.twig'%}
 {% endblock %}
 

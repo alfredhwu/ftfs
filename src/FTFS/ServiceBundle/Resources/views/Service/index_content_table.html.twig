@@ -1,37 +1,41 @@
 {% extends "FTFSCrudBundle:Crud:index_content.html.twig" %}
 
 {% block thead %}
-    <th>{{ ('ftfs.servicebundle.service.table.name') | trans({}, 'crud') }}</th>
-    <th>{{ ('ftfs.servicebundle.service.table.status.title') | trans({}, 'crud') }}</th>
-    <th>{{ ('ftfs.servicebundle.service.table.severity.title') | trans({}, 'crud') }}</th>
-    <th>{{ ('ftfs.servicebundle.service.table.priority.title') | trans({}, 'crud') }}</th>
-    <th>{{ ('ftfs.servicebundle.service.table.last.modified.at') | trans({}, 'crud') }}</th>
-    <th>{{ ('ftfs.servicebundle.service.table.type') | trans({}, 'crud') }}</th>
+    <th class="tight">{{ ('ftfs.servicebundle.service.table.name') | trans({}, 'crud') }}</th>
+    <th class="tight">{{ ('ftfs.servicebundle.service.table.status.title') | trans({}, 'crud') }}</th>
+    <th class="tight">{{ ('ftfs.servicebundle.service.table.severity.title') | trans({}, 'crud') }}</th>
+    <th class="tight">{{ ('ftfs.servicebundle.service.table.priority.title') | trans({}, 'crud') }}</th>
+    <th class="extend">{{ ('ftfs.servicebundle.service.table.summary') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.service.table.assigned.to') | trans({}, 'crud') }}</th>
-    <th>{{ ('ftfs.servicebundle.service.table.request.received.at') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.service.table.requested.by') | trans({}, 'crud') }}</th>
-    <th>{{ ('ftfs.servicebundle.service.table.summary') | trans({}, 'crud') }}</th>
+    <th>{{ ('ftfs.servicebundle.service.table.type') | trans({}, 'crud') }}</th>
+    <th>{{ ('ftfs.servicebundle.service.table.last.modified.at') | trans({}, 'crud') }}</th>
+    {#
+    <th>{{ ('ftfs.servicebundle.service.table.request.received.at') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.service.table.detail') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.service.table.asset.name') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.service.table.opened.at') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.service.table.resolved.at') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.service.table.closed.at') | trans({}, 'crud') }}</th>
+    #}
 {% endblock %}
 
 {% block tbody %}
-    <td>{{ entity.name }}</td>
-    <td><span class="{{ ('ftfs.servicebundle.service.table.status.'~entity.status~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.service.table.status.'~entity.status)|trans({}, 'crud') }}</span></td>
-    <td><span class="{{ ('ftfs.servicebundle.service.table.severity.'~entity.severity~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.service.table.severity.'~entity.severity)|trans({}, 'crud') }}</td>
-    <td><span class="{{ ('ftfs.servicebundle.service.table.priority.'~entity.priority~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.service.table.priority.'~entity.priority)|trans({}, 'crud') }}</td>
-    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
-    <td>{{ entity.type }}</td>
+    <td class="tight">{{ entity.name }}</td>
+    <td class="tight"><span class="{{ ('ftfs.servicebundle.service.table.status.'~entity.status~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.service.table.status.'~entity.status)|trans({}, 'crud') }}</span></td>
+    <td class="tight"><span class="{{ ('ftfs.servicebundle.service.table.severity.'~entity.severity~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.service.table.severity.'~entity.severity)|trans({}, 'crud') }}</td>
+    <td class="tight"><span class="{{ ('ftfs.servicebundle.service.table.priority.'~entity.priority~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.service.table.priority.'~entity.priority)|trans({}, 'crud') }}</td>
+    <td class="extend">{{ entity.summary }}</td>
     <td>{{ entity.assignedTo }}</td>
-    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.requestReceivedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     <td>{{ entity.requestedBy }}</td>
-    <td>{{ entity.summary }}</td>
+    <td>{{ entity.type }}</td>
+    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+    {#
+    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.requestReceivedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     <td>{{ entity.detail }}</td>
     <td>{{ entity.assetName }}</td>
     <td>{% if entity.lastModifiedAt is not empty %}{{ entity.openedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     <td>{% if entity.lastModifiedAt is not empty %}{{ entity.resolvedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     <td>{% if entity.lastModifiedAt is not empty %}{{ entity.closedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+    #}
 {% endblock %}

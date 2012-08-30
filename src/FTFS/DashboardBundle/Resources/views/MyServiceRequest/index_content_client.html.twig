@@ -18,5 +18,9 @@
         <a href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.delete.tooltip'|trans({}, 'crud') }}">
             <i class="icon-trash"></i>
         </a>
+    {% elseif '40_accepted' == entity.status %}
+        <a href="{{ path('ftfs_dashboardbundle_myservice_show', { 'id' : entity.service.id }) }}" rel="tooltip" title="{{ (prefix~'.table.action.show.service.tooltip')|trans({}, 'crud') }}">
+            <i class="icon-list-alt"></i>
+        </a>
     {% endif %}
 {% endblock %}
