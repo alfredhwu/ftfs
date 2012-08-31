@@ -1,10 +1,15 @@
-#flash
+#notification
 ftfs.crud:
-    flash:
-        success: "success"
-        created: "New entity created !"
-        deleted: "Entity deleted !"
-        updated: "Entity upedated !"
+    notification:
+        success:    "success"
+        action:
+            new:
+                succeed: "New entity created !"
+            delete:
+                succeed: "Entity deleted !"
+            edit:
+                succeed: "Entity upedated !"
+####
     form:
         action:
             new:
@@ -21,8 +26,8 @@ ftfs.crud:
             edit:
                 update: "Update"
                 update.tooltip: "Update"
-                cancel: "Cancel"
-                cancel.tooltip: "Cancel"
+                cancel: "Discard change"
+                cancel.tooltip: "Discard change"
                 list: "Abandon to list"
                 list.tooltip: "Abandon modifications and go back to list"
     table:

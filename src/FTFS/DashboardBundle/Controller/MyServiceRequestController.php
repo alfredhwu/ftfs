@@ -15,44 +15,6 @@ class MyServiceRequestController extends BaseController
         ));
     }
 
-    protected function postInitEntity($entity, $request)
-    {
-        $entity->setLastModifiedAt(new \DateTime('now'));
-
-        $entity->setRequestedBy($this->get('security.context')->getToken()->getUser());
-        $session = $this->get('session');
-
-        $init_mode = $request->get('init_mode');
-        if('send'==$init_mode)
-        {
-            $entity->setRequestedAt(new \DateTime('now'));
-            $entity->setStatus('30_awaiting');
-            $session->setFlash('ftfs.crud.flash.success', $this->getRoutingPrefix().'.form.action.new.save.send.success.flash');
-        }else{
-            $entity->setStatus('20_unsent');
-            $session->setFlash('ftfs.crud.flash.success', $this->getRoutingPrefix().'.form.action.new.save.nosend.success.flash');
-        }
-    }
-
-    protected function postUpdateEntity($entity, $request)
-    {
-        $entity->setLastModifiedAt(new \DateTime('now'));
-        $session = $this->get('session');
-        
-        $update_mode = $request ? $request->get('update_mode') : null;
-        if('nosend'==$update_mode)
-        {
-            $session->setFlash('ftfs.crud.flash.success', $this->getRoutingPrefix().'.form.action.edit.update.nosend.success.flash');
-        }else{
-            if(!$entity->getRequestedAt())
-            {
-                $entity->setRequestedAt(new \DateTime('now'));
-            }
-            $entity->setStatus('30_awaiting');
-            $session->setFlash('ftfs.crud.flash.success', $this->getRoutingPrefix().'.form.action.edit.update.send.success.flash');
-        }
-    }
-
     protected function getEntityType(array $options)
     {
         $entityTypeClass = '\FTFS\DashboardBundle\Form\\'.$this->namespaces['model']['entity'].'Type';
@@ -163,10 +125,12 @@ class MyServiceRequestController extends BaseController
      */
     protected function getEntity($action, $id = -1)
     {
-        $context = $this->get('security.context');
-        $current_user = $context->getToken()->getUserName();
         $entity = parent::getEntity($action, $id);
 
+        // access control
+        //
+        $context = $this->get('security.context');
+        $current_user = $context->getToken()->getUserName();
         switch($action)
         {
             // restricted to its owner ant his share list and of cause all agents ToDo: share group ToDo
@@ -243,6 +207,50 @@ class MyServiceRequestController extends BaseController
         return $entity;
     }
 
+    protected function flushEntity($entity, $action, $request=null)
+    {
+        // pre flush
+        $entity->setLastModifiedAt(new \DateTime('now'));
+
+        // other flush options
+        switch($action)
+        {
+            case 'send':
+                // check no sending a sent request
+                if(!is_null($entity->getStatus()) && '20_unsent'!=$entity->getStatus())
+                {
+                    throw new \Exception("Error: the request is alfready sent, you can only send a request with status 'unsent' or null!"); 
+                }
+                $entity->setStatus("30_awaiting"); 
+                break;
+            case 'take':
+                $entity->setAssignedTo($this->get('security.context')->getToken()->getUser());
+                break;
+            case 'transfer':
+                $entity->setAssignedTo(null);
+                break;
+            case 'reject':
+                $entity->setStatus('10_rejected');
+                break;
+            case 'accept':
+                // defined in action
+                break;
+        }
+        // flush options for new, edit, delete 
+        parent::flushEntity($entity, $action, $request);
+
+        // redirect
+        if($request && 'send' == $request->get('redirect'))
+        {
+            $this->sendAction($entity->getId());
+        }
+    }
+
+    protected function initNewEntity($entity)
+    {
+        $entity->setRequestedBy($this->get('security.context')->getToken()->getUserName());
+        $entity->setStatus('20_unsent');
+    }
 
     /**
      * send a request to the ftfs support service
@@ -251,15 +259,7 @@ class MyServiceRequestController extends BaseController
     public function sendAction($id)
     {
         $entity = $this->getEntity('send', $id);
-
-        // check no sending a sent request
-        if(!is_null($entity->getStatus()) && '20_unsent'!=$entity->getStatus())
-        {
-            throw new \Exception("Error: the request is alfready sent, you can only send a request with status 'unsent' or null!"); 
-        }
-        $this->postUpdateEntity($entity, null);
-        $entity->setStatus("30_awaiting"); 
-        $this->getDoctrine()->getEntityManager()->flush();
+        $this->flushEntity($entity, 'send');
         return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_index'));
     }
 
@@ -269,13 +269,8 @@ class MyServiceRequestController extends BaseController
      */
     public function takeAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
         $entity = $this->getEntity('take', $id);
-        
-        $entity->setLastModifiedAt(new \DateTime('now'));
-        $entity->setAssignedTo($this->get('security.context')->getToken()->getUser());
-        $this->get('session')->setFlash('ftfs.crud.flash.success', $this->getRoutingPrefix().'.table.action.take.success.flash');
-        $em->flush();
+        $this->flushEntity($entity, 'take');
         return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array( 
             'id' => $entity->getId(),
         )));
@@ -298,8 +293,7 @@ class MyServiceRequestController extends BaseController
         //
         // only request awaiting can be transfered...
         $entity = $this->getEntity('transfer', $id);
-        $entity->setAssignedTo(null);
-        $this->getDoctrine()->getEntityManager()->flush();
+        $this->flushEntity($entity, 'transfer');
         return $this->redirect($this->generateUrl('ftfs_dashboardbundle_myservicerequest_show', array('id' => $entity->getId())));
     }
 
@@ -347,6 +341,8 @@ class MyServiceRequestController extends BaseController
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($service);
         $em->flush();
+
+        $this->notify('accept');
         return $this->redirect($this->generateUrl('ftfs_dashboardbundle_myservice_edit', array('id' => $service->getId())));
     }
 
@@ -364,9 +360,7 @@ class MyServiceRequestController extends BaseController
         //
         // change the status as 10_rejected
         $entity = $this->getEntity('reject', $id);
-        $entity->setStatus('10_rejected');
-        //$entity->setObservation('message');
-        $this->getDoctrine()->getEntityManager()->flush();
+        $this->flushEntity($entity, 'reject');
         return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
     }
 }

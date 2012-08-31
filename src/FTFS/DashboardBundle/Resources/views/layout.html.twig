@@ -3,3 +3,12 @@
 {% block body_menu %}
 {% include 'FTFSDashboardBundle::body_menu.html.twig' %}
 {% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        $('.modal-notification').modal({
+            backdrop: false,
+        })
+    </script>
+{% endblock %}

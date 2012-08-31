@@ -13,12 +13,21 @@ class ServiceRequestController extends BaseController
         ));
     }
 
-    protected function postInitEntity($entity, $request)
+    /**
+     * pre flush entity filter
+     * do some pre flush auto settings here
+     *
+     */
+    protected function preFlushEntity($entity, $action, $request)
     {
-        $entity->setRequestedAt(new \DateTime('now'));
-        $entity->setLastModifiedAt(new \DateTime('now'));
-        $entity->setStatus('20_unsent');
-        $this->get('session')->setFlash('ftfs.crud.flash.success', 'ftfs.crud.flash.created.sucess'); 
+        switch($action)
+        {
+            case 'new':
+                $entity->setRequestedAt(new \DateTime('now'));
+                $entity->setLastModifiedAt(new \DateTime('now'));
+                $entity->setStatus('20_unsent');
+                break;
+        }
     }
 
     protected function getEntityList()

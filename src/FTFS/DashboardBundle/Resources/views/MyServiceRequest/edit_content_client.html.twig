@@ -1,7 +1,7 @@
 {% extends 'FTFSCrudBundle:Crud:edit_content.html.twig' %}
 
 {% block crud_actions_icons %}
-    <a href="javascript: submitform('nosend')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'.form.action.edit.update.nosend.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+    <a href="javascript: submitform()" class="btn btn-small" rel="tooltip" title="{{ (prefix~'.form.action.edit.update.nosend.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
         <i class="icon-ok"></i>
     </a>
     {% if '10_rejected'==entity.status %}
@@ -16,14 +16,14 @@
 {% endblock %}
 
 {% block crud_form %}
-    <input type="hidden" name="update_mode" value="nosend">
+    <input type="hidden" name="redirect" value="">
     {{ parent() }}
 {% endblock %}
 
 
 {% block crud_actions %}
     <div class="btn-group dropup">
-        <a class="btn btn-primary" href="javascript: submitform('nosend')"><i class="icon-ok icon-white"></i>{{ (prefix~'.form.action.edit.update.nosend')|trans({}, 'crud') }}</a>
+        <a class="btn btn-primary" href="javascript: submitform()"><i class="icon-ok icon-white"></i>{{ (prefix~'.form.action.edit.update.nosend')|trans({}, 'crud') }}</a>
         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
             <span class="caret"></span>
         </a>
@@ -39,7 +39,7 @@
                 {{ (prefix~'.form.action.edit.update.send')|trans({}, 'crud') }}
             </a></li>
             {% endif %}
-            <li><a href="javascript: submitform('nosend')">
+            <li><a href="javascript: submitform()">
                 <i class="icon-ok"></i>
                 {{ (prefix~'.form.action.edit.update.nosend')|trans({}, 'crud') }}
             </a></li>
@@ -47,10 +47,10 @@
     </div>
 
     <script>
-        function submitform(updatemode)
+        function submitform(redirect_target)
         {
             form = document.forms["{{ prefix~'_form' }}"];
-            form.update_mode.value = updatemode;
+            form.redirect.value = redirect_target;
             form.submit();
         }
     </script>

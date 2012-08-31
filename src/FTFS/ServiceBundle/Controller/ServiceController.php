@@ -14,13 +14,17 @@ class ServiceController extends BaseController
         ));
     }
 
-    protected function postInitEntity($entity, $request)
+    protected function preFlushEntity($entity, $action, $request)
     {
-        $entity->setRequestReceivedAt(new \DateTime('now'));
-        $entity->setOpenedAt(new \DateTime('now'));
-        $entity->setLastModifiedAt(new \DateTime('now'));
-        $entity->setStatus("opened");
-        $this->get('session')->setFlash('ftfs.crud.flash.success', 'ftfs.crud.flash.created.sucess'); 
+        switch($action)
+        {
+            case 'new':
+                $entity->setRequestReceivedAt(new \DateTime('now'));
+                $entity->setOpenedAt(new \DateTime('now'));
+                $entity->setLastModifiedAt(new \DateTime('now'));
+                $entity->setStatus("opened");
+                break;
+        }
     }
 
     protected function getEntityList()

@@ -1,7 +1,7 @@
 {% extends 'FTFSCrudBundle:Crud:new_content.html.twig' %}
 
 {% block crud_actions_icons %}
-    <a href="javascript: submitform('nosend')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'.form.action.new.save.nosend.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+    <a href="javascript: submitform()" class="btn btn-small" rel="tooltip" title="{{ (prefix~'.form.action.new.save.nosend.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
         <i class="icon-ok"></i>
     </a>
     <a href="javascript: submitform('send')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'.form.action.new.save.send.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
@@ -10,13 +10,13 @@
 {% endblock %}
 
 {% block crud_form %}
-    <input type="hidden" name="init_mode" value="nosave">
+    <input type="hidden" name="redirect" value="">
     {{ parent() }}
 {% endblock %}
 
 {% block crud_actions %}
     <div class="btn-group dropup">
-        <a class="btn btn-primary" href="javascript: submitform('nosend')">
+        <a class="btn btn-primary" href="javascript: submitform()">
             <i class="icon-ok icon-white"></i>
             {{ (prefix~'.form.action.new.save.nosend')|trans({}, 'crud') }}
         </a>
@@ -31,7 +31,7 @@
                 </a>
             </li>
             <li>
-                <a href="javascript: submitform('nosend')">
+                <a href="javascript: submitform()">
                     <i class="icon-ok"></i>
                     {{ (prefix~'.form.action.new.save.nosend')|trans({}, 'crud') }}
                 </a>
@@ -40,10 +40,10 @@
     </div>
 
     <script>
-        function submitform(initmode)
+        function submitform(redirect_target)
         {
             form = document.forms["{{ prefix~'_form' }}"];
-            form.init_mode.value = initmode;
+            form.redirect.value = redirect_target;
             form.submit();
         }
     </script>

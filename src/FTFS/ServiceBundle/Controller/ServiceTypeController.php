@@ -14,25 +14,29 @@ class ServiceTypeController extends BaseController
         ));
     }
 
-    protected function postInitEntity($entity, $request)
+    /**
+     * init new create entity
+     * for new action only
+     */
+    protected function initNewEntity($entity)
     {
         $entity->setActive(true);
-        $this->get('session')->setFlash('ftfs.crud.flash.success', 'ftfs.crud.flash.created.sucess'); 
     }
 
+    /**
+     * activate a service type
+     * for integrity reason, the delete of an entity is depreciated
+     * use deactivate instead
+     */
     public function activateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $entity = $em->getRepository($this->getEntityPath())->find($id);
-
-        if(!$entity)
-        {
-            throw $this->createNotFoundException('Entity not found !');        
-        }
-
+        $entity = $this->getEntity('activate', $id);
         $entity->setActive(!$entity->getActive());
-        $em->flush($entity);
-        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_index'));
 
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->flush($entity);
+
+        $this->notify('activate');
+        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_index'));
     }
 }

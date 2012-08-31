@@ -15,19 +15,6 @@ class MyServiceController extends BaseController
     }
 
     /**
-     * post init entity while construction
-     */
-    protected function postInitEntity($entity, $request){
-        // ?? ticket without request ??
-        $entity->setStatus('10_opened');
-        $entity->setAssignedTo($this->get('security.context')->getToken()->getUser());
-        $entity->setLastModifiedAt(new \DateTime('now'));
-        $entity->setRequestReceivedAt(new \DateTime('now'));
-        $entity->setOpenedAt(new \DateTime('now'));
-        $this->get('session')->setFlash('ftfs.crud.flash.success', 'ftfs.crud.flash.created.sucess'); 
-    }
-
-    /**
      * get entity list for index Action
      */
     protected function getEntityList()
@@ -92,14 +79,15 @@ class MyServiceController extends BaseController
                 case '30_closed':
                     $queryBuilder
                         ->andWhere('e.status = :status')
-                        ->setParameter('status', $status)
+                        ->setParameter('status', $status);
+                case 'allassigned':
+                    $queryBuilder
                         ->andWhere('e.assigned_to = :assigned_to')
                         ->setParameter('assigned_to', $current_user);
                     break;
-                default:        // all my services active
+                default:        // all my services active, opened & delivered
                     $queryBuilder
-                        ->andWhere('e.status = :status')
-                        ->setParameter('status', '10_opened')
+                        ->andWhere("e.status = '10_opened' or e.status = '20_delivered'")
                         ->andWhere('e.assigned_to = :assigned_to')
                         ->setParameter('assigned_to', $current_user);
             }
@@ -168,6 +156,31 @@ class MyServiceController extends BaseController
         return $entity;
     }
 
+    protected function flushEntity($entity, $action, $request=null)
+    {
+        // pre flush
+        $entity->setLastModifiedAt(new \DateTime('now'));
+        switch($action)
+        {
+            case 'deliver':
+                $entity->setStatus('20_delivered');
+                break;
+
+        }
+
+        // flush options for new, edit, delete 
+        parent::flushEntity($entity, $action, $request);
+    }
+
+    protected function initNewEntity($entity){
+        // ?? ticket without request ??
+        $entity->setStatus('10_opened');
+        $entity->setAssignedTo($this->get('security.context')->getToken()->getUser());
+        $entity->setRequestReceivedAt(new \DateTime('now'));
+        $entity->setOpenedAt(new \DateTime('now'));
+        $entity->setLastModifiedAt(new \DateTime('now'));
+    }
+
     /**
      * deliver
      * granted only to ROLE_AGENT
@@ -176,8 +189,21 @@ class MyServiceController extends BaseController
      */
     public function deliverAction($id)
     {
+        // declare that the service requested has been delivered to the client
+        // waiting for the confirmation of the client
+        // the ticket will automatically be closed by syst in several days defined
+        // even if the client didn't click on the confirm button
+        //
+        // however, if the client think the service has not been delivered as declaired
+        // he can interrupt the close process by click on the reject button
+        // in this case, the agent has to review the process to ensure the delivrance
+        //
+        // the admin shall get an alarm message in this case
+        //
+        // at the moment, for a 1st quick brain storming, we ignore all following process **********ToDo
         $entity = $this->getEntity('deliver', $id);
-        throw new \Exception('not available yet');
+        $this->flushEntity($entity, 'deliver');
+        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_index'));
     }
 
     /**
@@ -212,8 +238,13 @@ class MyServiceController extends BaseController
      */
     public function transferAction($id)
     {
-        $entity = $this->getEntity('transfer', $id);
+        // either to a certain agent
+        // or null, if to the admin
         throw new \Exception('not available yet');
+        $entity = $this->getEntity('transfer', $id);
+        $entity->setStatus('20_delivered');
+        $this->getDoctrine()->getEntityManager()->flush();
+        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_index'));
     }
 
     /**

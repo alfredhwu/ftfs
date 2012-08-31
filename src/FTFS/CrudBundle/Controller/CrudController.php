@@ -47,40 +47,6 @@ abstract class CrudController extends Controller
     }
 
     /**
-     * get an entity object
-     * namespace defined by 'model' entry in constructer
-     * by default, \Vendor\Bundle\Entity\EntityName
-     */
-    protected function getEntity($action, $id = -1)
-    {
-        if($id == -1)
-        {
-            $entityClass = '\\'.$this->namespaces['model']['vendor'].'\\'.$this->namespaces['model']['bundle'].'\\Entity\\'.$this->namespaces['model']['entity'];
-            return new $entityClass;
-        }
-        $entity = $this->getDoctrine()
-                        ->getEntityManager()
-                        ->getRepository($this->getEntityPath())
-                        ->find($id);
-        if(!$entity)
-        {
-            throw $this->createNotFoundException('Entity not found !');        
-        }
-        return $entity;
-    }
-
-    /**
-     * get an entity type object
-     * namespace defined by 'model' entry in constructer
-     * by default, \Vendor\Bundle\Form\EntityNameType
-     */
-    protected function getEntityType(array $options)
-    {
-        $entityTypeClass = '\\'.$this->namespaces['model']['vendor'].'\\'.$this->namespaces['model']['bundle'].'\\Form\\'.$this->namespaces['model']['entity'].'Type';
-        return new $entityTypeClass($options);
-    }
-
-    /**
      * get entity rendering path
      * namespace defined by 'model' entry in constructer
      * by default, VendorBundle:Entity => Vendor/Bundle/Entity/
@@ -113,35 +79,99 @@ abstract class CrudController extends Controller
     }
 
     /**
-     * pre init entity while construction
+     * get an entity type object
+     * namespace defined by 'model' entry in constructer
+     * by default, \Vendor\Bundle\Form\EntityNameType
      */
-    protected function preInitEntity($entity, $request){
-        // ToDo: pre init entity
+    protected function getEntityType(array $options)
+    {
+        $entityTypeClass = '\\'.$this->namespaces['model']['vendor'].'\\'.$this->namespaces['model']['bundle'].'\\Form\\'.$this->namespaces['model']['entity'].'Type';
+        return new $entityTypeClass($options);
     }
 
     /**
-     * post init entity while construction
+     * get an entity object
+     * namespace defined by 'model' entry in constructer
+     * by default, \Vendor\Bundle\Entity\EntityName
      */
-    protected function postInitEntity($entity, $request){
-        // ToDo: post init entity
-        $this->get('session')->setFlash('ftfs.crud.flash.success', 'ftfs.crud.flash.created.sucess'); 
+    protected function getEntity($action, $id = -1)
+    {
+        if($id == -1)
+        {
+            // if $id not set, by default, this is called by new action
+            $entityClass = '\\'.$this->namespaces['model']['vendor'].'\\'.$this->namespaces['model']['bundle'].'\\Entity\\'.$this->namespaces['model']['entity'];
+            $entity = new $entityClass;
+            $this->initNewEntity($entity);
+        }else{
+            // if $id is set, find the entity related
+            $entity = $this->getDoctrine()
+                            ->getEntityManager()
+                            ->getRepository($this->getEntityPath())
+                            ->find($id);
+            if(!$entity)
+            {
+                throw $this->createNotFoundException('Entity not found !');        
+            }
+        }
+        return $entity;
     }
 
-    /**
-     * post update entity
-     */
-    protected function postUpdateEntity($entity, $request){
-        // ToDo: post update entity
-        $this->get('session')->setFlash('ftfs.crud.flash.success', 'ftfs.crud.flash.updated.sucess'); 
+    protected function initNewEntity($entity)
+    {
+        // Todo: add your new entity init code here
     }
-
 
     /**
      * get entity list for index Action
      */
     protected function getEntityList()
     {
+        // ToDo: add some filter here
         return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findAll();
+    }
+
+    /**
+     * notification filter
+     * notify the result of an action
+     *
+     */
+    protected function notify($action, $status='success')
+    {
+        $this->get('session')->setFlash(
+            'ftfs.crud.notification.'.$status, 
+            $this->getRoutingPrefix().'.notification.action.'.$action.'.'.$status
+        ); 
+    }
+
+    /**
+     * flush entity filter
+     * do some post flush auto settings here
+     *
+     */
+    protected function flushEntity($entity, $action, $request=null)
+    {
+        // Todo add flush optiion for other actions here
+        //
+
+        // ToDo add preflushed here
+        //
+        // flush options for new, edit, delete
+        $em = $this->getDoctrine()->getEntityManager();
+        switch($action)
+        {
+            case 'new':
+                $em->persist($entity);
+                break;
+            case 'edit':
+                break;
+            case 'delete':
+                $em->remove($entity);
+                break;
+        }
+        $em->flush();         
+        $this->notify($action);
+
+        // Todo add redirect here
     }
 
     public function indexAction()
@@ -164,6 +194,29 @@ abstract class CrudController extends Controller
         ));
     }
 
+    public function newAction()
+    {
+        $request = $this->get('request');
+        $entity = $this->getEntity('new');
+
+        $form = $this->createForm($this->getEntityType(array('view' => 'new')), $entity);
+
+        if('POST'===$request->getMethod())
+        {
+            $form->bindRequest($request);
+            if($form->isValid())
+            {
+                $this->flushEntity($entity, 'new', $request);
+                return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $entity->getId())));
+            }
+        }
+        return $this->render($this->getViewPath().':new.html.twig', array(
+            'entity' => $entity,
+            'form' => $form->createView(),
+            'prefix' => $this->getRoutingPrefix(),
+        ));
+    }
+
     public function editAction($id)
     {
         $entity = $this->getEntity('edit', $id);
@@ -175,8 +228,7 @@ abstract class CrudController extends Controller
             $form->bindRequest($request);
             if($form->isValid())
             {
-                $this->postUpdateEntity($entity, $request);
-                $this->getDoctrine()->getEntityManager()->flush();         
+                $this->flushEntity($entity, 'edit', $request);
                 return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
             }
         }
@@ -190,40 +242,7 @@ abstract class CrudController extends Controller
     public function deleteAction($id)
     {
         $entity = $this->getEntity('delete', $id);
-
-        $em = $this->getDoctrine()->getEntityManager();
-        $em->remove($entity);
-        $em->flush();
-
-        $this->get('session')->setFlash('ftfs.crud.flash.success', 'ftfs.crud.flash.deleted.success'); 
+        $this->flushEntity($entity, 'delete');
         return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_index'));
-    }
-
-    public function newAction()
-    {
-        $request = $this->get('request');
-        $entity = $this->getEntity('new');
-        $this->preInitEntity($entity, $request);
-
-        $form = $this->createForm($this->getEntityType(array('view' => 'new')), $entity);
-
-
-        if('POST'===$request->getMethod())
-        {
-            $form->bindRequest($request);
-            if($form->isValid())
-            {
-                $this->postInitEntity($entity, $request);
-                $em = $this->getDoctrine()->getEntityManager();
-                $em->persist($entity);
-                $em->flush();         
-                return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $entity->getId())));
-            }
-        }
-        return $this->render($this->getViewPath().':new.html.twig', array(
-            'entity' => $entity,
-            'form' => $form->createView(),
-            'prefix' => $this->getRoutingPrefix(),
-        ));
     }
 }
