@@ -5,7 +5,7 @@
         <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.edit.tooltip'|trans({}, 'crud') }}">
             <i class="icon-pencil"></i>
         </a>
-        <a href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.delete.tooltip'|trans({}, 'crud') }}">
+        <a class="dialog-delete" href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.delete.tooltip'|trans({}, 'crud') }}">
             <i class="icon-trash"></i>
         </a>
         <a href="{{ path(prefix~'_send', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.table.action.send.tooltip')|trans({}, 'crud') }}">
