@@ -176,6 +176,10 @@ abstract class CrudController extends Controller
 
     public function indexAction()
     {
+        // set index into session
+        $request = $this->getRequest();
+        $request->getSession()->set('index',$request->getRequestUri());
+
         return $this->render($this->getViewPath().':index.html.twig', array(
             'entities' => $this->getEntityList(),
             'prefix' => $this->getRoutingPrefix(),
@@ -207,7 +211,7 @@ abstract class CrudController extends Controller
             if($form->isValid())
             {
                 $this->flushEntity($entity, 'new', $request);
-                return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $entity->getId())));
+                return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_index'));
             }
         }
         return $this->render($this->getViewPath().':new.html.twig', array(
@@ -229,7 +233,7 @@ abstract class CrudController extends Controller
             if($form->isValid())
             {
                 $this->flushEntity($entity, 'edit', $request);
-                return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
+                return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array( 'id' => $entity->getId())));
             }
         }
         return $this->render($this->getViewPath().':edit.html.twig', array(

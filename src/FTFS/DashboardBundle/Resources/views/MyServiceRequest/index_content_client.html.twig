@@ -2,25 +2,15 @@
 
 {% block operations %}
     {% if '20_unsent' == entity.status %}
-        <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.edit.tooltip'|trans({}, 'crud') }}">
-            <i class="icon-pencil"></i>
-        </a>
-        <a class="dialog-delete" href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.delete.tooltip'|trans({}, 'crud') }}">
-            <i class="icon-trash"></i>
-        </a>
-        <a href="{{ path(prefix~'_send', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.table.action.send.tooltip')|trans({}, 'crud') }}">
+        <a href="#" class="crud-action" crud-toggle="{{ path(prefix~'_send', { 'id' : entity.id }) }}" crud-message="{{ (prefix~'.table.action.send.message')|trans({}, 'crud') }}" rel="tooltip" title="{{ (prefix~'.table.action.send.tooltip')|trans({}, 'crud') }}">
             <i class="icon-envelope"></i>
-        </a>
-    {% elseif '10_rejected' == entity.status %}
-        <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.edit.tooltip'|trans({}, 'crud') }}">
-            <i class="icon-pencil"></i>
-        </a>
-        <a href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.delete.tooltip'|trans({}, 'crud') }}">
-            <i class="icon-trash"></i>
         </a>
     {% elseif '40_accepted' == entity.status %}
         <a href="{{ path('ftfs_dashboardbundle_myservice_show', { 'id' : entity.service.id }) }}" rel="tooltip" title="{{ (prefix~'.table.action.show.service.tooltip')|trans({}, 'crud') }}">
             <i class="icon-list-alt"></i>
         </a>
     {% endif %}
+    {% set removable = entity.status in ['20_unsent', '10_rejected'] %}
+    {% set read_only = entity.status in ['30_awaiting', '40_accepted'] %}
+    {{ parent() }}
 {% endblock %}

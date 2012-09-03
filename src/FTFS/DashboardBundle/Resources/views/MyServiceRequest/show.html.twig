@@ -4,7 +4,9 @@
 {% block body_content %}
 {% if is_granted('ROLE_CLIENT') %}
     {% include 'FTFSDashboardBundle:MyServiceRequest:show_content_client.html.twig' 
-        with { 'read_only' : (entity.status not in ['20_unsent', '10_rejected']) } %}
+        with { 'read_only' : (entity.status not in ['20_unsent', '10_rejected']), 
+                'removable' : true
+        } %}
 {% elseif is_granted('ROLE_AGENT') %}
     {% include 'FTFSDashboardBundle:MyServiceRequest:show_content_agent.html.twig' 
         with { 'read_only' : true } %}

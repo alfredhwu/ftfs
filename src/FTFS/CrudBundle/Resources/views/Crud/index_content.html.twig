@@ -50,7 +50,7 @@
                         <i class="icon-pencil"></i>
                     </a>
                         {% if removable is defined and removable %}
-                        <a href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.delete.tooltip'|trans({}, 'crud') }}">
+                        <a class="crud-action" crud-toggle="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" crud-message="{{ (prefix~'.table.action.delete.message')|trans({}, 'crud') }}" href="#" rel="tooltip" title="{{ 'ftfs.crud.table.action.delete.tooltip'|trans({}, 'crud') }}">
                             <i class="icon-trash"></i>
                         </a>
                         {% endif %}
@@ -64,4 +64,3 @@
     </tbody>
 </table>
 {% endblock %}
-

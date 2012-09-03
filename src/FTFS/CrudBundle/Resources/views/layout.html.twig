@@ -6,7 +6,7 @@
     {{ message|trans({}, 'crud') }}
 </div>
 -->
-<div class="modal modal-notification">
+<div class="modal modal-notification fade">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3 id="myModalLabel">Notification</h3>
@@ -17,8 +17,12 @@
         <span class="label label-success">
             Success
         </span>
+        &nbsp;
         {% endif %}
-        {{ message|trans({}, 'crud') }}</p>
+        <span>
+            {{ message|trans({}, 'crud') }}
+        </span>
+    </p>
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>

@@ -151,10 +151,6 @@ class MyServiceRequestController extends BaseController
 
             // restricted to its owner: requested_by, status: 10_rejected or 20_unsent 
             case 'send':
-                if($entity->getStatus()!= '20_unsent')
-                {
-                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" cannot apply on a request '.$entity->getStatus().' !');
-                }
             case 'edit':
             case 'delete':
                 if(('10_rejected' != $entity->getStatus()) && ('20_unsent' != $entity->getStatus()) )
@@ -217,11 +213,12 @@ class MyServiceRequestController extends BaseController
         {
             case 'send':
                 // check no sending a sent request
-                if(!is_null($entity->getStatus()) && '20_unsent'!=$entity->getStatus())
+                if(!is_null($entity->getStatus()) && '20_unsent'!=$entity->getStatus() and '10_rejected'!=$entity->getStatus())
                 {
                     throw new \Exception("Error: the request is alfready sent, you can only send a request with status 'unsent' or null!"); 
                 }
                 $entity->setStatus("30_awaiting"); 
+                $entity->setRequestedAt(new \DateTime('now')); 
                 break;
             case 'take':
                 $entity->setAssignedTo($this->get('security.context')->getToken()->getUser());

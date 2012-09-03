@@ -1,5 +1,17 @@
 ###################################################################################### my request
 ftfs_dashboardbundle_myservicerequest:
+    notification:
+        action:
+            new:
+                success:    "New service request created successfully !"
+            edit:
+                success:    "Updated successfully !"
+            delete:
+                success:    "Service request deleted successfully !"
+            take:
+                success:    "Service request taken successfully !"
+            reject:
+                success:    "Service request rejected successfully !"
     table:
         caption:    "Service Request List"
         operations: "Operations"
@@ -7,6 +19,7 @@ ftfs_dashboardbundle_myservicerequest:
             new:    "Request a Service"
             send:   "Quick send"
             send.tooltip:   "Quick send"
+            send.message:   "Really want to send this service request? "
             take:   "Take this request"
             take.tooltip:   "Take this request"
             take.success.flash: "Taken successfully !"
@@ -15,6 +28,7 @@ ftfs_dashboardbundle_myservicerequest:
             transfer.success.flash:   "Request transfered successfully"
             show.service:       "Show Related Service Ticket"
             show.service.tooltip:       "Show Related Service Ticket"
+            delete.message:     "Really want to delete this service request? "
     form:
         legend.show: "Service Request Detail"
         legend.new:  "New Service Request"
