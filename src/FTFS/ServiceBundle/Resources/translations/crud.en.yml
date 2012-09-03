@@ -144,23 +144,29 @@ ftfs_servicebundle_servicerequest:
             assign.tooltip: "Assgin"
 ################################################################ SERVICE TYPE #####################
 ftfs_servicebundle_servicetype:
-        form:
-            legend: 
-                new:    "New Service Type"
-                edit:   "Edit Service Type"
-                show:   "Service Type Details"
-        table:
-            caption:    "Service Type List"
-            action:
-                new:    "Add a new service type"
-                active:
-                    activate.tooltip:   "Click to enable this type"
-                    deactivate.tooltip:   "Click to disable this type"
-            operations: "Operations"
-            name:       "Service Name"
+    notification:
+        action:
+            new:
+                success:    "New service type created !"
+            edit:
+                success:    "Service type updated !"
+    form:
+        legend: 
+            new:    "New Service Type"
+            edit:   "Edit Service Type"
+            show:   "Service Type Details"
+    table:
+        caption:    "Service Type List"
+        action:
+            new:    "Add a new service type"
             active:
-                title:  "Status"
-                value:
-                    active:   "enabled"
-                    inactive:  "disabled"
-            description: "Service Description"
+                activate.tooltip:   "Click to enable this type"
+                deactivate.tooltip:   "Click to disable this type"
+        operations: "Operations"
+        name:       "Service Name"
+        active:
+            title:  "Status"
+            value:
+                active:   "enabled"
+                inactive:  "disabled"
+        description: "Service Description"

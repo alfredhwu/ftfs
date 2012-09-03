@@ -12,6 +12,10 @@ ftfs_dashboardbundle_myservicerequest:
                 success:    "Service request taken successfully !"
             reject:
                 success:    "Service request rejected successfully !"
+            accept:
+                success:    "Request accepted with a new service ticket opened !"
+            send:
+                success:    "Request sent successfully !"
     table:
         caption:    "Service Request List"
         operations: "Operations"
@@ -78,6 +82,14 @@ ftfs_dashboardbundle_myservicerequest:
 
 ################################################################################### my service            
 ftfs_dashboardbundle_myservice:
+    notification:
+        action:
+            edit:
+                success:    "Service ticket saved successfully !"
+            deliver:
+                success:    "Service ticket delivered successfully !"
+            new:
+                success: "New service ticket created successfully !"
     table:
         caption:    "Service Ticket List"
         operations: "Operations"
