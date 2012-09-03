@@ -1,17 +1,17 @@
 {% extends "FTFSUserBundle::body_menu.html.twig" %}
 {% block menu_content %}
     <li class="nav-header">User Profile</li>
-    <li><a href="{{ path('ftfsuserbundle_user_edit', { 'username' : user.username }) }}"><i class="icon-user"></i> Modify Profile</a></li>
-    <li><a href="{{ path('ftfsuserbundle_user_edit_roles', { 'username' : user.username }) }}"><i class="icon-user"></i> Modify Roles</a></li>
-    <li><a href="{{ path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) }}"><i class="icon-user"></i> Reset Password</a></li>
-    <li><a href="{{ path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) }}"><i class="icon-user"></i> Lock This User</a></li>
+    <li {% if path('ftfsuserbundle_user_edit', { 'username' : user.username }) == app.session.get('bodymenu') %} class="active" {% endif %} ><a href="{{ path('ftfsuserbundle_user_edit', { 'username' : user.username }) }}"><i class="icon-user"></i> Modify Profile</a></li>
+    <li {% if path('ftfsuserbundle_user_edit_roles', { 'username' : user.username }) == app.session.get('bodymenu') %} class="active" {% endif %} ><a href="{{ path('ftfsuserbundle_user_edit_roles', { 'username' : user.username }) }}"><i class="icon-user"></i> Modify Roles</a></li>
+    <li {% if path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) == app.session.get('bodymenu') %} class="active" {% endif %} ><a href="{{ path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) }}"><i class="icon-user"></i> Reset Password</a></li>
+    <li {% if path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) == app.session.get('bodymenu') %} class="active" {% endif %} ><a href="{{ path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) }}"><i class="icon-user"></i> Lock This User</a></li>
     {% if is_granted('ROLE_SUPER_ADMIN') %}
         {% if 'ROLE_SUPER_ADMIN' in user.roles %}
-    <li><a href="{{ path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) }}"><i class="icon-user"></i> 
+    <li {% if path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) == app.session.get('bodymenu') %} class="active" {% endif %} ><a href="{{ path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) }}"><i class="icon-user"></i> 
     demote the super_admin role
     </a></li>
         {% else %}
-    <li><a href="{{ path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) }}"><i class="icon-user"></i> 
+    <li {% if path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) == app.session.get('bodymenu') %} class="active" {% endif %} ><a href="{{ path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) }}"><i class="icon-user"></i> 
     promote as super_admin
     </a></li>
         {% endif %}

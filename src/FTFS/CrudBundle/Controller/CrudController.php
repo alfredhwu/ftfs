@@ -179,7 +179,9 @@ abstract class CrudController extends Controller
         // set index into session
         $request = $this->getRequest();
         $request->getSession()->set('index',$request->getRequestUri());
+        $request->getSession()->set('bodymenu',$request->getRequestUri());
 
+        // general twig rendering
         return $this->render($this->getViewPath().':index.html.twig', array(
             'entities' => $this->getEntityList(),
             'prefix' => $this->getRoutingPrefix(),
@@ -201,6 +203,8 @@ abstract class CrudController extends Controller
     public function newAction()
     {
         $request = $this->get('request');
+        $request->getSession()->set('bodymenu',$request->getRequestUri());
+
         $entity = $this->getEntity('new');
 
         $form = $this->createForm($this->getEntityType(array('view' => 'new')), $entity);

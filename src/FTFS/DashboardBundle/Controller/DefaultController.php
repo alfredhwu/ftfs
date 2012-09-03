@@ -10,6 +10,8 @@ class DefaultController extends Controller
     
     public function indexAction()
     {
+        $request = $this->get('request');
+        $request->getSession()->set('navbar',$request->getRequestUri());
         if($this->get('security.context')->isGranted('ROLE_CLIENT') ||
             $this->get('security.context')->isGranted('ROLE_AGENT'))
         {

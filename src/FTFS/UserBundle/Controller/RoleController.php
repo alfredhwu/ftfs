@@ -11,6 +11,10 @@ class RoleController extends Controller
     
     public function indexAction()
     {
+        $request = $this->getRequest();
+        $request->getSession()->set('navbar',$request->getRequestUri());
+        $request->getSession()->set('bodymenu',$request->getRequestUri());
+
         return $this->render('FTFSUserBundle:Role:index.html.twig');
     }
 }

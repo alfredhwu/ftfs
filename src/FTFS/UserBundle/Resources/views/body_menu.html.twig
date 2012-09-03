@@ -1,9 +1,9 @@
 {% block menu_content %}
     <li class="nav-header">User Management</li>
-    <li><a href="{{ path('ftfsuserbundle_user_index') }}"><i class="icon-user"></i> All Users</a></li>
+    <li {% if path('ftfsuserbundle_user_index') == app.session.get('bodymenu') %} class="active" {% endif %} ><a href="{{ path('ftfsuserbundle_user_index') }}"><i class="icon-user"></i> All Users</a></li>
     <li><a href="#"><i class="icon-home"></i> Invite a user</a></li>
     <li><a href="#"><i class="icon-home"></i> Add a user</a></li>
 
     <li class="nav-header">Role Management</li>
-    <li><a href="{{ path('ftfsuserbundle_role_index') }}"><i class="icon-home"></i> All Roles</a></li>
+    <li {% if path('ftfsuserbundle_role_index') == app.session.get('bodymenu') %} class="active" {% endif %} ><a href="{{ path('ftfsuserbundle_role_index') }}"><i class="icon-home"></i> All Roles</a></li>
 {% endblock %}

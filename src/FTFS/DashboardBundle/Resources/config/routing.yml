@@ -1,4 +1,4 @@
-ftfsdashboardbundle_homepage:
+ftfs_dashboardbundle_homepage:
     pattern:  /
     defaults: { _controller: FTFSDashboardBundle:Default:index }
 
