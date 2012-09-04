@@ -193,6 +193,11 @@ abstract class CrudController extends Controller
         $entity = $this->getEntity('show', $id);
         $form = $this->createForm($this->getEntityType(array('view' => 'show')), $entity);
 
+        // test notification
+        $actor = $this->get('fos_user.user_manager')->findUserByUsername('agent');
+        $subject = $entity;
+        $this->container->get('merk_notification.notifier')->trigger('event.key', $subject, 'viewed by', $actor);
+
         return $this->render($this->getViewPath().':show.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),

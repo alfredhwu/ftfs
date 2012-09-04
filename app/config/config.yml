@@ -65,6 +65,7 @@ jms_security_extra:
     secure_controllers:  true
     secure_all_services: false
 
+# fos config
 fos_user:
     db_driver:      orm
     firewall_name:  main
@@ -97,3 +98,13 @@ fos_user:
         group_class: FTFS\UserBundle\Entity\Group
         form:
             type:   ftfs_user_group
+
+
+# merk notification configuration
+merk_notification:
+    db_driver:  orm
+    class: 
+        filter:             FTFS\NotificationBundle\Entity\Filter
+        notification:       FTFS\NotificationBundle\Entity\Notification
+        notification_event: FTFS\NotificationBundle\Entity\NotificationEvent
+        user_preferences:   FTFS\NotificationBundle\Entity\UserPreferences

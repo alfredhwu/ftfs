@@ -66,3 +66,7 @@
     git=git://github.com/FriendsOfSymfony/FOSUserBundle.git
     target=bundles/FOS/UserBundle
     version=origin/1.2.x
+
+[merkNotificationBundle]
+    git=git://github.com/merk/merkNotificationBundle.git
+    target=bundles/merk/NotificationBundle
