@@ -15,13 +15,13 @@ service
 ===================iss5@dashboard================================
 access control: routing, controller, view: client... >>>> fait@2012-08-30
 
-interaction
+interaction>>>>>> fait 09-04
 warning for dangerous operations, and messages  
-oper take, transfer, open, cancel => role_agent
+
+oper take, transfer, cancel => role_agent
+
 show page personnalization
 index page: searching
-
-
 notification: syst, email
 
 ===================iss6@others=======================
