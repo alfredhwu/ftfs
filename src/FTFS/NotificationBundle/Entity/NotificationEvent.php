@@ -26,6 +26,12 @@ class NotificationEvent extends BaseNotificationEvent
     protected $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="FTFS\UserBundle\Entity\User")
+     * @var \FTFS\UserBundle\Entity\User
+     */
+    protected $actor;
+
+    /**
      * @ORM\OneToMany(targetEntity="FTFS\NotificationBundle\Entity\Notification", mappedBy="event")
      * @var \Doctrine\Common\Collection\Collection
      */

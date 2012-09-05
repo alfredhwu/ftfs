@@ -1,0 +1,6 @@
+services:
+    ftfs_notification.sender.agent.email:
+        class:  FTFS\NotificationBundle\Sender\Agent\EmailAgent
+        arguments:  [@mailer]
+        tags:
+            - { name: merk_notification.sender.agent, alias: email }
