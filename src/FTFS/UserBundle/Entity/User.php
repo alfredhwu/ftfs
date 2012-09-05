@@ -84,6 +84,11 @@ class User extends BaseUser
         // your own logic
     }
 
+    public function __toString()
+    {
+        return $this->getTitle().' '.$this->getFirstName().' '.$this->getSurname().' ('.$this->getCompany().')';
+    }
+
     /**
      * Set surname
      *

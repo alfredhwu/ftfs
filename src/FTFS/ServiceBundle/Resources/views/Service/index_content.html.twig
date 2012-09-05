@@ -1,9 +1,27 @@
-{% extends "FTFSServiceBundle:Service:index_content_table.html.twig" %}
+{% extends "FTFSCrudBundle:Crud:index_content.html.twig" %}
 
-{% block operations %}
-    {{ parent() }}
-    <a href="{{ path(prefix~'_assign', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'_table_action_assign_tooltip')|replace('_', '.')|trans({}, 'crud') }}">
-        <i class="icon-share"></i>
-    </a>
+{% block thead %}
+<th>{{ (prefix~'.table.name')| trans({}, 'crud') }}</th>
+<th>{{ (prefix~'.table.active.title')| trans({}, 'crud') }}</th>
+<th class="cell-max">{{ (prefix~'.table.description')| trans({}, 'crud') }}</th>
 {% endblock %}
 
+{% block tbody %}
+<td>{{ entity.name }}</td>
+<td>
+    {% if entity.active %}
+        <a href="{{ path(prefix~'_activate', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'_table_action_active_activate_tooltip')|replace('_', '.')|trans({}, 'crud') }}">
+            <span class="label label-success">
+                {{ (prefix~'.table.active.value.active')| trans({}, 'crud') }}
+            </span>
+        </a>
+    {% else %}
+        <a href="{{ path(prefix~'_activate', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'_table_action_active_deactivate_tooltip')|replace('_', '.')|trans({}, 'crud') }}">
+            <span class="label label-important">
+                {{ (prefix~'.table.active.value.inactive')| trans({}, 'crud') }}
+            </span>
+        </a>
+    {% endif %}
+</td>
+<td>{{ entity.description }}</td>
+{% endblock %}

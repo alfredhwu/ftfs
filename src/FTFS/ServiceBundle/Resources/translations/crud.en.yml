@@ -1,29 +1,29 @@
-ftfs.servicebundle.servicetype:
+ftfs.servicebundle.service:
     form:
         name:       "Service Type Name:"
         active:     "Is This Service Type Enabled?"
         description: "Service Description:"
-ftfs.servicebundle.service:
+ftfs.servicebundle.serviceticket:
     form:
         name:       "Service Ticket No:"
-        type:       "Service Type:"
+        service:    "Service Required:"
         severity:   "Severity:"
         priority:   "Priority:"
         status:     "Status:"
-        request.received.at: "Request Received at:"
-        requested.by:   "Requested by"
-        requested.via:  "Requested via"
-        summary:        "Request Summary Description"
-        detail:         "Request Detail Description"
-        asset.name:     "Related Asset No."
+        requested.at: "Requested at:"
+        requested.by:   "Requested by:"
+        requested.via:  "Requested via:"
+        summary:        "Request Summary Description:"
+        detail:         "Request Detail Description:"
+        asset:     "Related Asset No."
         assigned.to: "Assigned to:"
         opened.at:  "Ticket Opened at:"
-        resolved.at: "Ticket Resolved at:"
+        created.at: "Ticket Created at:"
         closed.at:  "Ticket Closed at:"
         last.modified.at:    "Last Modified at:"
     table:
         name:       "Service Ticket No"
-        type:       "Service Type"
+        service:       "Service Requested"
         severity:
             title:  "Severity"
             100:    "Very High"
@@ -56,68 +56,19 @@ ftfs.servicebundle.service:
             20_delivered.class: "label label-info"
             30_closed:          "Closed"
             30_closed.class:    "label label-inverse"
-        request.received.at: "Request Received at"
+        requested.at: "Requested at"
         requested.by:   "Requested by"
         summary:        "Request Summary Description"
         detail:         "Request Detail Description"
-        asset.name:     "Related Asset No."
+        asset:     "Related Asset No."
         assigned.to: "Assigned to"
         opened.at:  "Ticket Opened at"
-        resolved.at: "Ticket Resolved at"
+        created.at: "Ticket Created at"
         closed.at:  "Ticket Closed at"
         last.modified.at:    "Last Modified at"
-ftfs.servicebundle.servicerequest:
-    form:
-        name:       "Service Request No. :"
-        severity:   "Severity:"
-        type:       "Serviece Type:"
-        status:     "Request Status:"
-        last.modified.at: "Last modified at:"
-        requested.by: "Requested by:"
-        requested.at: "Requested at:"
-        requested.via: "Requested via:"
-        assigned.to:  "Assigned to:"
-        asset.name: "Related Asset No. :"
-        service:    "Related Service No. :"
-        summary:    "Short description of the problem:"
-        detail:     "Detail description of the problem:"
-    table:
-        name:       "Service Request No"
-        status:
-            title:             "Status" 
-            10_rejected:       "Rejected"
-            10_rejected.class: "label label-important"
-            20_unsent:         "Unsent"
-            20_unsent.class:   "label label-warning"
-            30_awaiting:       "Awaiting"
-            30_awaiting.class: "label label-info"
-            40_accepted:       "Accepted"
-            40_accepted.class: "label label-success"
-        severity:
-            title:      "Severity"
-            100:        "Very High"
-            100.class:  "label label-important"
-            200:        "High"
-            200.class:  "label label-warning"
-            300:        "Normal"
-            300.class:  "label label-info"
-            400:        "Low"
-            400.class:  "label label-inverse"
-            500:        "Very Low"
-            500.class:  "label"
-        type:           "Service Type"
-        last.modified.at:   "Last Modified at"
-        requested.by:   "Requested by"
-        requested.at:   "Requested at"
-        requested.via:  "Requested via"
-        assigned.to:    "Assigned to"
-        summary:        "Problem summary"
-        detail:         "Details"
-        asset.name:     "Related Asset No."
-        service:        "Related Service No."
 #
 ################################################################ SERVICE #######################
-ftfs_servicebundle_service:
+ftfs_servicebundle_serviceticket:
     form:
         legend: 
             new:    "New Service Ticket"
@@ -129,21 +80,8 @@ ftfs_servicebundle_service:
         action:
             new:    "Add a new service ticket"
             assign.tooltip: "Assgin"
-################################################################ SERVICE REQUEST #####################
-ftfs_servicebundle_servicerequest:
-    form:
-        legend: 
-            new:    "New Service Request"
-            edit:   "Edit Service Request"
-            show:   "Service Request Details"
-    table:
-        caption:    "Service Request List"
-        operations: "Operations"
-        action:
-            new:    "Add a new service request"
-            assign.tooltip: "Assgin"
 ################################################################ SERVICE TYPE #####################
-ftfs_servicebundle_servicetype:
+ftfs_servicebundle_service:
     notification:
         action:
             new:

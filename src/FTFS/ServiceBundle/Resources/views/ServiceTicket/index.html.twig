@@ -1,0 +1,5 @@
+{% extends "FTFSServiceBundle::layout.html.twig" %}
+
+{% block body_content %}
+{% include 'FTFSServiceBundle:ServiceTicket:index_content.html.twig' with { 'removable' : true } %}
+{% endblock %}

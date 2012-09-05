@@ -4,28 +4,26 @@ namespace FTFS\ServiceBundle\Controller;
 
 use FTFS\CrudBundle\Controller\CrudController as BaseController;
 
-class ServiceRequestController extends BaseController
+
+class ServiceTicketController extends BaseController
 {
     public function __construct()
     {
         parent::__construct(array(
-            'model' => "FTFS/ServiceBundle/ServiceRequest"
+            'model' => "FTFS/ServiceBundle/ServiceTicket"
         ));
     }
 
-    /**
-     * pre flush entity filter
-     * do some pre flush auto settings here
-     *
-     */
     protected function preFlushEntity($entity, $action, $request)
     {
         switch($action)
         {
             case 'new':
                 $entity->setRequestedAt(new \DateTime('now'));
+                $entity->setCreatedAt(new \DateTime('now'));
+                $entity->setOpenedAt(new \DateTime('now'));
                 $entity->setLastModifiedAt(new \DateTime('now'));
-                $entity->setStatus('20_unsent');
+                $entity->setStatus("opened");
                 break;
         }
     }

@@ -14,27 +14,29 @@ class ServiceController extends BaseController
         ));
     }
 
-    protected function preFlushEntity($entity, $action, $request)
+    /**
+     * init new create entity
+     * for new action only
+     */
+    protected function initNewEntity($entity)
     {
-        switch($action)
-        {
-            case 'new':
-                $entity->setRequestReceivedAt(new \DateTime('now'));
-                $entity->setOpenedAt(new \DateTime('now'));
-                $entity->setLastModifiedAt(new \DateTime('now'));
-                $entity->setStatus("opened");
-                break;
-        }
+        $entity->setActive(true);
     }
 
-    protected function getEntityList()
+    /**
+     * activate a service type
+     * for integrity reason, the delete of an entity is depreciated
+     * use deactivate instead
+     */
+    public function activateAction($id)
     {
-        return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findBy(
-            array(
-            ),
-            array(
-                'last_modified_at' => 'desc',
-            )
-        );
+        $entity = $this->getEntity('activate', $id);
+        $entity->setActive(!$entity->getActive());
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->flush($entity);
+
+        $this->notify('activate');
+        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_index'));
     }
 }

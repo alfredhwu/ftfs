@@ -1,13 +1,10 @@
 {% extends '::menu.html.twig' %}
 {% block menu_content %}
     <li class="nav-header">Service Tickets</li>
-    <li><a href="{{ path('ftfs_servicebundle_service_index') }}"><i class="icon-home"></i> All Service Tickets</a></li>
-
-    <li class="nav-header">Service Requests</li>
-    <li><a href="{{ path('ftfs_servicebundle_servicerequest_index') }}"><i class="icon-home"></i> All Service Requests</a></li>
-    
-    <li class="nav-header">Service Type</li>
-    <li><a href="{{ path('ftfs_servicebundle_servicetype_index') }}"><i class="icon-home"></i> All Service Types</a></li>
-    <li><a href="{{ path('ftfs_servicebundle_servicetype_new') }}"><i class="icon-home"></i> Add a Service Type</a></li>
+    <li {% if path('ftfs_servicebundle_serviceticket_index')== app.session.get('bodymenu') %} class="active" {% endif %}><a href="{{ path('ftfs_servicebundle_serviceticket_index') }}"><i class="icon-home"></i> All Service Tickets</a></li>
+   
+    <li class="nav-header">Service Definition</li>
+    <li {% if path('ftfs_servicebundle_service_index')== app.session.get('bodymenu') %} class="active" {% endif %}><a href="{{ path('ftfs_servicebundle_service_index') }}"><i class="icon-home"></i> All Available Services</a></li>
+    <li {% if path('ftfs_servicebundle_service_new')== app.session.get('bodymenu') %} class="active" {% endif %}><a href="{{ path('ftfs_servicebundle_service_new') }}"><i class="icon-home"></i> Add a Service Type</a></li>
     {{ parent() }}
 {% endblock %}
