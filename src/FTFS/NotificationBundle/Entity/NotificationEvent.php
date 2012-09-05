@@ -12,7 +12,7 @@ use DateTime;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="ftfs_notification_notificationevent")
+ * @ORM\Table(name="ftfs_notification_event")
  * @ORM\HasLifecycleCallbacks
  */
 class NotificationEvent extends BaseNotificationEvent  

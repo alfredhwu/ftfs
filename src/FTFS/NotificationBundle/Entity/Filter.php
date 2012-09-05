@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="ftfs_notification_userfilter")
+ * @ORM\Table(name="ftfs_notification_filter")
  */
 class Filter extends BaseFilter
 {

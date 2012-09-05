@@ -37,16 +37,16 @@ class UserPreferences extends BaseUserPreferences
     public function __construct()
     {
         $this->filters = new ArrayCollection;
+        // add by alfredhwu
+        $this->updatedAt = new \DateTime();
     }
 
     /**
-     * Get id
-     *
-     * @return integer 
+     * method added for correction in the merk notification bundle
      */
-    public function getId()
+    public function setMethod($defaultMethod)
     {
-        return $this->id;
+        $this->setDefaultMethod($defaultMethod);
     }
 
     /**
@@ -60,28 +60,9 @@ class UserPreferences extends BaseUserPreferences
     }
 
     /**
-     * Get user
-     *
-     * @return FTFS\UserBundle\Entity\User 
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Get filters
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getFilters()
-    {
-        return $this->filters;
-    }
-
-    /**
      * Set filters
      *
+     * @param Doctrine\Common\Collections\ArrayCollection 
      */
     public function setFilters($filters)
     {
