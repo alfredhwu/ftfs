@@ -2,50 +2,6 @@ ftfs_dashboardbundle_homepage:
     pattern:  /
     defaults: { _controller: FTFSDashboardBundle:Default:index }
 
-############################################################################# Service Request
-## service request routing 
-ftfs_dashboardbundle_myservicerequest_index:
-    pattern:  /myrequest/list
-    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:index }
-
-ftfs_dashboardbundle_myservicerequest_new:
-    pattern:  /myrequest/new
-    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:new }
-
-ftfs_dashboardbundle_myservicerequest_show:
-    pattern:  /myrequest/{id}/show
-    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:show }
-
-ftfs_dashboardbundle_myservicerequest_edit:
-    pattern:  /myrequest/{id}/edit
-    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:edit }
-
-ftfs_dashboardbundle_myservicerequest_delete:
-    pattern:  /myrequest/{id}/delete
-    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:delete }
-
-## oper client 
-ftfs_dashboardbundle_myservicerequest_send:
-    pattern:  /myrequest/{id}/send
-    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:send }
-
-## oper agent
-ftfs_dashboardbundle_myservicerequest_take:
-    pattern:  /myrequest/{id}/take
-    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:take }
-    
-ftfs_dashboardbundle_myservicerequest_transfer:
-    pattern:  /myrequest/{id}/transfer
-    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:transfer }
-    
-ftfs_dashboardbundle_myservicerequest_accept:
-    pattern:  /myrequest/{id}/accept
-    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:accept }
-    
-ftfs_dashboardbundle_myservicerequest_reject:
-    pattern:  /myrequest/{id}/reject
-    defaults: { _controller: FTFSDashboardBundle:MyServiceRequest:reject }
-
 ############################################################################ service ticket
 ## service routing
 ftfs_dashboardbundle_myservice_index:
@@ -81,8 +37,8 @@ ftfs_dashboardbundle_myservice_open:
     pattern:  /myservice/{id}/open
     defaults: { _controller: FTFSDashboardBundle:MyService:open }
     
-ftfs_dashboardbundle_myservice_deliver:
-    pattern:  /myservice/{id}/deliver
+ftfs_dashboardbundle_myservice_close:
+    pattern:  /myservice/{id}/close
     defaults: { _controller: FTFSDashboardBundle:MyService:deliver }
     
 ftfs_dashboardbundle_myservice_cancel:

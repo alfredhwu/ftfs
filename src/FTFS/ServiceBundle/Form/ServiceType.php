@@ -18,6 +18,6 @@ class ServiceType extends AbstractType
 
     public function getName()
     {
-        return 'ftfs_servicebundle_servicetype';
+        return 'ftfs_servicebundle_service_form';
     }
 }

@@ -1,85 +1,3 @@
-###################################################################################### my request
-ftfs_dashboardbundle_myservicerequest:
-    notification:
-        action:
-            new:
-                success:    "New service request created successfully !"
-            edit:
-                success:    "Updated successfully !"
-            delete:
-                success:    "Service request deleted successfully !"
-            take:
-                success:    "Service request taken successfully !"
-            reject:
-                success:    "Service request rejected successfully !"
-            accept:
-                success:    "Request accepted with a new service ticket opened !"
-            send:
-                success:    "Request sent successfully !"
-    table:
-        caption:    "Service Request List"
-        operations: "Operations"
-        action:
-            new:    "Request a Service"
-            send:   "Quick send"
-            send.tooltip:   "Quick send"
-            send.message:   "Really want to send this service request? "
-            take:   "Take this request"
-            take.tooltip:   "Take this request"
-            take.success.flash: "Taken successfully !"
-            transfer:       "Transfer"
-            transfer.tooltip:   "Transfer"
-            transfer.success.flash:   "Request transfered successfully"
-            show.service:       "Show Related Service Ticket"
-            show.service.tooltip:       "Show Related Service Ticket"
-            delete.message:     "Really want to delete this service request? "
-    form:
-        legend.show: "Service Request Detail"
-        legend.new:  "New Service Request"
-        legend.edit: "Modify Service Request"
-        action:
-            new.save: 
-                nosend: "Save without sending"
-                nosend.tooltip: "Save without sending"
-                nosend.success.flash: "New service request created but not yet sent !"
-                send:   "Save and send"
-                send.tooltip:   "Save and send"
-                send.success.flash:   "New service request created and sent !"
-            edit.update:
-                send:   "Update and Send"
-                send.tooltip:   "Update and Send"
-                send.success.flash:     "Service request updated and sent !"
-                resend: "Update and Resend"
-                resend.tooltip: "Update and Resend"
-                resend.success.flash:   "Service request updated and resent !"
-                nosend: "Update without sending"
-                nosend.tooltip: "Update without sending"
-                nosend.success.flash:   "Service request updated but not yet sent !"
-                accept: "Update and Open a Service Ticket"
-                accept.tooltip: "Update and open a ticket"
-                accept.success.flash:   "Service request updated and accepted with a service ticket opened !"
-                noaccept:       "Update without Open a Ticket"
-                noaccept.tooltip:       "Update without open a ticket"
-                noaccept.success.flash: "Service request updated but not yet accepted !"
-                reject:   "Update and Reject the Request"
-                reject.tooltip:   "Update and reject the request"
-                reject.success.flash:     "Service request updated but not denied by the agent; a message will be sent to the client to further investigate the request !"
-            show:
-                send:   "Send" 
-                send.tooltip:   "Send" 
-                take:   "Take this request"
-                take.tooltip:   "Take this request"
-                accept: "Accept this Request and Open a Ticket"
-                accept.tooltip: "Accept this request and open a ticket"
-                reject: "Reject this Request and Inform the Client"
-                reject.tooltip: "Reject this request and inform the client"
-                transfer:       "Transfer"
-                transfer.tooltip:   "Transfer"
-                transfer.success.flash:   "Request transfered successfully"
-        flash.success.created:
-            sent:
-            nosent:
-
 ################################################################################### my service            
 ftfs_dashboardbundle_myservice:
     notification:
@@ -114,6 +32,11 @@ ftfs_dashboardbundle_myservice:
                 deliver.tooltip:    "Deliver"
                 cancel:     "Cancel"
                 cancel.tooltip:     "Cancel"
+            new:
+                saveonly:   "Save without send"
+                saveonly.tooltip:   "Save without Send"
+                savesubmit: "Save and send"
+                savesubmit.tooltip: "Save and Send"
             edit:
                 update:
                     deliver:        "Update and Deliver"

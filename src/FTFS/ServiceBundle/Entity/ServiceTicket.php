@@ -57,7 +57,7 @@ class ServiceTicket
     /**
      * @var datetime $requested_at
      *
-     * @ORM\Column(name="requested_at", type="datetime")
+     * @ORM\Column(name="requested_at", type="datetime", nullable=true)
      */
     private $requested_at;
 

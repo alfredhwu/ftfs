@@ -2,8 +2,10 @@
 
 {% block body_content %}
     {% if is_granted('ROLE_AGENT') %}
-        {% include 'FTFSCrudBundle:Crud:new_content.html.twig'%}
+        {% include 'FTFSDashboardBundle:MyService:new_content_agent.html.twig'%}
+    {% elseif is_granted('ROLE_CLIENT') %}
+        {% include 'FTFSDashboardBundle:MyService:new_content_client.html.twig'%}
     {% else %}
-        <h1> error : you have to have role_client in order to create a request !</h1>
+        <h1> error : you have to have role_client or role agent in order to create a new service ticket !</h1>
     {% endif %}
 {% endblock %}

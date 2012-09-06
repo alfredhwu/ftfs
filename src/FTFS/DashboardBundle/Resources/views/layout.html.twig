@@ -1,6 +1,23 @@
 {% extends '::layout.html.twig' %}
 
 {% block body_menu %}
-{% include 'FTFSDashboardBundle::body_menu.html.twig' %}
+    {% if is_granted('ROLE_AGENT') %}
+        {% include 'FTFSDashboardBundle::body_menu_agent.html.twig' %}
+    {% elseif is_granted('ROLE_CLIENT') %}
+        {% include 'FTFSDashboardBundle::body_menu_client.html.twig' %}
+    {% else %}
+        <h1> Error: You have to be granted as either role_agent or role_client in order to see this page !</h1>
+        <p>Please report this bug to your tech support !</p>
+    {% endif %}
 {% endblock %}
 
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        function form_submit(mode) {
+            form = document.forms["{{ prefix~'_form' }}"],
+            form.mode.value = mode;
+            form.submit();
+        }
+    </script>
+{% endblock %}

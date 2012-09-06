@@ -1,15 +1,19 @@
-{% extends "FTFSServiceBundle:Service:index_content_table.html.twig" %}
+{% extends "FTFSServiceBundle:ServiceTicket:index_content_table.html.twig" %}
 
 {% block operations %}
-    {% if  entity.status == '10_opened' %}
-        {% if entity.assignedTo == app.user.username %}
+    {% if  entity.status == 'submitted' %}
+        <a href="{{ path(prefix~'_take', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.table.action.take.tooltip')|trans({}, 'crud') }}">
+            <i class="icon-hand-up"></i>
+        </a>
+    {% elseif entity.status in ['interrupted', 'assigned', 'opened'] %}
+        {% if entity.assignedTo.username == app.user.username %} {# self #}
         <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.edit.tooltip'|trans({}, 'crud') }}">
             <i class="icon-pencil"></i>
         </a>
         <a href="{{ path(prefix~'_transfer', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.table.action.transfer.tooltip')|trans({}, 'crud') }}">
             <i class="icon-hand-right"></i>
         </a>
-        {% elseif entity.assignedTo is null %}
+        {% else %} {# others #}
         <a href="{{ path(prefix~'_take', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.table.action.take.tooltip')|trans({}, 'crud') }}">
             <i class="icon-hand-up"></i>
         </a>

@@ -9,7 +9,7 @@ class MyServiceController extends BaseController
     public function __construct()
     {
         parent::__construct(array(
-            'model' => "FTFS/ServiceBundle/Service",
+            'model' => "FTFS/ServiceBundle/ServiceTicket",
             'controller' => "FTFS/DashboardBundle/MyService",
         ));
     }
@@ -20,21 +20,18 @@ class MyServiceController extends BaseController
     protected function getEntityList()
     {
         $context = $this->get('security.context');
-        $current_user = $context->getToken()->getUserName();
+        $current_user = $context->getToken()->getUser();
         // status filter
         $status = $this->getRequest()->query->get('status');
 
+        // general ordering
         $queryBuilder = $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())
-                ->createQueryBuilder('e')
-                ->add('orderBy', 'e.status asc, e.priority asc, e.severity asc, e.last_modified_at desc');
+                ->createQueryBuilder('e');
 
         /** 
-         * channel for client, filter by status
-         * Read_only
-         * maybe cancel oper in the future
-         *
-         * will cover the role_agent, that is to say, if a user is both granted as role_client 
+         * role_client covers the role_agent, that is to say, if a user is both granted as role_client 
          * and role_agent, or any other sup role, only get priviledge of role_client
+         *
          */
         if($context->isGranted('ROLE_CLIENT'))
         {
@@ -43,63 +40,63 @@ class MyServiceController extends BaseController
              */
             $queryBuilder
                 ->andWhere('e.requested_by = :requested_by')
-                ->setParameter('requested_by', $current_user);
+                ->setParameter('requested_by', $current_user)
+                ->add('orderBy', 'e.status asc, e.severity asc, e.last_modified_at desc');
 
-            switch($status)
+        }elseif($context->isGranted('ROLE_AGENT')){
+            $queryBuilder
+                ->add('orderBy', 'e.status asc, e.priority asc, e.severity asc, e.last_modified_at desc');
+            // additional channel for agent
+            // all services     'status' = 'alldeployed'
+            // all new requests 'status' = 'allunassigned'
+            if($status == 'alldeployed')
             {
-                case 'all':
-                    break;
-                case '10_opened':
-                case '20_delivered':
-                case '30_closed':
-                    $queryBuilder
-                        ->andWhere('e.status = :status')
-                        ->setParameter('status', $status);
-                    break;
-                default:        // by default if no filter is set, return opened, delivered
-                    $queryBuilder
-                        ->add('orderBy', 
-                                'e.status desc, e.priority asc, e.severity asc, e.last_modified_at desc')
-                        ->andWhere("e.status = '10_opened' or e.status = '20_delivered'");
+                $queryBuilder
+                    ->andWhere("e.status <> 'created'");
+                return $queryBuilder->getQuery()->getResult();
+            }elseif($status == 'allunassigned'){
+                $queryBuilder
+                    ->andWhere("e.status = 'submitted'");
+                return $queryBuilder->getQuery()->getResult();
             }
-            return $queryBuilder->getQuery()->getResult();
+            // default, filtered by assignedTo
+            $queryBuilder
+                ->andWhere('e.assigned_to = :assigned_to')
+                ->setParameter('assigned_to', $current_user);
+        }else{
+            throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Normally you have to be granted as client or agent in order to enter this controller : MyServiceController:list ! You see this error page because of an internal error or you tried to access a ressource without permission.');
         }
-        /** 
-         * channel for agent, filter by filter
-         * 
-         */
-        if($context->isGranted('ROLE_AGENT'))
+        
+        switch($status)
         {
-            switch($status)
-            {
-                case 'all':     // all services
-                    break;
-                case '10_opened':
-                case '20_delivered':
-                case '30_closed':
-                    $queryBuilder
-                        ->andWhere('e.status = :status')
-                        ->setParameter('status', $status);
-                case 'allassigned':
-                    $queryBuilder
-                        ->andWhere('e.assigned_to = :assigned_to')
-                        ->setParameter('assigned_to', $current_user);
-                    break;
-                default:        // all my services active, opened & delivered
-                    $queryBuilder
-                        ->andWhere("e.status = '10_opened' or e.status = '20_delivered'")
-                        ->andWhere('e.assigned_to = :assigned_to')
-                        ->setParameter('assigned_to', $current_user);
-            }
-            return $queryBuilder->getQuery()->getResult();
-        }        
-        throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Normally you have to be granted as client or agent in order to enter this controller : MyServiceController:list ! You see this error page because of an internal error or you tried to access a ressource without permission.');
+            //case 'submitted':
+            case 'assigned':
+            case 'created':
+            case 'interrupted':
+            case 'opened':
+            case 'closed':
+                $queryBuilder
+                    ->andWhere('e.status = :status')
+                    ->setParameter('status', $status);
+                break;
+            case 'awaiting': // both submitted(=unassigned) and assigned
+                $queryBuilder
+                    ->andWhere("e.status = 'submitted' or e.status = 'assigned'");
+                break;
+            case 'all':
+                break;
+            default:        // by default if no filter is set, return no closed
+                $queryBuilder
+                    ->andWhere("e.status <> 'closed'");
+        }
+        
+        return $queryBuilder->getQuery()->getResult();
     }
 
     protected function getEntity($action, $id = -1)
     {
         $context = $this->get('security.context');
-        $current_user = $context->getToken()->getUserName();
+        $current_user = $context->getToken()->getUser();
         $entity = parent::getEntity($action, $id);
 
         switch($action)
@@ -120,31 +117,22 @@ class MyServiceController extends BaseController
                     }
                 }
                 break;
-            // restricted to its owner: assigned_to, status: 10_opened
+            // status: 
             case 'take':
-                if(!is_null($entity->getAssignedTo()))
+                if(!$context->isGranted('ROLE_AGENT'))
                 {
-                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The service request "'.$entity->getName().'" has already been taken !');
+                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "take" of entity '.$entity->getName().'" is reserved for ROLE_AGENT !');
+                }else{
+                    if($entity->getAssignedTo()==$current_user)
+                    {
+                        throw new \Exception('Your have already taken this service ticket !');
+                    }elseif($entity->getStatus()=='created' || $entity->getStatus()=='closed'){
+                        throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The service request "'.$entity->getName().'" has already been taken !');
+                    }
                 }
             case 'transfer':
             case 'edit':
-            case 'open':
-            case 'deliver':
-            case 'cancel':
-                if($entity->getStatus()!= '10_opened')
-                {
-                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" cannot apply on a request '.$entity->getStatus().' !');
-                }
-                if($entity->getAssignedTo()!=$current_user)
-                {
-                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" is reserved to its owner !');
-                }
-                break;
             case 'new':
-                if(!$context->isGranted('ROLE_AGENT'))
-                {
-                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" is reserved to syst agent !');
-                }
                 break;
             // interdit
             case 'delete':
@@ -158,14 +146,45 @@ class MyServiceController extends BaseController
 
     protected function flushEntity($entity, $action, $request=null)
     {
+        // get context info
+        $current_user = $this->get('security.context')->getToken()->getUser();
+        // get option
+        if($request)
+        {
+            $mode = $request->get('mode');
+            $role = $request->get('role');
+        }
         // pre flush
         $entity->setLastModifiedAt(new \DateTime('now'));
         switch($action)
         {
-            case 'deliver':
-                $entity->setStatus('20_delivered');
+            case 'new':
+                if($role == 'client')
+                {
+                    $entity->setName('randomed service ticket no.');
+                    $entity->setPriority($entity->getSeverity());
+                    $entity->setStatus('created');
+                    $entity->setRequestedVia('web');
+                    $entity->setCreatedAt(new \DateTime('now'));
+                    if($mode == 'save_submit')
+                    {
+                        $entity->setStatus('submitted');
+                        $entity->setRequestedAt(new \DateTime('now'));
+                    }
+                }elseif($role == 'agent'){
+                    $entity->setName('randomed service ticket no.');
+                    $entity->setStatus('opened');
+                    $entity->setCreatedAt(new \DateTime('now'));
+                    $entity->setOpenedAt(new \DateTime('now'));
+                }
                 break;
-
+            case 'take':
+                if(is_null($entity->getAssignedTo()))
+                {
+                    $entity->setStatus('assigned');
+                }
+                $entity->setAssignedTo($current_user);
+                break;
         }
 
         // flush options for new, edit, delete 
@@ -173,61 +192,36 @@ class MyServiceController extends BaseController
     }
 
     protected function initNewEntity($entity){
-        // ?? ticket without request ??
-        $entity->setStatus('10_opened');
-        $entity->setAssignedTo($this->get('security.context')->getToken()->getUser());
-        $entity->setRequestReceivedAt(new \DateTime('now'));
-        $entity->setOpenedAt(new \DateTime('now'));
-        $entity->setLastModifiedAt(new \DateTime('now'));
+        $context = $this->get('security.context');
+        
+        // pre init new entity
+
+        if($context->isGranted('ROLE_CLIENT'))
+        {
+            $entity->setRequestedBy($context->getToken()->getUser());
+        }elseif($context->isGranted('ROLE_AGENT')){
+            $entity->setAssignedTo($context->getToken()->getUser());
+            $entity->setRequestedAt(new \DateTime('now'));
+        }
     }
 
     /**
-     * deliver
-     * granted only to ROLE_AGENT
-     *
-     * reserved to owner
+     * get an entity type object
+     * namespace defined by 'model' entry in constructer
+     * by default, \Vendor\Bundle\Form\EntityNameType
      */
-    public function deliverAction($id)
+    protected function getEntityType(array $options)
     {
-        // declare that the service requested has been delivered to the client
-        // waiting for the confirmation of the client
-        // the ticket will automatically be closed by syst in several days defined
-        // even if the client didn't click on the confirm button
-        //
-        // however, if the client think the service has not been delivered as declaired
-        // he can interrupt the close process by click on the reject button
-        // in this case, the agent has to review the process to ensure the delivrance
-        //
-        // the admin shall get an alarm message in this case
-        //
-        // at the moment, for a 1st quick brain storming, we ignore all following process **********ToDo
-        $entity = $this->getEntity('deliver', $id);
-        $this->flushEntity($entity, 'deliver');
-        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_index'));
-    }
+        $context = $this->get('security.context');
 
-    /**
-     * cancel
-     * granted only to ROLE_AGENT
-     *
-     * reserved to owner
-     */
-    public function cancelAction($id)
-    {
-        $entity = $this->getEntity('cancel', $id);
-        throw new \Exception('not available yet');
-    }
+        if($context->isGranted('ROLE_CLIENT'))
+        {
+            $options['role'] = 'client';
+        }elseif($context->isGranted('ROLE_AGENT')){
+            $options['role'] = 'agent';
+        }
 
-    /**
-     * open 
-     * granted only to ROLE_AGENT
-     *
-     * reserved to owner
-     */
-    public function openAction($id)
-    {
-        $entity = $this->getEntity('open', $id);
-        throw new \Exception('not available yet');
+        return parent::getEntityType($options);
     }
 
     /**
@@ -256,6 +250,7 @@ class MyServiceController extends BaseController
     public function takeAction($id)
     {
         $entity = $this->getEntity('take', $id);
-        throw new \Exception('not available yet');
+        $this->flushEntity($entity, 'take');
+        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $entity->getId())));
     }
 }

@@ -1,0 +1,8 @@
+{% extends 'FTFSDashboardBundle:MyService:new_content.html.twig' %}
+
+{% block crud_form %}
+    <input type="hidden" id="role" name="role" value="agent">
+    <input type="hidden" id="mode" name="mode" value="save_open">
+    {{ parent() }}
+{% endblock %}
+

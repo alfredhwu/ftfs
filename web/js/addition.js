@@ -12,6 +12,12 @@ $(document).ready(function () {
         }
     });
     */
+    // new edit helper
+    $('a.crud-submit').click(function (e) {
+        var mode = $(this).attr('crud-submit-mode');
+        e.preventDefault();
+        form_submit(mode);
+    });
 
     // prod
     $('.crud-action').click(function (e) {
