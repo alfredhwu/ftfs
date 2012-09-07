@@ -137,7 +137,10 @@ class MyServiceController extends BaseController
             case 'transfer':
             // interdit
             case 'delete':
-                throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "delete" is banned for security reasons, please contact the system administrator, if you really want to delete this service ticket ! By the way, you can cancel it if you want ! ');
+                if($entity->getStatus()!='created' or $entity->getRequestedBy()!=$current_user)
+                {
+                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "delete" is only possible for the ticket with status "created" and reserved to its creator ! ');
+                }
                 break;
             default:
                 throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Unknow operation !');
@@ -167,12 +170,34 @@ class MyServiceController extends BaseController
                     $entity->setStatus('created');
                     $entity->setRequestedVia('web');
                     $entity->setCreatedAt(new \DateTime('now'));
-                    if($mode == 'save_submit')
+                    if($mode == 'new_submit')
                     {
                         $entity->setStatus('submitted');
                         $entity->setRequestedAt(new \DateTime('now'));
                     }
                 }elseif($role == 'agent'){
+                    $entity->setName('randomed service ticket no.');
+                    $entity->setStatus('opened');
+                    $entity->setCreatedAt(new \DateTime('now'));
+                    $entity->setOpenedAt(new \DateTime('now'));
+                }
+                break;
+            case 'edit':
+                if($role == 'client')
+                {
+                //    $entity->setName('randomed service ticket no.');
+                //    $entity->setPriority($entity->getSeverity());
+                //    $entity->setStatus('created');
+                //    $entity->setRequestedVia('web');
+                //    $entity->setCreatedAt(new \DateTime('now'));
+                    $status = $entity->getStatus();
+                    if($mode == 'edit_submit' and ('created' == $status or 'interrupted' ==$status))
+                    {
+                        $entity->setStatus('submitted');
+                        $entity->setRequestedAt(new \DateTime('now'));
+                    }
+                }elseif($role == 'agent'){
+                throw new \Exception('not available yet');
                     $entity->setName('randomed service ticket no.');
                     $entity->setStatus('opened');
                     $entity->setCreatedAt(new \DateTime('now'));

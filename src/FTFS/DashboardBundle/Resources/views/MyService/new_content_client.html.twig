@@ -2,15 +2,15 @@
 
 {% block crud_form %}
     <input type="hidden" id="role" name="role" value="client">
-    <input type="hidden" id="mode" name="mode" value="saveonly">
+    <input type="hidden" id="mode" name="mode" value="new_only">
     {{ parent() }}
 {% endblock %}
 
 {% block crud_actions_icons %}
-    <a href="#" class="btn btn-small crud-submit" crud-submit-mode="save_only" rel="tooltip" title="{{ (prefix~'.form.action.new.saveonly.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+    <a href="#" class="btn btn-small crud-submit" crud-submit-mode="new_only" rel="tooltip" title="{{ (prefix~'.form.action.new.new_only.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
         <i class="icon-ok"></i>
     </a>
-    <a href="#" class="btn btn-small crud-submit" crud-submit-mode="save_submit" rel="tooltip" title="{{ (prefix~'.form.action.new.savesubmit.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+    <a href="#" class="btn btn-small crud-submit" crud-submit-mode="new_submit" rel="tooltip" title="{{ (prefix~'.form.action.new.new_submit.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
         <i class="icon-envelope"></i>
     </a>
 {% endblock %}
@@ -18,21 +18,21 @@
 {% block crud_actions %}
 <div class="btn-group dropup">
     <div class="btn-group dropup">
-        <a class="btn btn-primary crud-submit" crud-submit-mode="save_only" href="#">
+        <a class="btn btn-primary crud-submit" crud-submit-mode="new_only" href="#">
             <i class="icon-ok icon-white"></i>
-            {{ (prefix~'.form.action.new.saveonly')|trans({}, 'crud') }}
+            {{ (prefix~'.form.action.new.new_only')|trans({}, 'crud') }}
         </a>
         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-            <li><a class="crud-submit" crud-submit-mode="save_submit" href="#">
+            <li><a class="crud-submit" crud-submit-mode="new_submit" href="#">
                 <i class="icon-envelope"></i>
-                {{ (prefix~'.form.action.new.savesubmit')|trans({}, 'crud') }}
+                {{ (prefix~'.form.action.new.new_submit')|trans({}, 'crud') }}
             </a></li>
-            <li><a class="crud-submit" crud-submit-mode="save_only" href="#">
+            <li><a class="crud-submit" crud-submit-mode="new_only" href="#">
                 <i class="icon-ok"></i>
-                {{ (prefix~'.form.action.new.saveonly')|trans({}, 'crud') }}
+                {{ (prefix~'.form.action.new.new_only')|trans({}, 'crud') }}
             </a></li>
         </ul>
     </div>

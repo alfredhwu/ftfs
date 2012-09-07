@@ -15,7 +15,9 @@ $(document).ready(function () {
     // new edit helper
     $('a.crud-submit').click(function (e) {
         var mode = $(this).attr('crud-submit-mode');
+ //       alert("js/addition@debug: " + mode);
         e.preventDefault();
+        // defined in FTFSDashboardBundle::layout.html.twig
         form_submit(mode);
     });
 
