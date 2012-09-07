@@ -101,9 +101,13 @@ class MyServiceController extends BaseController
 
         switch($action)
         {
+            // no restriction
+            case 'new':
+                break;
             // restricted to its owner (assigned to) ant his share list and of cause all agents 
             // ToDo: share group ToDo ########################################################
             case 'show':
+            case 'edit':
                 if($context->isGranted('ROLE_AGENT'))
                 {
                     // role_agent, bypass the protection
@@ -131,9 +135,6 @@ class MyServiceController extends BaseController
                     }
                 }
             case 'transfer':
-            case 'edit':
-            case 'new':
-                break;
             // interdit
             case 'delete':
                 throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "delete" is banned for security reasons, please contact the system administrator, if you really want to delete this service ticket ! By the way, you can cancel it if you want ! ');

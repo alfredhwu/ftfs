@@ -7,7 +7,7 @@
         } %}
     {% elseif is_granted('ROLE_CLIENT') %}
         {% include 'FTFSDashboardBundle:MyService:show_content_client.html.twig' with { 
-            'read_only' : entity.status != 'created', 
+            'read_only' : entity.requestedBy.username != app.user.username or entity.status == 'closed', 
         } %}
     {% endif %}
 {% endblock %}

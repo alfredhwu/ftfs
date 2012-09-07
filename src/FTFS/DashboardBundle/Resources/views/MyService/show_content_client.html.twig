@@ -1,1 +1,41 @@
 {% extends 'FTFSCrudBundle:Crud:show_content.html.twig' %}
+
+{% block crud_actions_icons %}
+    {% if read_only is null or not read_only %}
+        {% if entity.status == 'created' %}
+            <a class="btn btn-small" href="{{ path(prefix~'_submit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.submit.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+                <i class="icon-envelope"></i>
+            </a>
+            <a class="btn btn-small" href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.delete.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+                <i class="icon-trash"></i>
+            </a>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block crud_actions %}
+    {% if read_only is null or not read_only %}
+        {% if entity.status == 'created' %}
+        <div class="btn-group dropup">
+            <a href="{{ path(prefix~'_submit', { 'id' : entity.id }) }}" class="btn">
+                <i class="icon-envelope"></i>
+                {{ (prefix~'.form.action.show.submit')|trans({}, 'crud') }}
+            </a>
+            <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}">
+                    <i class="icon-trash"></i>
+                    {{ (prefix~'.form.action.show.delete')|trans({}, 'crud') }}
+                </a></li>
+                <li>
+                <a href="{{ path(prefix~'_submit', { 'id' : entity.id }) }}">
+                    <i class="icon-envelope"></i>
+                    {{ (prefix~'.form.action.show.submit')|trans({}, 'crud') }}
+                </a></li>
+            </ul>
+        </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

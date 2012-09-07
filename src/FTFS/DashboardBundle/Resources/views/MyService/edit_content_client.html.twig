@@ -1,0 +1,44 @@
+{% extends "FTFSCrudBundle:Crud:edit_content.html.twig" %}
+
+{% block crud_actions_icons %}
+    <a href="javascript: submitform('nodeliver')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'.form.action.edit.update.nodeliver.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+        <i class="icon-ok"></i>
+    </a>
+    <a href="javascript: submitform('deliver')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'.form.action.edit.update.deliver.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+        <i class="icon-shopping-cart"></i>
+    </a>
+{% endblock %}
+
+{% block crud_form %}
+    <input type="hidden" name="update_mode" value="nodeliver">
+    {{ parent() }}
+{% endblock %}
+
+
+{% block crud_actions %}
+    <div class="btn-group dropup">
+        <a class="btn btn-primary" href="javascript: submitform('nodeliver')"><i class="icon-ok icon-white"></i>{{ (prefix~'.form.action.edit.update.nodeliver')|trans({}, 'crud') }}</a>
+        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="javascript: submitform('deliver')">
+                <i class="icon-envelope"></i>
+                {{ (prefix~'.form.action.edit.update.deliver')|trans({}, 'crud') }}
+            </a></li>
+            <li><a href="javascript: submitform('nodeliver')">
+                <i class="icon-ok"></i>
+                {{ (prefix~'.form.action.edit.update.nodeliver')|trans({}, 'crud') }}
+            </a></li>
+        </ul>
+    </div>
+
+    <script>
+        function submitform(updatemode)
+        {
+            form = document.forms["{{ prefix~'_form' }}"];
+            form.update_mode.value = updatemode;
+            form.submit();
+        }
+    </script>
+{% endblock %}

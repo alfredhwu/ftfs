@@ -1,0 +1,35 @@
+indexAction()
+editAction($id)
+newAction()
+showAction($id)
+deleteAction($id)
+
+// path helper
+
+getEntityPath() => Vendor/Bundle/Entity
+
+getRoutingPrefix() => vendor_bundle_entity
+
+getViewPath() => VendorBundle:Entity --> Vendor/Bundle/Resources/views/Entity
+
+getEntityType() =>\Vendor\Bundle\Form\EntityNameType
+
+// specification helper
+
+getEntity($action, $id=-1): used for all actions, get the entity identified by $id
+if $id not specified ($id=-1), return a new empty $entity
+
+initNewEntity($entity): called by newAction to initiate a new empty entity
+
+getEntityList(): called by indexAction, add filters here
+
+notify($action, $status='success'): called by flushEntity() when finished
+
+flushEntity($entity, $action, $request=null): flush
+
+
+// general procedure
+
+getEntity()=>flushEntity()=>notify()
+
+

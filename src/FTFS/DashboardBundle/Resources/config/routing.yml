@@ -44,3 +44,9 @@ ftfs_dashboardbundle_myservice_close:
 ftfs_dashboardbundle_myservice_cancel:
     pattern:  /myservice/{id}/cancel
     defaults: { _controller: FTFSDashboardBundle:MyService:cancel }
+
+
+## oper client
+ftfs_dashboardbundle_myservice_submit:
+    pattern:  /myservice/{id}/submit
+    defaults: { _controller: FTFSDashboardBundle:MyService:submit }

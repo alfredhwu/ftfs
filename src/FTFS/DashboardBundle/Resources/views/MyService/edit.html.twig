@@ -2,10 +2,16 @@
 
 {% block body_content %}
     {% if is_granted('ROLE_AGENT') %}
-        {% if '10_opened' == entity.status %}
+        {% if entity.status not in ['created', 'closed'] %}
             {% include 'FTFSDashboardBundle:MyService:edit_content_agent.html.twig'%}
         {% else %}
-            <h1> error : you can only edit a request with status opened !</h1>
+            <h1> error : you can only edit a ticket with status active !</h1>
+        {% endif %}
+    {% elseif is_granted('ROLE_CLIENT') %}
+        {% if entity.status != 'closed' %}
+            {% include 'FTFSDashboardBundle:MyService:edit_content_client.html.twig'%}
+        {% else %}
+            <h1> error : you can only edit a ticket with status not closed !</h1>
         {% endif %}
     {% else %}
         <h1> error : you have to have role_agent in order to see this page !</h1>
