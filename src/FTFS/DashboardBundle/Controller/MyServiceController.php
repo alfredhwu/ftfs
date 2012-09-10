@@ -158,6 +158,7 @@ class MyServiceController extends BaseController
             $mode = $request->get('mode');
             $role = $request->get('role');
         }
+        $status = $entity->getStatus();
         // pre flush
         $entity->setLastModifiedAt(new \DateTime('now'));
         switch($action)
@@ -185,23 +186,45 @@ class MyServiceController extends BaseController
             case 'edit':
                 if($role == 'client')
                 {
-                //    $entity->setName('randomed service ticket no.');
-                //    $entity->setPriority($entity->getSeverity());
-                //    $entity->setStatus('created');
-                //    $entity->setRequestedVia('web');
-                //    $entity->setCreatedAt(new \DateTime('now'));
-                    $status = $entity->getStatus();
-                    if($mode == 'edit_submit' and ('created' == $status or 'interrupted' ==$status))
+                    if($mode == 'edit_submit' and ('created' == $status or 'interrupted' == $status))
                     {
                         $entity->setStatus('submitted');
                         $entity->setRequestedAt(new \DateTime('now'));
                     }
                 }elseif($role == 'agent'){
-                throw new \Exception('not available yet');
-                    $entity->setName('randomed service ticket no.');
-                    $entity->setStatus('opened');
-                    $entity->setCreatedAt(new \DateTime('now'));
-                    $entity->setOpenedAt(new \DateTime('now'));
+                    switch($mode)
+                    {
+                        case 'edit_open':
+                            //parent::flushEntity($entity, $action, $request);
+                            if('assigned' == $status or 'interrupted' == $status)
+                            {
+                                $entity->setStatus('opened');
+                                $entity->setOpenedAt(new \DateTime('now'));
+                            }else{
+                                throw new \Exception('impossible to open a ticket with status: '.$status);
+                            }
+                            break;
+                        case 'edit_close':
+                            if('closed' == $status)
+                            {
+                                $entity->setStatus('closed');
+                                $entity->setClosedAt(new \DateTime('now'));
+                            }else{
+                                throw new \Exception('impossible to close a ticket with status: '.$status);
+                            }
+                            break;
+                        case 'edit_transfer':
+                            throw new \Exception("unavailable operation: ".$mode." of ".$role);
+                            break;
+                        case 'edit_only':
+                            if('colsed' == $status)
+                            {
+                                throw new \Exception("impossible to edit a closed ticket");
+                            }
+                            break;
+                        default:
+                            throw new \Exception("unknow operation: ".$mode." of ".$role);
+                    }
                 }
                 break;
             case 'take':

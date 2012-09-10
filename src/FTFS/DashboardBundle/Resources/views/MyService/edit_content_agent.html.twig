@@ -1,34 +1,63 @@
 {% extends "FTFSCrudBundle:Crud:edit_content.html.twig" %}
 
 {% block crud_actions_icons %}
-    <a href="javascript: submitform('nodeliver')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'.form.action.edit.update.nodeliver.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
-        <i class="icon-ok"></i>
-    </a>
-    <a href="javascript: submitform('deliver')" class="btn btn-small" rel="tooltip" title="{{ (prefix~'.form.action.edit.update.deliver.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
-        <i class="icon-shopping-cart"></i>
-    </a>
+    {% if entity.status in ['assigned', 'interrupted', 'opened'] %}
+        {% if entity.assignedTo is not null and entity.assignedTo.username == app.user.username %}
+            {% if entity.status != 'opened' %}
+            <a class="btn btn-small crud-submit" crud-submit-mode="edit_open" href="#" rel="tooltip" title="{{ (prefix~'.form.action.edit.edit_open.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+                <i class="icon-share"></i>
+            </a>
+            {% else %}
+            <a class="btn btn-small crud-submit" crud-submit-mode="edit_close" href="#" rel="tooltip" title="{{ (prefix~'.form.action.show.edit_close.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+                <i class="icon-check"></i>
+            </a>
+            {% endif %}
+            <a class="btn btn-small crud-submit" crud-submit-mode="edit_only" href="#" rel="tooltip" title="{{ (prefix~'.form.action.edit.edit_only.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+                <i class="icon-ok"></i>
+            </a>
+            <a class="btn btn-small crud-submit" crud-submit-mode="edit_transfer" href="#" rel="tooltip" title="{{ (prefix~'.form.action.edit.edit_transfer.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+                <i class="icon-hand-right"></i>
+            </a>
+        {% endif %}
+    {% endif %}
 {% endblock %}
 
 {% block crud_form %}
-    <input type="hidden" name="update_mode" value="nodeliver">
+    <input type="hidden" id="role" name="role" value="agent">
+    <input type="hidden" id="mode" name="mode" value="edit_only">
     {{ parent() }}
 {% endblock %}
 
 
 {% block crud_actions %}
     <div class="btn-group dropup">
-        <a class="btn btn-primary" href="javascript: submitform('nodeliver')"><i class="icon-ok icon-white"></i>{{ (prefix~'.form.action.edit.update.nodeliver')|trans({}, 'crud') }}</a>
+        <a class="btn btn-primary crud-submit" crud-submit-mode="edit_only" href="#"><i class="icon-ok icon-white"></i>{{ (prefix~'.form.action.edit.edit_only')|trans({}, 'crud') }}</a>
         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-            <li><a href="javascript: submitform('deliver')">
-                <i class="icon-envelope"></i>
-                {{ (prefix~'.form.action.edit.update.deliver')|trans({}, 'crud') }}
-            </a></li>
-            <li><a href="javascript: submitform('nodeliver')">
+            {% if entity.status in ['assigned', 'interrupted', 'opened'] %}
+                {% if entity.assignedTo is not null and entity.assignedTo.username == app.user.username %}
+                    {% if entity.status != 'opened' %}
+                    <li><a class="crud-submit" crud-submit-mode="edit_open" href="#">
+                        <i class="icon-share"></i>
+                        {{ (prefix~'.form.action.edit.edit_open')|trans({}, 'crud') }}
+                    </a></li>
+                    {% else %}
+                    <li><a class="crud-submit" crud-submit-mode="edit_close" href="#">
+                        <i class="icon-check"></i>
+                        {{ (prefix~'.form.action.edit.edit_close')|trans({}, 'crud') }}
+                    </a></li>
+                    {% endif %}
+                    <li><a class="crud-submit" crud-submit-mode="edit_transfer" href="#" rel="tooltip" title="{{ (prefix~'.form.action.edit.edit_transfer.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+                        <i class="icon-hand-right"></i>
+                        {{ (prefix~'.form.action.edit.edit_transfer')|trans({}, 'crud') }}
+                    </a></li>
+                {% endif %}
+            {% endif %}
+            <li><a class="crud-submit" crud-submit-mode="edit_only" href="#">
                 <i class="icon-ok"></i>
-                {{ (prefix~'.form.action.edit.update.nodeliver')|trans({}, 'crud') }}
+                {{ (prefix~'.form.action.edit.edit_only')|trans({}, 'crud') }}
             </a></li>
         </ul>
     </div>
