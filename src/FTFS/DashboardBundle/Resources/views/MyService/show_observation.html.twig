@@ -1,0 +1,29 @@
+<!-- new observation -->
+<form id="observation_new" class="hide" action="{{ path(prefix~'_show_observation_new', { 'id' : id }) }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input type="submit">
+</form>
+
+<!-- list of observations -->
+<table class="table" width="100%">
+    {% for ob in observations %}
+    <tr>
+        <th width="10%">
+            <i class="icon-user"></i>
+            {{ ob.sendBy }}
+        </th>
+        <td width="80%">@{% if ob.sendAt is not empty %}{{ ob.sendAt | date('Y-m-d H:i:s') }}{% endif %} {{ ob.content }}</td>
+        <td width="10%"></td>
+    </tr>
+    {% endfor %}
+    {% for ob in observations %}
+    <tr>
+        <td width="10%"></td>
+        <td width="80%">@{% if ob.sendAt is not empty %}{{ ob.sendAt | date('Y-m-d H:i:s') }}{% endif %} {{ ob.content }}</td>
+        <th width="10%">
+            <i class="icon-user"></i>
+            {{ ob.sendBy }}
+        </th>
+    </tr>
+    {% endfor %}
+</table>

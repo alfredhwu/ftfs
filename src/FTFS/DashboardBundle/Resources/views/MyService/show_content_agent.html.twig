@@ -1,4 +1,4 @@
-{% extends 'FTFSCrudBundle:Crud:show_content.html.twig' %}
+{% extends 'FTFSDashboardBundle:MyService:show_content.html.twig' %}
 
 {% block crud_actions_icons %}
     {% if entity.status in ['interrupted', 'submitted', 'assigned', 'opened'] %}
@@ -21,44 +21,6 @@
                     <i class="icon-hand-right"></i>
                 </a>
             {% endif %}
-        {% endif %}
-    {% endif %}
-{% endblock %}
-
-{% block crud_actions %}
-    {% if entity.status == '10_opened' %}
-        {% if entity.assignedTo == app.user.username %}
-        <div class="btn-group dropup">
-            <a href="{{ path(prefix~'_deliver', { 'id' : entity.id }) }}" class="btn">
-                <i class="icon-shopping-cart"></i>
-                {{ (prefix~'.form.action.show.deliver')|trans({}, 'crud') }}
-            </a>
-            <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="{{ path(prefix~'_cancel', { 'id' : entity.id }) }}">
-                    <i class="icon-remove-circle"></i>
-                    {{ (prefix~'.form.action.show.cancel')|trans({}, 'crud') }}
-                </a></li>
-                <li>
-                <a href="{{ path(prefix~'_transfer', { 'id' : entity.id }) }}">
-                    <i class="icon-hand-right"></i>
-                    {{ (prefix~'.form.action.show.transfer')|trans({}, 'crud') }}
-                </a></li>
-                <li><a href="{{ path(prefix~'_deliver', { 'id' : entity.id }) }}">
-                    <i class="icon-shopping-cart"></i>
-                    {{ (prefix~'.form.action.show.deliver')|trans({}, 'crud') }}
-                </a></li>
-            </ul>
-        </div>
-        {% elseif entity.assignedTo is null %}
-        <div class=btn-group>
-            <a href="{{ path(prefix~'_take', { 'id' : entity.id }) }}" class="btn">
-                <i class="icon-hand-up"></i>
-                {{ (prefix~'.form.action.show.take')|trans({}, 'crud') }}
-            </a>
-        </div>
         {% endif %}
     {% endif %}
 {% endblock %}

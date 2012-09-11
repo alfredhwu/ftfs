@@ -11,3 +11,28 @@
         } %}
     {% endif %}
 {% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        $(function() {
+            var DATA = "";
+            $.ajax({
+                type:   "POST",
+                url:    "{{ path(prefix~'_show_observation', {'id' : entity.id }) }}",
+                data:   DATA,
+                cache:  false,
+                success: function(data) {
+                    $('div#observation').html(data);
+                    },
+                error:   function() {
+                    alert("Ooups ... something's got wrong: the ajax connection failed :(");
+                    },
+            });
+            $('a.observation-new').click(function(e) {
+                e.preventDefault();
+                $('form#observation_new').show();
+            });
+        });
+    </script>
+{% endblock %}

@@ -191,8 +191,7 @@ abstract class CrudController extends Controller
     public function showAction($id)
     {
         $entity = $this->getEntity('show', $id);
-        $form = $this->createForm($this->getEntityType(array('view' => 'show')), $entity);
-
+        //
         // test notification **********************************************************************
         $actor = $this->get('fos_user.user_manager')->findUserByUsername('agent');
         $subject = $entity;
@@ -201,7 +200,6 @@ abstract class CrudController extends Controller
 
         return $this->render($this->getViewPath().':show.html.twig', array(
             'entity' => $entity,
-            'form' => $form->createView(),
             'prefix' => $this->getRoutingPrefix(),
         ));
     }

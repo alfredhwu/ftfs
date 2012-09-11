@@ -23,12 +23,13 @@
         <strong class="btn">{{ (prefix~'.form.legend.show')|trans({}, 'crud') }}</strong>
     </legend>
     
+    {% block crud_content %}
     <fieldset>
     {{ form_widget(form) }}
     </fieldset>
+    {% endblock %}
 
     <div class="form-actions btn-toolbar">
-        <h1></h1>
         <div class=btn-group>
             <a href="{{ app.session.get('index') }}" class="btn btn-primary">
                 <i class="icon-list icon-white"></i>

@@ -107,6 +107,7 @@ class MyServiceController extends BaseController
             // restricted to its owner (assigned to) ant his share list and of cause all agents 
             // ToDo: share group ToDo ########################################################
             case 'show':
+            case 'show_observation':
             case 'edit':
                 if($context->isGranted('ROLE_AGENT'))
                 {
@@ -301,5 +302,55 @@ class MyServiceController extends BaseController
         $entity = $this->getEntity('take', $id);
         $this->flushEntity($entity, 'take');
         return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $entity->getId())));
+    }
+
+    /**
+     * AJAX provider: GET Ticket Observations 
+     */
+    public function show_observationAction($id)
+    {
+        $request = $this->get('request');
+        $form = $this->createForm(new \FTFS\ServiceBundle\Form\ServiceObservationType, 
+                                    new \FTFS\ServiceBundle\Entity\ServiceObservation);
+        
+        $entity = $this->getEntity('show_observation', $id);
+        $observations = $this->getDoctrine()
+                        ->getEntityManager()
+                        ->getRepository('FTFSServiceBundle:ServiceObservation')
+                        ->findBy(array('subject' => $entity->getId()),
+                                 array('send_at' => 'desc'),
+                                 5,
+                                 0);
+        return $this->render($this->getViewPath().':show_observation.html.twig', array(
+            'prefix' => $this->getRoutingPrefix(),
+            'observations' => $observations,
+            'form' => $form->createView(),
+            'id' => $id,
+        ));
+    }
+
+    /**
+     * AJAX provider: New Ticket Observation 
+     */
+    public function show_observation_newAction($id)
+    {
+        $request = $this->get('request');
+        $observation = new \FTFS\ServiceBundle\Entity\ServiceObservation;
+        $form = $this->createForm(new \FTFS\ServiceBundle\Form\ServiceObservationType, $observation);
+        if('POST'===$request->getMethod())
+        {
+            $form->bindRequest($request);
+            if($form->isValid())
+            {
+                $observation->setSendAt(new \DateTime('now'));
+                $observation->setSendBy($this->get('security.context')->getToken()->getUser());
+                $observation->setSubject($this->getEntity('show_observation', $id));
+
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($observation);
+                $em->flush();
+                return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
+            }
+        }
     }
 }

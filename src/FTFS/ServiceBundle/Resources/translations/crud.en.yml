@@ -64,6 +64,7 @@ ftfs.servicebundle.serviceticket:
             closed.class:    "label label-inverse"
         requested.at:   "Requested at"
         requested.by:   "Requested by"
+        requested.via:  "Requested via"
         summary:        "Request Summary Description"
         detail:         "Request Detail Description"
         asset:     "Related Asset No."

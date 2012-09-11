@@ -16,6 +16,14 @@ ftfs_dashboardbundle_myservice_show:
     pattern:  /myservice/{id}/show
     defaults: { _controller: FTFSDashboardBundle:MyService:show }
 
+ftfs_dashboardbundle_myservice_show_observation:
+    pattern:  /myservice/{id}/show/observation
+    defaults: { _controller: FTFSDashboardBundle:MyService:show_observation }
+
+ftfs_dashboardbundle_myservice_show_observation_new:
+    pattern:  /myservice/{id}/show/observation/new
+    defaults: { _controller: FTFSDashboardBundle:MyService:show_observation_new }
+
 ftfs_dashboardbundle_myservice_edit:
     pattern:  /myservice/{id}/edit
     defaults: { _controller: FTFSDashboardBundle:MyService:edit }
