@@ -310,6 +310,7 @@ class MyServiceController extends BaseController
     public function show_observationAction($id)
     {
         $request = $this->get('request');
+        $limit = $request->get('limit');
         $form = $this->createForm(new \FTFS\ServiceBundle\Form\ServiceObservationType, 
                                     new \FTFS\ServiceBundle\Entity\ServiceObservation);
         
@@ -319,13 +320,13 @@ class MyServiceController extends BaseController
                         ->getRepository('FTFSServiceBundle:ServiceObservation')
                         ->findBy(array('subject' => $entity->getId()),
                                  array('send_at' => 'desc'),
-                                 5,
-                                 0);
+                                 $limit);
         return $this->render($this->getViewPath().':show_observation.html.twig', array(
             'prefix' => $this->getRoutingPrefix(),
             'observations' => $observations,
             'form' => $form->createView(),
             'id' => $id,
+            'limit' => $limit,
         ));
     }
 
@@ -342,15 +343,42 @@ class MyServiceController extends BaseController
             $form->bindRequest($request);
             if($form->isValid())
             {
+                $em = $this->getDoctrine()->getEntityManager();
+                $obid = $request->get('obid');
+                $attach = $em->getRepository('FTFSServiceBundle:ServiceObservation')->find($obid);
+                if($attach)
+                {
+                    $observation->setAttachTo($attach);
+                }
+
                 $observation->setSendAt(new \DateTime('now'));
                 $observation->setSendBy($this->get('security.context')->getToken()->getUser());
                 $observation->setSubject($this->getEntity('show_observation', $id));
 
-                $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($observation);
                 $em->flush();
                 return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
             }
+        }else{
+            throw new \Exception('Only accessible via POST');
+        }
+    }
+    /**
+     * AJAX provider: Show Ticket Observation list
+     */
+    public function show_observation_listAction($obid)
+    {
+        $request = $this->get('request');
+        if('POST'===$request->getMethod())
+        {
+            $em = $this->getDoctrine()->getEntityManager();
+            $ob = $em->getRepository('FTFSServiceBundle:ServiceObservation')->find($obid);
+            return $this->render($this->getViewPath().':show_observation_list.html.twig', array(
+                'ob' => $ob,
+                'prefix' => $this->getRoutingPrefix(),
+            ));
+        }else{
+            throw new \Exception('Only accessible via POST');
         }
     }
 }

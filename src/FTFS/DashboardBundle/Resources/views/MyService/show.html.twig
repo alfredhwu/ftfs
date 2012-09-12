@@ -15,23 +15,19 @@
 {% block javascript %}
     {{ parent() }}
     <script>
+        // on loading ...
         $(function() {
-            var DATA = "";
             $.ajax({
                 type:   "POST",
-                url:    "{{ path(prefix~'_show_observation', {'id' : entity.id }) }}",
-                data:   DATA,
+                url:    "{{ path(prefix~'_show_observation', {'id' : entity.id, 'limit' : '3' }) }}",
+                data:   "",
                 cache:  false,
                 success: function(data) {
                     $('div#observation').html(data);
                     },
                 error:   function() {
-                    alert("Ooups ... something's got wrong: the ajax connection failed :(");
+                    alert("Ooups ... something's got wrong: the ajax connection failed in rendering show observation list:(");
                     },
-            });
-            $('a.observation-new').click(function(e) {
-                e.preventDefault();
-                $('form#observation_new').show();
             });
         });
     </script>

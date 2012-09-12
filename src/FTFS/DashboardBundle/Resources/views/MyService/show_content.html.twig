@@ -1,4 +1,5 @@
 {# render the default show page view #}
+
 <div>
     <legend class="btn-group">
         <a class="btn btn-small" href="{{ app.session.get('index') }}" rel="tooltip" title="{{ 'ftfs.crud.form.action.show.list.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
@@ -88,7 +89,7 @@
         <a class="btn btn-small" href="{{ app.session.get('index') }}" rel="tooltip" title="{{ 'ftfs.crud.form.action.show.list.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-list"></i>
         </a>
-        <a class="btn btn-small observation-new" href="#" rel="tooltip" title="{{ 'ftfs.crud.form.action.show.message.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
+        <a class="btn btn-small observation-add" href="#" rel="tooltip" title="{{ 'ftfs.crud.form.action.show.observation.new.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-envelope"></i>
         </a>
         <strong class="btn">Observation</strong>
@@ -97,4 +98,5 @@
     <div id="observation">
     </div>
     {% endblock %}
+
 </div>

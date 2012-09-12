@@ -1,29 +1,131 @@
 <!-- new observation -->
-<form id="observation_new" class="hide" action="{{ path(prefix~'_show_observation_new', { 'id' : id }) }}" method="post" {{ form_enctype(form) }}>
+<form id="observation_new_form" name="observation_new_form" class="hide" action="{{ path(prefix~'_show_observation_new', { 'id' : id }) }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
+    <input type="hidden" name="obid" value="0">
     <input type="submit">
+    <div><a href="#" class="oblist-control"><i class="icon-chevron-down"></i> </a></div>
+    <div id="oblist" class="oblist hide"></div>
 </form>
 
 <!-- list of observations -->
-<table class="table" width="100%">
-    {% for ob in observations %}
-    <tr>
-        <th width="10%">
-            <i class="icon-user"></i>
-            {{ ob.sendBy }}
-        </th>
-        <td width="80%">@{% if ob.sendAt is not empty %}{{ ob.sendAt | date('Y-m-d H:i:s') }}{% endif %} {{ ob.content }}</td>
-        <td width="10%"></td>
-    </tr>
-    {% endfor %}
-    {% for ob in observations %}
-    <tr>
-        <td width="10%"></td>
-        <td width="80%">@{% if ob.sendAt is not empty %}{{ ob.sendAt | date('Y-m-d H:i:s') }}{% endif %} {{ ob.content }}</td>
-        <th width="10%">
-            <i class="icon-user"></i>
-            {{ ob.sendBy }}
-        </th>
-    </tr>
-    {% endfor %}
-</table>
+{% if observations|length == 0 %}
+    <div>{{ (prefix~'.show.observation.null')|trans({}, 'crud') }}</div>
+{% else %}
+    {% if limit is not null%}
+    <a href="#" class="observation-list" observation-list-limit="">
+        <i class="icon-chevron-down"></i>
+        <span>Show all observations</span>
+    </a>
+    {% else %}
+    <a href="#" class="observation-list" observation-list-limit="3">
+        <i class="icon-chevron-up"></i>
+        <span>Show recent observations</span>
+    </a>
+    {% endif %}
+
+    <table class="table table-striped" width="100%">
+        {% for ob in observations %}
+        <tr class="observation">
+            <th width="10%" class="observation-send-by">
+                <i class="icon-user"></i>
+                {% if ob.sendBy == app.user %}
+                    {{ (prefix~'.observation.user.me')|trans({}, 'crud') }}
+                {% else %}
+                    {{ ob.sendBy }}
+                {% endif %}
+            </th>
+            <td width="80%">
+                <span class="observation-send-at">
+                {% if ob.sendAt is not empty %} {{ ob.sendAt | date('Y-m-d H:i:s') }}{% endif %} 
+                </span>
+                <a class="observation-add" obid="{{ ob.id }}" obpath="{{ path(prefix~'_show_observation_list', { 'obid' : ob.id }) }}" href="#">
+                    <i class="icon-share"></i>
+                </a>
+                <br>
+                <span class="observation-content">
+                {{ ob.content }}
+                {% include 'FTFSDashboardBundle:MyService:show_observation_list.html.twig' with { 'ob' : ob.attachTo } %}
+                </span>
+            </td>
+            <td width="10%"></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% if limit is not null%}
+    <a href="#" class="observation-list" observation-list-limit="">
+        <i class="icon-chevron-down"></i>
+        <span>Show all observations</span>
+    </a>
+    {% else %}
+    <a href="#" class="observation-list" observation-list-limit="3">
+        <i class="icon-chevron-up"></i>
+        <span>Show recent observations</span>
+    </a>
+    {% endif %}
+{% endif %}
+<script>
+    $('a.observation-list').click(function(e) {
+        e.preventDefault();
+        var path = "{{ path(prefix~'_show_observation', { 'id' : id }) }}";
+        var limit = $(this).attr('observation-list-limit');
+        if(limit){
+            path += '?limit=' + limit;
+        }
+        $.ajax({
+            type:   "POST",
+            url:    path,
+            data:   "",
+            cache:  false,
+            success: function(data) {
+                $('div#observation').html(data);
+                },
+            error:   function() {
+                alert("Ooups ... something's got wrong: the ajax connection failed in rendering show observation list:(");
+                },
+        });
+    });
+    $('a.observation-add').click(function(e) {
+        e.preventDefault();
+
+        var obid = $(this).attr('obid');
+        document.forms['observation_new_form'].obid.value = obid;
+
+        if(obid == null){   // total new
+            $('form .oblist-control').hide();
+            $('form#observation_new_form').show();
+        }else{
+            var obpath = $(this).attr('obpath');
+            // ajax get history observation list
+            $.ajax({
+                type:   "POST",
+                url:    obpath,
+                data:   "",
+                cache:  false,
+                success: function(data) {
+                    $('form#observation_new_form').hide();
+                    $('form div#oblist').html(data);
+                    $('form .oblist-control').show();
+                    $('form#observation_new_form').show();
+                    },
+                error:   function() {
+                    alert("Ooups ... something's got wrong: the ajax connection failed :(");
+                    },
+            });
+        }
+    });
+    $('a.oblist-control').click(function(e) {
+        e.preventDefault();
+        var target = $(this).parent().siblings('div.oblist');
+        if(target != null){
+            if(target.is(':hidden')){
+                target.show();
+                $(this).children('i').removeClass('icon-chevron-down');
+                $(this).children('i').addClass('icon-chevron-up');
+            }else{
+                target.hide();
+                $(this).children('i').removeClass('icon-chevron-up');
+                $(this).children('i').addClass('icon-chevron-down');
+            }
+        }
+    });
+</script>

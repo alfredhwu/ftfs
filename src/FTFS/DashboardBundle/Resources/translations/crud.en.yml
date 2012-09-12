@@ -1,5 +1,8 @@
 ################################################################################### my service            
 ftfs_dashboardbundle_myservice:
+    observation:
+        user:
+            me: "Me"
     notification:
         action:
             edit:

@@ -17,3 +17,16 @@ table .normal {
 table .extend {
     min-width: 248px;
 }
+
+.observation-history {
+    border-style: solid;
+}
+
+.observation-send-by {
+}
+
+.observation-send-at {
+}
+
+.observation-content {
+}

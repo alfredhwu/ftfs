@@ -41,6 +41,12 @@ class ServiceObservation
     private $subject;
 
     /**
+     * @ORM\ManyToOne(targetEntity="ServiceObservation")
+     * @var \FTFS\ServiceBundle\Entity\ServiceObservation
+     */
+    private $attach_to;
+
+    /**
      * @var text $content
      *
      * @ORM\Column(name="content", type="text")
@@ -136,5 +142,25 @@ class ServiceObservation
     public function getSubject()
     {
         return $this->subject;
+    }
+
+    /**
+     * Set attach_to
+     *
+     * @param FTFS\ServiceBundle\Entity\ServiceObservation $attachTo
+     */
+    public function setAttachTo(\FTFS\ServiceBundle\Entity\ServiceObservation $attachTo)
+    {
+        $this->attach_to = $attachTo;
+    }
+
+    /**
+     * Get attach_to
+     *
+     * @return FTFS\ServiceBundle\Entity\ServiceObservation 
+     */
+    public function getAttachTo()
+    {
+        return $this->attach_to;
     }
 }
