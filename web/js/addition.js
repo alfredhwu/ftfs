@@ -12,6 +12,13 @@ $(document).ready(function () {
         }
     });
     */
+    // a.tic-tac
+    // tic-tac-target
+    $('a.tic-tac').click(function(e) {
+        e.preventDefault();
+        $(this).children('span').toggle();
+        $($(this).attr('tic-tac-target')).toggle();
+    });
     // new edit helper
     $('a.crud-submit').click(function (e) {
         var mode = $(this).attr('crud-submit-mode');

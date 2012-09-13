@@ -1,0 +1,5 @@
+<form action="{{ path('ftfs_dashboardbundle_myservice_attachment_upload', { 'id' : id }) }}" 
+      method="post" {{ form_enctype(attachment_upload_form) }}>
+        {{ form_widget(attachment_upload_form) }}
+        <input type="submit" value="upload Document">
+</form>

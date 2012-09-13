@@ -1,0 +1,19 @@
+<ul>
+{% for attachment in attachments %}
+<li>
+    <span>
+        <a href="{{ path('ftfs_dashboardbundle_myservice_attachment_download', { 'id' : id, 'attachment_id' : attachment.id }) }}">
+            {{ attachment.name }}
+        </a>
+    </span>
+    {% if attachment.uploadedBy == app.user %}
+    <span>
+        <a href="{{ path('ftfs_dashboardbundle_myservice_attachment_delete', { 'id' : id, 'attachment_id' : attachment.id }) }}">
+            <i class="icon-trash"></i>
+        </a>
+    </span>
+    {% endif %}
+    <span class="muted">uploaded by {{ attachment.uploadedBy }} at {{ attachment.uploadedAt | date('Y-m-d H:i:s') }}</span>
+</li>
+{% endfor %}
+</ul>

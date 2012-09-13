@@ -108,6 +108,10 @@ class MyServiceController extends BaseController
             // ToDo: share group ToDo ########################################################
             case 'show':
             case 'show_observation':
+            case 'attachment_upload':
+            case 'attachment_download':
+            case 'attachment_list':
+            case 'attachment_delete':
             case 'edit':
                 if($context->isGranted('ROLE_AGENT'))
                 {
@@ -380,5 +384,99 @@ class MyServiceController extends BaseController
         }else{
             throw new \Exception('Only accessible via POST');
         }
+    }
+
+
+    /** 
+     * attachement file management: upload an attachment
+     */
+    public function attachmentUploadAction($id)
+    {
+        $ticket = $this->getEntity('attachment_upload', $id);
+        $uploaded_by = $this->get('security.context')->getToken()->getUser();
+        $attachment = new \FTFS\ServiceBundle\Entity\ServiceTicketAttachment($ticket, $uploaded_by);
+        $form = $this->createFormBuilder($attachment)
+                ->add('file')
+                ->getForm()
+                ;
+        if($this->getRequest()->getMethod() === 'POST') {
+            $form->bindRequest($this->getRequest());
+            if($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                
+                $em->persist($attachment);
+                $em->flush();
+            }
+        }
+        return $this->render($this->getViewPath().':attachment_upload_form.html.twig', array(
+            'id' => $id,
+            'attachment_upload_form' => $form->createView(),
+        ));
+    }
+
+    /** 
+     * attachement file management: upload an attachment
+     */
+    public function attachmentDownloadAction($id, $attachment_id)
+    {
+        $ticket = $this->getEntity('attachment_download', $id);
+        $attachment = $this->getDoctrine()
+                        ->getEntityManager()
+                        ->getRepository('FTFSServiceBundle:ServiceTicketAttachment')
+                        ->find($attachment_id);
+        if(!$attachment){
+            throw $this->createNotFoundException('Attachment demanded not found !');        
+        }
+
+        $content = file_get_contents($attachment->getAbsolutePath());
+        $response = new \Symfony\Component\HttpFoundation\Response();
+
+        $response->headers->set('Content-Type', 'mime/type');
+        $response->headers->set('Content-Disposition', 'attachment;filename='.$attachment->getName());
+
+        $response->setContent($content);
+
+        return $response;
+    }
+
+    /** 
+     * attachement file management: list all attachment for a given ticket identified by $id
+     */
+    public function attachmentListAction($id)
+    {
+        // access control ...
+        $ticket = $this->getEntity('attachment_list', $id);
+        // retrieve the attachments
+        $attachments = $this->getDoctrine()
+                        ->getEntityManager()
+                        ->getRepository('FTFSServiceBundle:ServiceTicketAttachment')
+                        ->findByTicket($id);
+
+        return $this->render($this->getViewPath().':attachment_list.html.twig', array(
+            'id' => $id,
+            'attachments' => $attachments,
+        ));
+    }
+
+    /** 
+     * attachement file management: delete an attachment identified by $attachment_id
+     */
+    public function attachmentDeleteAction($id, $attachment_id)
+    {
+        // access control ...
+        $ticket = $this->getEntity('attachment_delete', $id);
+        $em = $this->getDoctrine()->getEntityManager();
+        $attachment = $em->getRepository('FTFSServiceBundle:ServiceTicketAttachment')
+                        ->find($attachment_id);
+        if(!$attachment){
+            throw $this->createNotFoundException('Attachment demanded not found !');        
+        }
+        $em->remove($attachment);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('ftfs_dashboardbundle_myservice_attachment_list', array(
+            'id' => $id,
+        )));
+
     }
 }

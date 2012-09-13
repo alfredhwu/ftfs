@@ -77,7 +77,26 @@
         </tr>
         <tr>
             <th>Attachment</th>
-            <td colspan="5"></td>
+            <td colspan="5">
+                <div id="attachment-list">
+                    <!-- loaded by ajax -->
+                </div>
+                <div>
+                    <!-- attachment add control toggle -->
+                    <span><a class="tic-tac" tic-tac-target="#attachment-add" href="#">
+                    <span>
+                        <i class="icon-chevron-down"></i>
+                    </span>
+                    <span class="hide">
+                        <i class="icon-chevron-up"></i>
+                    </span>
+                    Attach a new file
+                    </a></span>
+                </div>
+                <div id="attachment-add" class="hide">
+                    <!-- loaded by ajax -->
+                </div>
+            </td>
         </tr>
         <tr>
             <th>{{ ('ftfs.servicebundle.serviceticket.table.detail') | trans({}, 'crud') }}</th>

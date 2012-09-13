@@ -1,0 +1,82 @@
+<html>
+<head>
+    <title>test code</title>
+</head>
+<body>
+    <h1>Coucou: test code</h1>
+    <ul>
+        <li>
+        </li>
+        <li><a class="menulist" href="#" onclick="clkMenu();lnclk(0, 'childwin');">GE GESW-1 L2SW</a></li>
+        <li>
+        </li>
+    </ul>
+
+    <script type="text/javascript">
+    <!--
+    /*
+    var gesw_ver = 1;
+
+
+    if(gesw_ver == 0){
+        ge1 = 'block';
+        ge2 = 'none';
+    }else{
+        ge1 = 'none';
+        ge2 = 'block';
+    }
+
+    for(cnt=0; cnt<10; cnt++){
+        document.getElementById("ge1_" + cnt).style.display = ge1;
+    }
+    for(cnt=0; cnt<3; cnt++){
+        document.getElementById("ge2_" + cnt).style.display = ge2;
+    }
+
+    */
+    var selGesw = -1;
+    var fstFlg = true;
+
+    function clrGesw(){
+        selGesw = -1;
+    }
+
+    function clkMenu(){
+        fstFlg = true;
+        /*
+        var evt = window.event;
+        if(!evt){
+            alert('event null');
+        }
+           function test(e) {
+            evt = e || window.event;
+            elm = evt.target || srcElement;
+           }
+        /*
+        var elmUl = window.event.srcElement.parentElement.getElementsByTagName("ul");
+        var elmUl = window.event.target.parentElement.getElementsByTagName("ul");
+        var elmUlAll = document.getElementsByTagName("ul");
+        for(var cnt=0; cnt<elmUlAll.length; cnt++){
+            if(elmUlAll.item(cnt).style.display == 'block'){
+                elmUlAll.item(cnt).style.display = 'none';
+            }
+        }
+        if((elmUl.length > 0) && (elmUl.item(0).style.display == 'none')){
+            elmUl.item(0).style.display = 'block';
+        }
+        clrGesw();
+        */
+    }
+
+    function lnclk(aid, name){
+        var url = "/sub.html";
+        
+        url = url + "?aid=" + aid;
+      //  alert(url);
+        parent.win = window.open(url, name)
+        parent.win.focus();
+    }
+    -->
+    </script>
+
+</body>

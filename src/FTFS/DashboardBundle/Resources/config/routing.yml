@@ -36,6 +36,22 @@ ftfs_dashboardbundle_myservice_delete:
     pattern:  /myservice/{id}/delete
     defaults: { _controller: FTFSDashboardBundle:MyService:delete }
 
+ftfs_dashboardbundle_myservice_attachment_list:
+    pattern:  /myservice/{id}/attachment/list
+    defaults: { _controller: FTFSDashboardBundle:MyService:attachmentList }
+
+ftfs_dashboardbundle_myservice_attachment_upload:
+    pattern:  /myservice/{id}/attachment/upload
+    defaults: { _controller: FTFSDashboardBundle:MyService:attachmentUpload }
+
+ftfs_dashboardbundle_myservice_attachment_download:
+    pattern:  /myservice/{id}/attachment/download/{attachment_id}
+    defaults: { _controller: FTFSDashboardBundle:MyService:attachmentDownload }
+
+ftfs_dashboardbundle_myservice_attachment_delete:
+    pattern:  /myservice/{id}/attachment/delete/{attachment_id}
+    defaults: { _controller: FTFSDashboardBundle:MyService:attachmentDelete }
+
 ## oper agent
 ftfs_dashboardbundle_myservice_take:
     pattern:  /myservice/{id}/take
