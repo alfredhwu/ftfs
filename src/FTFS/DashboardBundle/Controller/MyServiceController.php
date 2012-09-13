@@ -139,6 +139,7 @@ class MyServiceController extends BaseController
                         throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The service request "'.$entity->getName().'" has already been taken !');
                     }
                 }
+                break;
             case 'transfer':
             // interdit
             case 'delete':
@@ -388,34 +389,7 @@ class MyServiceController extends BaseController
 
 
     /** 
-     * attachement file management: upload an attachment
-     */
-    public function attachmentUploadAction($id)
-    {
-        $ticket = $this->getEntity('attachment_upload', $id);
-        $uploaded_by = $this->get('security.context')->getToken()->getUser();
-        $attachment = new \FTFS\ServiceBundle\Entity\ServiceTicketAttachment($ticket, $uploaded_by);
-        $form = $this->createFormBuilder($attachment)
-                ->add('file')
-                ->getForm()
-                ;
-        if($this->getRequest()->getMethod() === 'POST') {
-            $form->bindRequest($this->getRequest());
-            if($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
-                
-                $em->persist($attachment);
-                $em->flush();
-            }
-        }
-        return $this->render($this->getViewPath().':attachment_upload_form.html.twig', array(
-            'id' => $id,
-            'attachment_upload_form' => $form->createView(),
-        ));
-    }
-
-    /** 
-     * attachement file management: upload an attachment
+     * attachement file management: download an attachment
      */
     public function attachmentDownloadAction($id, $attachment_id)
     {
@@ -438,6 +412,46 @@ class MyServiceController extends BaseController
 
         return $response;
     }
+    /**
+     * get a file upload form 
+     * return form
+     */
+    private function getAttachmentUploadForm($attachment)
+    {
+        return $this->createFormBuilder($attachment)
+                ->add('file')
+                ->add('filename')
+                ->getForm()
+                ;
+    }
+
+    /** 
+     * attachement file management: upload an attachment
+     */
+    public function attachmentUploadAction($id)
+    {
+        $ticket = $this->getEntity('attachment_upload', $id);
+        $uploaded_by = $this->get('security.context')->getToken()->getUser();
+        $attachment = new \FTFS\ServiceBundle\Entity\ServiceTicketAttachment($ticket, $uploaded_by);
+        $form = $this->getAttachmentUploadForm($attachment);
+
+        if($this->getRequest()->getMethod() === 'POST') {
+            $form->bindRequest($this->getRequest());
+            if($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($attachment);
+                $em->flush();
+            }
+            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
+                'id' => $id,
+            )));
+        }
+
+        return $this->render($this->getViewPath().':attachment_upload_form.html.twig', array(
+            'id' => $id,
+            'attachment_upload_form' => $form->createView(),
+        ));
+    }
 
     /** 
      * attachement file management: list all attachment for a given ticket identified by $id
@@ -446,6 +460,11 @@ class MyServiceController extends BaseController
     {
         // access control ...
         $ticket = $this->getEntity('attachment_list', $id);
+        $uploaded_by = $this->get('security.context')->getToken()->getUser();
+        $attachment = new \FTFS\ServiceBundle\Entity\ServiceTicketAttachment($ticket, $uploaded_by);
+
+        $form = $this->getAttachmentUploadForm($attachment);
+        
         // retrieve the attachments
         $attachments = $this->getDoctrine()
                         ->getEntityManager()
@@ -455,6 +474,8 @@ class MyServiceController extends BaseController
         return $this->render($this->getViewPath().':attachment_list.html.twig', array(
             'id' => $id,
             'attachments' => $attachments,
+            'attachment_upload_form' => $form->createView(),
+            'prefix' => $this->getRoutingPrefix(),
         ));
     }
 
@@ -474,7 +495,7 @@ class MyServiceController extends BaseController
         $em->remove($attachment);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('ftfs_dashboardbundle_myservice_attachment_list', array(
+        return $this->redirect($this->generateUrl('ftfs_dashboardbundle_myservice_show', array(
             'id' => $id,
         )));
 

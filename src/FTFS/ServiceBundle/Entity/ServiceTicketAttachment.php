@@ -61,6 +61,11 @@ class ServiceTicketAttachment
     private $file;
 
     /**
+     * temp var for the renaming ...
+     */
+    public $filename;
+
+    /**
      *
      * methods for the management of life circle callbacks ******************
      *
@@ -83,7 +88,12 @@ class ServiceTicketAttachment
             // generate a unique name
             //$this->setPath(uniqid().'.'.$this->getFile()->guessExtension());
             $this->setPath(uniqid('attachment_',true));
-            $this->setName($this->getFile()->getClientOriginalName());
+            $rename = trim($this->filename);
+            if($rename === null or $rename === "") {
+                //throw new \Exception('null or ""'.($rename === null));
+                $rename = $this->getFile()->getClientOriginalName();
+            }
+            $this->setName($rename);
             $this->setUploadedAt(new \DateTime('now'));
         }
     }

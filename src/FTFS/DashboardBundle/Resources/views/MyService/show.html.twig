@@ -17,30 +17,17 @@
     <script>
         // on loading ...
         $(function() {
-            // loading file attachment to 'div#attachment-list'
+            // loading file attachment to 'div#attachment-ajax'
             $.ajax({
                 type:   "POST",
                 url:    "{{ path(prefix~'_attachment_list', {'id' : entity.id }) }}",
                 data:   "",
                 cache:  false,
                 success: function(data) {
-                    $('div#attachment-list').html(data);
+                    $('div#attachment-ajax').html(data);
                     },
                 error:   function() {
                     alert("Ooups ... something's got wrong: the ajax connection failed in rendering attachment list:(");
-                    },
-            });
-            // loading file attachment add form to 'div#attachment-add'
-            $.ajax({
-                type:   "POST",
-                url:    "{{ path(prefix~'_attachment_upload', {'id' : entity.id }) }}",
-                data:   "",
-                cache:  false,
-                success: function(data) {
-                    $('div#attachment-add').html(data);
-                    },
-                error:   function() {
-                    alert("Ooups ... something's got wrong: the ajax connection failed in rendering show observation list:(");
                     },
             });
             // loading observation to 'div#observation'

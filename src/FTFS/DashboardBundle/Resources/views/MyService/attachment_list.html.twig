@@ -1,19 +1,61 @@
-<ul>
-{% for attachment in attachments %}
-<li>
+<div id="attachment-list">
+    {{ (prefix~'.attachment.list.title')|trans({}, 'crud') }}
+    <ul>
+    {% for attachment in attachments %}
+    <li>
+        <span>
+            <a href="{{ path('ftfs_dashboardbundle_myservice_attachment_download', { 'id' : id, 'attachment_id' : attachment.id }) }}">
+                {{ attachment.name }}
+            </a>
+        </span>
+        {% if attachment.uploadedBy == app.user %}
+        <span>
+            <a href="{{ path('ftfs_dashboardbundle_myservice_attachment_delete', { 'id' : id, 'attachment_id' : attachment.id }) }}">
+                <i class="icon-trash"></i>
+            </a>
+        </span>
+        {% endif %}
+        <span class="muted">
+        {{ (prefix~'.attachment.list.updated_by')|trans({}, 'crud') }}
+        {{ attachment.uploadedBy }} 
+        {{ (prefix~'.attachment.list.at')|trans({}, 'crud') }}
+        {{ attachment.uploadedAt | date('Y-m-d H:i:s') }}</span>
+    </li>
+    {% endfor %}
+    </ul>
+</div>
+
+<div>
+    <!-- attachment add control toggle -->
+    <span><a class="tic-tac" tic-tac-target="#attachment-add" href="#">
     <span>
-        <a href="{{ path('ftfs_dashboardbundle_myservice_attachment_download', { 'id' : id, 'attachment_id' : attachment.id }) }}">
-            {{ attachment.name }}
-        </a>
+        <i class="icon-chevron-down"></i>
     </span>
-    {% if attachment.uploadedBy == app.user %}
+    <span class="hide">
+        <i class="icon-chevron-up"></i>
+    </span>
     <span>
-        <a href="{{ path('ftfs_dashboardbundle_myservice_attachment_delete', { 'id' : id, 'attachment_id' : attachment.id }) }}">
-            <i class="icon-trash"></i>
-        </a>
+    {{ (prefix~'.attachment.list.attach.new')|trans({}, 'crud') }}
     </span>
-    {% endif %}
-    <span class="muted">uploaded by {{ attachment.uploadedBy }} at {{ attachment.uploadedAt | date('Y-m-d H:i:s') }}</span>
-</li>
-{% endfor %}
-</ul>
+    <span class="hide">
+    {{ (prefix~'.attachment.list.cancel.attach')|trans({}, 'crud') }}
+    </span>
+    </a></span>
+</div>
+<div id="attachment-add" class="hide">
+    {% include 'FTFSDashboardBundle:MyService:attachment_upload_form.html.twig' 
+            with { 'id' : id, 'prefix' : prefix, } %}
+</div>
+
+<script>
+    // a.tic-tac
+    // tic-tac-target
+    $('a.tic-tac').click(function(e) {
+        e.preventDefault();
+        $(this).children('span').toggle();
+        $($(this).attr('tic-tac-target')).toggle();
+    });
+    $('input[type=file]').change(function(e) {
+        $('input#form_filename').val($(this).val());
+    });
+</script>

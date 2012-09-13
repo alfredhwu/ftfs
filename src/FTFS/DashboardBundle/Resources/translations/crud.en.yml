@@ -1,5 +1,15 @@
 ################################################################################### my service            
 ftfs_dashboardbundle_myservice:
+    attachment:
+        list:
+            title:  'All attached documents:'
+            attach.new:    'Click to attach a new document'
+            cancel.attach: 'Click to cancel attachment'
+            updated_by: 'updated by'
+            at:     'at'
+        upload.form:
+            file.label: 'Select document to be attached:'
+            submit: 'Upload the document'
     observation:
         user:
             me: "Me"
