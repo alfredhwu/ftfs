@@ -1,0 +1,5 @@
+<form id="observation-add-form" name="observation_add_form" action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
+    {{ form_widget(observation_add_form) }}
+    <input type="hidden" name="add-to-id" value="{{ add_to_id }}">
+    <input type="submit">
+</form>

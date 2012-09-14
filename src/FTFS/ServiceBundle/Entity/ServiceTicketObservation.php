@@ -5,12 +5,12 @@ namespace FTFS\ServiceBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * FTFS\ServiceBundle\Entity\ServiceObservation
+ * FTFS\ServiceBundle\Entity\ServiceTicketObservation
  *
- * @ORM\Table(name="ftfs_service_observation")
+ * @ORM\Table(name="ftfs_service_ticket_observation")
  * @ORM\Entity
  */
-class ServiceObservation
+class ServiceTicketObservation
 {
     /**
      * @var integer $id
@@ -35,14 +35,14 @@ class ServiceObservation
     private $send_at;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ServiceTicket")
+     * @ORM\ManyToOne(targetEntity="ServiceTicket", inversedBy="observations")
      * @var \FTFS\ServiceBundle\Entity\ServiceTicket
      */
-    private $subject;
+    private $ticket;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ServiceObservation")
-     * @var \FTFS\ServiceBundle\Entity\ServiceObservation
+     * @ORM\ManyToOne(targetEntity="ServiceTicketObservation")
+     * @var \FTFS\ServiceBundle\Entity\ServiceTicketObservation
      */
     private $attach_to;
 
@@ -52,7 +52,6 @@ class ServiceObservation
      * @ORM\Column(name="content", type="text")
      */
     private $content;
-
 
     /**
      * Get id
@@ -125,31 +124,31 @@ class ServiceObservation
     }
 
     /**
-     * Set subject
+     * Set ticket
      *
-     * @param FTFS\ServiceBundle\Entity\ServiceTicket $subject
+     * @param FTFS\ServiceBundle\Entity\ServiceTicket $ticket
      */
-    public function setSubject(\FTFS\ServiceBundle\Entity\ServiceTicket $subject)
+    public function setTicket(\FTFS\ServiceBundle\Entity\ServiceTicket $ticket)
     {
-        $this->subject = $subject;
+        $this->ticket = $ticket;
     }
 
     /**
-     * Get subject
+     * Get ticket
      *
      * @return FTFS\ServiceBundle\Entity\ServiceTicket 
      */
-    public function getSubject()
+    public function getTicket()
     {
-        return $this->subject;
+        return $this->ticket;
     }
 
     /**
      * Set attach_to
      *
-     * @param FTFS\ServiceBundle\Entity\ServiceObservation $attachTo
+     * @param FTFS\ServiceBundle\Entity\ServiceTicketObservation $attachTo
      */
-    public function setAttachTo(\FTFS\ServiceBundle\Entity\ServiceObservation $attachTo)
+    public function setAttachTo(\FTFS\ServiceBundle\Entity\ServiceTicketObservation $attachTo)
     {
         $this->attach_to = $attachTo;
     }
@@ -157,7 +156,7 @@ class ServiceObservation
     /**
      * Get attach_to
      *
-     * @return FTFS\ServiceBundle\Entity\ServiceObservation 
+     * @return FTFS\ServiceBundle\Entity\ServiceTicketObservation 
      */
     public function getAttachTo()
     {

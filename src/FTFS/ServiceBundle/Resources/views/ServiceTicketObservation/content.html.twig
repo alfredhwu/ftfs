@@ -1,0 +1,56 @@
+{% set obvar = ob.attachTo %}
+{% if obvar is not null %}
+<div><a href="#" class="tic-tac" tic-tac-target="#observation_history_{{ ob.id }}">
+    <span><i class="icon-chevron-down"></i></span>
+    <span class="hide"><i class="icon-chevron-up"></i></span>
+</a></div>
+<div id="observation_history_{{ ob.id }}" class="observation-history hide">
+    <div>
+    <i class="icon-user"></i>
+    {% if obvar.sendBy == app.user %}
+        {{ (prefix~'.observation.user.me')|trans({}, 'crud') }}
+    {% else %}
+        {{ obvar.sendBy }}
+    {% endif %}
+    {% if obvar.sendAt is not empty %} {{ obvar.sendAt | date('Y-m-d H:i:s') }}{% endif %} 
+    </div>
+    <div>
+    {{ obvar.content }}
+    </div>
+    {% set obvar = obvar.attachTo %}
+    {% if obvar is not null %}
+    <div class="observation-history">
+        <div>
+        <i class="icon-user"></i>
+        {% if obvar.sendBy == app.user %}
+            {{ (prefix~'.observation.user.me')|trans({}, 'crud') }}
+        {% else %}
+            {{ obvar.sendBy }}
+        {% endif %}
+        {% if obvar.sendAt is not empty %} {{ obvar.sendAt | date('Y-m-d H:i:s') }}{% endif %} 
+        </div>
+        <div>
+        {{ obvar.content }}
+        </div>
+        {% set obvar = obvar.attachTo %}
+        {% if obvar is not null %}
+        <div class="observation-history">
+            <div>
+            <i class="icon-user"></i>
+            {% if obvar.sendBy == app.user %}
+                {{ (prefix~'.observation.user.me')|trans({}, 'crud') }}
+            {% else %}
+                {{ obvar.sendBy }}
+            {% endif %}
+            {% if obvar.sendAt is not empty %} {{ obvar.sendAt | date('Y-m-d H:i:s') }}{% endif %} 
+            </div>
+            <div>
+            {{ obvar.content }}
+            <div>
+            {% set obvar = obvar.attachTo %}
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endif %}

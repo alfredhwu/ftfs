@@ -4,13 +4,13 @@
     {% for attachment in attachments %}
     <li>
         <span>
-            <a href="{{ path('ftfs_dashboardbundle_myservice_attachment_download', { 'id' : id, 'attachment_id' : attachment.id }) }}">
+            <a href="{{ path(prefix~'_attachment_download', { 'id' : id, 'attachment_id' : attachment.id }) }}">
                 {{ attachment.name }}
             </a>
         </span>
-        {% if attachment.uploadedBy == app.user %}
+        {% if is_granted('ROLE_ADMIN') or attachment.uploadedBy == app.user %}
         <span>
-            <a href="{{ path('ftfs_dashboardbundle_myservice_attachment_delete', { 'id' : id, 'attachment_id' : attachment.id }) }}">
+            <a href="{{ path(prefix~'_attachment_delete', { 'id' : id, 'attachment_id' : attachment.id }) }}">
                 <i class="icon-trash"></i>
             </a>
         </span>
@@ -27,7 +27,7 @@
 
 <div>
     <!-- attachment add control toggle -->
-    <span><a class="tic-tac" tic-tac-target="#attachment-add" href="#">
+    <span><a class="tic-tac" tic-tac-target="#attachment-upload" href="#">
     <span>
         <i class="icon-chevron-down"></i>
     </span>
@@ -42,22 +42,13 @@
     </span>
     </a></span>
 </div>
-<div id="attachment-add" class="hide">
-    {% include 'FTFSDashboardBundle:MyService:attachment_upload_form.html.twig' 
+<div id="attachment-upload" class="hide">
+    <div id="attachment-upload-ajax">
+    <!-- loaded by ajax -->
+    {# 
+    {% include 'FTFSServiceBundle:ServiceTicketAttachment:upload_form.html.twig' 
             with { 'id' : id, 'prefix' : prefix, } %}
+    #}
+    </div>
 </div>
 
-<script>
-    // a.tic-tac
-    // tic-tac-target
-    $('a.tic-tac').click(function(e) {
-        e.preventDefault();
-        $(this).children('span').toggle();
-        $($(this).attr('tic-tac-target')).toggle();
-    });
-    $('input[type=file]').change(function(e) {
-        var filename = $(this).val().split('\\');
-        filename = filename[filename.length - 1];
-        $('input#form_filename').val(filename);
-    });
-</script>

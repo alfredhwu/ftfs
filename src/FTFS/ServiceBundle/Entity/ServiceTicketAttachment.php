@@ -38,7 +38,7 @@ class ServiceTicketAttachment
     private $path;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ServiceTicket")
+     * @ORM\ManyToOne(targetEntity="ServiceTicket", inversedBy="attachments")
      */
     private $ticket;
 
@@ -108,9 +108,7 @@ class ServiceTicketAttachment
         if(null === $this->getFile()) {
             return;
         }
-
         $this->getFile()->move($this->getUploadRootDir(), $this->getPath());
-
         unset($this->file);
         /*
         // move uploaded file into target dir

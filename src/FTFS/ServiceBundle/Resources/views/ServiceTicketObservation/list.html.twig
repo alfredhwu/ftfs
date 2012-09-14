@@ -1,0 +1,52 @@
+<div id="observation-list">
+    <table class="table table-striped" width="100%">
+        <!-- new observation -->
+        <tr id="observation-add-target" class="hide">
+            <th width="10%" class="observation-send-by">
+                <i class="icon-user"></i>
+                {{ (prefix~'.observation.user.me')|trans({}, 'crud') }}
+            </th>
+            <td width="80%">
+                    <div id="observation-add-ajax">
+                    <!-- loaded by ajax -->
+                    {# 
+                        'FTFSServiceBundle:ServiceTicketObservation:add_form.html.twig' 
+                    #}
+                    </div>
+            </td>
+            <td width="10%"></td>
+        </tr>
+
+        <!-- list of observations -->
+        {% if observations|length == 0 %}
+        <tr>{{ (prefix~'.observation.empty.list')|trans({}, 'crud') }}</tr>
+        {% else %}
+        {% for ob in observations|reverse %}
+        <tr class="observation">
+            <th width="10%" class="observation-send-by">
+                <i class="icon-user"></i>
+                {% if ob.sendBy == app.user %}
+                    {{ (prefix~'.observation.user.me')|trans({}, 'crud') }}
+                {% else %}
+                    {{ ob.sendBy }}
+                {% endif %}
+            </th>
+            <td width="80%">
+                <span class="observation-send-at">
+                {% if ob.sendAt is not empty %} {{ ob.sendAt | date('Y-m-d H:i:s') }}{% endif %} 
+                </span>
+                <a class="observation-add" add-to-id="{{ ob.id }}" href="#">
+                    <i class="icon-share"></i>
+                </a>
+                <br>
+                <span class="observation-content">
+                {{ ob.content }}
+                {% include 'FTFSServiceBundle:ServiceTicketObservation:content.html.twig' with { 'ob' : ob } %}
+                </span>
+            </td>
+            <td width="10%"></td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+</div>

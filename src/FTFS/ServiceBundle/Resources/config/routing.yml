@@ -28,6 +28,24 @@ ftfs_servicebundle_serviceticket_assign:
     pattern:  /ticket/{id}/assign
     defaults: { _controller: FTFSServiceBundle:ServiceTicket:show }
 
+## attachment
+ftfs_servicebundle_serviceticket_attachment_upload:
+    pattern:  /ticket/{id}/attachment/upload
+    defaults: { _controller: FTFSServiceBundle:ServiceTicket:attachmentUpload }
+
+ftfs_servicebundle_serviceticket_attachment_download:
+    pattern:  /ticket/{id}/attachment/download/{attachment_id}
+    defaults: { _controller: FTFSServiceBundle:ServiceTicket:attachmentDownload }
+
+ftfs_servicebundle_serviceticket_attachment_delete:
+    pattern:  /ticket/{id}/attachment/delete/{attachment_id}
+    defaults: { _controller: FTFSServiceBundle:ServiceTicket:attachmentDelete }
+
+## observation
+ftfs_servicebundle_serviceticket_observation_add:
+    pattern:  /ticket/{id}/observation/add
+    defaults: { _controller: FTFSServiceBundle:ServiceTicket:observationAdd }
+
 ## service definition #########################################################
 #
 ftfs_servicebundle_service_index:

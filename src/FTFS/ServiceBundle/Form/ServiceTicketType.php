@@ -14,10 +14,19 @@ class ServiceTicketType extends AbstractType
         $this->options = $options;
     }
 
+    private function getOption($index)
+    {
+        if(array_key_exists($index, $this->options)) {
+            return $this->options[$index];
+        }else{
+            return null;
+        }
+    }
+
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $view = $this->options['view'];
-        $role = $this->options['role'];
+        $view = $this->getOption('view');
+        $role = $this->getOption('role');
         switch($view)
         {
             case 'new':

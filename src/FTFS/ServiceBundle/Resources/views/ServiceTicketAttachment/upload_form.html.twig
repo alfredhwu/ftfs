@@ -1,0 +1,17 @@
+<form action="{{ path(prefix~'_attachment_upload', { 'id' : id }) }}" 
+      method="post" {{ form_enctype(attachment_upload_form) }}>
+        {{ form_row(attachment_upload_form.file, { 'label': (prefix~'.attachment.upload.form.file.label')|trans({}, 'crud') }) }}
+        {{ form_row(attachment_upload_form.filename, { 'label': (prefix~'.attachment.upload.form.filename.label')|trans({}, 'crud') }) }}
+        {{ form_rest(attachment_upload_form) }}
+        <button type="submit" class="btn">
+            {{ (prefix~'.attachment.upload.form.submit')|trans({}, 'crud') }}
+        </button>
+</form>
+
+<script>
+    $('input[type=file]').change(function(e) {
+        var filename = $(this).val().split('\\');
+        filename = filename[filename.length - 1];
+        $('input#form_filename').val(filename);
+    });
+</script>

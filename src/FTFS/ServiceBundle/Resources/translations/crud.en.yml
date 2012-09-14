@@ -76,6 +76,20 @@ ftfs.servicebundle.serviceticket:
 #
 ################################################################ SERVICE #######################
 ftfs_servicebundle_serviceticket:
+    attachment:
+        list:
+            title:  'All attached documents:'
+            attach.new:    'Click to attach a new document'
+            cancel.attach: 'Click to cancel attachment'
+            updated_by: 'updated by'
+            at:     'at'
+        upload.form:
+            file.label: 'Select document to be attached:'
+            filename.label:   'Rename the document as:'
+            submit: 'Upload the document'
+    observation:
+        user:
+            me: "Me"
     form:
         legend: 
             new:    "New Service Ticket"

@@ -132,6 +132,16 @@ class ServiceTicket
     private $closed_at;
 
     /**
+     * @ORM\OneToMany(targetEntity="ServiceTicketAttachment", mappedBy="ticket", cascade={"remove"})
+     */
+    private $attachments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ServiceTicketObservation", mappedBy="ticket", cascade={"remove"})
+     */
+    private $observations;
+
+    /**
      * Get __toString
      *
      * @return string 
@@ -469,5 +479,49 @@ class ServiceTicket
     public function getAssignedTo()
     {
         return $this->assigned_to;
+    }
+    public function __construct()
+    {
+        $this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add attachments
+     *
+     * @param FTFS\ServiceBundle\Entity\ServiceTicketAttachment $attachments
+     */
+    public function addServiceTicketAttachment(\FTFS\ServiceBundle\Entity\ServiceTicketAttachment $attachments)
+    {
+        $this->attachments[] = $attachments;
+    }
+
+    /**
+     * Get attachments
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getAttachments()
+    {
+        return $this->attachments;
+    }
+
+    /**
+     * Add observations
+     *
+     * @param FTFS\ServiceBundle\Entity\ServiceTicketObservation $observations
+     */
+    public function addServiceTicketObservation(\FTFS\ServiceBundle\Entity\ServiceTicketObservation $observations)
+    {
+        $this->observations[] = $observations;
+    }
+
+    /**
+     * Get observations
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getObservations()
+    {
+        return $this->observations;
     }
 }
