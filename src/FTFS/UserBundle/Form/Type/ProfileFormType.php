@@ -9,10 +9,10 @@ class ProfileFormType extends BaseType
 {
     protected function buildUserForm(FormBuilder $builder, array $options)
     {
-        $builder->add('username')
-                ->add('email', 'email', array(
+        $builder->add('email', 'email', array(
                     'read_only' => true,
                 ))
+                //->add('username')
                 ->add('title', 'choice', array(
                     'choices' => array(
                         'Ms.' => 'Ms.',

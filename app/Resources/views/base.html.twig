@@ -53,8 +53,7 @@
 
                             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                                 <i class="icon-user"></i> 
-                                Alfred WU
-                                ({{ app.user.username }})
+                                {{ app.user.title~' '~app.user.firstName~' '~app.user.surname }}
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">

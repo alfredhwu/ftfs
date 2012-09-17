@@ -114,7 +114,7 @@ class UserController extends Controller
                 $em->flush();
                 $message = \Swift_Message::newInstance()
                             ->setSubject('Invitation for inscription to Support Service of Fujitsu Telecom France SAS')
-                            ->setFrom('support@fujitsu-telecom.fr')
+                            ->setFrom(array('support@fujitsu-telecom.fr'=>'Support Service - Fujitsu Telecom France SAS'))
                             ->setTo($invitation->getEmail())
                             ->setBody(
                                 $this->renderView('FTFSUserBundle:User:invitation_email.html.twig', array(

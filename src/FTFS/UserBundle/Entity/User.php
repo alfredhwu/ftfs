@@ -83,6 +83,7 @@ class User extends BaseUser
     {
         parent::__construct();
         // your own logic
+        $this->setUsername('anonymous');
     }
 
     public function __toString()
@@ -101,6 +102,8 @@ class User extends BaseUser
         if($invitation){
             $this->setRoles($invitation->getRoles());
         }
+        // set username <= email
+        $this->setUsername($this->getEmail());
     }
 
     /**

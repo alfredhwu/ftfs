@@ -1,7 +1,7 @@
 # translation files that overwrite the FOS/UserBundle?Resources/translations/FOSUserBundle.en.yml
 
 # Form field labels
-security.login.username: "Username / Email:"
+security.login.username: "Your Email:"
 
 profile:
     show:
