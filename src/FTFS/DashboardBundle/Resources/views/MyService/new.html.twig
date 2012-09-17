@@ -9,3 +9,14 @@
         <h1> error : you have to have role_client or role agent in order to create a new service ticket !</h1>
     {% endif %}
 {% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        function form_submit(mode) {
+            form = document.forms["{{ prefix~'_form' }}"],
+            form.mode.value = mode;
+            form.submit();
+        }
+    </script>
+{% endblock %}

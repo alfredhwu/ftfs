@@ -1,15 +1,4 @@
-{% extends "::layout.html.twig" %}
-
-{% block body_menu %}
-    {% if is_granted('ROLE_AGENT') %}
-        {% include 'FTFSDashboardBundle::body_menu_agent.html.twig' %}
-    {% elseif is_granted('ROLE_CLIENT') %}
-        {% include 'FTFSDashboardBundle::body_menu_client.html.twig' %}
-    {% else %}
-        <h1> Error: You have to be granted as either role_agent or role_client in order to see this page !</h1>
-        <p>Please report this bug to your tech support !</p>
-    {% endif %}
-{% endblock %}
+{% extends "FTFSDashboardBundle::layout.html.twig" %}
 
 {% block body_content %}
     {% if is_granted('ROLE_AGENT') %}

@@ -15,35 +15,39 @@
 {% block javascript %}
     {{ parent() }}
     <script>
-        // on loading ...
-        $(function() {
-            // loading file attachment to 'div#attachment-ajax'
+    $(document).ready(function () {
+        // loading file attachment to 'div#attachment-upload-ajax'
+        $.ajax({
+            type:   "GET",
+            url:    "{{ path(prefix~'_attachment_upload', {'id' : entity.id }) }}",
+            data:   "",
+            cache:  false,
+            success: function(data) {
+                $('div#attachment-upload-ajax').html(data);
+                },
+            error:   function() {
+                alert("Ooups ... something's got wrong: the ajax connection failed in rendering attachment upload-form:(");
+                },
+        });
+        // observation add
+        $('a.observation-add').click(function() {
+            var add_to_id = $(this).attr('add-to-id');
+            // loading observation form to 'div#observation-add-ajax'
             $.ajax({
-                type:   "POST",
-                url:    "{{ path(prefix~'_attachment_list', {'id' : entity.id }) }}",
-                data:   "",
+                type:   "GET",
+                url:    "{{ path(prefix~'_observation_add', {'id' : entity.id }) }}",
+                data:   "add-to-id="+add_to_id,
                 cache:  false,
                 success: function(data) {
-                    $('div#attachment-ajax').html(data);
+                    $('#observation-add-target').hide();
+                    $('div#observation-add-ajax').html(data);
+                    $('#observation-add-target').show();
                     },
                 error:   function() {
-                    alert("Ooups ... something's got wrong: the ajax connection failed in rendering attachment list:(");
-                    },
-            });
-            // loading observation to 'div#observation'
-            $.ajax({
-                type:   "POST",
-                url:    "{{ path(prefix~'_show_observation', {'id' : entity.id, 'limit' : '3' }) }}",
-                data:   "",
-                cache:  false,
-                success: function(data) {
-                    $('div#observation').html(data);
-                    },
-                error:   function() {
-                    alert("Ooups ... something's got wrong: the ajax connection failed in rendering show observation list:(");
+                    alert("Ooups ... something's got wrong: the ajax connection failed in rendering observation add-form:(");
                     },
             });
         });
-
+    });
     </script>
 {% endblock %}

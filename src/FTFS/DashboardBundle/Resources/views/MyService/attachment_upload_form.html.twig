@@ -1,8 +1,0 @@
-<form action="{{ path('ftfs_dashboardbundle_myservice_attachment_upload', { 'id' : id }) }}" 
-      method="post" {{ form_enctype(attachment_upload_form) }}>
-        {{ form_row(attachment_upload_form.file, { 'label': (prefix~'.attachment.upload.form.file.label')|trans({}, 'crud') }) }}
-        {{ form_rest(attachment_upload_form) }}
-        <button type="submit" class="btn">
-            {{ (prefix~'.attachment.upload.form.submit')|trans({}, 'crud') }}
-        </button>
-</form>

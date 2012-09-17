@@ -104,13 +104,13 @@ class MyServiceController extends BaseController
             // no restriction
             case 'new':
                 break;
+            // any agent and client
             // restricted to its owner (assigned to) ant his share list and of cause all agents 
             // ToDo: share group ToDo ########################################################
             case 'show':
-            case 'show_observation':
+            case 'observation_add':
             case 'attachment_upload':
             case 'attachment_download':
-            case 'attachment_list':
             case 'attachment_delete':
             case 'edit':
                 if($context->isGranted('ROLE_AGENT'))
@@ -126,7 +126,7 @@ class MyServiceController extends BaseController
                     }
                 }
                 break;
-            // status: 
+            // agent except owner 
             case 'take':
                 if(!$context->isGranted('ROLE_AGENT'))
                 {
@@ -140,12 +140,20 @@ class MyServiceController extends BaseController
                     }
                 }
                 break;
-            case 'transfer':
-            // interdit
+            // reserved to agent owner 
+            case 'open':    // status: submitted, assigned, not opened
+            case 'transfer':    // status: assigned, opened
+            case 'close':   // status: opened
+                if($entity->getAssignedTo()!=$current_user){
+                    throw new \Exception('Action: '.$action.' is reserved to its agent owner!');
+                }
+                break;
+            // reserved to client owener
+            case 'submit':
             case 'delete':
                 if($entity->getStatus()!='created' or $entity->getRequestedBy()!=$current_user)
                 {
-                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "delete" is only possible for the ticket with status "created" and reserved to its creator ! ');
+                    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation '.$action.' is only possible for the ticket with status "created" and reserved to its creator ! ');
                 }
                 break;
             default:
@@ -240,6 +248,15 @@ class MyServiceController extends BaseController
                 }
                 $entity->setAssignedTo($current_user);
                 break;
+            case 'open':
+                $entity->setStatus('opened');
+                break;
+            case 'close':
+                $entity->setStatus('closed');
+                break;
+            case 'submit':
+                $entity->setStatus('submitted');
+                break;
         }
 
         // flush options for new, edit, delete 
@@ -280,6 +297,32 @@ class MyServiceController extends BaseController
     }
 
     /**
+     * open 
+     * granted only to ROLE_AGENT
+     *
+     * reserved to owner
+     */
+    public function openAction($id)
+    {
+        $entity = $this->getEntity('open', $id);
+        $this->flushEntity($entity, 'open');
+        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $entity->getId())));
+    }
+
+    /**
+     * close 
+     * granted only to ROLE_AGENT
+     *
+     * reserved to owner
+     */
+    public function closeAction($id)
+    {
+        $entity = $this->getEntity('close', $id);
+        $this->flushEntity($entity, 'close');
+        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $entity->getId())));
+    }
+
+    /**
      * transfer 
      * granted only to ROLE_AGENT
      *
@@ -310,83 +353,20 @@ class MyServiceController extends BaseController
     }
 
     /**
-     * AJAX provider: GET Ticket Observations 
+     * submit 
+     * granted only to ROLE_CLIENT
+     *
+     * reserved to owner
      */
-    public function show_observationAction($id)
+    public function submitAction($id)
     {
-        $request = $this->get('request');
-        $limit = $request->get('limit');
-        $form = $this->createForm(new \FTFS\ServiceBundle\Form\ServiceObservationType, 
-                                    new \FTFS\ServiceBundle\Entity\ServiceObservation);
-        
-        $entity = $this->getEntity('show_observation', $id);
-        $observations = $this->getDoctrine()
-                        ->getEntityManager()
-                        ->getRepository('FTFSServiceBundle:ServiceObservation')
-                        ->findBy(array('subject' => $entity->getId()),
-                                 array('send_at' => 'desc'),
-                                 $limit);
-        return $this->render($this->getViewPath().':show_observation.html.twig', array(
-            'prefix' => $this->getRoutingPrefix(),
-            'observations' => $observations,
-            'form' => $form->createView(),
-            'id' => $id,
-            'limit' => $limit,
-        ));
+        $entity = $this->getEntity('submit', $id);
+        $this->flushEntity($entity, 'submit');
+        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $entity->getId())));
     }
 
-    /**
-     * AJAX provider: New Ticket Observation 
-     */
-    public function show_observation_newAction($id)
-    {
-        $request = $this->get('request');
-        $observation = new \FTFS\ServiceBundle\Entity\ServiceObservation;
-        $form = $this->createForm(new \FTFS\ServiceBundle\Form\ServiceObservationType, $observation);
-        if('POST'===$request->getMethod())
-        {
-            $form->bindRequest($request);
-            if($form->isValid())
-            {
-                $em = $this->getDoctrine()->getEntityManager();
-                $obid = $request->get('obid');
-                $attach = $em->getRepository('FTFSServiceBundle:ServiceObservation')->find($obid);
-                if($attach)
-                {
-                    $observation->setAttachTo($attach);
-                }
 
-                $observation->setSendAt(new \DateTime('now'));
-                $observation->setSendBy($this->get('security.context')->getToken()->getUser());
-                $observation->setSubject($this->getEntity('show_observation', $id));
-
-                $em->persist($observation);
-                $em->flush();
-                return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
-            }
-        }else{
-            throw new \Exception('Only accessible via POST');
-        }
-    }
-    /**
-     * AJAX provider: Show Ticket Observation list
-     */
-    public function show_observation_listAction($obid)
-    {
-        $request = $this->get('request');
-        if('POST'===$request->getMethod())
-        {
-            $em = $this->getDoctrine()->getEntityManager();
-            $ob = $em->getRepository('FTFSServiceBundle:ServiceObservation')->find($obid);
-            return $this->render($this->getViewPath().':show_observation_list.html.twig', array(
-                'ob' => $ob,
-                'prefix' => $this->getRoutingPrefix(),
-            ));
-        }else{
-            throw new \Exception('Only accessible via POST');
-        }
-    }
-
+    /** **********************************************************************  attachment & observation **/
 
     /** 
      * attachement file management: download an attachment
@@ -413,19 +393,6 @@ class MyServiceController extends BaseController
         return $response;
     }
 
-    /**
-     * get a file upload form 
-     * return form
-     */
-    private function getAttachmentUploadForm($attachment)
-    {
-        return $this->createFormBuilder($attachment)
-                ->add('file')
-                ->add('filename')
-                ->getForm()
-                ;
-    }
-
     /** 
      * attachement file management: upload an attachment
      */
@@ -434,7 +401,11 @@ class MyServiceController extends BaseController
         $ticket = $this->getEntity('attachment_upload', $id);
         $uploaded_by = $this->get('security.context')->getToken()->getUser();
         $attachment = new \FTFS\ServiceBundle\Entity\ServiceTicketAttachment($ticket, $uploaded_by);
-        $form = $this->getAttachmentUploadForm($attachment);
+        $form = $this->createFormBuilder($attachment)
+                ->add('file')
+                ->add('filename')
+                ->getForm()
+                ;
 
         if($this->getRequest()->getMethod() === 'POST') {
             $form->bindRequest($this->getRequest());
@@ -448,35 +419,10 @@ class MyServiceController extends BaseController
             )));
         }
 
-        return $this->render($this->getViewPath().':attachment_upload_form.html.twig', array(
+        return $this->render('FTFSServiceBundle:ServiceTicketAttachment:upload_form.html.twig', array(
             'id' => $id,
-            'attachment_upload_form' => $form->createView(),
-        ));
-    }
-
-    /** 
-     * attachement file management: list all attachment for a given ticket identified by $id
-     */
-    public function attachmentListAction($id)
-    {
-        // access control ...
-        $ticket = $this->getEntity('attachment_list', $id);
-        $uploaded_by = $this->get('security.context')->getToken()->getUser();
-        $attachment = new \FTFS\ServiceBundle\Entity\ServiceTicketAttachment($ticket, $uploaded_by);
-
-        $form = $this->getAttachmentUploadForm($attachment);
-        
-        // retrieve the attachments
-        $attachments = $this->getDoctrine()
-                        ->getEntityManager()
-                        ->getRepository('FTFSServiceBundle:ServiceTicketAttachment')
-                        ->findByTicket($id);
-
-        return $this->render($this->getViewPath().':attachment_list.html.twig', array(
-            'id' => $id,
-            'attachments' => $attachments,
-            'attachment_upload_form' => $form->createView(),
             'prefix' => $this->getRoutingPrefix(),
+            'attachment_upload_form' => $form->createView(),
         ));
     }
 
@@ -496,8 +442,58 @@ class MyServiceController extends BaseController
         $em->remove($attachment);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('ftfs_dashboardbundle_myservice_show', array(
+        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
             'id' => $id,
         )));
+    }
+
+    /**
+     * AJAX provider: New Ticket Observation 
+     */
+    public function observationAddAction($id)
+    {
+        $request = $this->get('request');
+        $add_to_id = $request->get('add-to-id');
+
+        $observation = new \FTFS\ServiceBundle\Entity\ServiceTicketObservation;
+        $em = $this->getDoctrine()->getEntityManager();
+        $attach = $em->getRepository('FTFSServiceBundle:ServiceTicketObservation')->find($add_to_id);
+        $form = $this->createFormBuilder($observation);
+        if($attach)
+        {
+            // if not null, retrive messages from ancient messages...
+            // $attach->retrive(3);
+            $form->add('content');
+        }else{
+            $form->add('content');
+        }
+        $form = $form->getForm();
+
+        if('POST'===$request->getMethod())
+        {
+            $form->bindRequest($request);
+            if($form->isValid())
+            {
+                if($attach)
+                {
+                    $observation->setAttachTo($attach);
+                }
+
+                $observation->setSendAt(new \DateTime('now'));
+                $observation->setSendBy($this->get('security.context')->getToken()->getUser());
+                $observation->setTicket($this->getEntity('observation_add', $id));
+
+                $em->persist($observation);
+                $em->flush();
+                return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
+            }
+        }
+
+        return $this->render('FTFSServiceBundle:ServiceTicketObservation:add_form.html.twig', array(
+            'id' => $id,
+            'prefix' => $this->getRoutingPrefix(),
+            'add_to_id' => $add_to_id,
+            'observation_add_form' => $form->createView(),
+        ));
     }
 }

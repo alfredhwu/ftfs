@@ -1,5 +1,7 @@
+{% extends 'FTFSCrudBundle:Crud:show_content.html.twig' %}
 {# render the default show page view #}
 
+{% block crud %}
 <div>
     <legend class="btn-group">
         <a class="btn btn-small" href="{{ app.session.get('index') }}" rel="tooltip" title="{{ 'ftfs.crud.form.action.show.list.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
@@ -108,3 +110,4 @@
     </div>
     {% endblock %}
 </div>
+{% endblock %}

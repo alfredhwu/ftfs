@@ -16,18 +16,6 @@ ftfs_dashboardbundle_myservice_show:
     pattern:  /myservice/{id}/show
     defaults: { _controller: FTFSDashboardBundle:MyService:show }
 
-ftfs_dashboardbundle_myservice_show_observation_list:
-    pattern:  /myservice/{obid}/show/observation/list
-    defaults: { _controller: FTFSDashboardBundle:MyService:show_observation_list }
-
-ftfs_dashboardbundle_myservice_show_observation:
-    pattern:  /myservice/{id}/show/observation
-    defaults: { _controller: FTFSDashboardBundle:MyService:show_observation }
-
-ftfs_dashboardbundle_myservice_show_observation_new:
-    pattern:  /myservice/{id}/show/observation/new
-    defaults: { _controller: FTFSDashboardBundle:MyService:show_observation_new }
-
 ftfs_dashboardbundle_myservice_edit:
     pattern:  /myservice/{id}/edit
     defaults: { _controller: FTFSDashboardBundle:MyService:edit }
@@ -36,10 +24,7 @@ ftfs_dashboardbundle_myservice_delete:
     pattern:  /myservice/{id}/delete
     defaults: { _controller: FTFSDashboardBundle:MyService:delete }
 
-ftfs_dashboardbundle_myservice_attachment_list:
-    pattern:  /myservice/{id}/attachment/list
-    defaults: { _controller: FTFSDashboardBundle:MyService:attachmentList }
-
+## attachment
 ftfs_dashboardbundle_myservice_attachment_upload:
     pattern:  /myservice/{id}/attachment/upload
     defaults: { _controller: FTFSDashboardBundle:MyService:attachmentUpload }
@@ -51,6 +36,11 @@ ftfs_dashboardbundle_myservice_attachment_download:
 ftfs_dashboardbundle_myservice_attachment_delete:
     pattern:  /myservice/{id}/attachment/delete/{attachment_id}
     defaults: { _controller: FTFSDashboardBundle:MyService:attachmentDelete }
+
+## observation
+ftfs_dashboardbundle_myservice_observation_add:
+    pattern:  /myservice/{id}/observation/add
+    defaults: { _controller: FTFSDashboardBundle:MyService:observationAdd }
 
 ## oper agent
 ftfs_dashboardbundle_myservice_take:

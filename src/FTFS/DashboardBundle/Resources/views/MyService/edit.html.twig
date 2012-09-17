@@ -17,3 +17,14 @@
         <h1> error : you have to have role_agent in order to see this page !</h1>
     {% endif %}
 {% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        function form_submit(mode) {
+            form = document.forms["{{ prefix~'_form' }}"],
+            form.mode.value = mode;
+            form.submit();
+        }
+    </script>
+{% endblock %}
