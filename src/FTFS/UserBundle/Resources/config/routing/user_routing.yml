@@ -17,3 +17,8 @@ ftfsuserbundle_user_edit_roles:
 ftfsuserbundle_user_edit_password:
     pattern:  /{username}/edit_password
     defaults: { _controller: FTFSUserBundle:User:editPassword }
+
+ftfsuserbundle_user_invite:
+    pattern:  /invite
+    defaults: { _controller: FTFSUserBundle:User:invite }
+

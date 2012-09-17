@@ -20,6 +20,7 @@ group:
     show:
         roles:  "Group roles"
 
+fos_user_registration_form_invitation: "Your invitation code:"
 fos_user_registration_form_title: "Title:"
 fos_user_registration_form_surname: "Surname:"
 fos_user_registration_form_first_name: "First Name:"

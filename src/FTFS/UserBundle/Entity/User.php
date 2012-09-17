@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="ftfs_user")
+ * @ORM\HasLifecycleCallbacks
  */
 class User extends BaseUser
 {
@@ -87,6 +88,36 @@ class User extends BaseUser
     public function __toString()
     {
         return $this->getTitle().' '.$this->getFirstName().' '.$this->getSurname().' ('.$this->getCompany().')';
+    }
+
+    /**
+     *
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        // if invitiation, add roles
+        $invitation = $this->getInvitation();
+        if($invitation){
+            $this->setRoles($invitation->getRoles());
+        }
+    }
+
+    /**
+     * @ORM\OneToOne(targetEntity="Invitation", mappedBy="user")
+     * @ORM\JoinColumn(referencedColumnName="code")
+     * @Assert\NotNull(message="Your invitation is wrong")
+     */
+    private $invitation;
+
+    public function setInvitation(Invitation $invitation)
+    {
+        $this->invitation = $invitation;
+    }
+
+    public function getInvitation()
+    {
+        return $this->invitation;
     }
 
     /**

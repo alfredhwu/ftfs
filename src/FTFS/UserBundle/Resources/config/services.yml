@@ -11,6 +11,15 @@ services:
         tags:
             - { name: form.type, alias: ftfs_user_profile }
 
+    ftfs_user.invitation.form.type:
+        class:  FTFS\UserBundle\Form\Type\InvitationFormType
+        arguments:  [@ftfs_user.invitation.form.data_transformer]
+        tags: [{ name: "form.type", alias: 'ftfs_user_invitation_type' }]
+
+    ftfs_user.invitation.form.data_transformer:
+        class:  FTFS\UserBundle\Form\DataTransformer\InvitationToCodeTransformer
+        arguments:  [@doctrine.orm.entity_manager]
+
     ftfs_user.group.form.type:
         class:  FTFS\UserBundle\Form\Type\GroupFormType
         arguments:  [%fos_user.model.group.class%]

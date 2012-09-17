@@ -82,4 +82,60 @@ class UserController extends Controller
         return null;
     }
 
+    public function inviteAction()
+    {
+        $request = $this->getRequest();
+        $request->getSession()->set('navbar',$request->getRequestUri());
+        $request->getSession()->set('bodymenu',$request->getRequestUri());
+
+        $invitation = new \FTFS\UserBundle\Entity\Invitation;
+
+        $form = $this->createFormBuilder($invitation)
+                    ->add('email', 'email')
+                    ->add('roles', 'choice', array(
+                        'choices' => array(
+                            'ROLE_ADMIN' => 'ROLE_ADMIN',
+                            'ROLE_AGENT' => 'ROLE_AGENT',
+                            'ROLE_CLIENT' => 'ROLE_CLIENT',
+                        ),
+                        'multiple' => true,
+                    ))
+                    ->getForm();
+
+        if($request->getMethod() === 'POST')
+        { 
+            $form->bindRequest($request);
+
+            if($form->isValid())
+            {
+                $em = $this->getDoctrine()->getEntityManager();
+                // test if email already exists
+                $em->persist($invitation);
+                $em->flush();
+                $message = \Swift_Message::newInstance()
+                            ->setSubject('Invitation for inscription to Support Service of Fujitsu Telecom France SAS')
+                            ->setFrom('support@fujitsu-telecom.fr')
+                            ->setTo($invitation->getEmail())
+                            ->setBody(
+                                $this->renderView('FTFSUserBundle:User:invitation_email.html.twig', array(
+                                    'code' => $invitation->getCode(), 
+                                    'email' => $invitation->getEmail(),
+                                )),
+                                'text/html'
+                            )
+                            ->addPart($this->renderView('FTFSUserBundle:User:invitation_email.txt.twig', array(
+                                'code' => $invitation->getCode(),
+                                'email' => $invitation->getEmail(),
+                            )))
+                            ;
+                $this->get('mailer')->send($message);
+                return $this->redirect($this->generateUrl('ftfsuserbundle_user_index'));
+            }
+        }
+
+        return $this->render('FTFSUserBundle:User:invitation.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
 }

@@ -1,0 +1,12 @@
+{% extends "FTFSUserBundle::layout.html.twig" %}
+
+{% block body_menu %}
+{% include "FTFSUserBundle::body_menu.html.twig" %}
+{% endblock %}
+
+{% block body_content %}
+<form action="{{ path('ftfsuserbundle_user_invite')}}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input type="submit">
+</form>
+{% endblock %}
