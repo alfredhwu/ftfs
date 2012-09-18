@@ -121,6 +121,33 @@
         <script src="{{ asset('js/bootstrap.js') }}"></script>     
         <script src="{{ asset('js/bootbox.js') }}"></script>     
         <script src="{{ asset('js/addition.js') }}"></script>
+        <!-- activate the menu item -->
+        <script>
+        $(document).ready(function () {
+            // nav menu
+            $('li.navbar-item').each(function() {
+                var href = $(this).children('a').attr('href'); 
+                if(href == "#") {
+                    href = $(this).children('a').attr('pseudo-href');
+                }
+                if("{{ app.request.requestUri }}".match(href)) {
+                    $(this).addClass('active');
+                }else{
+                    $(this).removeClass('active');
+                }
+            });
+            // body menu
+            $('li.navmenu-item').each(function() {
+                var href = $(this).children('a').attr('href'); 
+                if(href == "{{ app.request.requestUri }}") {
+                    $(this).addClass('active');
+                }else{
+                    $(this).removeClass('active');
+                }
+            });
+        //    $('li.nav-item').html("{{ app.request.pathInfo~','~app.request.requestUri~','~app.request.baseUrl~','~app.request.basePath}}");
+        });
+        </script>
         {% endblock %}
     </body>
 </html>

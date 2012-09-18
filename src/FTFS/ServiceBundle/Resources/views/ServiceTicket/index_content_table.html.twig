@@ -6,7 +6,9 @@
     <th class="tight">{{ ('ftfs.servicebundle.serviceticket.table.severity.title') | trans({}, 'crud') }}</th>
     <th class="tight">{{ ('ftfs.servicebundle.serviceticket.table.priority.title') | trans({}, 'crud') }}</th>
     <th class="extend">{{ ('ftfs.servicebundle.serviceticket.table.summary') | trans({}, 'crud') }}</th>
+    {% if not is_granted('ROLE_CLIENT') %}
     <th>{{ ('ftfs.servicebundle.serviceticket.table.assigned.to') | trans({}, 'crud') }}</th>
+    {% endif %}
     <th>{{ ('ftfs.servicebundle.serviceticket.table.requested.by') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.serviceticket.table.service') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.serviceticket.table.last.modified.at') | trans({}, 'crud') }}</th>
@@ -26,7 +28,9 @@
     <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity)|trans({}, 'crud') }}</td>
     <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.priority.'~entity.priority~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.priority.'~entity.priority)|trans({}, 'crud') }}</td>
     <td class="extend">{{ entity.summary }}</td>
+    {% if not is_granted('ROLE_CLIENT') %}
     <td>{{ entity.assignedTo }}</td>
+    {% endif %}
     <td>{{ entity.requestedBy }}</td>
     <td>{{ entity.service }}</td>
     <td>{% if entity.lastModifiedAt is not empty %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>

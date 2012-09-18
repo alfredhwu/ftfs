@@ -7,23 +7,25 @@ navigateur based console ...
 ===================iss2@fos group================================
 fos group realization, depreciated
 
+
 ===================iss3@service  ================================
 service 
 
-show page : observation, attachment
-use bijection instead of ajax to improve performance
+
+show page : observation, attachment >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> fait@2012-09-10
+use bijection instead of ajax to improve performance >>>>>>>>>>>>>> fait
 
 ===================iss4@perso errs===============================
 
 ===================iss5@dashboard================================
-access control: routing, controller, view: client... >>>> fait@2012-08-30
+access control: routing, controller, view: client... >>>>>>>>>>>>>> fait@2012-08-30
 
-interaction>>>>>> fait 09-04
+interaction         >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> fait 09-04
 warning for dangerous operations, and messages  
 
 oper take, transfer, cancel => role_agent
 
-show page personnalization >>> fait 09-10
+show page personnalization >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> fait 09-10
 notification: syst, email
 
 index page: searching

@@ -9,9 +9,10 @@ class RegistrationFormType extends BaseType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $builder->add('email', 'email')
-        //      ->add('username')
+        $builder
                 ->add('invitation', 'ftfs_user_invitation_type')
+        //      ->add('username')
+                ->add('email', 'email')
                 ->add('plainPassword', 'repeated', array('type' => 'password'))
                 ->add('title', 'choice', array(
                     'choices' => array(

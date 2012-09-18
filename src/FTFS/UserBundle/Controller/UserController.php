@@ -12,10 +12,6 @@ class UserController extends Controller
     
     public function indexAction()
     {
-        $request = $this->getRequest();
-        $request->getSession()->set('navbar',$request->getRequestUri());
-        $request->getSession()->set('bodymenu',$request->getRequestUri());
-
         $userManager = $this->get('fos_user.user_manager');
         $users = $userManager->findUsers();
         return $this->render('FTFSUserBundle:User:index.html.twig', array('users' => $users));
@@ -30,10 +26,6 @@ class UserController extends Controller
 
     public function editAction($username)
     {
-        $request = $this->getRequest();
-        $request->getSession()->set('navbar',$request->getRequestUri());
-        $request->getSession()->set('bodymenu',$request->getRequestUri());
-
         $user = $this->get('fos_user.user_manager')->findUserByUsername($username);
         $form = $this->createForm(new EditFormType('\FTFS\UserBundle\Entity\User'), $user);
 
@@ -52,10 +44,6 @@ class UserController extends Controller
 
     public function editRolesAction($username)
     {
-        $request = $this->getRequest();
-        $request->getSession()->set('navbar',$request->getRequestUri());
-        $request->getSession()->set('bodymenu',$request->getRequestUri());
-
         $user = $this->get('fos_user.user_manager')->findUserByUsername($username);
         $form = $this->createForm(new EditRolesFormType('\FTFS\UserBundle\Entity\User'), $user);
         $request = $this->get('request');
@@ -85,8 +73,6 @@ class UserController extends Controller
     public function inviteAction()
     {
         $request = $this->getRequest();
-        $request->getSession()->set('navbar',$request->getRequestUri());
-        $request->getSession()->set('bodymenu',$request->getRequestUri());
 
         $invitation = new \FTFS\UserBundle\Entity\Invitation;
 

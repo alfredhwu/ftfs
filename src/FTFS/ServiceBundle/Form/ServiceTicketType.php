@@ -80,8 +80,8 @@ class ServiceTicketType extends AbstractType
                         ->add('requested_via', 'choice', array(
                             'preferred_choices' => array('telephone'),
                             'choices' => array(
-                                'web' => 'Web',
                                 'telephone' => 'Telephone',
+                                'email' => 'Email',
                                 'fax' => 'Fax',
                             ),
                         ))

@@ -1,5 +1,6 @@
 <li class="nav-header">Profile</li>
-<li {% if path('fos_user_profile_edit') == app.session.get('bodymenu') %} class="active" {% endif %} ><a href="{{ path('fos_user_profile_edit') }}"><i class="icon-edit"></i> Modify Profile</a></li>
-<li {% if path('fos_user_change_password') == app.session.get('bodymenu') %} class="active" {% endif %} ><a href="{{ path('fos_user_change_password') }}"><i class="icon-lock"></i> Change Password</a></li>
+<li class="navmenu-item"><a href="{{ path('fos_user_profile_show') }}"><i class="icon-user"></i> User Profile</a></li>
+<li class="navmenu-item"><a href="{{ path('fos_user_profile_edit') }}"><i class="icon-edit"></i> Modify Profile</a></li>
+<li class="navmenu-item"><a href="{{ path('fos_user_change_password') }}"><i class="icon-lock"></i> Change Password</a></li>
 <li class="nav-header">Preference</li>
-<li {% if path('merk_notification_user_preferences') == app.session.get('bodymenu') %} class="active" {% endif %} ><a href="{{ path('merk_notification_user_preferences') }}"><i class="icon-wrench"></i> Preference</a></li>
+<li class="navmenu-item"><a href="{{ path('merk_notification_user_preferences') }}"><i class="icon-wrench"></i> Preference</a></li>
