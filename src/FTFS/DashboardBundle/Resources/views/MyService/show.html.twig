@@ -3,11 +3,11 @@
 {% block body_content %}
     {% if is_granted('ROLE_AGENT') %}
         {% include 'FTFSDashboardBundle:MyService:show_content_agent.html.twig' with {
-            'read_only' : entity.assignedTo is null or entity.assignedTo.username != app.user.username or entity.status not in ['interrupted', 'assigned', 'opened'],
+            'read_only' : entity.assignedTo is null or entity.assignedTo != app.user or entity.status not in ['interrupted', 'assigned', 'opened'],
         } %}
     {% elseif is_granted('ROLE_CLIENT') %}
         {% include 'FTFSDashboardBundle:MyService:show_content_client.html.twig' with { 
-            'read_only' : entity.requestedBy.username != app.user.username or entity.status == 'closed', 
+            'read_only' : entity.requestedBy != app.user or entity.status == 'closed', 
         } %}
     {% endif %}
 {% endblock %}

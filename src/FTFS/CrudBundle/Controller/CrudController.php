@@ -131,12 +131,32 @@ abstract class CrudController extends Controller
     }
 
     /**
+     * register the event of access 
+     *
+     */
+    protected function registerEvent($action, $entity, $verb=null)
+    {
+        // register event
+        $actor = $this->get('security.context')->getToken()->getUser();
+        switch($action) {
+            default:
+                $eventkey = 'event.'.$action;
+                if(!$verb) {
+                    $verb = $action;
+                }
+        }
+        $this->container->get('merk_notification.notifier')->trigger($eventkey, $entity, $verb, $actor);
+
+    }
+
+    /**
      * notification filter
-     * notify the result of an action
+     * notify the result of an action by flashing
      *
      */
     protected function notify($action, $status='success')
     {
+        // flashing message
         $this->get('session')->setFlash(
             'ftfs.crud.notification.'.$status, 
             $this->getRoutingPrefix().'.notification.action.'.$action.'.'.$status
@@ -146,6 +166,7 @@ abstract class CrudController extends Controller
     /**
      * flush entity filter
      * do some post flush auto settings here
+     * for new, edit, delete, and other user defined actions
      *
      */
     protected function flushEntity($entity, $action, $request=null)
@@ -169,6 +190,11 @@ abstract class CrudController extends Controller
                 break;
         }
         $em->flush();         
+
+        // register access event
+        $this->registerEvent($action, $entity);
+
+        // notify by flashing message
         $this->notify($action);
 
         // Todo add redirect here
@@ -178,7 +204,10 @@ abstract class CrudController extends Controller
     {
         // set index into session
         $request = $this->getRequest();
-        $request->getSession()->set('index',$request->getRequestUri());
+        $request->getSession()->set('index', $request->getRequestUri());
+
+        // register access event
+        // $this->registerEvent('index', null);
 
         // general twig rendering
         return $this->render($this->getViewPath().':index.html.twig', array(
@@ -190,13 +219,7 @@ abstract class CrudController extends Controller
     public function showAction($id)
     {
         $entity = $this->getEntity('show', $id);
-        //
-        // test notification **********************************************************************
-        $actor = $this->get('fos_user.user_manager')->findUserByUsername('agent');
-        $subject = $entity;
-        $this->container->get('merk_notification.notifier')->trigger('event.key', $subject, 'viewed by', $actor);
-        // test notification ***********************************************************************
-
+        //$this->registerEvent('show', $entity);
         return $this->render($this->getViewPath().':show.html.twig', array(
             'entity' => $entity,
             'prefix' => $this->getRoutingPrefix(),
@@ -206,9 +229,7 @@ abstract class CrudController extends Controller
     public function newAction()
     {
         $request = $this->get('request');
-
         $entity = $this->getEntity('new');
-
         $form = $this->createForm($this->getEntityType(array('view' => 'new')), $entity);
 
         if('POST'===$request->getMethod())

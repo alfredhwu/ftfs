@@ -132,7 +132,7 @@ class MyServiceController extends BaseController
                 {
                     throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "take" of entity '.$entity->getName().'" is reserved for ROLE_AGENT !');
                 }else{
-                    if($entity->getAssignedTo()==$current_user)
+                    if($entity->getAssignedTo()==$current_user && $entity->getStatus()!='submitted')
                     {
                         throw new \Exception('Your have already taken this service ticket !');
                     }elseif($entity->getStatus()=='created' || $entity->getStatus()=='closed'){
@@ -242,7 +242,7 @@ class MyServiceController extends BaseController
                 }
                 break;
             case 'take':
-                if(is_null($entity->getAssignedTo()))
+                if('submitted' == $entity->getStatus())
                 {
                     $entity->setStatus('assigned');
                 }
@@ -255,6 +255,7 @@ class MyServiceController extends BaseController
                 $entity->setStatus('closed');
                 break;
             case 'submit':
+                $entity->setRequestedAt(new \DateTime('now'));
                 $entity->setStatus('submitted');
                 break;
         }
@@ -382,14 +383,19 @@ class MyServiceController extends BaseController
             throw $this->createNotFoundException('Attachment demanded not found !');        
         }
 
+        // prepare the attachment
         $content = file_get_contents($attachment->getAbsolutePath());
         $response = new \Symfony\Component\HttpFoundation\Response();
-
         $response->headers->set('Content-Type', 'mime/type');
         $response->headers->set('Content-Disposition', 'attachment;filename='.$attachment->getName());
-
         $response->setContent($content);
 
+        // register event
+        $this->registerEvent('attachment_download', $attachment);
+        // flash notification
+        $this->notify('attachment_download'); 
+
+        // return the resouces
         return $response;
     }
 
@@ -414,6 +420,11 @@ class MyServiceController extends BaseController
                 $em->persist($attachment);
                 $em->flush();
             }
+            // register event
+            $this->registerEvent('attachment_upload', $attachment);
+            // flash notification
+            // $this->notify('attachment_upload'); 
+            //
             return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
                 'id' => $id,
             )));
@@ -440,7 +451,13 @@ class MyServiceController extends BaseController
             throw $this->createNotFoundException('Attachment demanded not found !');        
         }
         $em->remove($attachment);
+        //*******************************************************************************ToDo: prob transaction
+        // register event
+        $this->registerEvent('attachment_delete', $attachment->getTicket(), $attachment->getName());
         $em->flush();
+
+        // flash notification
+        $this->notify('attachment_delete'); 
 
         return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
             'id' => $id,
@@ -485,6 +502,12 @@ class MyServiceController extends BaseController
 
                 $em->persist($observation);
                 $em->flush();
+                //
+                // register event
+                $this->registerEvent('observation_add', $observation);
+                // flash notification
+                //$this->notify('observation_add'); 
+
                 return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
             }
         }
