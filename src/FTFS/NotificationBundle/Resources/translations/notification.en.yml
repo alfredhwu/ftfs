@@ -1,0 +1,3 @@
+event.serviceticket.show:
+    default_agent_actor: 'FTFS Agent'
+    action: 'viewed service ticket'

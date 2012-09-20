@@ -46,10 +46,6 @@ fos_user_change_password:
 #    resource: "@FOSUserBundle/Resources/config/routing/group.xml"
 #    prefix: /admin/group
 
-#merk notification
-merk_notification:
-    resource: "@merkNotificationBundle/Resources/config/routing/user_preferences.yml"
-    prefix: /user-preferences
 
 # Internal routing configuration to handle ESI
 #_internal:

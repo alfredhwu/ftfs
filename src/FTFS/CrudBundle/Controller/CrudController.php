@@ -145,8 +145,7 @@ abstract class CrudController extends Controller
                     $verb = $action;
                 }
         }
-        $this->container->get('merk_notification.notifier')->trigger($eventkey, $entity, $verb, $actor);
-
+        //$this->container->get('merk_notification.notifier')->trigger($eventkey, $entity, $verb, $actor);
     }
 
     /**
@@ -202,6 +201,19 @@ abstract class CrudController extends Controller
 
     public function indexAction()
     {
+        /** test notification ...... **/
+        //
+        $current_user = $this->get('security.context')->getToken()->getUser();
+        $action = array();
+        $action['action'] = 'index';
+
+
+        
+        $this->get('ftfs_notification.notifier.event_registration_notifier')->register('serviceticket.index.event', $current_user, $action);
+        //
+        //
+
+
         // set index into session
         $request = $this->getRequest();
         $request->getSession()->set('index', $request->getRequestUri());
@@ -218,8 +230,27 @@ abstract class CrudController extends Controller
 
     public function showAction($id)
     {
+        // test config
+        //
+        //throw new \Exception($this->container->getParameter('ftfs_notification.foo').' '.$this->container->getParameter('ftfs_notification.bar'));
+
+        /** test notification ...... **/
+        //
+        $current_user = $this->get('security.context')->getToken()->getUser();
+
+        $action = array();
+        $action['name'] = 'show';
         $entity = $this->getEntity('show', $id);
+        $metadata = $this->getDoctrine()->getEntityManager()->getClassMetadata(get_class($entity));
+        $action['serviceticket_class'] = $metadata->getName();
+        $action['serviceticket_id'] = $metadata->getIdentifierValues($entity);
+
+        $this->get('ftfs_notification.notifier.event_registration_notifier')->register('event.serviceticket.show', $current_user, $action);
+        //
+        //
+        //
         //$this->registerEvent('show', $entity);
+        $entity = $this->getEntity('show', $id);
         return $this->render($this->getViewPath().':show.html.twig', array(
             'entity' => $entity,
             'prefix' => $this->getRoutingPrefix(),

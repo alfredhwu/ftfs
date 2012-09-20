@@ -99,12 +99,7 @@ fos_user:
         form:
             type:   ftfs_user_group
 
-
-# merk notification configuration
-merk_notification:
-    db_driver:  orm
-    class: 
-        filter:             FTFS\NotificationBundle\Entity\Filter
-        notification:       FTFS\NotificationBundle\Entity\Notification
-        notification_event: FTFS\NotificationBundle\Entity\NotificationEvent
-        user_preferences:   FTFS\NotificationBundle\Entity\UserPreferences
+## ftfs_notification bundle config
+ftfs_notification: 
+    #foo:    fooValue
+    #bar:    barValue

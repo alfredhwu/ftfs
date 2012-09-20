@@ -11,7 +11,15 @@ class FTFSNotificationExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
+        // prepare the $config variable: flatterning/merging
+        $configuration = new Configuration();
+        $config = $this->processConfiguration($configuration, $configs);
+        //
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+        // register $config to service container
+        foreach($config as $key => $value) {
+            $container->setParameter('ftfs_notification.'.$key, $value);
+        }
     }
 }
