@@ -26,8 +26,10 @@ class EventRegistrationListener
         $entityManager = $args->getEntityManager();
 
         if($entity instanceof EventLog) {
-            // use user filter to send notifications
-            $this->container->get('ftfs_notification.notifier.event_notification_notifier')->notify($entity);
+            // notify all relatives by passing throw and catch filters
+            $persist_log = true; // persist the notifications generated??
+            $this->container->get('ftfs_notification.notifier.event_notification_notifier')
+                            ->notify($entity, $persist_log);
         }
     }
 }

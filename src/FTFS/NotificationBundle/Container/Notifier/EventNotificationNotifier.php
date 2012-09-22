@@ -2,10 +2,13 @@
 
 namespace FTFS\NotificationBundle\Container\Notifier;
 
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use FTFS\NotificationBundle\Container\Filter\EventCatchFilter;
+use FTFS\NotificationBundle\Container\Sender\Sender;
+
 use DateTime;
+use Symfony\Component\Security\Core\User\UserInterface;
 use FTFS\NotificationBundle\Entity\EventLog;
 
 /**
@@ -15,55 +18,81 @@ class EventNotificationNotifier
 {
     private $em;
     private $templating;
+    private $eventCatchFilter;
+    private $sender;
 
-    public function __construct(EntityManager $entityManager, EngineInterface $templating)
+    // notification list waiting persist
+    // add to this array all new notifications
+    private $notifications;
+
+    public function __construct(EntityManager $entityManager, EngineInterface $templating, 
+        EventCatchFilter $eventCatchFilter, Sender $sender)
     {
         $this->em = $entityManager;
         $this->templating = $templating;
+        $this->eventCatchFilter = $eventCatchFilter;
+        $this->sender = $sender;
+
+        $this->notifications = array();
     }
 
     /**
      *
      * throw the notifications
      */
-    public function notify(EventLog $eventlog)
+    public function notify(EventLog $eventlog, $persist_log = true)
     {
-        // write notification log
+        // parsing the event to notifications
+        $this->parseEventToNotifications($eventlog);
+
+        // sending notifications
+        $this->sender->send($this->notifications);
+
+        // if persist, persisting all notifications
+        if($persist_log) {
+            foreach($this->notifications as $notification) {
+                $this->em->persist($notification);
+            }
+            $this->em->flush();
+        }
+    }
+
+    protected function parseEventToNotifications(Eventlog $eventlog)
+    {
+        // according to diff event type, throw event notfication request
+        // para: $security_level, $eventargs
         $security_level = $eventlog->getEvent()->getSecurityLevel();
-        $event_key = $eventlog->getEvent()->getEventKey();
-
-        // ToDo: define filters
-        $user_filter = null;
-
         $eventargs = $this->getEventArgs($eventlog);
         switch($eventargs[1]) {
             case 'serviceticket':
+                // notify both client owner and assigned agent
                 $service_ticket = $this->getSubject('serviceticket', $eventlog->getAction());
-                $this->register($eventlog, $service_ticket->getRequestedBy(), $user_filter);
-                $this->register($eventlog, $service_ticket->getAssignedTo(), $user_filter);
+                $this->registerNotifications($eventlog, $service_ticket->getRequestedBy());
+                $this->registerNotifications($eventlog, $service_ticket->getAssignedTo());
                 break;
             default:
                 throw new \Exception('Unknown event "'.$eventkey.'"');
         }
-        // flush the registrations of notifications
-        // declenche the sender process via listner
-        $this->em->flush();
     }
 
     /**
      *
-     * catch the notifications
+     * catch the notifications and register into the notification log
      */
-    protected function register(EventLog $eventlog, UserInterface $notified_to, $user_filter)
+    protected function registerNotifications(EventLog $eventlog, UserInterface $notified_to)
     {
-        if($notified_to) {
-            $this->em->persist($this->generateNotificationLog($eventlog, $notified_to));
+        $filters = $this->eventCatchFilter->getNotificationMethod($notified_to, $eventlog->getEvent());
+        $notifications = array();
+        foreach($filters as $filter) {
+            $method = $filter->getMethod();
+            $notifications[] = $this->generateNotificationLog($eventlog, $notified_to, $method);
         }
+        $this->notifications = array_merge($this->notifications, $notifications);
     }
 
     /**
      *
-     * writing notification log
+     * generate a notification log
      */
     protected function generateNotificationLog(EventLog $eventlog, UserInterface $notified_to, $method = null, $format = null)
     {
@@ -72,7 +101,7 @@ class EventNotificationNotifier
 
         // generate message realted: method, format, message, cc
         $format = $format ? $format : 'txt';        // set default message format, method
-        $method = $method ? $method : 'system';
+        $method = $method ? $method : $this->getDefaultNotificationMethod();
         //
         $notificationlog->setMethod($method);
         $notificationlog->setCc(null);              // by default, null
@@ -83,12 +112,12 @@ class EventNotificationNotifier
                 $service_ticket = $this->getSubject('serviceticket', $eventlog->getAction());
                 // set destinaire **************
                 $notificationlog->setNotifiedTo($notified_to);
-                if($method === 'email') {
+                if($method->getName() === 'email') {
                     // editing cc field
                     // check if $service_ticket or $action has a cc 
                     $notificationlog->setCc(null);
                 }
-                $message = $this->templating->render('FTFSNotificationBundle:NotificationMessage:'.$eventlog->getEvent()->getEventKey().'.'.$method.'.'.$format.'.twig', array(
+                $message = $this->templating->render('FTFSNotificationBundle:NotificationMessage:'.$eventlog->getEvent()->getEventKey().'.'.$method->getName().'.'.$format.'.twig', array(
                     'eventlog' => $eventlog,
                     'notificationlog' => $notificationlog,
                     'subject' => $service_ticket,
@@ -106,6 +135,22 @@ class EventNotificationNotifier
         $notificationlog->setNotifiedAt(null);
 
         return $notificationlog;
+    }
+
+    /**
+     *
+     * Get default notification method
+     */
+    protected function getDefaultNotificationMethod()
+    {
+        // Todo: edit this in syst config file
+        $default_method_name = 'system';
+        $method = $this->em->getRepository('FTFSNotificationBundle:NotificationMethod')
+                    ->findOneByName($default_method_name);
+        if(!$method) {
+            throw new \Exception('Error: default method named '.$default_method_name.' can not be found ! Please contact the developper. (caused probably by delete of an entry in ftfs_notification_notification_method with key name = '.$default_method_name.')');
+        }
+        return $method;
     }
 
     /**

@@ -2,9 +2,9 @@
 
 namespace FTFS\NotificationBundle\DependencyInjection;
 
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
 class FTFSNotificationExtension extends Extension
@@ -17,6 +17,7 @@ class FTFSNotificationExtension extends Extension
         //
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
         // register $config to service container
         foreach($config as $key => $value) {
             $container->setParameter('ftfs_notification.'.$key, $value);

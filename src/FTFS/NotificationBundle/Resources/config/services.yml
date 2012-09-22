@@ -1,20 +1,43 @@
 services:
+    ## register an event
     ftfs_notification.notifier.event_registration_notifier:
         class:  FTFS\NotificationBundle\Container\Notifier\EventRegistrationNotifier
         arguments:  [@doctrine.orm.entity_manager]
 
-    ftfs_notification.notifier.event_notification_notifier:
-        class:  FTFS\NotificationBundle\Container\Notifier\EventNotificationNotifier
-        arguments:  [@doctrine.orm.entity_manager, @templating]
-
+    ## listner the event registration, once registered -> trigger notification_notifier
     ftfs_notification.listener.event_registration_listener:
         class:  FTFS\NotificationBundle\Container\Listener\EventRegistrationListener
         arguments:  [@service_container]
         tags:
             - { name: doctrine.event_listener, event: postPersist }
+    
+    ## triggered by event registration listner, using the event_catch_filter to notify the destinare
+    #  once notified -> trigger notification_sender
+    ftfs_notification.notifier.event_notification_notifier:
+        class:  FTFS\NotificationBundle\Container\Notifier\EventNotificationNotifier
+        arguments:  [@doctrine.orm.entity_manager, @templating, @ftfs_notification.filter.event_catch_filter, @ftfs_notification.sender.sender]
 
+    ## filter
+    ftfs_notification.filter.event_catch_filter:
+        class:  FTFS\NotificationBundle\Container\Filter\EventCatchFilter
+        arguments:  [@doctrine.orm.entity_manager]
+
+    ## sender
+    ftfs_notification.sender.sender:
+        class:  FTFS\NotificationBundle\Container\Sender\Sender
+        arguments:  [[]]
+        ## arguments modified by SenderAgentPass in compiler
+
+    ftfs_notification.sender.agent.system:
+        class:  FTFS\NotificationBundle\Container\Sender\Agent\SystemSenderAgent
+        tags:
+            - { name: ftfs_notification.sender.agent, alias:system  }
     ftfs_notification.sender.agent.email:
-        class:  FTFS\NotificationBundle\Sender\Agent\EmailAgent
+        class:  FTFS\NotificationBundle\Container\Sender\Agent\EmailSenderAgent
         arguments:  [@mailer]
         tags:
-            - { name: merk_notification.sender.agent, alias: email }
+            - { name: ftfs_notification.sender.agent, alias: email }
+    ftfs_notification.sender.agent.sms:
+        class:  FTFS\NotificationBundle\Container\Sender\Agent\SMSSenderAgent
+        tags:
+            - { name: ftfs_notification.sender.agent, alias: sms }

@@ -1,5 +1,5 @@
-2012-09-21  user notification filter, sender service
-
+2012-09-21  user notification filter, sender service >>>> fait
+2012-08-22  interface for management of filter, listener service dependency, lifecyclecallback redefinition, notification templating
 
 
 ## dashboard
@@ -9,7 +9,6 @@
 
 
 ## user management
-
 separate interface for agents and clients
 
 

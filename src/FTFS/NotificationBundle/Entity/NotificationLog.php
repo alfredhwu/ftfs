@@ -43,9 +43,7 @@ class NotificationLog
     private $cc;
 
     /**
-     * @var string $method
-     *
-     * @ORM\Column(name="method", type="string", length=10)
+     * @ORM\ManyToOne(targetEntity="NotificationMethod")
      */
     private $method;
 
@@ -154,26 +152,6 @@ class NotificationLog
     }
 
     /**
-     * Set method
-     *
-     * @param string $method
-     */
-    public function setMethod($method)
-    {
-        $this->method = $method;
-    }
-
-    /**
-     * Get method
-     *
-     * @return string 
-     */
-    public function getMethod()
-    {
-        return $this->method;
-    }
-
-    /**
      * Set message
      *
      * @param text $message
@@ -191,5 +169,25 @@ class NotificationLog
     public function getMessage()
     {
         return $this->message;
+    }
+
+    /**
+     * Set method
+     *
+     * @param FTFS\NotificationBundle\Entity\NotificationMethod $method
+     */
+    public function setMethod(\FTFS\NotificationBundle\Entity\NotificationMethod $method)
+    {
+        $this->method = $method;
+    }
+
+    /**
+     * Get method
+     *
+     * @return FTFS\NotificationBundle\Entity\NotificationMethod 
+     */
+    public function getMethod()
+    {
+        return $this->method;
     }
 }

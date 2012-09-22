@@ -201,19 +201,6 @@ abstract class CrudController extends Controller
 
     public function indexAction()
     {
-        /** test notification ...... **/
-        //
-        $current_user = $this->get('security.context')->getToken()->getUser();
-        $action = array();
-        $action['action'] = 'index';
-
-
-        
-        $this->get('ftfs_notification.notifier.event_registration_notifier')->register('serviceticket.index.event', $current_user, $action);
-        //
-        //
-
-
         // set index into session
         $request = $this->getRequest();
         $request->getSession()->set('index', $request->getRequestUri());
