@@ -1,3 +1,9 @@
 event.serviceticket.show:
-    default_agent_actor: 'FTFS Agent'
-    action: 'viewed service ticket'
+    action.default.txt: 'Event [%event_key%], by %acted_by% at %acted_at%.'
+    action.system.txt: '%visited_at%: "%service_ticket%" has been visited by %visited_by%'
+    action.email.txt: 'This mail is to inform you that your ticket of number "%service_ticket%" has been visited by %visited_by% at %visited_at%.'
+
+event.serviceticket.update:
+    action.default.txt: 'Event [%event_key%], by %acted_by% at %acted_at%.'
+    action.system.txt: '%visited_at%: "%service_ticket%" has been visited by %visited_by%'
+    action.email.txt: 'This mail is to inform you that your ticket of number "%service_ticket%" has been visited by %visited_by% at %visited_at%.'

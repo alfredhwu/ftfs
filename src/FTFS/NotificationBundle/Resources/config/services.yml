@@ -1,4 +1,15 @@
 services:
+    ## service ticket listener
+    #   trigger event in life cycle call back
+    ftfs_notification.listener.service_ticket_listener:
+        class:  FTFS\NotificationBundle\Container\Listener\ServiceTicketListener
+        arguments:  [@service_container]
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postLoad }
+
     ## register an event
     ftfs_notification.notifier.event_registration_notifier:
         class:  FTFS\NotificationBundle\Container\Notifier\EventRegistrationNotifier
@@ -15,7 +26,7 @@ services:
     #  once notified -> trigger notification_sender
     ftfs_notification.notifier.event_notification_notifier:
         class:  FTFS\NotificationBundle\Container\Notifier\EventNotificationNotifier
-        arguments:  [@doctrine.orm.entity_manager, @templating, @ftfs_notification.filter.event_catch_filter, @ftfs_notification.sender.sender]
+        arguments:  [@doctrine.orm.entity_manager, @translator, @ftfs_notification.filter.event_catch_filter, @ftfs_notification.sender.sender]
 
     ## filter
     ftfs_notification.filter.event_catch_filter:
@@ -34,7 +45,7 @@ services:
             - { name: ftfs_notification.sender.agent, alias:system  }
     ftfs_notification.sender.agent.email:
         class:  FTFS\NotificationBundle\Container\Sender\Agent\EmailSenderAgent
-        arguments:  [@mailer]
+        arguments:  [@ftfs_mailer]
         tags:
             - { name: ftfs_notification.sender.agent, alias: email }
     ftfs_notification.sender.agent.sms:

@@ -1,1 +1,0 @@
-{{ eventlog.actedAt | date('Y-m-d H:i:s') }}    {% if ('ROLE_CLIENT' in notificationlog.notifiedTo.roles) and ('ROLE_AGENT' in eventlog.actor.roles) %}{{ (eventlog.event.eventkey~'.default_agent_actor') | trans({}, 'notification') }}{% else %}{{ eventlog.actor }}{% endif %} {{ (eventlog.event.eventkey~'.action') | trans({}, 'notification') }} "{{ subject.name }}".

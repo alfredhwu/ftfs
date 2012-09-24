@@ -2,17 +2,19 @@
 
 namespace FTFS\NotificationBundle\Container\Sender\Agent;
 
+use FTFS\MailerBundle\Container\FTFSMailer;
+
 /**
  * An agent that will send notifications through SwiftMailer.
  *
  */
 class EmailSenderAgent implements SenderAgentInterface
 {
-    private $mailer;
+    private $ftfs_mailer;
 
-    public function __construct(\Swift_Mailer $mailer)
+    public function __construct(FTFSMailer $ftfs_mailer)
     {
-        $this->mailer = $mailer;
+        $this->ftfs_mailer = $ftfs_mailer;
     }
 
     /**
@@ -22,15 +24,13 @@ class EmailSenderAgent implements SenderAgentInterface
      */
     public function send(\FTFS\NotificationBundle\Entity\NotificationLog $notification)
     {
-        /** @var \Swift_Message $message  */
-        $message = $this->mailer->createMessage();
-        $message->setSubject('System Notification');
-        $message->addPart($notification->getMessage(), 'text/plain', 'UTF8');
-
-        $message->addTo($notification->getNotifiedTo()->getEmail(), $notification->getNotifiedTo());
-        $message->setFrom('support@fujitsu-telecom.fr', 'FTFS Support Service Team');
-
-        $this->mailer->send($message);
+        $this->ftfs_mailer->send(array(
+            //'subject' => 'blabla',
+            //'from' => 'blabla',
+            'to' => array($notification->getNotifiedTo()->getEmail() => $notification->getNotifiedTo()),
+            'cc' => $notification->getCc(),
+            'body_txt' => $notification->getMessage(),
+        ));
         $notification->setNotifiedAt(new \DateTime('now'));
     }
 

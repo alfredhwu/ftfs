@@ -1,5 +1,10 @@
-2012-09-21  user notification filter, sender service >>>> fait
-2012-08-22  interface for management of filter, listener service dependency, lifecyclecallback redefinition, notification templating
+2012-09-21  user notification filter, sender service >>>> fait 09-21
+2012-08-22  
+    interface for management of filter, 
+    listener service dependency, 
+    lifecyclecallback redefinition,
+    listener for service_ticket entity
+    notification templating         >> fait 09-24
 
 
 ## dashboard

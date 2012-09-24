@@ -3,7 +3,7 @@
 namespace FTFS\NotificationBundle\Container\Notifier;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use FTFS\NotificationBundle\Container\Filter\EventCatchFilter;
 use FTFS\NotificationBundle\Container\Sender\Sender;
 
@@ -17,7 +17,7 @@ use FTFS\NotificationBundle\Entity\EventLog;
 class EventNotificationNotifier
 {
     private $em;
-    private $templating;
+    private $translator;
     private $eventCatchFilter;
     private $sender;
 
@@ -25,11 +25,10 @@ class EventNotificationNotifier
     // add to this array all new notifications
     private $notifications;
 
-    public function __construct(EntityManager $entityManager, EngineInterface $templating, 
-        EventCatchFilter $eventCatchFilter, Sender $sender)
+    public function __construct(EntityManager $entityManager, TranslatorInterface $translator, EventCatchFilter $eventCatchFilter, Sender $sender)
     {
         $this->em = $entityManager;
-        $this->templating = $templating;
+        $this->translator = $translator;
         $this->eventCatchFilter = $eventCatchFilter;
         $this->sender = $sender;
 
@@ -48,6 +47,7 @@ class EventNotificationNotifier
         // sending notifications
         $this->sender->send($this->notifications);
 
+  //      throw new \Exception('debugging...');
         // if persist, persisting all notifications
         if($persist_log) {
             foreach($this->notifications as $notification) {
@@ -110,6 +110,12 @@ class EventNotificationNotifier
         switch($eventargs[1]) {
             case 'serviceticket':
                 $service_ticket = $this->getSubject('serviceticket', $eventlog->getAction());
+                if(array_key_exists('change_set', $eventlog->getAction())) {
+                    $change_set = $eventlog->getAction();
+                    $change_set = $change_set['change_set'];
+                }else{
+                    $change_set = null;
+                }
                 // set destinaire **************
                 $notificationlog->setNotifiedTo($notified_to);
                 if($method->getName() === 'email') {
@@ -117,17 +123,19 @@ class EventNotificationNotifier
                     // check if $service_ticket or $action has a cc 
                     $notificationlog->setCc(null);
                 }
-                $message = $this->templating->render('FTFSNotificationBundle:NotificationMessage:'.$eventlog->getEvent()->getEventKey().'.'.$method->getName().'.'.$format.'.twig', array(
-                    'eventlog' => $eventlog,
-                    'notificationlog' => $notificationlog,
-                    'subject' => $service_ticket,
-                ));
+                $message = $this->translator->trans($eventlog->getEvent()->getEventKey().'.action.'.$method->getName().'.'.$format, array(
+                    '%service_ticket%' => $service_ticket->getName(),
+                    '%visited_by%' => $eventlog->getActor(),
+                    '%visited_at%' => $eventlog->getActedAt()->format('Y-m-d H:i:s'),
+                    '%change_set%' => $change_set,
+                ), 'notification');
                 break;
             default:
-                $message = $this->templating->render('FTFSNotificationBundle:NotificationMessage:event.default.system.txt.twig', array(
-                    'eventlog' => $eventlog,
-                    'notificationlog' => $notificationlog,
-                ));
+                $message = $this->translator->trans($eventlog->getEvent()->getEventKey().'.action.default.txt', array(
+                    '%event_key%' => $eventlog->getEvent()->getEventKey(),
+                    '%acted_by%' => $eventlog->getActor(),
+                    '%acted_at%' => $eventlog->getActedAt()->format('Y-m-d H:i:s'),
+                ), 'notification');
         }
         // debuging : check rendered message
         // throw new \Exception('test rendering:'.$message);

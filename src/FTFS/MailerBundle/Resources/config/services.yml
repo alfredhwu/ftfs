@@ -1,0 +1,7 @@
+parameters:
+#    ftfs_mailer.example.class: FTFS\MailerBundle\Example
+
+services:
+    ftfs_mailer:
+        class:  FTFS\MailerBundle\Container\FTFSMailer
+        arguments:  [@mailer, @templating]

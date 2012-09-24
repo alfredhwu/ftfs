@@ -205,9 +205,6 @@ abstract class CrudController extends Controller
         $request = $this->getRequest();
         $request->getSession()->set('index', $request->getRequestUri());
 
-        // register access event
-        // $this->registerEvent('index', null);
-
         // general twig rendering
         return $this->render($this->getViewPath().':index.html.twig', array(
             'entities' => $this->getEntityList(),
@@ -222,7 +219,7 @@ abstract class CrudController extends Controller
         //throw new \Exception($this->container->getParameter('ftfs_notification.foo').' '.$this->container->getParameter('ftfs_notification.bar'));
 
         /** test notification ...... **/
-        //
+        /**
         $current_user = $this->get('security.context')->getToken()->getUser();
 
         $action = array();
@@ -233,7 +230,7 @@ abstract class CrudController extends Controller
         $action['serviceticket_id'] = $metadata->getIdentifierValues($entity);
 
         $this->get('ftfs_notification.notifier.event_registration_notifier')->register('event.serviceticket.show', $current_user, $action);
-        //
+        */
         //
         //
         //$this->registerEvent('show', $entity);
