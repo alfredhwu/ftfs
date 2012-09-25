@@ -29,7 +29,7 @@ class EmailSenderAgent implements SenderAgentInterface
             //'from' => 'blabla',
             'to' => array($notification->getNotifiedTo()->getEmail() => $notification->getNotifiedTo()),
             'cc' => $notification->getCc(),
-            'body_txt' => $notification->getMessage(),
+            'body_html' => $notification->getMessage(),
         ));
         $notification->setNotifiedAt(new \DateTime('now'));
     }

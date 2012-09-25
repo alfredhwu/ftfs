@@ -1,13 +1,19 @@
 {% if title is defined and title is not null %}
-Dear {{ title }},
-
+<p>Dear {{ title }},</p>
 {% endif %}
+
+{% autoescape false %}
 {{ body }}
+{% endautoescape %}
 
-Best regards,
-FTFS Support Service Team
-support@fujitsu-telecom.fr
-
+<br>
+<br>
+<p>
+Best regards,<br>
+FTFS Support Service Team<br>
+support@fujitsu-telecom.fr<br>
+<br>
 ------
-
+<br>
 This is a notification mail sending by the FTFS Support Service system. If you don't want to receive this email, please login the system and change your personal settings.
+</p>

@@ -3,7 +3,7 @@
     interface for management of filter, 
     listener service dependency, 
     lifecyclecallback redefinition,
-    listener for service_ticket entity
+    listener for service_ticket entity >> partial 09-27
     notification templating         >> fait 09-24
 
 

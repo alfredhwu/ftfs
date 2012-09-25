@@ -43,6 +43,16 @@ class Service
     private $description;
 
     /**
+     * Get __sleep()
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        return array();
+    }
+
+    /**
      * Get __toString()
      *
      * @return string

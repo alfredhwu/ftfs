@@ -18,6 +18,7 @@ class EventNotificationNotifier
 {
     private $em;
     private $translator;
+    private $templating;
     private $eventCatchFilter;
     private $sender;
 
@@ -25,10 +26,11 @@ class EventNotificationNotifier
     // add to this array all new notifications
     private $notifications;
 
-    public function __construct(EntityManager $entityManager, TranslatorInterface $translator, EventCatchFilter $eventCatchFilter, Sender $sender)
+    public function __construct(EntityManager $entityManager, $templating, TranslatorInterface $translator, EventCatchFilter $eventCatchFilter, Sender $sender)
     {
         $this->em = $entityManager;
         $this->translator = $translator;
+        $this->templating = $templating;
         $this->eventCatchFilter = $eventCatchFilter;
         $this->sender = $sender;
 
@@ -66,9 +68,16 @@ class EventNotificationNotifier
         switch($eventargs[1]) {
             case 'serviceticket':
                 // notify both client owner and assigned agent
-                $service_ticket = $this->getSubject('serviceticket', $eventlog->getAction());
-                $this->registerNotifications($eventlog, $service_ticket->getRequestedBy());
-                $this->registerNotifications($eventlog, $service_ticket->getAssignedTo());
+                switch($eventargs[2]) {
+                    case 'update':
+                        if(!array_key_exists('change_set', $eventlog->getAction())) {
+                            break;
+                        }
+                    default:
+                        $service_ticket = $this->getSubject('serviceticket', $eventlog->getAction());
+                        $this->registerNotifications($eventlog, $service_ticket->getRequestedBy());
+                        $this->registerNotifications($eventlog, $service_ticket->getAssignedTo());
+                }
                 break;
             default:
                 throw new \Exception('Unknown event "'.$eventkey.'"');
@@ -81,13 +90,15 @@ class EventNotificationNotifier
      */
     protected function registerNotifications(EventLog $eventlog, UserInterface $notified_to)
     {
-        $filters = $this->eventCatchFilter->getNotificationMethod($notified_to, $eventlog->getEvent());
-        $notifications = array();
-        foreach($filters as $filter) {
-            $method = $filter->getMethod();
-            $notifications[] = $this->generateNotificationLog($eventlog, $notified_to, $method);
+        if($notified_to) {
+            $filters = $this->eventCatchFilter->getNotificationMethod($notified_to, $eventlog->getEvent());
+            $notifications = array();
+            foreach($filters as $filter) {
+                $method = $filter->getMethod();
+                $notifications[] = $this->generateNotificationLog($eventlog, $notified_to, $method);
+            }
+            $this->notifications = array_merge($this->notifications, $notifications);
         }
-        $this->notifications = array_merge($this->notifications, $notifications);
     }
 
     /**
@@ -102,6 +113,9 @@ class EventNotificationNotifier
         // generate message realted: method, format, message, cc
         $format = $format ? $format : 'txt';        // set default message format, method
         $method = $method ? $method : $this->getDefaultNotificationMethod();
+        if($method->getName()==='email') {
+            $format = 'html';
+        }
         //
         $notificationlog->setMethod($method);
         $notificationlog->setCc(null);              // by default, null
@@ -110,11 +124,26 @@ class EventNotificationNotifier
         switch($eventargs[1]) {
             case 'serviceticket':
                 $service_ticket = $this->getSubject('serviceticket', $eventlog->getAction());
-                if(array_key_exists('change_set', $eventlog->getAction())) {
-                    $change_set = $eventlog->getAction();
-                    $change_set = $change_set['change_set'];
+                $action = $eventlog->getAction();
+                if(array_key_exists('change_set', $action)) {
+                    $change_set = $action['change_set'];
                 }else{
                     $change_set = null;
+                }
+                if(array_key_exists('attachment_name', $action)) {
+                    $attachment_name = $action['attachment_name'];
+                }else{
+                    $attachment_name = null;
+                }
+                if(array_key_exists('observation', $action)) {
+                    $observation = $action['observation'];
+                }else{
+                    $observation = null;
+                }
+                if(array_key_exists('observation_to', $action)) {
+                    $observation_to = $action['observation_to'];
+                }else{
+                    $observation_to = null;
                 }
                 // set destinaire **************
                 $notificationlog->setNotifiedTo($notified_to);
@@ -123,12 +152,28 @@ class EventNotificationNotifier
                     // check if $service_ticket or $action has a cc 
                     $notificationlog->setCc(null);
                 }
+                /*
                 $message = $this->translator->trans($eventlog->getEvent()->getEventKey().'.action.'.$method->getName().'.'.$format, array(
                     '%service_ticket%' => $service_ticket->getName(),
                     '%visited_by%' => $eventlog->getActor(),
                     '%visited_at%' => $eventlog->getActedAt()->format('Y-m-d H:i:s'),
                     '%change_set%' => $change_set,
                 ), 'notification');
+                 */
+                $message = $this->templating
+                    ->render('FTFSNotificationBundle:Message:message_service_ticket.'.$format.'.twig', array(
+                    'method' => $method->getName(),
+                    'action' => $eventlog->getEvent()->getEventKey(),
+                    'notified_to' => $notified_to,
+                    'service_ticket' => $service_ticket->getName(),
+                    'visited_by' => $eventlog->getActor(),
+                    'visited_at' => $eventlog->getActedAt()->format('Y-m-d H:i:s'),
+                    'change_set' => $change_set,
+                    'attachment_name' => $attachment_name,
+                    'observation' => $observation,
+                    'observation_to' => $observation_to,
+                ));
+                throw new \Exception($message); // Todo Debugging >>>
                 break;
             default:
                 $message = $this->translator->trans($eventlog->getEvent()->getEventKey().'.action.default.txt', array(

@@ -1,9 +1,32 @@
 event.serviceticket.show:
     action.default.txt: 'Event [%event_key%], by %acted_by% at %acted_at%.'
-    action.system.txt: '%visited_at%: "%service_ticket%" has been visited by %visited_by%'
+    action.system.txt: '%visited_at%: "%service_ticket%" has been visited by %visited_by%.'
     action.email.txt: 'This mail is to inform you that your ticket of number "%service_ticket%" has been visited by %visited_by% at %visited_at%.'
 
 event.serviceticket.update:
     action.default.txt: 'Event [%event_key%], by %acted_by% at %acted_at%.'
-    action.system.txt: '%visited_at%: "%service_ticket%" has been visited by %visited_by%'
-    action.email.txt: 'This mail is to inform you that your ticket of number "%service_ticket%" has been visited by %visited_by% at %visited_at%.'
+    action.system.txt: '%visited_at%: "%service_ticket%" has been modified by %visited_by%.'
+    action.email.txt: 'This mail is to inform you that your ticket of number "%service_ticket%" has been modified by %visited_by% at %visited_at%. %change_set%'
+
+ftfs_serviceticket:
+    masked_agent:   'FTFS Support Service Agent'
+    severity:
+        title:  'severity'
+        100:    'Very High'
+        200:    'High'
+        300:    'Normal'
+        400:    'Low'
+        500:    'Very Low'
+    priority:
+        title:  'priority'
+        100:    'Very High'
+        200:    'High'
+        300:    'Normal'
+        400:    'Low'
+        500:    'Very Low'
+    service:    'service requested'
+    requested_by:   'requested by'
+    assigned_to:    'assigned to'
+    summary:    'summary description'
+    detail:     'detail description'
+    asset:      'related asset no.'
