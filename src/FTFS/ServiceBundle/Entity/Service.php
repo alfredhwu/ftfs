@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FTFS\ServiceBundle\Entity\Service
  *
- * @ORM\Table(name="ftfs_service_definition")
+ * @ORM\Table(name="ftfs_config_service_definition")
  * @ORM\Entity
  */
 class Service

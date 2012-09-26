@@ -5,12 +5,12 @@ namespace FTFS\NotificationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * FTFS\NotificationBundle\Entity\EventCatchFilter
+ * FTFS\NotificationBundle\Entity\EventCatchFilterDefault
  *
- * @ORM\Table(name="ftfs_config_event_catch_filter")
+ * @ORM\Table(name="ftfs_config_event_catch_filter_default")
  * @ORM\Entity
  */
-class EventCatchFilter
+class EventCatchFilterDefault
 {
     /**
      * @var integer $id
@@ -20,13 +20,6 @@ class EventCatchFilter
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     *
-     * @var Symfony\Component\Security\Core\User\UserInterface
-     * @ORM\ManyToOne(targetEntity="FTFS\UserBundle\Entity\User")
-     */
-    private $user;
 
     /**
      * @var FTFS\NotificationBundle\Entity\Event
@@ -40,6 +33,7 @@ class EventCatchFilter
      */
     private $method;
 
+
     /**
      * Get id
      *
@@ -48,26 +42,6 @@ class EventCatchFilter
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set user
-     *
-     * @param FTFS\UserBundle\Entity\User $user
-     */
-    public function setUser(\FTFS\UserBundle\Entity\User $user)
-    {
-        $this->user = $user;
-    }
-
-    /**
-     * Get user
-     *
-     * @return FTFS\UserBundle\Entity\User 
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
 
     /**

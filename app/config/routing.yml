@@ -1,7 +1,3 @@
-FTFSMailerBundle:
-    resource: "@FTFSMailerBundle/Resources/config/routing.yml"
-    prefix:   /
-
 # homepage of ftfs, routing to dashboardbundle:default:index by default,
 # to be updated in the prod version
 ftfshomepage:
@@ -50,6 +46,12 @@ fos_user_change_password:
 #    resource: "@FOSUserBundle/Resources/config/routing/group.xml"
 #    prefix: /admin/group
 
+FTFSNotificationBundle:
+    resource: "@FTFSNotificationBundle/Resources/config/routing.yml"
+
+FTFSPreferenceBundle:
+    resource: "@FTFSPreferenceBundle/Resources/config/routing.yml"
+    prefix:   /admin/preference
 
 # Internal routing configuration to handle ESI
 #_internal:

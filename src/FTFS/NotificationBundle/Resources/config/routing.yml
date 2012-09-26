@@ -1,0 +1,11 @@
+ftfs_notificationbundle_preference_event_definition:
+    pattern:  /admin/preference/notification/event_definition
+    defaults: { _controller: FTFSNotificationBundle:Preference:eventDefinition }
+
+ftfs_notificationbundle_preference_event_catch_filter_default:
+    pattern:  /admin/preference/notification/event_catch_filter_default/{id}
+    defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilterDefault }
+
+ftfs_notificationbundle_preference_event_catch_filter:
+    pattern:  /dashboard/preference/notification/event_catch_filter
+    defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilter }

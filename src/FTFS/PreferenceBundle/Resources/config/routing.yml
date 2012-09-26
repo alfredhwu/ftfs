@@ -1,0 +1,3 @@
+ftfspreferencebundle_homepage:
+    pattern:  /
+    defaults: { _controller: FTFSPreferenceBundle:Default:index }

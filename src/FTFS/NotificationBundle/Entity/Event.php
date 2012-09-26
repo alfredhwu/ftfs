@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FTFS\NotificationBundle\Entity\Event
  *
- * @ORM\Table(name="ftfs_notification_event_list")
+ * @ORM\Table(name="ftfs_config_event_definition")
  * @ORM\Entity
  */
 class Event

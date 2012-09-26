@@ -30,3 +30,6 @@ ftfs_serviceticket:
     summary:    'summary description'
     detail:     'detail description'
     asset:      'related asset no.'
+
+ftfs_notification_key:
+    event.serviceticket.create: 'create'

@@ -1,0 +1,51 @@
+{% extends 'FTFSPreferenceBundle::layout.html.twig' %}
+{% block body_content %}
+<legend>Notification event list</legend>
+<table class="table table-striped table-condensed table-bordered table-smart">
+    <tr>
+        <th class="tight"></th>
+        <th>Event Key</th>
+        <th>Name</th>
+        <th>Security Level</th>
+        <th>Notification Method</th>
+    </tr>
+    {% set index = 0 %}
+    {% for event in events %}
+    <tr>
+        {% set index = index + 1 %}
+        <td class="tight">{{ index }}</td>
+        <td>{{ event.eventKey }}</td>
+        <td>{{ ('ftfs_notification_key.'~event.eventKey) |trans({}, 'notification') }}</td>
+        <td>{{ event.securityLevel }}</td>
+        <td class="methods_form" id="{{ 'methods_for_'~event.id }}" event-id="{{ event.id }}">event {{ event.id }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<!-- loading method forms -->
+<script>
+$(document).ready(function () {
+    var URL = "{{ path('ftfs_notificationbundle_preference_event_catch_filter_default', {'id' : '_index' }) }}";
+    $('td.methods_form').each(function() {
+        var event_id = $(this).attr('event-id');
+        var id = $(this).attr('id');
+        // load form
+        $.ajax({
+            type:   "GET",
+            url:    URL.replace(/_index$/, event_id),
+            data:   "",
+            cache:  false,
+            success: function(data) {
+                $('td#'+id).html(data);
+            },
+            error:   function() {
+                alert("Ooups ... something's got wrong: the ajax connection failed in rendering methods form:(");
+            },
+        });
+    });
+});
+</script>
+{% endblock %}
