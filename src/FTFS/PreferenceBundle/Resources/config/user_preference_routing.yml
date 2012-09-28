@@ -1,0 +1,3 @@
+ftfs_preferencebundle_user_preference:
+    pattern:  /{id}/home
+    defaults: { _controller: FTFSPreferenceBundle:Default:userPreference }

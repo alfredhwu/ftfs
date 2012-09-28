@@ -1,0 +1,19 @@
+{# event sent from an action of a client #}
+{% if 'ROLE_CLIENT' in actor.roles %}
+    <p>We are very sorry but this is a spam message which normally you should never receive. Please contact our agents if you keep receiving this email.</p>
+    <p>spam code: 7614</p>
+{# event sent from an action of an agent #}
+{% else %}
+    {# confirmation of action for a agent to himself #}
+    {% if actor == destinaire %}
+    <p>This message is to confirm you that you have successfully taken/assign/reassign a service ticket named "{{ subject.name }}".</p>
+    {# information of action for ther service ticket owner #}
+    {% elseif destinaire == subject.requestedBy %}
+    <p>We are very sorry but this is a spam message which normally you should never receive. Please contact our agents if you keep receiving this email.</p>
+    <p>spam code: 5498</p>
+    {# information of action for other observator #}
+    {% else %}
+    <p>{{ actor }} has assigned the service ticket named "{{ subject.name }}" for {{ subject.requestedBy }} at {{ acted_at }}.</p>
+    {% endif %}
+{% endif %}
+{% include "FTFSNotificationBundle:Message:message_service_ticket_info.html.twig" %}

@@ -2,10 +2,23 @@ ftfs_notificationbundle_preference_event_definition:
     pattern:  /admin/preference/notification/event_definition
     defaults: { _controller: FTFSNotificationBundle:Preference:eventDefinition }
 
+ftfs_notificationbundle_preference_event_add:
+    pattern:  /admin/preference/notification/event_add
+    defaults: { _controller: FTFSNotificationBundle:Preference:eventAdd }
+
 ftfs_notificationbundle_preference_event_catch_filter_default:
     pattern:  /admin/preference/notification/event_catch_filter_default/{id}
     defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilterDefault }
 
+ftfs_notificationbundle_preference_event_catch_filter_index:
+    pattern:  /dashboard/preference/{id}/notification/event_catch_filter
+    defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilterList }
+
+ftfs_notificationbundle_preference_event_catch_filter_reset:
+    pattern:  /dashboard/preference/{id}/notification/event_catch_filter/resetting
+    defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilterReset }
+
 ftfs_notificationbundle_preference_event_catch_filter:
-    pattern:  /dashboard/preference/notification/event_catch_filter
+    pattern:  /dashboard/preference/{id}/notification/event_catch_filter/{event_id}
     defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilter }
+

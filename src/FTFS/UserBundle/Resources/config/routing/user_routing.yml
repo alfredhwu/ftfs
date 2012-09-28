@@ -21,4 +21,3 @@ ftfsuserbundle_user_edit_password:
 ftfsuserbundle_user_invite:
     pattern:  /invite
     defaults: { _controller: FTFSUserBundle:User:invite }
-

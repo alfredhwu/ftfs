@@ -3,5 +3,5 @@
 <li class="navmenu-item"><a href="{{ path('fos_user_profile_edit') }}"><i class="icon-edit"></i> Modify Profile</a></li>
 <li class="navmenu-item"><a href="{{ path('fos_user_change_password') }}"><i class="icon-lock"></i> Change Password</a></li>
 <li class="nav-header">Preference</li>
-<li class="navmenu-item"><a href="#"><i class="icon-wrench"></i> Notification</a></li>
-<li class="navmenu-item"><a href="#"><i class="icon-wrench"></i> Local, timezone, etc.</a></li>
+<li class="navmenu-item"><a href="{{ path('ftfs_preferencebundle_user_preference', { 'id' : app.user.id }) }}"><i class="icon-globe"></i> Local, timezone, etc.</a></li>
+<li class="navmenu-item"><a href="{{ path('ftfs_notificationbundle_preference_event_catch_filter_index', { 'id' : app.user.id }) }}"><i class="icon-wrench"></i> Notification</a></li>

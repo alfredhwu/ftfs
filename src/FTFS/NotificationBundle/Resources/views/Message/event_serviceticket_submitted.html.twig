@@ -1,0 +1,12 @@
+{# event sent from an action of a client #}
+{% if 'ROLE_CLIENT' in actor.roles %}
+    {# confirmation of action for a client to himself #}
+    {% if actor == destinaire %}
+    <p>You have successfully submitted a request for a service from FTFS Support Service. This demand has been well registered in our system. Our agents will examin your problem and will contact you as soon as possible.</p>
+    <p>In case that your request is highly urgent, we highly suggest you to contact us via telephone at 01.xx.xx.xx.xx</p>
+    {# information of action for other observator #}
+    {% else %}
+    <p>{{ actor }} has requested a service at {{ acted_at }}. Please examin this request as soon as possible.</p>
+    {% endif %}
+{% endif %}
+{% include "FTFSNotificationBundle:Message:message_service_ticket_info.html.twig" %}

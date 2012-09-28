@@ -1,18 +1,21 @@
-{% extends 'FTFSPreferenceBundle::layout.html.twig' %}
+{% extends 'FTFSUserBundle::layout.html.twig' %}
+
+{% block body_menu %}
+{% include 'FTFSUserBundle:Profile:body_menu.html.twig' %}
+{% endblock %}
+
 {% block body_content %}
 <legend>
-    <span>Notification event list<span>
-    <a href="{{ path('ftfs_notificationbundle_preference_event_add') }}" class="btn btn-success pull-right">
-        <i class="icon-plus-sign icon-white"></i>
-        add a new event
+    <span>Configuration of event filter</span>
+    <a href="{{ path('ftfs_notificationbundle_preference_event_catch_filter_reset', { 'id' : app.user.id } ) }}" class="btn btn-info pull-right">
+    <i class="icon-flag icon-white"></i>
+    Reset to default options
     </a>
 </legend>
 <table class="table table-striped table-condensed table-bordered table-smart">
     <tr>
         <th class="tight"></th>
-        <th>Event Key</th>
-        <th>Name</th>
-        <th>Security Level</th>
+        <th>Event Name</th>
         <th>Notification Method</th>
     </tr>
     {% set index = 0 %}
@@ -20,9 +23,7 @@
     <tr>
         {% set index = index + 1 %}
         <td class="tight">{{ index }}</td>
-        <td>{{ event.eventKey }}</td>
         <td>{{ ('ftfs_notification_key.'~event.eventKey) |trans({}, 'notification') }}</td>
-        <td>{{ event.securityLevel }}</td>
         <td class="methods_form" id="{{ 'methods_for_'~event.id }}" event-id="{{ event.id }}">event {{ event.id }}</td>
     </tr>
     {% endfor %}
@@ -34,7 +35,7 @@
 <!-- loading method forms -->
 <script>
 $(document).ready(function () {
-    var URL = "{{ path('ftfs_notificationbundle_preference_event_catch_filter_default', { 'id' : '_index' }) }}";
+    var URL = "{{ path('ftfs_notificationbundle_preference_event_catch_filter', { 'id' : app.user.id, 'event_id' : '_index' }) }}";
     $('td.methods_form').each(function() {
         var event_id = $(this).attr('event-id');
         var id = $(this).attr('id');

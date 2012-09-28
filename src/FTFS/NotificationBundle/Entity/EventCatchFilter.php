@@ -41,6 +41,13 @@ class EventCatchFilter
     private $method;
 
     /**
+     *
+     * @var boolean
+     * @ORM\Column(name="allow", type="boolean")
+     */
+    private $allow;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -108,5 +115,25 @@ class EventCatchFilter
     public function getMethod()
     {
         return $this->method;
+    }
+
+    /**
+     * Set allow
+     *
+     * @param boolean $allow
+     */
+    public function setAllow($allow)
+    {
+        $this->allow = $allow;
+    }
+
+    /**
+     * Get allow
+     *
+     * @return boolean 
+     */
+    public function getAllow()
+    {
+        return $this->allow;
     }
 }

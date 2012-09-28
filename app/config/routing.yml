@@ -53,6 +53,11 @@ FTFSPreferenceBundle:
     resource: "@FTFSPreferenceBundle/Resources/config/routing.yml"
     prefix:   /admin/preference
 
+FTFSPreferenceBundle_user:
+    resource: "@FTFSPreferenceBundle/Resources/config/user_preference_routing.yml"
+    prefix:   /dashboard/preference
+
+
 # Internal routing configuration to handle ESI
 #_internal:
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"

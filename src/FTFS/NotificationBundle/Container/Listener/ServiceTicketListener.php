@@ -54,7 +54,7 @@ class ServiceTicketListener
         $entityManager = $args->getEntityManager();
 
         if($entity instanceof ServiceTicket) {
-            $action = $this->generateAction('create', $entity, $entityManager);
+            $action = $this->generateAction('created', $entity, $entityManager);
             switch($entity->getStatus()) {
                 case 'submitted':
                     $option = 'create.submit';
@@ -67,26 +67,29 @@ class ServiceTicketListener
             }
             if($option) {
                 $action['option']=$option;
-                $this->notify('event.serviceticket.create', $action);
+                $action_name = $action['name'];
+                $this->notify('event.serviceticket.'.$action_name, $action);
             }
         }
 
         if($entity instanceof ServiceTicketAttachment) {
-            $action = $this->generateAction('attachment_upload', $entity->getTicket(), $entityManager);
+            $action = $this->generateAction('attachment_uploaded', $entity->getTicket(), $entityManager);
+            $action_name = $action['name'];
             $action['attachment_name'] = $entity->getName(); 
-            $this->notify('event.serviceticket.attachment_upload', $action);
+            $this->notify('event.serviceticket.'.$action_name, $action);
         }
 
         if($entity instanceof ServiceTicketObservation) {
             //throw new \Exception('coucou');
-            $action = $this->generateAction('observation_add', $entity->getTicket(), $entityManager);
+            $action = $this->generateAction('observation_added', $entity->getTicket(), $entityManager);
             $action['observation'] = $entity->getContent(); 
             if($entity->getAttachTo()) {
                 $action['observation_to'] = $entity->getAttachTo()->getSendBy();
             }else{
                 $action['observation_to'] = null;
             }
-            $this->notify('event.serviceticket.observation_add', $action);
+            $action_name = $action['name'];
+            $this->notify('event.serviceticket.'.$action_name, $action);
         }
     }
 
@@ -122,10 +125,17 @@ class ServiceTicketListener
         if($entity instanceof ServiceTicket) {
             $session =  $this->container->get('session');
             if($session->has('change_set['.$entity->getName().']')) {
+                $change_set = $session->get('change_set['.$entity->getName().']');
                 // treatement of change_set
-                $action = $this->generateAction('update', $entity, $entityManager);
-                $action['change_set'] = $session->get('change_set['.$entity->getName().']');
-                $this->notify('event.serviceticket.update', $action);
+                
+                if(array_key_exists('status', $change_set)){
+                    $action = $this->generateAction($change_set['status'][1], $entity, $entityManager);
+                }else{
+                    $action = $this->generateAction('updated', $entity, $entityManager);
+                }
+                $action_name = $action['name'];
+                $action['change_set'] = $change_set;
+                $this->notify('event.serviceticket.'.$action_name, $action);
                 $session->remove('change_set['.$entity->getName().']');
             }
         }

@@ -110,10 +110,9 @@ class EventNotificationNotifier
     protected function registerNotifications(EventLog $eventlog, UserInterface $notified_to)
     {
         if($notified_to) {
-            $filters = $this->eventCatchFilter->getNotificationMethod($notified_to, $eventlog->getEvent());
+            $methods = $this->eventCatchFilter->getNotificationMethods($notified_to, $eventlog->getEvent());
             $notifications = array();
-            foreach($filters as $filter) {
-                $method = $filter->getMethod();
+            foreach($methods as $method) {
                 $notifications[] = $this->generateNotificationLog($eventlog, $notified_to, $method);
             }
             $this->notifications = array_merge($this->notifications, $notifications);

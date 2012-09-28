@@ -1,0 +1,23 @@
+{# event sent from an action of a client #}
+{% if 'ROLE_CLIENT' in actor.roles %}
+    {# confirmation of action for a client to himself #}
+    {% if actor == destinaire %}
+    <p>This message is to confirm you that you have successfully attached the document "{{ action.attachment_name }}" to your service ticket "{{ subject }}" at {{ acted_at }}.</p>
+    {# information of action for other observator #}
+    {% else %}
+    <p>This message is to inform you that {{ actor }} has attached a document named "{{ action.attachment_name }}" to the service ticket "{{ subject }}" at {{ acted_at }}.</p>
+    {% endif %}
+{# event sent from an action of an agent #}
+{% else %}
+    {# confirmation of action for a agent to himself #}
+    {% if actor == destinaire %}
+    <p>This message is to confirm you that you have successfully attached the document "{{ action.attachment_name }}" to the the service ticket "{{ subject }}" at {{ acted_at }}.</p>
+    {# information of action for ther service ticket owner #}
+    {% elseif destinaire == subject.requestedBy %}
+    <p>This message is to confirm you that we have attached a document named "{{ action.attachment_name }}" to your service ticket "{{ subject }}" at {{ acted_at }}.</p>
+    {# information of action for other observator #}
+    {% else %}
+    <p>This message is to inform you that {{ actor }} has attached a document named "{{ action.attachment_name }}" to {{ subject.requestedBy }}'s service ticket "{{ subject }}" at {{ acted_at }}.</p>
+    {% endif %}
+{% endif %}
+{% include "FTFSNotificationBundle:Message:message_service_ticket_info.html.twig" %}

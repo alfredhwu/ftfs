@@ -32,4 +32,8 @@ ftfs_serviceticket:
     asset:      'related asset no.'
 
 ftfs_notification_key:
-    event.serviceticket.create: 'create'
+    event.serviceticket.create: 'Service Ticket Creation'
+    event.serviceticket.update: 'Service Ticket Modification'
+    event.serviceticket.attachment_upload: 'Add a document to a service ticket'
+    event.serviceticket.attachment_delete: 'Delete a document to a service ticket'
+    event.serviceticket.observation_add: 'Add a new observation'

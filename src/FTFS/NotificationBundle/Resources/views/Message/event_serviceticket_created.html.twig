@@ -1,28 +1,25 @@
+{# event sent from an action of a client #}
 {% if 'ROLE_CLIENT' in actor.roles %}
+    {# confirmation of action for a client to himself #}
     {% if actor == destinaire %}
     <p>You have recently requested a service from FTFS Support Service. This demand has been well registered in our system. Our agents will examin your problem and will contact you as soon as possible.</p>
     <p>In case that your request is highly urgent, we highly suggest you to contact us via telephone at 01.xx.xx.xx.xx</p>
+    {# information of action for other observator #}
     {% else %}
     <p>{{ actor }} has requested a service at {{ acted_at }}. Please examin this request as soon as possible.</p>
     {% endif %}
+{# event sent from an action of an agent #}
 {% else %}
+    {# confirmation of action for a agent to himself #}
     {% if actor == destinaire %}
-    <p>This message is to confirm that you have successfully opened a service for our client Mr client.</p>
-    {% elseif destinaire == subject.requesteBy %}
+    <p>This message is to confirm you that you have successfully opened a service for our client Mr client.</p>
+    {# information of action for ther service ticket owner #}
+    {% elseif destinaire == subject.requestedBy %}
     <p>This message is to confirm you that we have opened a service ticket for you as requested.</p>
-    <p>You can review and modify this ticket in our system by the no. {{ subject.name }}</p>
+    <p>You can review and modify this ticket in our system by the no. "{{ subject.name }}"</p>
+    {# information of action for other observator #}
     {% else %}
     <p>{{ actor }} has opened a service ticket for {{ subject.requestedBy }} as requested at {{ acted_at }}.</p>
     {% endif %}
 {% endif %}
-<hr>
-<p>Service Request Details</p>
-<p>
-    Service Ticket No. : {{ subject.name }}<br>
-    Requestor: {{ subject.requestedBy }}<br>
-    Requested At: {{ subject.requestedAt | date('Y-m-d H:i:s') }}<br>
-    Problem summary description:           <br>
-    {{ subject.summary }}<br>
-    Problem detail description:           <br>
-    {{ subject.detail }}<br>
-</p>
+{% include "FTFSNotificationBundle:Message:message_service_ticket_info.html.twig" %}

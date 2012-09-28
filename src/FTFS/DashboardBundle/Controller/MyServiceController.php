@@ -180,7 +180,8 @@ class MyServiceController extends BaseController
             case 'new':
                 if($role == 'client')
                 {
-                    $entity->setName('randomed service ticket no.');
+                    $entity->setName($this->get('ftfs_servicebundle.name_generator')->getNewServiceTicketName());
+                    //throw new \Exception($entity->getName());
                     $entity->setPriority($entity->getSeverity());
                     $entity->setStatus('created');
                     $entity->setRequestedVia('web');

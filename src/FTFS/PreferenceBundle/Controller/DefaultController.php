@@ -12,4 +12,12 @@ class DefaultController extends Controller
     {
         return $this->render('FTFSPreferenceBundle:Default:index.html.twig');
     }
+
+    public function userPreferenceAction(\FTFS\UserBundle\Entity\User $user)
+    {
+        return $this->render('FTFSPreferenceBundle:Default:user_preference.html.twig', array(
+            'user' => $user,
+        ));
+    }
+
 }
