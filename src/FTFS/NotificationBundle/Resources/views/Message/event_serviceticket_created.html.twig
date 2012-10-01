@@ -12,7 +12,7 @@
 {% else %}
     {# confirmation of action for a agent to himself #}
     {% if actor == destinaire %}
-    <p>This message is to confirm you that you have successfully opened a service for our client Mr client.</p>
+    <p>This message is to confirm you that you have successfully opened a service for our client {{ subject.requestedBy }}.</p>
     {# information of action for ther service ticket owner #}
     {% elseif destinaire == subject.requestedBy %}
     <p>This message is to confirm you that we have opened a service ticket for you as requested.</p>

@@ -178,23 +178,20 @@ class MyServiceController extends BaseController
         switch($action)
         {
             case 'new':
+                $entity->setName($this->get('ftfs_servicebundle.name_generator')->getNewServiceTicketName());
+                $entity->setCreatedAt(new \DateTime('now'));
                 if($role == 'client')
                 {
-                    $entity->setName($this->get('ftfs_servicebundle.name_generator')->getNewServiceTicketName());
-                    //throw new \Exception($entity->getName());
                     $entity->setPriority($entity->getSeverity());
                     $entity->setStatus('created');
                     $entity->setRequestedVia('web');
-                    $entity->setCreatedAt(new \DateTime('now'));
                     if($mode == 'new_submit')
                     {
                         $entity->setStatus('submitted');
                         $entity->setRequestedAt(new \DateTime('now'));
                     }
                 }elseif($role == 'agent'){
-                    $entity->setName('randomed service ticket no.');
                     $entity->setStatus('opened');
-                    $entity->setCreatedAt(new \DateTime('now'));
                     $entity->setOpenedAt(new \DateTime('now'));
                 }
                 break;

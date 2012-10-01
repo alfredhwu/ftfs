@@ -63,7 +63,7 @@ class ServiceTicketListener
                     $option = 'create.open';
                     break;
                 default:
-                    $option = null;
+                    $option = 'create.only';
             }
             if($option) {
                 $action['option']=$option;
@@ -127,9 +127,13 @@ class ServiceTicketListener
             if($session->has('change_set['.$entity->getName().']')) {
                 $change_set = $session->get('change_set['.$entity->getName().']');
                 // treatement of change_set
+                //throw new \Exception(print_r(array_keys($change_set)));
+
                 
                 if(array_key_exists('status', $change_set)){
                     $action = $this->generateAction($change_set['status'][1], $entity, $entityManager);
+                }elseif(array_key_exists('assigned_to', $change_set)){
+                    $action = $this->generateAction('reassigned', $entity, $entityManager);
                 }else{
                     $action = $this->generateAction('updated', $entity, $entityManager);
                 }

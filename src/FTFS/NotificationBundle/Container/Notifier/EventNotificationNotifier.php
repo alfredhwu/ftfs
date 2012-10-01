@@ -4,6 +4,7 @@ namespace FTFS\NotificationBundle\Container\Notifier;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use FTFS\NotificationBundle\Container\Filter\EventCatchFilter;
 use FTFS\NotificationBundle\Container\Sender\Sender;
 
@@ -18,6 +19,7 @@ class EventNotificationNotifier
 {
     private $em;
     private $translator;
+    private $router;
     private $templating;
     private $eventCatchFilter;
     private $sender;
@@ -26,11 +28,12 @@ class EventNotificationNotifier
     // add to this array all new notifications
     private $notifications;
 
-    public function __construct(EntityManager $entityManager, $templating, TranslatorInterface $translator, EventCatchFilter $eventCatchFilter, Sender $sender)
+    public function __construct(EntityManager $entityManager, $templating, TranslatorInterface $translator, Router $router, EventCatchFilter $eventCatchFilter, Sender $sender)
     {
         $this->em = $entityManager;
         $this->translator = $translator;
         $this->templating = $templating;
+        $this->router = $router;
         $this->eventCatchFilter = $eventCatchFilter;
         $this->sender = $sender;
 
@@ -64,19 +67,60 @@ class EventNotificationNotifier
         // according to diff event type, throw event notfication request
         // para: $security_level, $eventargs
         $security_level = $eventlog->getEvent()->getSecurityLevel();
+        $eventkey = $eventlog->getEvent()->getEventKey();
         $eventargs = $this->getEventArgs($eventlog);
         switch($eventargs[1]) {
             case 'serviceticket':
                 $service_ticket = $this->getSubject('serviceticket', $eventlog->getAction());
                 // notify both client owner and assigned agent
                 switch($eventargs[2]) {
-                    case 'update':
+                    // ticket assigning message, only to group agent by default
+                    case 'assigned':
+                    case 'reassigned':
+                        $this->notifyGroupMembers($eventlog);
+                        break;
+                    // owner; responsible agent
+                    case 'updated':
                         if(!array_key_exists('change_set', $eventlog->getAction())) {
                             break;
                         }
-                    default:
-                        $this->notifyGroupMembers($eventlog);
+                    case 'opened':
+                    case 'closed':
+                    case 'attachment_uploaded':
+                    case 'attachment_deleteed':
+                    case 'observation_added':
                         $this->registerNotifications($eventlog, $service_ticket->getRequestedBy());
+                        if($service_ticket->getAssignedTo()) {
+                            $this->registerNotifications($eventlog, $service_ticket->getAssignedTo());
+                        }
+                        break;
+                    // to owner only
+                    case 'created':
+                        $action = $eventlog->getAction();
+                        switch($action['option']) {
+                            // owner; responsible
+                            case 'create.open':
+                                if($service_ticket->getAssignedTo()) {
+                                    $this->registerNotifications($eventlog, $service_ticket->getAssignedTo());
+                                }
+                                $this->registerNotifications($eventlog, $service_ticket->getRequestedBy());
+                                break;
+                            // owner; all agent
+                            case 'create.submit':
+                                $this->notifyGroupMembers($eventlog);
+                                $this->registerNotifications($eventlog, $service_ticket->getRequestedBy());
+                                break;
+                            // no notification
+                            default:
+                        }
+                        break;
+                    // owner; all agents
+                    case 'submitted':
+                        $this->registerNotifications($eventlog, $service_ticket->getRequestedBy());
+                        $this->notifyGroupMembers($eventlog);
+                        break;
+                    default:
+                        throw new \Exception('Unknown event "'.$eventkey.'"');
                 }
                 break;
             default:
@@ -152,12 +196,19 @@ class EventNotificationNotifier
             'method' => $method->getName(),
             'destinaire' => $notified_to,
             'subject' => $this->getSubject('serviceticket', $event_action),
+            'subject_href' => $this->router->generate(
+                'ftfs_dashboardbundle_myservice_show', 
+                array(
+                    'id' => $this->getSubject('serviceticket', $event_action)->getId(),
+                ), 
+                true
+            ),
             'actor' => $eventlog->getActor(),
             'acted_at' => $eventlog->getActedAt()->format('Y-m-d H:i:s'),
             'action' => $event_action,
         ));
         // debuging : check rendered message
-        // throw new \Exception('test rendering:'.$message);// Todo Debugging >>>
+        //throw new \Exception('test rendering:'.$message);// Todo Debugging >>>
         $notificationlog->setMessage($message);
         $notificationlog->setNotifiedAt(null);
 

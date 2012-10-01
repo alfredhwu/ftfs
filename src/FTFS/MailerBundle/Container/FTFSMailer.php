@@ -25,7 +25,11 @@ class FTFSMailer
         }
 
         $message = $this->mailer->createMessage();
-        $message->setSubject('[No Reply] Default system notification from FTFS Support Service');
+        if(!array_key_exists('subject', $message_options) or $message_options['subject']==null) {
+            $message->setSubject('[No Reply] System Notification from FTFS Support Service');
+        }else{
+            $message->setSubject($message_options['subject']);
+        }
         $message->setTo($message_options['to']);
         if(array_key_exists('cc', $message_options)) {
             $message->setCc($message_options['cc']);

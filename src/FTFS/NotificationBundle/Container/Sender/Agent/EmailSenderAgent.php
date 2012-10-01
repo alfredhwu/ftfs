@@ -22,14 +22,14 @@ class EmailSenderAgent implements SenderAgentInterface
      *
      * @param \FTFS\NotificationBundle\Entity\NotificationLog $notificationlog
      */
-    public function send(\FTFS\NotificationBundle\Entity\NotificationLog $notification)
+    public function send(\FTFS\NotificationBundle\Entity\NotificationLog $notification, $subject=null)
     {
         $destinaire = $notification->getNotifiedTo();
         if(!$destinaire) {
             throw new \Exception('Destinaire must be set for any notification');
         }
         $this->ftfs_mailer->send(array(
-            //'subject' => 'blabla',
+            'subject' => $subject,
             //'from' => 'blabla',
             'to' => array($notification->getNotifiedTo()->getEmail() => $notification->getNotifiedTo()),
             'cc' => $notification->getCc(),
