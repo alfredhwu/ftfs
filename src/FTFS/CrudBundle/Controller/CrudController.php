@@ -137,6 +137,7 @@ abstract class CrudController extends Controller
     protected function registerEvent($action, $entity, $verb=null)
     {
         // register event
+        /*
         $actor = $this->get('security.context')->getToken()->getUser();
         switch($action) {
             default:
@@ -145,6 +146,7 @@ abstract class CrudController extends Controller
                     $verb = $action;
                 }
         }
+         */
         //$this->container->get('merk_notification.notifier')->trigger($eventkey, $entity, $verb, $actor);
     }
 

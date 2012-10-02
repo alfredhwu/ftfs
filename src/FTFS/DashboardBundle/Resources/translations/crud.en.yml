@@ -1,5 +1,11 @@
 ################################################################################### my service            
 ftfs_dashboardbundle_myservice:
+    sharelist:
+        title: 'All emails in the share list:'
+        cancel.new: 'Click to cancel the operation'
+        delete.confirm: 'Really want to remove "%name%" from your share list?'
+        add.new:    'Click to add a new email'
+        add.form.submit:    'add'
     attachment:
         list:
             title:  'All attached documents:'
@@ -7,6 +13,7 @@ ftfs_dashboardbundle_myservice:
             cancel.attach: 'Click to cancel attachment'
             updated_by: 'updated by'
             at:     'at'
+            delete.confirm: 'Really want delete the attachment "%attachment_name%"?'
         upload.form:
             file.label: 'Select document to be attached:'
             filename.label:   'Rename the document as:'
@@ -21,7 +28,9 @@ ftfs_dashboardbundle_myservice:
             deliver:
                 success:    "Service ticket delivered successfully !"
             new:
-                success: "New service ticket created successfully !"
+                success:    "New service ticket created successfully !"
+            take:
+                success:    "You have successfully taken the ticket!"
     table:
         caption:    "Service Ticket List"
         operations: "Operations"
@@ -30,6 +39,7 @@ ftfs_dashboardbundle_myservice:
             new.success.flash:  "New service request created successfully !"
             take:               "Take this request"
             take.tooltip:       "Take this service ticket"
+            take.confirm:       "Really want to take the service ticket '%name%' of %requestor%?"
             take.success.flash: "Taken successfully !"
             submit:             "Submit"
             submit.tooltip:     "Submit this service request"
@@ -63,8 +73,10 @@ ftfs_dashboardbundle_myservice:
                 transfer.success.flash: "Service transfered successfully"
                 open:               "Open"
                 open.tooltip:       "Open a ticket for this request"
+                open.confirm:       "Do you really want to open this service ticket ?"
                 open.success.flash: "Service opened successfully"
                 close:               "Close"
+                open.confirm:       "Do you really want to close this service ticket ?"
                 close.tooltip:       "Close this ticket"
                 close.success.flash: "Service closed successfully"
             new:

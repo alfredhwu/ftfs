@@ -31,10 +31,6 @@
             <td>{% if entity.lastModifiedAt is not empty %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
         </tr>
         <tr>
-            <th>{{ ('ftfs.servicebundle.serviceticket.table.summary') | trans({}, 'crud') }}</th>
-            <td colspan="5">{{ entity.summary }}</td>
-        </tr>
-        <tr>
             <th>{{ ('ftfs.servicebundle.serviceticket.table.status.title') | trans({}, 'crud') }}</th>
             <td><span class="{{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status~'.class')|trans({}, 'crud') }}">
                 {{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status)|trans({}, 'crud') }}
@@ -78,8 +74,23 @@
             {% endif %}
         </tr>
         <tr>
+            <th>{{ ('ftfs.servicebundle.serviceticket.table.summary') | trans({}, 'crud') }}</th>
+            <td colspan="5">{{ entity.summary }}</td>
+        </tr>
+        <tr>
             <th>{{ ('ftfs.servicebundle.serviceticket.table.detail') | trans({}, 'crud') }}</th>
             <td colspan="5">{{ entity.detail }}</td>
+        </tr>
+        <tr>
+            <th>Share list</th>
+            <td colspan="5">
+                <div id="share_list">
+                {% include 'FTFSServiceBundle:ServiceTicketSharelist:list.html.twig' 
+                    with { 'sharelist' : entity.shareList,
+                            'id' : entity.id,
+                        } %}
+                </div>
+            </td>
         </tr>
         <tr>
             <th>Attachment</th>
@@ -98,9 +109,11 @@
         <a class="btn btn-small" href="{{ app.session.get('index') }}" rel="tooltip" title="{{ 'ftfs.crud.form.action.show.list.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-list"></i>
         </a>
-        <a class="btn btn-small observation-add" add-to-id="0" href="#" rel="tooltip" title="{{ 'ftfs.crud.form.action.show.observation.new.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
+        {% if app.user == entity.requestedBy or app.user == entity.assignedTo %}
+        <a class="btn btn-small observation-add" add-to-id="0" href="#" rel="tooltip" title="{{ 'ftfs_servicebundle_serviceticket.observation.leave.observation.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-envelope"></i>
         </a>
+        {% endif %}
         <strong class="btn">Observation</strong>
     </legend>
 

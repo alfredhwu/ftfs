@@ -4,10 +4,9 @@
     lifecyclecallback redefinition,
     listener for service_ticket entity >> partial 09-27
     interface for management of filter, >> fait 09-27
-
     notification templating         >> fait 09-24
     more notification templating
-    service ticket no.
+    service ticket no.                  >> fait 09-30
     ticket cc
 
     email notification

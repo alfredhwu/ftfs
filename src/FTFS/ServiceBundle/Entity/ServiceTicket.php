@@ -132,6 +132,13 @@ class ServiceTicket
     private $closed_at;
 
     /**
+     *
+     * @var array $share_list
+     * @ORM\Column(name="share_list", type="array")
+     */
+    private $share_list;
+
+    /**
      * @ORM\OneToMany(targetEntity="ServiceTicketAttachment", mappedBy="ticket", cascade={"remove"})
      */
     private $attachments;
@@ -149,6 +156,12 @@ class ServiceTicket
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function __construct()
+    {
+        $this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->share_list = array();
     }
 
     /**
@@ -480,11 +493,7 @@ class ServiceTicket
     {
         return $this->assigned_to;
     }
-    public function __construct()
-    {
-        $this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
+
     /**
      * Add attachments
      *
@@ -523,5 +532,52 @@ class ServiceTicket
     public function getObservations()
     {
         return $this->observations;
+    }
+
+    /**
+     * add share_list
+     *
+     * @param array $sharelist
+     */
+    public function addShareList($sharelist)
+    {
+        $list = array_unique(array_merge($this->getShareList(), $sharelist));
+        asort($list);
+        $this->setShareList($list);
+//        throw new \Exception(print_r($this->share_list));
+    }
+
+    /**
+     * delete share_list
+     *
+     * @param string $email
+     */
+    public function removeShareList($email)
+    {
+        $list = $this->getShareList();
+        if(array_key_exists($email, $list)) {
+            unset($list[$email]);
+            $this->setShareList($list);
+        }
+//        throw new \Exception(print_r($this->share_list));
+    }
+    /**
+     * Set share_list
+     *
+     * @param array $shareList
+     */
+    public function setShareList($shareList)
+    {
+        $this->share_list = $shareList;
+    }
+
+    /**
+     * Get share_list
+     *
+     * @return array 
+     */
+    public function getShareList()
+    {
+        return $this->share_list;
     }
 }

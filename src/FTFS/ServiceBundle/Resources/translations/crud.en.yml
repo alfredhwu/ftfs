@@ -90,6 +90,7 @@ ftfs_servicebundle_serviceticket:
     observation:
         empty.list: 'No observation' 
         user.me: "Me"
+        leave.observation.tooltip: 'Leave an observation' 
     form:
         legend: 
             new:    "New Service Ticket"

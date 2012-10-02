@@ -157,7 +157,16 @@ class EventNotificationNotifier
             $methods = $this->eventCatchFilter->getNotificationMethods($notified_to, $eventlog->getEvent());
             $notifications = array();
             foreach($methods as $method) {
-                $notifications[] = $this->generateNotificationLog($eventlog, $notified_to, $method);
+                switch($method->getName()) {
+                    case 'sms':
+                        if(!$notified_to->getMobilePhone()){
+                            break;
+                        }
+                    //case 'system':
+                    //case 'email':
+                    default:
+                        $notifications[] = $this->generateNotificationLog($eventlog, $notified_to, $method);
+                }
             }
             $this->notifications = array_merge($this->notifications, $notifications);
         }
@@ -188,14 +197,15 @@ class EventNotificationNotifier
         $notificationlog->setNotifiedTo($notified_to);
         // editing cc field
         // check if $service_ticket or $action has a cc 
+        $service_ticket = $this->getSubject('serviceticket', $event_action);
         if($method->getName() === 'email') {
-            $notificationlog->setCc(null);
+            $notificationlog->setCc($service_ticket->getShareList());
         }
         $message = $this->templating->render('FTFSNotificationBundle:Message:event_'.$eventargs[1].
                 '_'.$eventargs[2].'.'.$format.'.twig', array(
             'method' => $method->getName(),
             'destinaire' => $notified_to,
-            'subject' => $this->getSubject('serviceticket', $event_action),
+            'subject' => $service_ticket,
             'subject_href' => $this->router->generate(
                 'ftfs_dashboardbundle_myservice_show', 
                 array(

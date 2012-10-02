@@ -6,7 +6,11 @@
     <p>In case that your request is highly urgent, we highly suggest you to contact us via telephone at 01.xx.xx.xx.xx</p>
     {# information of action for other observator #}
     {% else %}
-    <p>{{ actor }} has requested a service at {{ acted_at }}. Please examin this request as soon as possible.</p>
+    <p>{{ actor }} has requested a service at {{ acted_at }}.</p>
     {% endif %}
+{# event sent from an action of an agent #}
+{% else %}
+    {# confirmation of action for a agent to himself #}
+    <p>{{ actor }} has requested a service at {{ acted_at }}. Please examin this request as soon as possible.</p>
 {% endif %}
 {% include "FTFSNotificationBundle:Message:message_service_ticket_info.html.twig" %}

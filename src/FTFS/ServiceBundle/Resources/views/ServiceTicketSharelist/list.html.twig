@@ -1,0 +1,49 @@
+{% if sharelist|length > 0 %}
+<div id="sharelist">
+    {{ (prefix~'.sharelist.title')|trans({}, 'crud') }}
+    <ul>
+    {% for email, name in sharelist %}
+    <li>
+        "{{ name }}" &lt;{{ email }}&gt;
+        {% if entity.requestedBy == app.user %}
+        <span>
+            <a href="#" class="crud-action" crud-message="{{ (prefix~'.sharelist.delete.confirm')|trans({ '%name%' : name }, 'crud') }}" crud-toggle="{{ path(prefix~'_sharelist_delete', { 'id' : id, 'email' : email }) }}">
+                <i class="icon-trash"></i>
+            </a>
+        </span>
+        {% endif %}
+    </li>
+    {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if entity.requestedBy == app.user %}
+<div>
+    <!-- sharelist add control toggle -->
+    <span><a class="tic-tac" tic-tac-target="#sharelist-add" href="#">
+        <span>
+            <i class="icon-chevron-down"></i>
+        </span>
+        <span class="hide">
+            <i class="icon-chevron-up"></i>
+        </span>
+        <span>
+        {{ (prefix~'.sharelist.add.new')|trans({}, 'crud') }}
+        </span>
+        <span class="hide">
+        {{ (prefix~'.sharelist.cancel.new')|trans({}, 'crud') }}
+        </span>
+    </a></span>
+</div>
+{% endif %}
+<div id="sharelist-add" class="hide">
+    <div id="sharelist-add-ajax">
+    <!-- loaded by ajax -->
+    {# 
+    {% include 'FTFSServiceBundle:ServiceTicketSharelist:sharelist_add_form.html.twig' 
+            with { 'id' : id, 'prefix' : prefix, } %}
+    #}
+    </div>
+</div>
+

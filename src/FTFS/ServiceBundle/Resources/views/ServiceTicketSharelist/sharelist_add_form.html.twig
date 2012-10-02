@@ -1,0 +1,7 @@
+<form action="{{ path(prefix~'_sharelist_add', { 'id' : id }) }}" 
+      method="post" {{ form_enctype(sharelist_add_form) }}>
+    {{ form_widget(sharelist_add_form) }}
+        <button type="submit" class="btn">
+            {{ (prefix~'.sharelist.add.form.submit')|trans({}, 'crud') }}
+        </button>
+</form>

@@ -1,7 +1,7 @@
 {% extends 'FTFSPreferenceBundle::layout.html.twig' %}
 {% block body_content %}
 <legend>
-    <span>Notification event list<span>
+    <span>Auto Notification<span>
     <a href="{{ path('ftfs_notificationbundle_preference_event_add') }}" class="btn btn-success pull-right">
         <i class="icon-plus-sign icon-white"></i>
         add a new event
@@ -10,9 +10,7 @@
 <table class="table table-striped table-condensed table-bordered table-smart">
     <tr>
         <th class="tight"></th>
-        <th>Event Key</th>
         <th>Name</th>
-        <th>Security Level</th>
         <th>Notification Method</th>
     </tr>
     {% set index = 0 %}
@@ -20,9 +18,31 @@
     <tr>
         {% set index = index + 1 %}
         <td class="tight">{{ index }}</td>
-        <td>{{ event.eventKey }}</td>
         <td>{{ ('ftfs_notification_key.'~event.eventKey) |trans({}, 'notification') }}</td>
-        <td>{{ event.securityLevel }}</td>
+        <td class="methods_form" id="{{ 'methods_for_'~event.id }}" event-id="{{ event.id }}">event {{ event.id }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<legend>
+    <span>Notification for actions of other actors<span>
+    <a href="{{ path('ftfs_notificationbundle_preference_event_add') }}" class="btn btn-success pull-right">
+        <i class="icon-plus-sign icon-white"></i>
+        add a new event
+    </a>
+</legend>
+<table class="table table-striped table-condensed table-bordered table-smart">
+    <tr>
+        <th class="tight"></th>
+        <th>Name</th>
+        <th>Notification Method</th>
+    </tr>
+    {% set index = 0 %}
+    {% for event in events %}
+    <tr>
+        {% set index = index + 1 %}
+        <td class="tight">{{ index }}</td>
+        <td>{{ ('ftfs_notification_key.'~event.eventKey) |trans({}, 'notification') }}</td>
         <td class="methods_form" id="{{ 'methods_for_'~event.id }}" event-id="{{ event.id }}">event {{ event.id }}</td>
     </tr>
     {% endfor %}

@@ -112,6 +112,8 @@ class MyServiceController extends BaseController
             case 'attachment_upload':
             case 'attachment_download':
             case 'attachment_delete':
+            case 'sharelist_add':
+            case 'sharelist_delete':
             case 'edit':
                 if($context->isGranted('ROLE_AGENT'))
                 {
@@ -366,6 +368,75 @@ class MyServiceController extends BaseController
 
 
     /** **********************************************************************  attachment & observation **/
+    /** 
+     * add an entry to share list
+     */
+    public function sharelistAddAction($id)
+    {
+        $ticket = $this->getEntity('sharelist_add', $id);
+        $share_entry = array('sharelist' => 'entry detail');
+        $form = $this->createFormBuilder($share_entry)
+                ->add('title', 'choice', array(
+                    'choices' => array(
+                        'Ms.' => 'Ms.',
+                        'Mrs.' => 'Mrs.',
+                        'Mr.' => 'Mr.',
+                    ),
+                ))
+                ->add('firstname')
+                ->add('surname')
+                ->add('email')
+                ->getForm()
+                ;
+
+        if($this->getRequest()->getMethod() === 'POST') {
+            $form->bindRequest($this->getRequest());
+            if($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $data = $form->getData();
+                $name = $data['title'].' '.$data['firstname'].' '.$data['surname'];
+                $ticket->addShareList(array(
+                    $data['email'] => $name,
+                ));
+                /*
+                throw new \Exception(print_r(array(
+                    $data['email'] => $name,
+                )));
+                 */
+                $em->flush();
+            }
+            // flash notification
+            // $this->notify('sharelist_add'); 
+            //
+            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
+                'id' => $id,
+            )));
+        }
+
+        return $this->render('FTFSServiceBundle:ServiceTicketSharelist:sharelist_add_form.html.twig', array(
+            'id' => $id,
+            'prefix' => $this->getRoutingPrefix(),
+            'sharelist_add_form' => $form->createView(),
+        ));
+    }
+
+    /** 
+     *
+     */
+    public function sharelistDeleteAction($id, $email)
+    {
+        // access control ...
+        $ticket = $this->getEntity('sharelist_delete', $id);
+
+        $ticket->removeSharelist($email);
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->flush();
+
+        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
+            'id' => $id,
+        )));
+    }
 
     /** 
      * attachement file management: download an attachment
@@ -388,8 +459,6 @@ class MyServiceController extends BaseController
         $response->headers->set('Content-Disposition', 'attachment;filename='.$attachment->getName());
         $response->setContent($content);
 
-        // register event
-        $this->registerEvent('attachment_download', $attachment);
         // flash notification
         $this->notify('attachment_download'); 
 
@@ -418,8 +487,6 @@ class MyServiceController extends BaseController
                 $em->persist($attachment);
                 $em->flush();
             }
-            // register event
-            $this->registerEvent('attachment_upload', $attachment);
             // flash notification
             // $this->notify('attachment_upload'); 
             //
@@ -450,8 +517,6 @@ class MyServiceController extends BaseController
         }
         $em->remove($attachment);
         //*******************************************************************************ToDo: prob transaction
-        // register event
-        $this->registerEvent('attachment_delete', $attachment->getTicket(), $attachment->getName());
         $em->flush();
 
         // flash notification
@@ -501,8 +566,6 @@ class MyServiceController extends BaseController
                 $em->persist($observation);
                 $em->flush();
                 //
-                // register event
-                $this->registerEvent('observation_add', $observation);
                 // flash notification
                 //$this->notify('observation_add'); 
 

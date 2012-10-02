@@ -1,3 +1,4 @@
+{% if attachments|length > 0 %}
 <div id="attachment-list">
     {{ (prefix~'.attachment.list.title')|trans({}, 'crud') }}
     <ul>
@@ -10,7 +11,7 @@
         </span>
         {% if is_granted('ROLE_ADMIN') or attachment.uploadedBy == app.user %}
         <span>
-            <a href="{{ path(prefix~'_attachment_delete', { 'id' : id, 'attachment_id' : attachment.id }) }}">
+            <a class="crud-action" crud-message="{{ (prefix~'.attachment.list.delete.confirm')|trans({ '%attachment_name%' : attachment.name }, 'crud') }}" crue-toggle="{{ path(prefix~'_attachment_delete', { 'id' : id, 'attachment_id' : attachment.id }) }}" href="#">
                 <i class="icon-trash"></i>
             </a>
         </span>
@@ -24,7 +25,9 @@
     {% endfor %}
     </ul>
 </div>
+{% endif %}
 
+{% if app.user == entity.requestedBy or app.user == entity.assignedTo %}
 <div>
     <!-- attachment add control toggle -->
     <span><a class="tic-tac" tic-tac-target="#attachment-upload" href="#">
@@ -42,6 +45,8 @@
     </span>
     </a></span>
 </div>
+{% endif %}
+
 <div id="attachment-upload" class="hide">
     <div id="attachment-upload-ajax">
     <!-- loaded by ajax -->

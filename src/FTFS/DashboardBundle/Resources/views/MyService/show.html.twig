@@ -16,6 +16,19 @@
     {{ parent() }}
     <script>
     $(document).ready(function () {
+        // loading share list to 'div#share-list-add-ajax'
+        $.ajax({
+            type:   "GET",
+            url:    "{{ path(prefix~'_sharelist_add', {'id' : entity.id }) }}",
+            data:   "",
+            cache:  false,
+            success: function(data) {
+                $('div#sharelist-add-ajax').html(data);
+                },
+            error:   function() {
+                alert("Ooups ... something's got wrong: the ajax connection failed in rendering attachment upload-form:(");
+                },
+        });
         // loading file attachment to 'div#attachment-upload-ajax'
         $.ajax({
             type:   "GET",
