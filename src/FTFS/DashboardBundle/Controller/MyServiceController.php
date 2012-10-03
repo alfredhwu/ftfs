@@ -420,6 +420,21 @@ class MyServiceController extends BaseController
         ));
     }
 
+    /**
+     * ajax connexion for counting list
+     */
+    public function countAction()
+    {
+        $session = $this->getRequest()->getSession();
+        $filter = $this->getRequest()->query->get('status');
+        $filter = $filter ? $filter : 'current';
+        $entities = $this->getEntityList();
+        $count = count($entities);
+        // refresh the session
+        $session->set('menu-counter-'.$filter, $count);
+        return new \Symfony\Component\HttpFoundation\Response($count);
+    }
+
     /** 
      *
      */

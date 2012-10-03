@@ -1,17 +1,24 @@
+2012-10-03
+    notification push
+    transfer
+    user
+    asset/product
+
+
 2012-09-21  user notification filter, sender service >>>> fait 09-21
 2012-08-22  
     listener service dependency, 
     lifecyclecallback redefinition,
-    listener for service_ticket entity >> partial 09-27
-    interface for management of filter, >> fait 09-27
+    listener for service_ticket entity      >> partial 09-27
+    interface for management of filter,     >> fait 09-27
     notification templating         >> fait 09-24
     more notification templating
-    service ticket no.                  >> fait 09-30
-    ticket cc
+    service ticket no.              >> fait 09-30
+    ticket cc                       >> fait 10-02
 
-    email notification
+    email notification              >> fait 10-01
     system notification
-    sms notification
+    sms notification                >> fait 10-02
 
 
 ## dashboard
@@ -25,7 +32,6 @@ separate interface for agents and clients
 
 
 ## asset management
-
 
 ## product management
 

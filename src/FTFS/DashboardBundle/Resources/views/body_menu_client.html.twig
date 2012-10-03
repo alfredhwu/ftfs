@@ -1,21 +1,21 @@
-{% extends '::menu.html.twig' %}
-{% block menu_content %}
+{% extends 'FTFSDashboardBundle::body_menu.html.twig' %}
+{% block dash_menu_content %}
     <li class="nav-header">My Service Tickets</li>
     {# draft, opened #}
-    <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_myservice_index') }}"><i class="icon-home"></i> My Current Service</a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index') }}"><i class="icon-home"></i> My Current Service <span class="pull-right badge">{{ app.session.get('menu-counter-current') }}</span></a></li>
     <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_myservice_new') }}"><i class="icon-edit"></i> Request a New Service</a></li>
 
     <li class="divider"></li>
 
-    <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'all' }) }}"><i class="icon-list"></i> All My Service Tickets</a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'all' }) }}"><i class="icon-list"></i> All My Service Tickets <span class="pull-right badge">{{ app.session.get('menu-counter-all') }}</span></a></li>
 
     <li class="divider"></li>
 
-    <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'created' }) }}"><i class="icon-indent-left"></i> My Service Requests</a></li>
-    <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'interrupted' }) }}"><i class="icon-indent-left"></i> My Tickets Interrupted</a></li>
-    <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'awaiting' }) }}"><i class="icon-indent-left"></i> My Tickets Submitted</a></li>
-    <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'opened' }) }}"><i class="icon-indent-left"></i> My Tickets Opened</a></li>
-    <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'closed' }) }}"><i class="icon-indent-left"></i> My Tickets Closed</a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'created' }) }}"><i class="icon-indent-left"></i> My Service Requests <span class="pull-right badge">{{ app.session.get('menu-counter-created') }}</span></a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'interrupted' }) }}"><i class="icon-indent-left"></i> My Tickets Interrupted <span class="pull-right badge">{{ app.session.get('menu-counter-interrupted') }}</span></a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'awaiting' }) }}"><i class="icon-indent-left"></i> My Tickets Submitted <span class="pull-right badge">{{ app.session.get('menu-counter-awaiting') }}</span></a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'opened' }) }}"><i class="icon-indent-left"></i> My Tickets Opened <span class="pull-right badge">{{ app.session.get('menu-counter-opened') }}</span></a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'closed' }) }}"><i class="icon-indent-left"></i> My Tickets Closed <span class="pull-right badge">{{ app.session.get('menu-counter-closed') }}</span></a></li>
 
 
     <li class="divider">
@@ -23,5 +23,4 @@
     <li class="navmenu-item"><a href="#"><i class="icon-globe"></i> All My Shared Tickets (not yet available) </a></li>
 
     <li class="divider"></li>
-    {{ parent() }}
 {% endblock %}

@@ -52,9 +52,13 @@
         </ul>
         </div>
         <div id="content" class="span9" style="overflow:auto;">
-        {% block body_content %}
-            <p>bienvenue !!! </p>
-        {% endblock body_content %}
+            <div id="top-notification-area">
+            </div>
+            <div>
+            {% block body_content %}
+                <p>bienvenue !!! </p>
+            {% endblock body_content %}
+            </div>
         </div><!-- end body-content -->
     </div><!-- end row-fluid -->
 {% endblock body %}

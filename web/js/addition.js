@@ -51,4 +51,43 @@ $(document).ready(function () {
     if($("[rel=tooltip]").length) {
         $("[rel=tooltip]").tooltip();
     }
+
+    // menu indicator
+    init_notifier();
+    // add refresher
+    function init_notifier() {
+        $('div#top-notification-area').html('<h1>top notification</h1>');
+        // menu
+        $('li.navmenu-item.navmenu-item-countable > a > span').each(function() {
+            $(this).addClass('pull-right badge badge-inverse');        
+        });
+        refresh_menu();
+        // set auto refresher 
+        var interval = 5000; // in mini seconds
+        setInterval(function() {refresh_menu()}, interval);
+    }
+
+    function refresh_menu() {
+        // find all menu items that need a counter and get the number
+        //$('li.navmenu-item.countable > a').children(':last-child').after('<span class="pull-right">count</span>');
+        $('li.navmenu-item.navmenu-item-countable > a').each(function() {
+            var href = $(this).attr('href').replace(/list/,'count');
+            var target = $(this);
+            $.ajax({
+                type:   "GET",
+                url:    href,
+                data:   "",
+                cache:  false,
+                success: function(data) {
+                    var last = target.children().last();
+                    if(last.html() != data) {
+                        last.html(data);
+                    }
+                },
+                error:   function() {
+                    alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for " + url);
+                },
+            });
+        });
+    }
 });

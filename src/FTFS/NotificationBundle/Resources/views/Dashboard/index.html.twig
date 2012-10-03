@@ -1,0 +1,11 @@
+{% extends "FTFSDashboardBundle::layout.html.twig" %}
+
+{% block body_content %}
+<p> notification center </p>
+    {% if is_granted('ROLE_AGENT') %}
+    {% elseif is_granted('ROLE_CLIENT') %}
+    {% else %}
+        <h1> Error: You have to be granted as either role_agent or role_client in order to see this page !</h1>
+        <p>Please report this bug to your tech support !</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends '::menu.html.twig' %}
+{% block menu_content %}
+    <li class="nav-header">My Notifications</li>
+    {# draft, opened #}
+    <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_homepage') }}"><i class="icon-envelope"></i> My Notification Center <span class="pull-right badge badge-warning">0</span></a></li>
+    
+    {% block dash_menu_content %}
+    {% endblock %}
+    {{ parent() }}
+{% endblock %}

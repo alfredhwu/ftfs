@@ -1,9 +1,15 @@
 ftfs_dashboardbundle_homepage:
     pattern:  /
-    defaults: { _controller: FTFSDashboardBundle:Default:index }
+    #defaults: { _controller: FTFSDashboardBundle:Default:index }
+    defaults: { _controller: FTFSNotificationBundle:Dashboard:index }
 
 ############################################################################ service ticket
 ## service routing
+# ajax url for count filter
+ftfs_dashboardbundle_myservice_count:
+    pattern:  /myservice/count
+    defaults: { _controller: FTFSDashboardBundle:MyService:count }
+
 ftfs_dashboardbundle_myservice_index:
     pattern:  /myservice/list
     defaults: { _controller: FTFSDashboardBundle:MyService:index }
