@@ -420,10 +420,7 @@ class MyServiceController extends BaseController
         ));
     }
 
-    /**
-     * ajax connexion for counting list
-     */
-    public function countAction()
+    public function bodyMenuCountAction()
     {
         $session = $this->getRequest()->getSession();
         $filter = $this->getRequest()->query->get('status');
@@ -431,7 +428,11 @@ class MyServiceController extends BaseController
         $entities = $this->getEntityList();
         $count = count($entities);
         // refresh the session
-        $session->set('menu-counter-'.$filter, $count);
+        $name = 'counter-menu-'.$filter;
+        if($session->has($name)) {
+            $session->remove($name);
+        }
+        $session->set($name, $count);
         return new \Symfony\Component\HttpFoundation\Response($count);
     }
 

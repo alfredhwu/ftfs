@@ -21,54 +21,20 @@ class PreferenceController extends Controller
         ));
     }
 
-    public function eventAddAction()
+    /**
+     * get a form to modify the event_catch_filter_default options
+     */
+    public function eventCatchFilterDefaultAction($id, $auto)
     {
-//        throw new \Exception('coucou');
         $em = $this->getDoctrine()->getEntityManager();
-        //$event = new \FTFS\NotificationBundle\Entity\Event;
-        $event = array('event' => 'new event definition');
-        $form = $this->createFormBuilder($event)
-                    ->add('eventKey')
-                    ->add('securityLevel')
-                    ->add('methods', 'entity', array(
-                        'class' => 'FTFSNotificationBundle:NotificationMethod',
-                        'multiple' => true,
-                        'expanded' => true,
-                    ))
-                    ->getForm();
-        $request = $this->getRequest();
-        if('POST'===$request->getMethod()){
-            $form->bindRequest($request);
-            if($form->isValid()) {
-                // flush
-                //throw new \Exception('coucou');
-                $new_event = new \FTFS\NotificationBundle\Entity\Event;
-                $data = $form->getData();
-                $new_event->setEventKey($data['eventKey']);
-                $new_event->setSecurityLevel($data['securityLevel']);
-                $em->persist($new_event);
-
-                foreach($data['methods'] as $method) {
-                    $filter = new \FTFS\NotificationBundle\Entity\EventCatchFilterDefault;
-                    $filter->setEvent($new_event);
-                    $filter->setMethod($method);
-                    $em->persist($filter);
-                }
-
-                $em->flush();
-
-                return $this->redirect($this->generateUrl('ftfs_notificationbundle_preference_event_definition'));
-            }
+        $event = $em->getRepository('FTFSNotificationBundle:Event')->find($id);
+        if(!$event) {
+            throw $this->createNotFoundException('event with id ['.$id.'] not found !');
         }
-        return $this->render('FTFSNotificationBundle:Preference:event_definition_add.html.twig', array(
-            'form' => $form->createView(),
+        $filters = $em->getRepository('FTFSNotificationBundle:EventCatchFilterDefault')->findBy(array(
+            'event' => $id,
+            'auto' => $auto,
         ));
-    }
-
-    public function eventCatchFilterDefaultAction(\FTFS\NotificationBundle\Entity\Event $event)
-    {
-        $em = $this->getDoctrine()->getEntityManager();
-        $filters = $em->getRepository('FTFSNotificationBundle:EventCatchFilterDefault')->findByEvent($event->getId());
         $preferences = array('preferences' => 'default notification preferences');
         $old_methods = array();
         $preferences['methods'] = new \Doctrine\Common\Collections\ArrayCollection;
@@ -104,6 +70,7 @@ class PreferenceController extends Controller
                     $filter = new \FTFS\NotificationBundle\Entity\EventCatchFilterDefault;
                     $filter->setEvent($event);
                     $filter->setMethod($method);
+                    $filter->setAuto($auto);
                     $em->persist($filter);
                 }
             }
@@ -117,32 +84,9 @@ class PreferenceController extends Controller
             'form' => $form->createView(),
             'action' => $this->generateUrl('ftfs_notificationbundle_preference_event_catch_filter_default', array(
                     'id' => $event->getId(),
+                    'auto' => $auto,
                 )),
         ));
-    }
-
-    public function eventCatchFilterListAction(\FTFS\UserBundle\Entity\User $user)
-    {
-        $em = $this->getDoctrine()->getEntityManager();
-        $events = $em->getRepository('FTFSNotificationBundle:Event')->findAll();
-        return $this->render('FTFSNotificationBundle:Preference:event_catch_filter.html.twig', array(
-            'user' => $user,
-            'events' => $events,
-        ));
-    }
-
-    public function eventCatchFilterResetAction(\FTFS\UserBundle\Entity\User $user)
-    {
-        $em = $this->getDoctrine()->getEntityManager();
-        $user_filters = $em->getRepository('FTFSNotificationBundle:EventCatchFilter')->findAll();
-        foreach($user_filters as $filter) {
-            $em->remove($filter);
-        }
-        $em->flush();
-        return $this->redirect(
-            $this->generateUrl('ftfs_notificationbundle_preference_event_catch_filter_index', array(
-            'id' => $user->getId(),
-        )));
     }
 
     public function eventCatchFilterAction($id, $event_id)
@@ -229,4 +173,75 @@ class PreferenceController extends Controller
                 )),
         ));
     }
+
+    public function eventCatchFilterListAction(\FTFS\UserBundle\Entity\User $user)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $events = $em->getRepository('FTFSNotificationBundle:Event')->findAll();
+        return $this->render('FTFSNotificationBundle:Preference:event_catch_filter.html.twig', array(
+            'user' => $user,
+            'events' => $events,
+        ));
+    }
+
+    public function eventCatchFilterResetAction(\FTFS\UserBundle\Entity\User $user)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $user_filters = $em->getRepository('FTFSNotificationBundle:EventCatchFilter')->findAll();
+        foreach($user_filters as $filter) {
+            $em->remove($filter);
+        }
+        $em->flush();
+        return $this->redirect(
+            $this->generateUrl('ftfs_notificationbundle_preference_event_catch_filter_index', array(
+            'id' => $user->getId(),
+        )));
+    }
+
+    public function eventAddAction($auto)
+    {
+//        throw new \Exception('coucou');
+        $em = $this->getDoctrine()->getEntityManager();
+        //$event = new \FTFS\NotificationBundle\Entity\Event;
+        $event = array('event' => 'new event definition');
+        $form = $this->createFormBuilder($event)
+                    ->add('eventKey')
+                    ->add('securityLevel')
+                    ->add('methods', 'entity', array(
+                        'class' => 'FTFSNotificationBundle:NotificationMethod',
+                        'multiple' => true,
+                        'expanded' => true,
+                    ))
+                    ->getForm();
+        $request = $this->getRequest();
+        if('POST'===$request->getMethod()){
+            $form->bindRequest($request);
+            if($form->isValid()) {
+                // flush
+                //throw new \Exception('coucou');
+                $new_event = new \FTFS\NotificationBundle\Entity\Event;
+                $data = $form->getData();
+                $new_event->setEventKey($data['eventKey']);
+                $new_event->setSecurityLevel($data['securityLevel']);
+                $em->persist($new_event);
+
+                foreach($data['methods'] as $method) {
+                    $filter = new \FTFS\NotificationBundle\Entity\EventCatchFilterDefault;
+                    $filter->setEvent($new_event);
+                    $filter->setMethod($method);
+                    $filter->setAuto($auto);
+                    $em->persist($filter);
+                }
+
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('ftfs_notificationbundle_preference_event_definition'));
+            }
+        }
+        return $this->render('FTFSNotificationBundle:Preference:event_definition_add.html.twig', array(
+            'form' => $form->createView(),
+            'auto' => $auto,
+        ));
+    }
+
 }

@@ -53,35 +53,85 @@ $(document).ready(function () {
     }
 
     // menu indicator
-    init_notifier();
+    init_auto_refresher(5000);
     // add refresher
-    function init_notifier() {
-        $('div#top-notification-area').html('<h1>top notification</h1>');
-        // menu
-        $('li.navmenu-item.navmenu-item-countable > a > span').each(function() {
-            $(this).addClass('pull-right badge badge-inverse');        
-        });
-        refresh_menu();
-        // set auto refresher 
-        var interval = 5000; // in mini seconds
-        setInterval(function() {refresh_menu()}, interval);
-    }
+    function init_auto_refresher(interval) {
+        body_menu_count_notifier(true);
+        notification_count_notifier();
+        notification_message_notifier();
 
-    function refresh_menu() {
-        // find all menu items that need a counter and get the number
-        //$('li.navmenu-item.countable > a').children(':last-child').after('<span class="pull-right">count</span>');
-        $('li.navmenu-item.navmenu-item-countable > a').each(function() {
-            var href = $(this).attr('href').replace(/list/,'count');
+        // set auto refresher 
+        setInterval(function() {body_menu_count_notifier()}, interval);
+        setInterval(function() {notification_count_notifier()}, interval);
+        setInterval(function() {notification_message_notifier()}, interval);
+    }
+    
+    function notification_message_notifier () {
+        $('div.notification-message').each(function() { 
             var target = $(this);
+            var href = $(this).attr('url');
             $.ajax({
-                type:   "GET",
+                type:   "POST",
                 url:    href,
                 data:   "",
                 cache:  false,
                 success: function(data) {
-                    var last = target.children().last();
-                    if(last.html() != data) {
-                        last.html(data);
+                    if(data!='') {
+                        target.hide();
+                        target.html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">x</button> <span class="badge badge-info">!</span> <strong>System Notification:</strong>'+data+'</div>');
+                        target.fadeIn(500).delay(4000).fadeOut(500);
+                    }
+                },
+                error:   function() {
+                    alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for " + url);
+                },
+            });
+        });
+    }
+
+    function notification_count_notifier () {
+        $('li.navmenu-item.navmenu-item-notification-countable > a > span').each(function() {
+            var href = $(this).attr('url');
+            var target = $(this);
+            $.ajax({
+                type:   "POST",
+                url:    href,
+                data:   "",
+                cache:  false,
+                success: function(data) {
+                    if(target.html() != data) {
+                        target.html(data);
+                    }
+                    $('span.notification-count').html(data);
+                },
+                error:   function() {
+                    alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for " + url);
+                },
+            });
+        });
+    }
+
+    function body_menu_count_notifier(init) {
+        init = typeof init !== 'undefined' ? init : false;
+        if(init) {
+            // menu
+            $('li.navmenu-item.navmenu-item-countable > a > span').each(function() {
+                $(this).addClass('pull-right badge badge-inverse');        
+            });
+        }
+        // find all menu items that need a counter and get the number
+        //$('li.navmenu-item.countable > a').children(':last-child').after('<span class="pull-right">count</span>');
+        $('li.navmenu-item.navmenu-item-countable > a').each(function() {
+            var href = $(this).attr('href').replace(/list/,'body_menu_count');
+            var target = $(this).children().last();
+            $.ajax({
+                type:   "POST",
+                url:    href,
+                data:   "",
+                cache:  false,
+                success: function(data) {
+                    if(target.html() != data) {
+                        target.html(data);
                     }
                 },
                 error:   function() {

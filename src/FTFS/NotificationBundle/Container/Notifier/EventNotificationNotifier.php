@@ -158,12 +158,14 @@ class EventNotificationNotifier
             $notifications = array();
             foreach($methods as $method) {
                 switch($method->getName()) {
+                    case 'email':
+                        $notifications[] = $this->generateNotificationLog($eventlog, $notified_to, $method, 'html');
+                        break;
                     case 'sms':
                         if(!$notified_to->getMobilePhone()){
                             break;
                         }
                     //case 'system':
-                    //case 'email':
                     default:
                         $notifications[] = $this->generateNotificationLog($eventlog, $notified_to, $method);
                 }
@@ -184,9 +186,6 @@ class EventNotificationNotifier
         // generate message realted: method, format, message, cc
         $format = $format ? $format : 'txt';        // set default message format, method
         $method = $method ? $method : $this->getDefaultNotificationMethod();
-        if($method->getName()==='email') {
-            $format = 'html';
-        }
         //
         $notificationlog->setMethod($method);
         $notificationlog->setCc(null);              // by default, null

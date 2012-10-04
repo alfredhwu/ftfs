@@ -6,10 +6,11 @@ ftfs_dashboardbundle_homepage:
 ############################################################################ service ticket
 ## service routing
 # ajax url for count filter
-ftfs_dashboardbundle_myservice_count:
-    pattern:  /myservice/count
-    defaults: { _controller: FTFSDashboardBundle:MyService:count }
+ftfs_dashboardbundle_myservice_body_menu_count:
+    pattern:  /myservice/body_menu_count
+    defaults: { _controller: FTFSDashboardBundle:MyService:bodyMenuCount }
 
+##
 ftfs_dashboardbundle_myservice_index:
     pattern:  /myservice/list
     defaults: { _controller: FTFSDashboardBundle:MyService:index }

@@ -1,11 +1,20 @@
 {% extends "FTFSDashboardBundle::layout.html.twig" %}
 
 {% block body_content %}
-<p> notification center </p>
-    {% if is_granted('ROLE_AGENT') %}
-    {% elseif is_granted('ROLE_CLIENT') %}
-    {% else %}
-        <h1> Error: You have to be granted as either role_agent or role_client in order to see this page !</h1>
-        <p>Please report this bug to your tech support !</p>
-    {% endif %}
+<h3>
+    Notifications 
+    <a href="{{ path('ftfs_notificationbundle_dashboard_clear_system_notification') }}" class="pull-right btn">clear all</a>
+</h3>
+<hr>
+<p>
+{% if notifications is defined and notifications | length > 0 %}
+    <ul>
+    {% for notification in notifications %}
+        <li class="alert alert-info">{{ notification.message }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    No notifications !
+{% endif %}
+</p>
 {% endblock %}

@@ -48,6 +48,12 @@ class EventCatchFilter
     private $allow;
 
     /**
+     * @var boolean $auto
+     * @ORM\Column(name="auto", type="boolean")
+     */
+    private $auto;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -135,5 +141,25 @@ class EventCatchFilter
     public function getAllow()
     {
         return $this->allow;
+    }
+
+    /**
+     * Set auto
+     *
+     * @param boolean $auto
+     */
+    public function setAuto($auto)
+    {
+        $this->auto = $auto;
+    }
+
+    /**
+     * Get auto
+     *
+     * @return boolean 
+     */
+    public function getAuto()
+    {
+        return $this->auto;
     }
 }

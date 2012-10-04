@@ -33,6 +33,11 @@ class EventCatchFilterDefault
      */
     private $method;
 
+    /**
+     * @var boolean $auto
+     * @ORM\Column(name="auto", type="boolean")
+     */
+    private $auto;
 
     /**
      * Get id
@@ -82,5 +87,25 @@ class EventCatchFilterDefault
     public function getMethod()
     {
         return $this->method;
+    }
+
+    /**
+     * Set auto
+     *
+     * @param boolean $auto
+     */
+    public function setAuto($auto)
+    {
+        $this->auto = $auto;
+    }
+
+    /**
+     * Get auto
+     *
+     * @return boolean 
+     */
+    public function getAuto()
+    {
+        return $this->auto;
     }
 }

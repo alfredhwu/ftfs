@@ -22,11 +22,12 @@ class EventCatchFilter
         $this->entityRepository = $entityManager->getRepository('FTFSNotificationBundle:EventCatchFilter');
     }
 
-    public function getNotificationMethods(UserInterface $user, Event $event) {
+    public function getNotificationMethods(UserInterface $user, Event $event, $auto=false) {
         //
         $filters = $this->entityRepository->findBy(array(
                     'user' => $user->getId(), 
                     'event' => $event->getId(),
+                    'auto' => $auto,
                 ));
         $methods_allow = array();
         $methods_deny = array();
@@ -42,6 +43,7 @@ class EventCatchFilter
         $default_methods_allow = array();
         $default_filters = $this->em->getRepository('FTFSNotificationBundle:EventCatchFilterDefault')->findBy(array(
             'event' => $event->getId(),
+            'auto' => $auto,
         ));
         foreach($default_filters as $filter) {
             if(!in_array($filter->getMethod(), $methods_deny)) {

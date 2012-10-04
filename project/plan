@@ -3,6 +3,7 @@
     transfer
     user
     asset/product
+    notification pref separation of auto/other
 
 
 2012-09-21  user notification filter, sender service >>>> fait 09-21

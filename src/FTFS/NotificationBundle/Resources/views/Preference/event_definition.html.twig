@@ -2,7 +2,7 @@
 {% block body_content %}
 <legend>
     <span>Auto Notification<span>
-    <a href="{{ path('ftfs_notificationbundle_preference_event_add') }}" class="btn btn-success pull-right">
+    <a href="{{ path('ftfs_notificationbundle_preference_event_add', { 'auto' : 1 }) }}" class="btn btn-success pull-right">
         <i class="icon-plus-sign icon-white"></i>
         add a new event
     </a>
@@ -19,14 +19,14 @@
         {% set index = index + 1 %}
         <td class="tight">{{ index }}</td>
         <td>{{ ('ftfs_notification_key.'~event.eventKey) |trans({}, 'notification') }}</td>
-        <td class="methods_form" id="{{ 'methods_for_'~event.id }}" event-id="{{ event.id }}">event {{ event.id }}</td>
+        <td class="methods_form" id="{{ 'methods_for_'~event.id }}" event-id="{{ event.id }}" auto=1>...</td>
     </tr>
     {% endfor %}
 </table>
 
 <legend>
     <span>Notification for actions of other actors<span>
-    <a href="{{ path('ftfs_notificationbundle_preference_event_add') }}" class="btn btn-success pull-right">
+    <a href="{{ path('ftfs_notificationbundle_preference_event_add', { 'auto' : 0 }) }}" class="btn btn-success pull-right">
         <i class="icon-plus-sign icon-white"></i>
         add a new event
     </a>
@@ -43,7 +43,7 @@
         {% set index = index + 1 %}
         <td class="tight">{{ index }}</td>
         <td>{{ ('ftfs_notification_key.'~event.eventKey) |trans({}, 'notification') }}</td>
-        <td class="methods_form" id="{{ 'methods_for_'~event.id }}" event-id="{{ event.id }}">event {{ event.id }}</td>
+        <td class="methods_form" id="{{ 'methods_for_'~event.id }}" event-id="{{ event.id }}" auto=0>...</td>
     </tr>
     {% endfor %}
 </table>
@@ -54,14 +54,18 @@
 <!-- loading method forms -->
 <script>
 $(document).ready(function () {
-    var URL = "{{ path('ftfs_notificationbundle_preference_event_catch_filter_default', { 'id' : '_index' }) }}";
+    var URL = "{{ path('ftfs_notificationbundle_preference_event_catch_filter_default', { 'id' : '_event', 'auto' : '_auto' }) }}";
     $('td.methods_form').each(function() {
         var event_id = $(this).attr('event-id');
+        var auto = $(this).attr('auto');
         var id = $(this).attr('id');
+        var href = URL.replace(/_event/, event_id);
+        href = href.replace(/_auto/, auto);
+        alert(href);
         // load form
         $.ajax({
             type:   "GET",
-            url:    URL.replace(/_index$/, event_id),
+            url:    href,
             data:   "",
             cache:  false,
             success: function(data) {
