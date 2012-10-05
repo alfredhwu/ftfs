@@ -1,0 +1,3 @@
+ftfs_assetbundle_homepage:
+    pattern:  /
+    defaults: { _controller: FTFSAssetBundle:Default:index }

@@ -1,0 +1,3 @@
+ftfs_productbundle_homepage:
+    pattern:  /
+    defaults: { _controller: FTFSProductBundle:Default:index }

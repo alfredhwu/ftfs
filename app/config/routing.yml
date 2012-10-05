@@ -1,3 +1,11 @@
+FTFSProductBundle:
+    resource: "@FTFSProductBundle/Resources/config/routing.yml"
+    prefix:   /admin/product
+
+FTFSAssetBundle:
+    resource: "@FTFSAssetBundle/Resources/config/routing.yml"
+    prefix:   /admin/asset
+
 # homepage of ftfs, routing to dashboardbundle:default:index by default,
 # to be updated in the prod version
 ftfshomepage:

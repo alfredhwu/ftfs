@@ -1,0 +1,7 @@
+parameters:
+#    ftfs_product.example.class: FTFS\ProductBundle\Example
+
+services:
+#    ftfs_product.example:
+#        class: %ftfs_product.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

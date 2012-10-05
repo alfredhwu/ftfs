@@ -1,9 +1,13 @@
+2012-10-05
+    list paging, searching, filtering
+    loading waiting ...
+
 2012-10-03
-    notification push
     transfer
-    user
+    user admin
     asset/product
-    notification pref separation of auto/other
+    notification push                           >> fait 10-05
+    notification pref separation of auto/other  >> fait 10-05
 
 
 2012-09-21  user notification filter, sender service >>>> fait 09-21
@@ -18,29 +22,15 @@
     ticket cc                       >> fait 10-02
 
     email notification              >> fait 10-01
-    system notification
+    system notification             >> fait 10-05
     sms notification                >> fait 10-02
 
 
 ## dashboard
-
-
 ## service management
-
-
 ## user management
-separate interface for agents and clients
-
-
 ## asset management
-
 ## product management
-
-
 ## knowledge base management
-
-
 ## documentation
-
-
 ## other: form verification
