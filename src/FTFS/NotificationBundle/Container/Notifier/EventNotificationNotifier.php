@@ -154,10 +154,11 @@ class EventNotificationNotifier
     protected function registerNotifications(EventLog $eventlog, UserInterface $notified_to)
     {
         if($notified_to) {
-            $methods = $this->eventCatchFilter->getNotificationMethods($notified_to, $eventlog->getEvent());
+            $methods = $this->eventCatchFilter->getNotificationMethods($notified_to, $eventlog->getEvent(), $notified_to === $eventlog->getActor());
             $notifications = array();
             foreach($methods as $method) {
                 switch($method->getName()) {
+                    case 'system':
                     case 'email':
                         $notifications[] = $this->generateNotificationLog($eventlog, $notified_to, $method, 'html');
                         break;
@@ -165,7 +166,6 @@ class EventNotificationNotifier
                         if(!$notified_to->getMobilePhone()){
                             break;
                         }
-                    //case 'system':
                     default:
                         $notifications[] = $this->generateNotificationLog($eventlog, $notified_to, $method);
                 }

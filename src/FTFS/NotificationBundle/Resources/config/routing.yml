@@ -7,6 +7,10 @@ ftfs_notificationbundle_dashboard_clear_system_notification:
     pattern:  /dashboard/notification/clear
     defaults: { _controller: FTFSNotificationBundle:Dashboard:systemNotificationClear }
 
+ftfs_notificationbundle_dashboard_remove_system_notification:
+    pattern:  /dashboard/notification/remove/{id}
+    defaults: { _controller: FTFSNotificationBundle:Dashboard:systemNotificationRemove }
+
 # ajax url for count filter
 ftfs_notificationbundle_dashboard_get_one_notification:
     pattern:  /dashboard/notification/get_one_notification
@@ -22,7 +26,7 @@ ftfs_notificationbundle_preference_event_definition:
     defaults: { _controller: FTFSNotificationBundle:Preference:eventDefinition }
 
 ftfs_notificationbundle_preference_event_add:
-    pattern:  /admin/preference/notification/event_add/{auto}
+    pattern:  /admin/preference/notification/event_add
     defaults: { _controller: FTFSNotificationBundle:Preference:eventAdd }
 
 ftfs_notificationbundle_preference_event_catch_filter_default:
@@ -38,6 +42,6 @@ ftfs_notificationbundle_preference_event_catch_filter_reset:
     defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilterReset }
 
 ftfs_notificationbundle_preference_event_catch_filter:
-    pattern:  /dashboard/preference/{id}/notification/event_catch_filter/{event_id}
+    pattern:  /dashboard/preference/{id}/notification/event_catch_filter/{event_id}/{auto}
     defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilter }
 

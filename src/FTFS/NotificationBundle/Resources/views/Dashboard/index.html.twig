@@ -10,11 +10,37 @@
 {% if notifications is defined and notifications | length > 0 %}
     <ul>
     {% for notification in notifications %}
-        <li class="alert alert-info">{{ notification.message }}</li>
+        <li class="alert alert-info">
+        <a href="#" url="{{ path('ftfs_notificationbundle_dashboard_remove_system_notification', { 'id' : notification.id }) }}" class="close" data-dismiss="alert">x</a>
+        {{ notification.message|raw }}
+        </li>
     {% endfor %}
     </ul>
 {% else %}
     No notifications !
 {% endif %}
 </p>
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script>
+    $(document).ready(function () {
+        $('a.close').click(function(e) { 
+            var href = $(this).attr('url');
+            $.ajax({
+                type:   "POST",
+                url:    href,
+                data:   "",
+                cache:  false,
+                success: function(data) {
+                    // do nothing
+                },
+                error:   function() {
+                    // do nothing
+                },
+            });
+        });
+    });
+</script>
 {% endblock %}

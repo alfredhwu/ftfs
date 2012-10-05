@@ -21,6 +21,18 @@ class DashboardController extends Controller
         ));
     }
 
+    public function systemNotificationRemoveAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $notification = $em->getRepository('\FTFS\NotificationBundle\Entity\NotificationLog')->find($id);
+        if(!$notification) {
+            throw $this->createNotFoundException('notification not found');
+        }
+        $em->remove($notification);
+        $em->flush();
+        return new \Symfony\Componenet\HttpFoundation\Response('notification :'.$id.' removed successfully !');
+    }
+
     public function systemNotificationClearAction()
     {
         $em = $this->getDoctrine()->getEntityManager();

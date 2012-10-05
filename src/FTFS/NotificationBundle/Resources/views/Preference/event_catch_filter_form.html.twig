@@ -1,10 +1,4 @@
 <form class="form-inline" method="POST" action="{{ action }}">
-<table class="table"><tr>
-<td>
-{{ form_widget(form.methods) }}
-</td>
-<td>
-<button type="submit" class="btn">Save changes</button>
-</td>
-</tr></table>
+    {{ form_row(form.methods) }}
+    <button type="submit" class="btn">Save changes</button>
 </form>
