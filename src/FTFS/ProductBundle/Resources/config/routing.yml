@@ -1,3 +1,69 @@
 ftfs_productbundle_homepage:
     pattern:  /
     defaults: { _controller: FTFSProductBundle:Default:index }
+#
+## product ##############################################################
+#
+ftfs_productbundle_product_index:
+    pattern:  /product/list
+    defaults: { _controller: FTFSProductBundle:Product:index }
+
+ftfs_productbundle_product_new:
+    pattern:  /product/new
+    defaults: { _controller: FTFSProductBundle:Product:new }
+
+ftfs_productbundle_product_show:
+    pattern:  /product/{id}/show
+    defaults: { _controller: FTFSProductBundle:Product:show }
+
+ftfs_productbundle_product_edit:
+    pattern:  /product/{id}/edit
+    defaults: { _controller: FTFSProductBundle:Product:edit }
+
+ftfs_productbundle_product_delete:
+    pattern:  /product/{id}/delete
+    defaults: { _controller: FTFSProductBundle:Product:delete }
+
+## product category ##############################################################
+#
+ftfs_productbundle_category_index:
+    pattern:  /category/list
+    defaults: { _controller: FTFSProductBundle:Category:index }
+
+ftfs_productbundle_category_new:
+    pattern:  /category/new
+    defaults: { _controller: FTFSProductBundle:Category:new }
+
+ftfs_productbundle_category_show:
+    pattern:  /category/{id}/show
+    defaults: { _controller: FTFSProductBundle:Category:show }
+
+ftfs_productbundle_category_edit:
+    pattern:  /category/{id}/edit
+    defaults: { _controller: FTFSProductBundle:Category:edit }
+
+ftfs_productbundle_category_delete:
+    pattern:  /category/{id}/delete
+    defaults: { _controller: FTFSProductBundle:Category:delete }
+
+## supplier ##############################################################
+#
+ftfs_productbundle_supplier_index:
+    pattern:  /supplier/list
+    defaults: { _controller: FTFSProductBundle:Supplier:index }
+
+ftfs_productbundle_supplier_new:
+    pattern:  /supplier/new
+    defaults: { _controller: FTFSProductBundle:Supplier:new }
+
+ftfs_productbundle_supplier_show:
+    pattern:  /supplier/{id}/show
+    defaults: { _controller: FTFSProductBundle:Supplier:show }
+
+ftfs_productbundle_supplier_edit:
+    pattern:  /supplier/{id}/edit
+    defaults: { _controller: FTFSProductBundle:Supplier:edit }
+
+ftfs_productbundle_supplier_delete:
+    pattern:  /supplier/{id}/delete
+    defaults: { _controller: FTFSProductBundle:Supplier:delete }

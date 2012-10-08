@@ -1,16 +1,16 @@
 <?php
 
-namespace FTFS\ServiceBundle\Entity;
+namespace FTFS\AssetBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * FTFS\ServiceBundle\Entity\Service
+ * FTFS\AssetBundle\Entity\Client
  *
- * @ORM\Table(name="ftfs_config_service")
+ * @ORM\Table(name="ftfs_config_asset_client")
  * @ORM\Entity
  */
-class Service
+class Client
 {
     /**
      * @var integer $id
@@ -29,13 +29,6 @@ class Service
     private $name;
 
     /**
-     * @var boolean $active
-     *
-     * @ORM\Column(name="active", type="boolean")
-     */
-    private $active;
-
-    /**
      * @var text $description
      *
      * @ORM\Column(name="description", type="text")
@@ -43,23 +36,20 @@ class Service
     private $description;
 
     /**
-     * Get __sleep()
+     * @var string $code
      *
-     * @return array
+     * @ORM\Column(name="code", type="string", length=3)
      */
-    public function __sleep()
-    {
-        return array();
-    }
+    private $code;
 
     /**
-     * Get __toString()
+     * Get __toString
      *
      * @return string
      */
     public function __toString()
     {
-        return $this->getName();
+        return $this->getName().' ('.$this->getCode().')';
     }
 
     /**
@@ -93,26 +83,6 @@ class Service
     }
 
     /**
-     * Set active
-     *
-     * @param boolean $active
-     */
-    public function setActive($active)
-    {
-        $this->active = $active;
-    }
-
-    /**
-     * Get active
-     *
-     * @return boolean 
-     */
-    public function getActive()
-    {
-        return $this->active;
-    }
-
-    /**
      * Set description
      *
      * @param text $description
@@ -130,5 +100,25 @@ class Service
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 }

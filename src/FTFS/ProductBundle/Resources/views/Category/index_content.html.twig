@@ -1,0 +1,9 @@
+{% extends 'FTFSCrudBundle:Crud:index_content.html.twig' %}
+
+{% block thead %}
+<th class="tight">{{ (prefix~'.table.name')|trans({}, 'crud') }}</th>
+{% endblock %}
+
+{% block tbody %}
+<td>{{ entity.name }}</td>
+{% endblock %}

@@ -1,0 +1,54 @@
+# product
+ftfs_productbundle_product:
+    form:
+        legend:
+            new:    "Register a new product product"
+            edit:   "Product product modification"
+    table:
+        operations:     "Operations"
+        name:           "Product name"
+        description:    "Product description"
+        category:       "Product category"
+        supplier:       "Product supplier"
+        caption:        "Product product list"
+        action.new:     "Register a new product product"
+ftfs.productbundle.product:
+    form:
+        name:           "Product name:"
+        category:       "Product category:"
+        description:    "Product description:"
+        supplier:       "Product supplier:"
+
+# product category
+ftfs_productbundle_category:
+    form:
+        legend:
+            new:    "Register a new product category"
+            edit:   "Product category modification"
+    table:
+        operations:     "Operations"
+        name:           "Category name"
+        caption:        "Category category list"
+        action.new:     "Register a new product category"
+ftfs.productbundle.category:
+    form:
+        name:           "Category name:"
+
+# supplier
+ftfs_productbundle_supplier:
+    form:
+        legend:
+            new:    "Register a new product supplier"
+            edit:   "Product supplier modification"
+    table:
+        operations:     "Operations"
+        name:           "Supplier name"
+        description:    "Supplier description"
+        code:           "Supplier id code"
+        caption:        "Product supplier list"
+        action.new:     "Register a new product supplier"
+ftfs.productbundle.supplier:
+    form:
+        name:           "Supplier name:"
+        description:    "Supplier description:"
+        code:           "Supplier id code:"

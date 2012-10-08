@@ -12,6 +12,38 @@ $(document).ready(function () {
         }
     });
     */
+    // type ahead of country/city
+    $('input#ftfs_assetbundle_asset_form_installed_in').addClass('typeahead-location');
+    $('input#ftfs_assetbundle_asset_form_installed_in').addClass('typeahead');
+    $('input.typeahead-location').keypress(function() {
+       // $(this).typeahead(options.source=["hewwl", "hell"]);
+        target = $(this);
+        //target.typeahead({"source":['hello', 'hei']});
+
+        $.ajax({
+            url: "http://ws.geonames.org/searchJSON",
+            dataType: "jsonp",
+            data: { 
+                featureClass: "P",
+                style: "full",
+                maxRows: 8,
+                name_startsWith: target.val()
+            },
+            success: function(data){
+                var response = new Array();
+                var names = data.geonames;
+                for(var i=0; i<names.length; i++) {
+                    //response.push(item.name + (item.adminName1 ? ", "+item,adminName1 : "") + ", " + item>countryName);
+                    response.push(names[i].name);
+                }
+                target.attr('data-source', '\'["'+response.join('", "')+'"]\'');
+                target.attr('data-provide', 'typeahead');
+                //alert(target.attr('data-source'));
+                //alert(response.length);
+                //target.typeahead({"source": response});
+            }
+        });
+    });
 
     // a.tic-tac
     // tic-tac-target

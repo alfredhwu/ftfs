@@ -1,16 +1,16 @@
 <?php
 
-namespace FTFS\NotificationBundle\Entity;
+namespace FTFS\ProductBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * FTFS\NotificationBundle\Entity\NotificationMethod
+ * FTFS\ProductBundle\Entity\Category
  *
- * @ORM\Table(name="ftfs_config_event_notification_method")
+ * @ORM\Table(name="ftfs_config_product_category")
  * @ORM\Entity
  */
-class NotificationMethod
+class Category
 {
     /**
      * @var integer $id
@@ -28,11 +28,14 @@ class NotificationMethod
      */
     private $name;
 
+    /**
+     * Get __toString
+     * return string
+     */
     public function __toString()
     {
         return $this->getName();
     }
-
 
     /**
      * Get id

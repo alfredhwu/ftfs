@@ -1,0 +1,46 @@
+# asset
+ftfs_assetbundle_asset:
+    form:
+        legend:
+            new:    "Register a new asset installation"
+            edit:   "Asset modification"
+    table:
+        caption:        "All asset installations"
+        action.new:     "Register a new asset installation"
+        operations:     "Operations"
+        name:           "Asset Name"
+        product:        "Product Installed"
+        product.supplier: "Supplier"
+        installed_at:   "Installed At"
+        installed_in:   "Installation Location"
+        client:         "Installed For"
+        observation:    "Installation Observation"
+ftfs.assetbundle.asset:
+    form:
+        name:           "Asset Name:"
+        product:        "Product Installed:"
+        product.supplier: "Supplier:"
+        installed.at:   "Installed At:"
+        installed.in:   "Installation Location:"
+        client:         "Installed For:"
+        observation:    "Installation Observation:"
+
+# asset client
+ftfs_assetbundle_client:
+    form:
+        legend:
+            new:    "Register a new client company"
+            edit:   "Client company modification"
+    table:
+        caption:        "All client company"
+        action.new:     "Register a new client company"
+        operations:     "Operations"
+        name:           "Client Company Name"
+        code:           "Client Company ID Code"
+        description:    "Client Company Description"
+ftfs.assetbundle.client:
+    form:
+        name:           "Client company name:"
+        code:           "Client company id code:"
+        description:    "Client company description:"
+

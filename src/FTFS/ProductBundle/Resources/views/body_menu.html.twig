@@ -1,0 +1,11 @@
+{% extends '::menu.html.twig'%}
+
+{% block menu_content %}
+    <li class="nav-header">Product Management</li>
+    <li class="navmenu-item"><a href="{{ path('ftfs_productbundle_product_index') }}"><i class="icon-home"></i> All Products Registered</a></li>
+    <li class="navmenu-item"><a href="{{ path('ftfs_productbundle_category_index') }}"><i class="icon-home"></i> All Product Categories</a></li>
+    <li class="nav-header">Supplier Management</li>
+    <li class="navmenu-item"><a href="{{ path('ftfs_productbundle_supplier_index') }}"><i class="icon-home"></i> Product Supplier Registered</a></li>
+   
+    {{ parent() }}
+{% endblock %}

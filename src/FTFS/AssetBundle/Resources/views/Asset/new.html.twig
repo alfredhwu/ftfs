@@ -1,0 +1,7 @@
+{% extends 'FTFSProductBundle::layout.html.twig' %}
+
+{% block body_content %}
+<input type="text" data-provide="typeahead" data-items="4" data-source='["heelo", "hei"]'>
+<input type="text" class="typeahead-location">
+{% include 'FTFSCrudBundle:Crud:new_content.html.twig' %}
+{% endblock %}

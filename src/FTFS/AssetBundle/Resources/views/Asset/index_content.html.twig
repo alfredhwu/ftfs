@@ -1,0 +1,21 @@
+{% extends 'FTFSCrudBundle:Crud:index_content.html.twig' %}
+
+{% block thead %}
+<th class="tight">{{ (prefix~'.table.name')|trans({}, 'crud') }}</th>
+<th class="tight">{{ (prefix~'.table.product')|trans({}, 'crud') }}</th>
+<th class="tight">{{ (prefix~'.table.product.supplier')|trans({}, 'crud') }}</th>
+<th>{{ (prefix~'.table.client')|trans({}, 'crud') }}</th>
+<th>{{ (prefix~'.table.installed_in')|trans({}, 'crud') }}</th>
+<th>{{ (prefix~'.table.installed_at')|trans({}, 'crud') }}</th>
+<th>{{ (prefix~'.table.observation')|trans({}, 'crud') }}</th>
+{% endblock %}
+
+{% block tbody %}
+<td>{{ entity.name }}</td>
+<td>{{ entity.product }}</td>
+<td>{{ entity.product.supplier }}</td>
+<td>{{ entity.client }}</td>
+<td>{{ entity.installedIn }}</td>
+<td>{{ entity.installedAt|date('Y-m-d H:i:s') }}</td>
+<td>{{ entity.observation }}</td>
+{% endblock %}

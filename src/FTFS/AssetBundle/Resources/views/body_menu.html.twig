@@ -1,0 +1,11 @@
+{% extends '::menu.html.twig'%}
+
+{% block menu_content %}
+    <li class="nav-header">Asset Management</li>
+    <li class="navmenu-item"><a href="{{ path('ftfs_assetbundle_asset_index') }}"><i class="icon-home"></i> All Assets Registered</a></li>
+
+    <li class="nav-header">Client Management</li>
+    <li class="navmenu-item"><a href="{{ path('ftfs_assetbundle_client_index') }}"><i class="icon-home"></i> All Client Companies</a></li>
+   
+    {{ parent() }}
+{% endblock %}

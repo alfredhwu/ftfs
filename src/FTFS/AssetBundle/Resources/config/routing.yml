@@ -1,3 +1,47 @@
 ftfs_assetbundle_homepage:
     pattern:  /
     defaults: { _controller: FTFSAssetBundle:Default:index }
+#
+## asset  #######################################################
+#
+ftfs_assetbundle_asset_index:
+    pattern:  /asset/list
+    defaults: { _controller: FTFSAssetBundle:Asset:index }
+
+ftfs_assetbundle_asset_new:
+    pattern:  /asset/new
+    defaults: { _controller: FTFSAssetBundle:Asset:new }
+
+ftfs_assetbundle_asset_show:
+    pattern:  /asset/{id}/show
+    defaults: { _controller: FTFSAssetBundle:Asset:show }
+
+ftfs_assetbundle_asset_edit:
+    pattern:  /asset/{id}/edit
+    defaults: { _controller: FTFSAssetBundle:Asset:edit }
+
+ftfs_assetbundle_asset_delete:
+    pattern:  /asset/{id}/delete
+    defaults: { _controller: FTFSAssetBundle:Asset:delete }
+
+## asset owner, our client company ######################################
+#
+ftfs_assetbundle_client_index:
+    pattern:  /client/list
+    defaults: { _controller: FTFSAssetBundle:Client:index }
+
+ftfs_assetbundle_client_new:
+    pattern:  /client/new
+    defaults: { _controller: FTFSAssetBundle:Client:new }
+
+ftfs_assetbundle_client_show:
+    pattern:  /client/{id}/show
+    defaults: { _controller: FTFSAssetBundle:Client:show }
+
+ftfs_assetbundle_client_edit:
+    pattern:  /client/{id}/edit
+    defaults: { _controller: FTFSAssetBundle:Client:edit }
+
+ftfs_assetbundle_client_delete:
+    pattern:  /client/{id}/delete
+    defaults: { _controller: FTFSAssetBundle:Client:delete }
