@@ -115,7 +115,7 @@ $(document).ready(function () {
                     }
                 },
                 error:   function() {
-                    alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for " + url);
+                    alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for ");
                 },
             });
         });
