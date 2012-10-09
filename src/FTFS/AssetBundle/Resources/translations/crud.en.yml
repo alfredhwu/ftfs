@@ -8,7 +8,7 @@ ftfs_assetbundle_asset:
         caption:        "All asset installations"
         action.new:     "Register a new asset installation"
         operations:     "Operations"
-        name:           "Asset Name"
+        name:           "Asset No."
         product:        "Product Installed"
         product.supplier: "Supplier"
         installed_at:   "Installed At"
@@ -17,7 +17,7 @@ ftfs_assetbundle_asset:
         observation:    "Installation Observation"
 ftfs.assetbundle.asset:
     form:
-        name:           "Asset Name:"
+        name:           "Asset No.:"
         product:        "Product Installed:"
         product.supplier: "Supplier:"
         installed.at:   "Installed At:"

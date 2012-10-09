@@ -99,7 +99,7 @@ class ServiceTicket
     /**
      * @var string $asset
      *
-     * @ORM\Column(name="asset", type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="\FTFS\AssetBundle\Entity\Asset")
      */
     private $asset;
 
@@ -335,26 +335,6 @@ class ServiceTicket
     }
 
     /**
-     * Set asset
-     *
-     * @param string $asset
-     */
-    public function setAsset($asset)
-    {
-        $this->asset = $asset;
-    }
-
-    /**
-     * Get asset
-     *
-     * @return string 
-     */
-    public function getAsset()
-    {
-        return $this->asset;
-    }
-
-    /**
      * Set last_modified_at
      *
      * @param datetime $lastModifiedAt
@@ -579,5 +559,25 @@ class ServiceTicket
     public function getShareList()
     {
         return $this->share_list;
+    }
+
+    /**
+     * Set asset
+     *
+     * @param FTFS\AssetBundle\Entity\Asset $asset
+     */
+    public function setAsset(\FTFS\AssetBundle\Entity\Asset $asset)
+    {
+        $this->asset = $asset;
+    }
+
+    /**
+     * Get asset
+     *
+     * @return FTFS\AssetBundle\Entity\Asset 
+     */
+    public function getAsset()
+    {
+        return $this->asset;
     }
 }

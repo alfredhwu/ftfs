@@ -14,35 +14,37 @@ $(document).ready(function () {
     */
     // type ahead of country/city
     $('input#ftfs_assetbundle_asset_form_installed_in').addClass('typeahead-location');
-    $('input#ftfs_assetbundle_asset_form_installed_in').addClass('typeahead');
-    $('input.typeahead-location').keypress(function() {
+    $('input#ftfs_assetbundle_asset_form_installed_in').attr('data-provide', 'typeahead');
+    //$('input#ftfs_assetbundle_asset_form_installed_in').addClass('typeahead');
+    $('input.typeahead-location').typeahead().on('keyup', function(ev) {
        // $(this).typeahead(options.source=["hewwl", "hell"]);
-        target = $(this);
-        //target.typeahead({"source":['hello', 'hei']});
+        ev.stopPropagation();
+        ev.preventDefault();
 
-        $.ajax({
-            url: "http://ws.geonames.org/searchJSON",
-            dataType: "jsonp",
-            data: { 
-                featureClass: "P",
-                style: "full",
-                maxRows: 8,
-                name_startsWith: target.val()
-            },
-            success: function(data){
-                var response = new Array();
-                var names = data.geonames;
-                for(var i=0; i<names.length; i++) {
-                    //response.push(item.name + (item.adminName1 ? ", "+item,adminName1 : "") + ", " + item>countryName);
-                    response.push(names[i].name);
-                }
-                target.attr('data-source', '\'["'+response.join('", "')+'"]\'');
-                target.attr('data-provide', 'typeahead');
-                //alert(target.attr('data-source'));
-                //alert(response.length);
-                //target.typeahead({"source": response});
+        if($.inArray(ev.keyCode, [40, 38, 9, 13, 27]) === -1 ) {
+            target = $(this);
+            target.data('typeahead').source = [];
+
+            if(!target.data('active') && target.val().length > 0) {
+                target.data('active', true);
+                $.getJSON("http://ws.geonames.org/searchJSON?callback=?", {
+                    featureClass: "P",
+                    style: "full",
+                    maxRows: 8,
+                    name_startsWith: $(this).val()
+                }, function(data) {
+                    target.data('active', true);
+                    var arr = [], i = data.geonames.length, item;
+                    while(i--) {
+                        item = data.geonames[i];
+                        arr[i] = item.name + (item.adminName1 ? ", "+item.adminName1 : "") + ", " + item.countryName;
+                    }
+                    target.data('typeahead').source = arr;
+                    target.trigger('keyup');
+                    target.data('active', false);
+                });
             }
-        });
+        }
     });
 
     // a.tic-tac
@@ -115,7 +117,7 @@ $(document).ready(function () {
                     }
                 },
                 error:   function() {
-                    alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for ");
+                //    alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for ");
                 },
             });
         });
@@ -137,7 +139,7 @@ $(document).ready(function () {
                     $('span.notification-count').html(data);
                 },
                 error:   function() {
-                    alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for " + url);
+                //    alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for " + url);
                 },
             });
         });
@@ -167,7 +169,7 @@ $(document).ready(function () {
                     }
                 },
                 error:   function() {
-                    alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for " + url);
+                    //alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for " + url);
                 },
             });
         });

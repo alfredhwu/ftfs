@@ -14,8 +14,10 @@ class SMSSenderAgent implements SenderAgentInterface
             throw new \Exception('Destinaire must be set for any notification');
         }
         if($destinaire->getMobilePhone()) {
+            //throw new \Exception('Destinaire must be set for any notification');
             $to = '33'.substr($destinaire->getMobilePhone(),-9);
             $body_txt = urlencode($notificationlog->getMessage());
+
             $url = 'http://run.orangeapi.com/sms/sendSMS.xml?id=478648c3ced&from=38100&to='.$to.'&content='.$body_txt.'&ack=true&tag=ticket';
             $result = file_get_contents($url);
             if($result) {

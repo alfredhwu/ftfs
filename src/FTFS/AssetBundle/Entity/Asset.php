@@ -59,6 +59,16 @@ class Asset
      */
     private $observation;
 
+    /**
+     * Get __toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName().' ("'.$this->getProduct().'" for '.$this->getClient().', in '.$this->getInstalledIn().')';
+    }
+
 
     /**
      * Get id

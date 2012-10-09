@@ -163,11 +163,11 @@ class EventNotificationNotifier
                         $notifications[] = $this->generateNotificationLog($eventlog, $notified_to, $method, 'html');
                         break;
                     case 'sms':
-                        if(!$notified_to->getMobilePhone()){
-                            break;
+                        if($notified_to->getMobilePhone()){
+                            $notifications[] = $this->generateNotificationLog($eventlog, $notified_to, $method);
                         }
+                        break;
                     default:
-                        $notifications[] = $this->generateNotificationLog($eventlog, $notified_to, $method);
                 }
             }
             $this->notifications = array_merge($this->notifications, $notifications);
@@ -218,7 +218,7 @@ class EventNotificationNotifier
         ));
         // debuging : check rendered message
         //throw new \Exception('test rendering:'.$message);// Todo Debugging >>>
-        $notificationlog->setMessage($message);
+        $notificationlog->setMessage(trim($message));
         $notificationlog->setNotifiedAt(null);
 
         return $notificationlog;
