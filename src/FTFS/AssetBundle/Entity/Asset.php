@@ -29,9 +29,9 @@ class Asset
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\FTFS\ProductBundle\Entity\Product")
+     * @ORM\ManyToOne(targetEntity="Category")
      */
-    private $product;
+    private $category;
 
     /**
      * @ORM\ManyToOne(targetEntity="Client")
@@ -39,11 +39,9 @@ class Asset
     private $client;
 
     /**
-     * @var datetime $installed_at
-     *
-     * @ORM\Column(name="installed_at", type="datetime")
+     * @ORM\OneToMany(targetEntity="Device", mappedBy="asset", cascade={"remove"})
      */
-    private $installed_at;
+    private $devices;
 
     /**
      * @var string $installed_in
@@ -53,20 +51,13 @@ class Asset
     private $installed_in;
 
     /**
-     * @var text $observation
-     *
-     * @ORM\Column(name="observation", type="text")
-     */
-    private $observation;
-
-    /**
      * Get __toString
      *
      * @return string
      */
     public function __toString()
     {
-        return $this->getName().' ("'.$this->getProduct().'" for '.$this->getClient().', in '.$this->getInstalledIn().')';
+        return $this->getName();
     }
 
 
@@ -98,66 +89,6 @@ class Asset
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set installed_at
-     *
-     * @param datetime $installedAt
-     */
-    public function setInstalledAt($installedAt)
-    {
-        $this->installed_at = $installedAt;
-    }
-
-    /**
-     * Get installed_at
-     *
-     * @return datetime 
-     */
-    public function getInstalledAt()
-    {
-        return $this->installed_at;
-    }
-
-    /**
-     * Set observation
-     *
-     * @param text $observation
-     */
-    public function setObservation($observation)
-    {
-        $this->observation = $observation;
-    }
-
-    /**
-     * Get observation
-     *
-     * @return text 
-     */
-    public function getObservation()
-    {
-        return $this->observation;
-    }
-
-    /**
-     * Set product
-     *
-     * @param FTFS\ProductBundle\Entity\Product $product
-     */
-    public function setProduct(\FTFS\ProductBundle\Entity\Product $product)
-    {
-        $this->product = $product;
-    }
-
-    /**
-     * Get product
-     *
-     * @return FTFS\ProductBundle\Entity\Product 
-     */
-    public function getProduct()
-    {
-        return $this->product;
     }
 
     /**
@@ -198,5 +129,49 @@ class Asset
     public function getInstalledIn()
     {
         return $this->installed_in;
+    }
+
+    /**
+     * Set category
+     *
+     * @param FTFS\AssetBundle\Entity\Category $category
+     */
+    public function setCategory(\FTFS\AssetBundle\Entity\Category $category)
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * Get category
+     *
+     * @return FTFS\AssetBundle\Entity\Category 
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+    public function __construct()
+    {
+        $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add devices
+     *
+     * @param FTFS\AssetBundle\Entity\Device $devices
+     */
+    public function addDevice(\FTFS\AssetBundle\Entity\Device $devices)
+    {
+        $this->devices[] = $devices;
+    }
+
+    /**
+     * Get devices
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getDevices()
+    {
+        return $this->devices;
     }
 }

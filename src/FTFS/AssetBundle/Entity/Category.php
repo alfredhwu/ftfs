@@ -1,16 +1,16 @@
 <?php
 
-namespace FTFS\ProductBundle\Entity;
+namespace FTFS\AssetBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * FTFS\ProductBundle\Entity\Product
+ * FTFS\AssetBundle\Entity\Category
  *
- * @ORM\Table(name="ftfs_config_product")
+ * @ORM\Table(name="ftfs_config_asset_category")
  * @ORM\Entity
  */
-class Product
+class Category
 {
     /**
      * @var integer $id
@@ -35,24 +35,14 @@ class Product
      */
     private $description;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Supplier")
-     */
-    private $supplier;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Category")
-     */
-    private $category;
-
-    /**
+    /** 
      * Get __toString
      *
-     * return string
+     * @return string
      */
     public function __toString()
     {
-        return $this->getName().' -- '.$this->getSupplier();
+        return $this->getName();
     }
 
     /**
@@ -103,45 +93,5 @@ class Product
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Set supplier
-     *
-     * @param FTFS\ProductBundle\Entity\Supplier $supplier
-     */
-    public function setSupplier(\FTFS\ProductBundle\Entity\Supplier $supplier)
-    {
-        $this->supplier = $supplier;
-    }
-
-    /**
-     * Get supplier
-     *
-     * @return FTFS\ProductBundle\Entity\Supplier 
-     */
-    public function getSupplier()
-    {
-        return $this->supplier;
-    }
-
-    /**
-     * Set category
-     *
-     * @param FTFS\ProductBundle\Entity\Category $category
-     */
-    public function setCategory(\FTFS\ProductBundle\Entity\Category $category)
-    {
-        $this->category = $category;
-    }
-
-    /**
-     * Get category
-     *
-     * @return FTFS\ProductBundle\Entity\Category 
-     */
-    public function getCategory()
-    {
-        return $this->category;
     }
 }

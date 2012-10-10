@@ -1,0 +1,51 @@
+{% if entity_list|length > 0 %}
+<div id="{{ entity_name }}">
+    {{ (prefix~'.'~entity_name~'.title')|trans({}, 'crud') }}
+    <ul>
+    {% for entity in entity_list %}
+    <li>
+        <span>
+            <a href="#" class="crud-action" crud-message="{{ (prefix~'.'~entity_name~'.delete.confirm')|trans({}, 'crud') }}" crud-toggle="{{ path(prefix~'_'~entity_name~'_delete', { 'device_id' : entity.id }) }}">
+                <i class="icon-trash"></i>
+            </a>
+        </span>
+        <span>
+            <a href="#" class="device-modification" device-id={{ entity.id }}>
+                <i class="icon-pencil"></i>
+            </a>
+        </span>
+        [ {{ entity.product.name }} ][ S/N: {{ entity.serial }} ], "{{ entity.observation }}", installed at {{ entity.installedAt|date('Y-m-d H:i:s') }}
+    </li>
+    {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<div>
+    <!-- {{ entity_name }} add control toggle -->
+    <span><a class="tic-tac" tic-tac-target="#{{ entity_name }}-add" href="#">
+        <span>
+            <i class="icon-chevron-down"></i>
+        </span>
+        <span class="hide">
+            <i class="icon-chevron-up"></i>
+        </span>
+        <span>
+        {{ (prefix~'.'~entity_name~'.add.new')|trans({}, 'crud') }}
+        </span>
+        <span class="hide">
+        {{ (prefix~'.'~entity_name~'.cancel.new')|trans({}, 'crud') }}
+        </span>
+    </a></span>
+</div>
+
+<div id="{{ entity_name }}-add" class="hide">
+    <div id="{{ entity_name }}-add-ajax">
+    <!-- loaded by ajax -->
+    {# 
+    {% include 'entry_add_form.html.twig' 
+            with { 'id' : id, 'prefix' : prefix, } %}
+    #}
+    </div>
+</div>
+

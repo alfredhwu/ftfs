@@ -1,5 +1,20 @@
-{% extends 'FTFSProductBundle::layout.html.twig' %}
+{% extends 'FTFSAssetBundle::layout.html.twig' %}
 
 {% block body_content %}
 {% include 'FTFSCrudBundle:Crud:new_content.html.twig' %}
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script>
+$(document).ready(function () {
+    $('#ftfs_assetbundle_asset_form_name').focus(function(e) {
+        var client = $('#ftfs_assetbundle_asset_form_client').find(':selected').text();
+        var location = $('input#ftfs_assetbundle_asset_form_installed_in').val();
+        if($(this).val().length == 0) {
+            $(this).val('Site '+client.substr(-4,3)+' - '+location.split(',')[0]);
+        }
+    });
+});
+</script>
 {% endblock %}

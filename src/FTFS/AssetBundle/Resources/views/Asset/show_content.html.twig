@@ -1,0 +1,27 @@
+{% extends 'FTFSCrudBundle:Crud:show_content.html.twig' %}
+
+{% block crud_content %}
+<table class="table table-condensed table-striped table-bordered table-smart">
+    <tr>
+        <th>Client Asset Name</th><td colspan=3>{{ entity.name }}</td>
+    </tr>
+    <tr>
+        <th>Client</th>
+        <td>{{ entity.client }}</td>
+        <th>Location</th>
+        <td>{{ entity.installedIn }}</td>
+    </tr>
+    <tr>
+        <th>Installed Devices</th>
+        <td colspan=3>
+            <div id="module_device">
+            {% include 'FTFSAssetBundle:AssetDevice:list.html.twig' 
+                with { 'entity_list' : entity.devices,
+                        'entity_name' : 'device',
+                        'id' : entity.id,
+                    } %}
+            </div>
+        </td>
+    </tr>
+</table>
+{% endblock %}

@@ -1,5 +1,39 @@
-{% extends 'FTFSProductBundle::layout.html.twig' %}
+{% extends 'FTFSAssetBundle::layout.html.twig' %}
 
 {% block body_content %}
-{% include 'FTFSCrudBundle:Crud:show_content.html.twig' %}
+{% include 'FTFSAssetBundle:Asset:show_content.html.twig' %}
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+    $(document).ready(function () {
+        $.ajax({
+            type:   "GET",
+            url:    "{{ path(prefix~'_device_add', {'id' : entity.id }) }}",
+            data:   "",
+            cache:  false,
+            success: function(data) {
+                $('div#device-add-ajax').html(data);
+                $('a.device-modification').click(function() {
+                    modify_device($(this));
+                });
+            },
+        });
+
+        function modify_device(trigger) {
+            var device_id = trigger.attr('device-id');
+            var href = "{{ path(prefix~'_device_edit', {'device_id' : '_device_id' }) }}";
+            $.ajax({
+                type:   "GET",
+                url:    href.replace(/_device_id/, device_id),
+                data:   "",
+                cache:  false,
+                success: function(data) {
+                    trigger.parent().parent().html(data);
+                },
+            });
+        }
+    });
+    </script>
 {% endblock %}

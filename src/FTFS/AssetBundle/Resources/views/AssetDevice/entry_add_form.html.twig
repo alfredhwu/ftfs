@@ -1,0 +1,13 @@
+{% set entry_name = 'device' %}
+<form class="form-horizontal" action="{{ action }}" 
+      method="post" {{ form_enctype(entry_add_form) }}>
+    {{ form_widget(entry_add_form) }}
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+            {{ (prefix~'.'~entry_name~'.add.form.submit')|trans({}, 'crud') }}
+        </button>
+        <a href="{{ path(prefix~'_show', { 'id' : id }) }}" class="btn">
+            {{ (prefix~'.'~entry_name~'.add.form.cancel')|trans({}, 'crud') }}
+        </a>
+    </div>
+</form>

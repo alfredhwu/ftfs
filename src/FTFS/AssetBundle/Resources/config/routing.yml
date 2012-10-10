@@ -24,6 +24,20 @@ ftfs_assetbundle_asset_delete:
     pattern:  /asset/{id}/delete
     defaults: { _controller: FTFSAssetBundle:Asset:delete }
 
+## asset devices
+#
+ftfs_assetbundle_asset_device_add:
+    pattern:  /asset/{id}/device/add
+    defaults: { _controller: FTFSAssetBundle:Asset:deviceAdd }
+
+ftfs_assetbundle_asset_device_edit:
+    pattern:  /asset/{device_id}/device/edit
+    defaults: { _controller: FTFSAssetBundle:Asset:deviceEdit }
+
+ftfs_assetbundle_asset_device_delete:
+    pattern:  /asset/{device_id}/device/delete
+    defaults: { _controller: FTFSAssetBundle:Asset:deviceDelete }
+
 ## asset owner, our client company ######################################
 #
 ftfs_assetbundle_client_index:

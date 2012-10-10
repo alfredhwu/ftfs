@@ -3,9 +3,10 @@
 
 {% block crud %}
 
-{% form_theme form "FTFSCrudBundle::form.html.twig" %}
+    {% if form is defined %}
+        {% form_theme form "FTFSCrudBundle::form.html.twig" %}
+    {% endif %}
 
-<form class="form-horizontal">
     <legend class="btn-group">
         <a class="btn btn-small" href="{{ app.session.get('index') }}" rel="tooltip" title="{{ 'ftfs.crud.form.action.show.list.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-list"></i>
@@ -24,30 +25,37 @@
         {% endif %}
         <strong class="btn">{{ (prefix~'.form.legend.show')|trans({}, 'crud') }}</strong>
     </legend>
-    
-    {% block crud_content %}
-    <fieldset>
-    {{ form_widget(form) }}
-    </fieldset>
-    {% endblock %}
 
-    <div class="form-actions btn-toolbar">
-        <div class=btn-group>
-            <a href="{{ app.session.get('index') }}" class="btn btn-primary">
-                <i class="icon-list icon-white"></i>
-                {{ 'ftfs.crud.form.action.show.list'|trans({}, 'crud') }}
-            </a>
-        </div>
-        {% if read_only is not defined or not read_only %}
-        <div class=btn-group>
-            <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" class="btn">
-                <i class="icon-pencil"></i>
-                {{ 'ftfs.crud.form.action.show.modify'|trans({}, 'crud') }}
-            </a>
-        </div>
+    {% block crud_content %}
+    <form class="form-horizontal">
+        {% block crud_form %}
+        {% if form is defined %}
+        <fieldset>
+        {{ form_widget(form) }}
+        </fieldset>
+        {% else %}
+        <p>form not defined ... >o< </pa>
         {% endif %}
-        {% block crud_actions %}
         {% endblock %}
-    </div>
-</form>
+
+        <div class="form-actions btn-toolbar">
+            <div class=btn-group>
+                <a href="{{ app.session.get('index') }}" class="btn btn-primary">
+                    <i class="icon-list icon-white"></i>
+                    {{ 'ftfs.crud.form.action.show.list'|trans({}, 'crud') }}
+                </a>
+            </div>
+            {% if read_only is not defined or not read_only %}
+            <div class=btn-group>
+                <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" class="btn">
+                    <i class="icon-pencil"></i>
+                    {{ 'ftfs.crud.form.action.show.modify'|trans({}, 'crud') }}
+                </a>
+            </div>
+            {% endif %}
+            {% block crud_actions %}
+            {% endblock %}
+        </div>
+    </form>
+    {% endblock %}
 {% endblock %}

@@ -2,28 +2,27 @@
 ftfs_assetbundle_asset:
     form:
         legend:
-            new:    "Register a new asset installation"
+            new:    "Register a new client asset"
             edit:   "Asset modification"
     table:
         caption:        "All asset installations"
         action.new:     "Register a new asset installation"
         operations:     "Operations"
-        name:           "Asset No."
-        product:        "Product Installed"
-        product.supplier: "Supplier"
-        installed_at:   "Installed At"
-        installed_in:   "Installation Location"
+        name:           "Asset Name"
+        installed_in:   "Location"
         client:         "Installed For"
-        observation:    "Installation Observation"
+    device:
+        title:          "All registered devices"
+        add.new:        "Register a new device"
+        add.form.submit:    "Submit"
+        add.form.cancel:    "Cancel"
+        cancel.new:     "Cancel the new device registration"
+
 ftfs.assetbundle.asset:
     form:
-        name:           "Asset No.:"
-        product:        "Product Installed:"
-        product.supplier: "Supplier:"
-        installed.at:   "Installed At:"
-        installed.in:   "Installation Location:"
+        name:           "Asset Name:"
+        installed.in:   "Location:"
         client:         "Installed For:"
-        observation:    "Installation Observation:"
 
 # asset client
 ftfs_assetbundle_client:
