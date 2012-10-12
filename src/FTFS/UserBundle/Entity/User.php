@@ -44,7 +44,7 @@ class User extends BaseUser
     protected $first_name;
 
     /**
-     * @ORM\Column(type="string", length="255")
+     * @ORM\ManyToOne(targetEntity="Company")
      */
     protected $company;
 
@@ -88,7 +88,7 @@ class User extends BaseUser
 
     public function __toString()
     {
-        return $this->getTitle().' '.$this->getFirstName().' '.$this->getSurname().' ('.$this->getCompany().')';
+        return $this->getTitle().' '.$this->getFirstName().' '.$this->getSurname().' - '.$this->getCompany();
     }
 
     /**
@@ -274,26 +274,6 @@ class User extends BaseUser
     }
 
     /**
-     * Set company
-     *
-     * @param string $company
-     */
-    public function setCompany($company)
-    {
-        $this->company = $company;
-    }
-
-    /**
-     * Get company
-     *
-     * @return string 
-     */
-    public function getCompany()
-    {
-        return $this->company;
-    }
-
-    /**
      * Set office_fax
      *
      * @param string $officeFax
@@ -332,5 +312,25 @@ class User extends BaseUser
     public function getAddress()
     {
         return $this->address;
+    }
+
+    /**
+     * Set company
+     *
+     * @param FTFS\UserBundle\Entity\Company $company
+     */
+    public function setCompany(\FTFS\UserBundle\Entity\Company $company)
+    {
+        $this->company = $company;
+    }
+
+    /**
+     * Get company
+     *
+     * @return FTFS\UserBundle\Entity\Company 
+     */
+    public function getCompany()
+    {
+        return $this->company;
     }
 }

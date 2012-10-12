@@ -27,6 +27,13 @@ class Device
     private $product;
 
     /**
+     * @var string $name
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
+
+    /**
      * @var string $serial
      *
      * @ORM\Column(name="serial", type="string", length=255, nullable=true)
@@ -52,6 +59,15 @@ class Device
      */
     private $observation;
 
+    /** 
+     * Get __toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName().' ('.$this->getProduct()->getName().')'.' * '.$this->getAsset();
+    }
 
     /**
      * Get id
@@ -161,5 +177,25 @@ class Device
     public function getInstalledAt()
     {
         return $this->installed_at;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

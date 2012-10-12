@@ -47,9 +47,10 @@ class ServiceTicketType extends AbstractType
                             'read_only' => true,
                         ))
                         ->add('service')
+                        ->add('asset')
+                        ->add('devices')
                         ->add('summary')
                         ->add('detail')
-                        ->add('asset')
                     ;
                 }elseif($role=='agent'){
                     $builder
@@ -73,7 +74,26 @@ class ServiceTicketType extends AbstractType
                                 500 => 'Very Low',
                             ),
                         ))
-                        ->add('requested_by')
+                        ->add('company', 'entity', array(
+                            'class' => 'FTFSUserBundle:Company',
+                            'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                return $er->createQueryBuilder('c')
+                                            ->where('c.is_client = 1')
+                                            ->orderBy('c.name', 'ASC');
+                            },
+                            'empty_value' => '<Select>',
+                            'required' => false,
+                        ))
+                        ->add('requested_by', 'entity', array(
+                            'class' => 'FTFSUserBundle:User',
+                            'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                return $er->createQueryBuilder('u')
+                                            ->leftJoin('u.company', 'c')
+                                            ->where('c.is_client = 1')
+                                            ->orderBy('u.surname', 'ASC', 'u.firstname', 'ASC');
+                            },
+                            'empty_value' => '<Select>',
+                        ))
                         ->add('requested_at', null, array(
                             'widget' => 'single_text',
                         ))
@@ -85,11 +105,23 @@ class ServiceTicketType extends AbstractType
                                 'fax' => 'Fax',
                             ),
                         ))
-                        ->add('assigned_to')
                         ->add('service')
+                        ->add('asset', 'entity', array(
+                            'class' => 'FTFSAssetBundle:Asset',
+                            'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                return $er->createQueryBuilder('a')
+                                            ->orderBy('a.name', 'ASC');
+                            },
+                            'empty_value' => '<Select>',
+                            'required' => false,
+                        ))
+                        ->add('devices', null, array(
+                            'empty_value' => '<Select>',
+                            'required' => false,
+                        ))
+                        ->add('assigned_to')
                         ->add('summary')
                         ->add('detail')
-                        ->add('asset')
                     ;
                 }
                 break;
@@ -139,14 +171,16 @@ class ServiceTicketType extends AbstractType
                         ->add('assigned_to')
                     ;
                 }
+                $builder
+                    ->add('service')
+                    ->add('asset')
+                    ->add('devices')
+                    ->add('summary')
+                    ->add('detail')
+                    ;
                 break;
+            default:
         }
-        $builder
-            ->add('service')
-            ->add('summary')
-            ->add('detail')
-            ->add('asset')
-            ;
     }
 
     public function getName()

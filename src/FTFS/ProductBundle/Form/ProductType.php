@@ -13,7 +13,15 @@ class ProductType extends AbstractType
             ->add('name')
             ->add('category')
             ->add('description')
-            ->add('supplier')
+            ->add('supplier', 'entity', array(
+                'class' => 'FTFSUserBundle:Company',
+                'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                                ->where('c.is_supplier = :is_supplier')
+                                    ->setParameter('is_supplier', true)
+                                ->orderBy('c.name');
+                },
+            ))
         ;
     }
 

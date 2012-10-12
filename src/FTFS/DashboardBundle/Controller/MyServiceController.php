@@ -290,6 +290,7 @@ class MyServiceController extends BaseController
         if($context->isGranted('ROLE_CLIENT'))
         {
             $options['role'] = 'client';
+        //    $options['client'] = $context->getToken()->getUser()->getCompany()->getId();
         }elseif($context->isGranted('ROLE_AGENT')){
             $options['role'] = 'agent';
         }

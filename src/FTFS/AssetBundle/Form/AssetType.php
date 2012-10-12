@@ -10,7 +10,15 @@ class AssetType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('client')
+            ->add('client', 'entity', array(
+                'class' => 'FTFSUserBundle:Company',
+                'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                                ->where('c.is_client = :is_client')
+                                    ->setParameter('is_client', true)
+                                ->orderBy('c.name');
+                },
+            ))
             ->add('installed_in')
             ->add('name')
         ;

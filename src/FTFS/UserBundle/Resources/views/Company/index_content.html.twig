@@ -1,0 +1,17 @@
+{% extends 'FTFSCrudBundle:Crud:index_content.html.twig' %}
+
+{% block thead %}
+<th class="tight">{{ (prefix~'.table.name')|trans({}, 'crud') }}</th>
+<th class="tight">{{ (prefix~'.table.code')|trans({}, 'crud') }}</th>
+<th class="tight">{{ (prefix~'.table.is.client')|trans({}, 'crud') }}</th>
+<th class="tight">{{ (prefix~'.table.is.supplier')|trans({}, 'crud') }}</th>
+<th class="extend">{{ (prefix~'.table.description')|trans({}, 'crud') }}</th>
+{% endblock %}
+
+{% block tbody %}
+<td>{{ entity.name }}</td>
+<td>{{ entity.code }}</td>
+<td>{% if entity.isClient %}{{ (prefix~'.table.is.true')|trans({}, 'crud') }}{% else %}{{ (prefix~'.table.is.false')|trans({}, 'crud') }}{% endif %}</td>
+<td>{% if entity.isSupplier %}{{ (prefix~'.table.is.true')|trans({}, 'crud') }}{% else %}{{ (prefix~'.table.is.false')|trans({}, 'crud') }}{% endif %}</td>
+<td>{{ entity.description }}</td>
+{% endblock %}

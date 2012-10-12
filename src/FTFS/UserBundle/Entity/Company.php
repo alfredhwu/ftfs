@@ -1,16 +1,16 @@
 <?php
 
-namespace FTFS\ProductBundle\Entity;
+namespace FTFS\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * FTFS\ProductBundle\Entity\Supplier
+ * FTFS\UserBundle\Entity\Company
  *
- * @ORM\Table(name="ftfs_config_product_supplier")
+ * @ORM\Table(name="ftfs_user_company")
  * @ORM\Entity
  */
-class Supplier
+class Company
 {
     /**
      * @var integer $id
@@ -29,6 +29,13 @@ class Supplier
     private $name;
 
     /**
+     * @var string $code
+     *
+     * @ORM\Column(name="code", type="string", length=3)
+     */
+    private $code;
+
+    /**
      * @var text $description
      *
      * @ORM\Column(name="description", type="text")
@@ -36,21 +43,28 @@ class Supplier
     private $description;
 
     /**
-     * @var string $code
+     * @var boolean $is_client
      *
-     * @ORM\Column(name="code", type="string", length=3)
+     * @ORM\Column(name="is_client", type="boolean")
      */
-    private $code;
+    private $is_client;
 
-    /** 
-     * Get __toString()
-     * return string
+    /**
+     * @var boolean $is_supplier
+     *
+     * @ORM\Column(name="is_supplier", type="boolean")
+     */
+    private $is_supplier;
+
+    /**
+     * Get __toString
+     *
+     * @return string
      */
     public function __toString()
     {
         return $this->getName().' ('.$this->getCode().')';
     }
-
 
     /**
      * Get id
@@ -83,6 +97,26 @@ class Supplier
     }
 
     /**
+     * Set code
+     *
+     * @param string $code
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
      * Set description
      *
      * @param text $description
@@ -103,22 +137,42 @@ class Supplier
     }
 
     /**
-     * Set code
+     * Set is_client
      *
-     * @param string $code
+     * @param boolean $isClient
      */
-    public function setCode($code)
+    public function setIsClient($isClient)
     {
-        $this->code = $code;
+        $this->is_client = $isClient;
     }
 
     /**
-     * Get code
+     * Get is_client
      *
-     * @return string 
+     * @return boolean 
      */
-    public function getCode()
+    public function getIsClient()
     {
-        return $this->code;
+        return $this->is_client;
+    }
+
+    /**
+     * Set is_supplier
+     *
+     * @param boolean $isSupplier
+     */
+    public function setIsSupplier($isSupplier)
+    {
+        $this->is_supplier = $isSupplier;
+    }
+
+    /**
+     * Get is_supplier
+     *
+     * @return boolean 
+     */
+    public function getIsSupplier()
+    {
+        return $this->is_supplier;
     }
 }

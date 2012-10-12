@@ -1,0 +1,23 @@
+ftfs_userbundle_company:
+    table:
+        caption:        "All Registered Companies"
+        action:
+            new:        "Regiser a New Company"
+        operations:     "Operations"
+        name:           "Company Name"
+        code:           "Company ID Code"
+        description:    "Company Description"
+        is.client:      "Our Client"
+        is.supplier:    "Our Supplier"
+        is.true:        "Yes"
+        is.false:       "No"
+    form:
+        legend.new:     "Regiser a New Company"
+
+ftfs.userbundle.company:
+    form:
+        name:           "Company Name:"
+        code:           "Company ID Code:"
+        description:    "Company Description:"
+        is.client:      "Our Client:"
+        is.supplier:    "Our Supplier:"

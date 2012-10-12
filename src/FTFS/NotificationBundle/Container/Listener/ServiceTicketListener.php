@@ -35,7 +35,9 @@ class ServiceTicketListener
         $metadata = $entityManager->getClassMetadata(get_class($entity));
         $action['serviceticket_class'] = $metadata->getName();
         //$action['serviceticket_id'] = $metadata->getIdentifierValues($entity);
-        $action['serviceticket_id'] = $entity->getId();
+        //$action['serviceticket_id'] = $entity->getName();
+        $action['serviceticket_name'] = $entity->getName();
+        //throw new \Exception($entity->getName());
         return $action;
     }
 
@@ -49,6 +51,15 @@ class ServiceTicketListener
     }
 
     public function postPersist(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+        $entityManager = $args->getEntityManager();
+
+        if($entity instanceof ServiceTicket) {
+        }
+    }
+
+    public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();

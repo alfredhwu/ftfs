@@ -5,7 +5,8 @@ services:
         class:  FTFS\NotificationBundle\Container\Listener\ServiceTicketListener
         arguments:  [@service_container]
         tags:
-            - { name: doctrine.event_listener, event: postPersist }
+            #- { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: postUpdate }
             - { name: doctrine.event_listener, event: postLoad }
@@ -20,7 +21,7 @@ services:
         class:  FTFS\NotificationBundle\Container\Listener\EventRegistrationListener
         arguments:  [@service_container]
         tags:
-            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: prePersist }
     
     ## triggered by event registration listner, using the event_catch_filter to notify the destinare
     #  once notified -> trigger notification_sender

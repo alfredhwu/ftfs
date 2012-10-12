@@ -67,6 +67,8 @@ class ServiceTicket
      */
     private $requested_by;
 
+    public $company;
+
     /**
      * @var string $requested_via
      *
@@ -96,12 +98,16 @@ class ServiceTicket
      */
     private $assigned_to;
 
-    /**
-     * @var string $asset
-     *
-     * @ORM\ManyToOne(targetEntity="\FTFS\AssetBundle\Entity\Asset")
-     */
     private $asset;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="\FTFS\AssetBundle\Entity\Device")
+     * @ORM\JoinTable(name="ftfs_service_ticket_devices",
+     *      joinColumns={@ORM\JoinColumn(name="ticket_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="device_id", referencedColumnName="id")}
+     *      )
+     */
+    private $devices;
 
     /**
      * @var datetime $last_modified_at
@@ -579,5 +585,34 @@ class ServiceTicket
     public function getAsset()
     {
         return $this->asset;
+    }
+
+    /**
+     * Add devices
+     *
+     * @param FTFS\AssetBundle\Entity\Device $devices
+     */
+    public function addDevice(\FTFS\AssetBundle\Entity\Device $devices)
+    {
+        $this->devices[] = $devices;
+    }
+
+    /**
+     * Set devices
+     *
+     */
+    public function setDevices($devices)
+    {
+        $this->devices = $devices;
+    }
+
+    /**
+     * Get devices
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getDevices()
+    {
+        return $this->devices;
     }
 }

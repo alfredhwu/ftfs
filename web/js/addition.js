@@ -1,4 +1,35 @@
 $(document).ready(function () {
+    // service ticket requested by selecter helper
+    var helper = $('select#ftfs_servicebundle_serviceticket_form_company');
+    addSelecterFilter(helper, $('select#ftfs_servicebundle_serviceticket_form_requested_by'), '-');
+    addSelecterFilter(helper, $('select#ftfs_servicebundle_serviceticket_form_asset'), '-');
+    addSelecterFilter($('select#ftfs_servicebundle_serviceticket_form_asset'), $('select#ftfs_servicebundle_serviceticket_form_devices'), '*');
+    function addSelecterFilter(filter, selecter, sp) { 
+        filter.change(function() { 
+            var option = filter.find('option:selected').text().trim();
+            selecter.val(-1);
+            if(option == '<Select>') {
+                selecter.children('option').show();
+            }else{
+                selecter.children('option').each(function() {
+                    var value = $(this).attr('value');
+                    var label = $(this).text().trim();
+                    if(subString(label, sp, -1) == option || label == '<Select>') {
+                        $(this).show();
+                    }else{
+                        $(this).hide();
+                    }
+                });
+            }
+        });
+    }
+
+    function subString(str, sp, position) {
+        var substrs = str.split(sp);
+        var pos = (substrs.length + position) % substrs.length;
+        return substrs[pos].trim();
+    }
+
     /*
     bootbox.alert("Custom label text !", "Custom button", function() {
         // code after dismission

@@ -16,8 +16,10 @@ class AssetController extends BaseController
 
     public function deviceAddAction(\FTFS\AssetBundle\Entity\Asset $asset)
     {
-        $entity = new \FTFS\AssetBundle\Entity\Device($entity);
+        $entity = new \FTFS\AssetBundle\Entity\Device;
         $entity->setInstalledAt(new \DateTime('now'));
+        $form = $this->createForm(new \FTFS\AssetBundle\Form\DeviceType, $entity);
+        /*
         $form = $this->createFormBuilder($entity)
                 ->add('serial')
                 ->add('product')
@@ -27,6 +29,7 @@ class AssetController extends BaseController
                 ->add('observation')
                 ->getForm()
                 ;
+         */
 
         if($this->getRequest()->getMethod() === 'POST') {
             $form->bindRequest($this->getRequest());
@@ -59,6 +62,8 @@ class AssetController extends BaseController
         }
         $asset = $device->getAsset();
 
+        $form = $this->createForm(new \FTFS\AssetBundle\Form\DeviceType, $device);
+        /*
         $form = $this->createFormBuilder($device)
                 ->add('serial')
                 ->add('product')
@@ -68,6 +73,7 @@ class AssetController extends BaseController
                 ->add('observation')
                 ->getForm()
                 ;
+         */
 
         if($this->getRequest()->getMethod() === 'POST') {
             $form->bindRequest($this->getRequest());

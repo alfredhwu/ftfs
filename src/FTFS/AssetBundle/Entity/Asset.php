@@ -34,7 +34,7 @@ class Asset
     private $category;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Client")
+     * @ORM\ManyToOne(targetEntity="\FTFS\UserBundle\Entity\Company")
      */
     private $client;
 
@@ -57,7 +57,7 @@ class Asset
      */
     public function __toString()
     {
-        return $this->getName();
+        return $this->getName().' - '.$this->getClient();
     }
 
 
@@ -89,26 +89,6 @@ class Asset
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set client
-     *
-     * @param FTFS\AssetBundle\Entity\Client $client
-     */
-    public function setClient(\FTFS\AssetBundle\Entity\Client $client)
-    {
-        $this->client = $client;
-    }
-
-    /**
-     * Get client
-     *
-     * @return FTFS\AssetBundle\Entity\Client 
-     */
-    public function getClient()
-    {
-        return $this->client;
     }
 
     /**
@@ -173,5 +153,25 @@ class Asset
     public function getDevices()
     {
         return $this->devices;
+    }
+
+    /**
+     * Set client
+     *
+     * @param FTFS\UserBundle\Entity\Company $client
+     */
+    public function setClient(\FTFS\UserBundle\Entity\Company $client)
+    {
+        $this->client = $client;
+    }
+
+    /**
+     * Get client
+     *
+     * @return FTFS\UserBundle\Entity\Company 
+     */
+    public function getClient()
+    {
+        return $this->client;
     }
 }

@@ -23,15 +23,7 @@ class RegistrationFormType extends BaseType
                 ))
                 ->add('surname')
                 ->add('first_name')
-                ->add('company', 'choice', array(
-                    'choices' => array(
-                        'Fujitsu Telecom France SAS' => 'Fujitsu Telecom France SAS',
-                        'Orange France' => 'Orange France',
-                        'Bouygue' => 'Bouygue',
-                        'SUN MicroSystem' => 'SUN MicroSystem',
-                        'Fujitsu Japon' => 'Fujitsu Japon',
-                    ),
-                ))
+                ->add('company')
                 ->add('address', null, array(
                     'required' => false,
                 ))

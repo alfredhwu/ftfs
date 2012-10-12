@@ -36,7 +36,7 @@ class Product
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Supplier")
+     * @ORM\ManyToOne(targetEntity="\FTFS\UserBundle\Entity\Company")
      */
     private $supplier;
 
@@ -108,9 +108,9 @@ class Product
     /**
      * Set supplier
      *
-     * @param FTFS\ProductBundle\Entity\Supplier $supplier
+     * @param FTFS\UserBundle\Entity\Company $supplier
      */
-    public function setSupplier(\FTFS\ProductBundle\Entity\Supplier $supplier)
+    public function setSupplier(\FTFS\UserBundle\Entity\Company $supplier)
     {
         $this->supplier = $supplier;
     }
@@ -118,7 +118,7 @@ class Product
     /**
      * Get supplier
      *
-     * @return FTFS\ProductBundle\Entity\Supplier 
+     * @return FTFS\UserBundle\Entity\Company 
      */
     public function getSupplier()
     {

@@ -1,23 +1,50 @@
+## user
 ftfsuserbundle_user_index:
-    pattern:  /
+    pattern:  /user/
     defaults: { _controller: FTFSUserBundle:User:index }
 
 ftfsuserbundle_user_show:
-    pattern:  /{username}/show
+    pattern:  /user/{username}/show
     defaults: { _controller: FTFSUserBundle:User:show }
 
 ftfsuserbundle_user_edit:
-    pattern:  /{username}/edit
+    pattern:  /user/{username}/edit
     defaults: { _controller: FTFSUserBundle:User:edit }
 
 ftfsuserbundle_user_edit_roles:
-    pattern:  /{username}/edit_roles
+    pattern:  /user/{username}/edit_roles
     defaults: { _controller: FTFSUserBundle:User:editRoles }
 
 ftfsuserbundle_user_edit_password:
-    pattern:  /{username}/edit_password
+    pattern:  /user/{username}/edit_password
     defaults: { _controller: FTFSUserBundle:User:editPassword }
 
 ftfsuserbundle_user_invite:
     pattern:  /invite
     defaults: { _controller: FTFSUserBundle:User:invite }
+
+##
+ftfsuserbundle_role_index:
+    pattern:  /role/
+    defaults: { _controller: FTFSUserBundle:Role:index }
+
+## company
+ftfs_userbundle_company_index:
+    pattern:  /company/
+    defaults: { _controller: FTFSUserBundle:Company:index }
+
+ftfs_userbundle_company_new:
+    pattern:  /company/new
+    defaults: { _controller: FTFSUserBundle:Company:new }
+
+ftfs_userbundle_company_show:
+    pattern:  /company/{id}/show
+    defaults: { _controller: FTFSUserBundle:Company:show }
+
+ftfs_userbundle_company_edit:
+    pattern:  /company/{id}/edit
+    defaults: { _controller: FTFSUserBundle:Company:edit }
+
+ftfs_userbundle_company_delete:
+    pattern:  /company/{id}/delete
+    defaults: { _controller: FTFSUserBundle:Company:delete }

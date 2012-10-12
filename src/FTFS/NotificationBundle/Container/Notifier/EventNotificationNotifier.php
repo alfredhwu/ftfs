@@ -58,7 +58,7 @@ class EventNotificationNotifier
             foreach($this->notifications as $notification) {
                 $this->em->persist($notification);
             }
-            $this->em->flush();
+            //$this->em->flush();
         }
     }
 
@@ -100,6 +100,7 @@ class EventNotificationNotifier
                         switch($action['option']) {
                             // owner; responsible
                             case 'create.open':
+                                throw new \Exception(print_r($service_ticket->getName()));
                                 if($service_ticket->getAssignedTo()) {
                                     $this->registerNotifications($eventlog, $service_ticket->getAssignedTo());
                                 }
@@ -264,8 +265,9 @@ class EventNotificationNotifier
     protected function getSubject($subject, array $action)
     {
         if(array_key_exists($subject.'_class', $action) && 
-            array_key_exists($subject.'_id', $action)) {
-            return $this->em->find($action[$subject.'_class'], $action[$subject.'_id']);
+            array_key_exists($subject.'_name', $action)) {
+                return $this->em->getRepository($action[$subject.'_class'])
+                    ->findOneBy(array('name' => $action[$subject.'_name']));
         }
         return null;
     }

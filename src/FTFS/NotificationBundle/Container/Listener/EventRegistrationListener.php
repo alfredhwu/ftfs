@@ -20,16 +20,19 @@ class EventRegistrationListener
         $this->container = $container;
     }
 
-    public function postPersist(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();
 
         if($entity instanceof EventLog) {
+             //throw new \Exception('test');
             // notify all relatives by passing throw and catch filters
+            /*
             $persist_log = true; // persist the notifications generated??
             $this->container->get('ftfs_notification.notifier.event_notification_notifier')
                             ->notify($entity, $persist_log);
+             */
         }
     }
 }

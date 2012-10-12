@@ -1,6 +1,6 @@
 {% if entity_list|length > 0 %}
+<div>{{ (prefix~'.'~entity_name~'.title')|trans({}, 'crud') }}</div>
 <div id="{{ entity_name }}">
-    {{ (prefix~'.'~entity_name~'.title')|trans({}, 'crud') }}
     <ul>
     {% for entity in entity_list %}
     <li>
@@ -14,7 +14,9 @@
                 <i class="icon-pencil"></i>
             </a>
         </span>
-        [ {{ entity.product.name }} ][ S/N: {{ entity.serial }} ], "{{ entity.observation }}", installed at {{ entity.installedAt|date('Y-m-d H:i:s') }}
+        <span>
+            [ {{ entity.product.name }} ][ {{ entity.name }} ][ S/N: {{ entity.serial }} ], "{{ entity.observation }}", installed at {{ entity.installedAt|date('Y-m-d H:i:s') }}
+        </span>
     </li>
     {% endfor %}
     </ul>

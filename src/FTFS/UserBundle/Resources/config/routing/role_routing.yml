@@ -1,4 +1,1 @@
-ftfsuserbundle_role_index:
-    pattern:  /
-    defaults: { _controller: FTFSUserBundle:Role:index }
 
