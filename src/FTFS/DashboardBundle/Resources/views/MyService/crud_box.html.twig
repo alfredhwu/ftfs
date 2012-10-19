@@ -1,0 +1,22 @@
+{% extends 'FTFSCrudBundle:Crud:crud_box.html.twig' %}
+
+{% block crud_box_index_title_filter %}
+    <div class="pull-left">
+        <span>
+        &nbsp;
+        &nbsp;
+        Service Type:
+        &nbsp;
+        </span>
+        <select id="ticket-filter" class="btn">
+            <option value="0">&lt;Select Service Type&gt;</option>
+        {% for service in services %}
+            <option value="{{ service.id }}">{{ service.name }}</option>
+        {% endfor%}
+        </select>
+    </div>
+{% endblock %}
+
+{% block crud_box_index_content %}
+{% include 'FTFSDashboardBundle:MyService:crud_box_index_table.html.twig' %}
+{% endblock %}

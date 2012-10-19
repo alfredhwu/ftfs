@@ -4,6 +4,7 @@ namespace FTFS\ServiceBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ServiceTicketType extends AbstractType
 {
@@ -47,10 +48,14 @@ class ServiceTicketType extends AbstractType
                             'read_only' => true,
                         ))
                         ->add('service')
-                        ->add('asset')
-                        ->add('devices')
                         ->add('summary')
                         ->add('detail')
+                        ->add('devices', 'collection', array(
+                            'type' => new \FTFS\AssetBundle\Form\DeviceType(),
+                            'allow_add' => true,
+                            'allow_delete' => true,
+                            'by_reference' => false,
+                        ))
                     ;
                 }elseif($role=='agent'){
                     $builder
@@ -106,6 +111,7 @@ class ServiceTicketType extends AbstractType
                             ),
                         ))
                         ->add('service')
+                        /*
                         ->add('asset', 'entity', array(
                             'class' => 'FTFSAssetBundle:Asset',
                             'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
@@ -119,9 +125,16 @@ class ServiceTicketType extends AbstractType
                             'empty_value' => '<Select>',
                             'required' => false,
                         ))
+                         */
                         ->add('assigned_to')
                         ->add('summary')
                         ->add('detail')
+                        ->add('devices', 'collection', array(
+                            'type' => new \FTFS\AssetBundle\Form\DeviceType(),
+                            'allow_add' => true,
+                            'allow_delete' => true,
+                            'by_reference' => false,
+                        ))
                     ;
                 }
                 break;
@@ -173,8 +186,8 @@ class ServiceTicketType extends AbstractType
                 }
                 $builder
                     ->add('service')
-                    ->add('asset')
-                    ->add('devices')
+                    //->add('asset')
+                    //->add('devices')
                     ->add('summary')
                     ->add('detail')
                     ;
@@ -182,6 +195,15 @@ class ServiceTicketType extends AbstractType
             default:
         }
     }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'FTFS\ServiceBundle\Entity\ServiceTicket',
+        ));
+    }
+
+
 
     public function getName()
     {

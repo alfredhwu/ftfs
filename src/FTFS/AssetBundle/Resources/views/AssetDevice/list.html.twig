@@ -15,7 +15,7 @@
             </a>
         </span>
         <span>
-            [ {{ entity.product.name }} ][ {{ entity.name }} ][ S/N: {{ entity.serial }} ], "{{ entity.observation }}", installed at {{ entity.installedAt|date('Y-m-d H:i:s') }}
+            [ {{ entity.product.name }} ][ {{ entity.moduleName }} ][ P/N: {{ entity.serialPn }} ][ S/N: {{ entity.serialSn }} ], "{{ entity.specification }}"
         </span>
     </li>
     {% endfor %}

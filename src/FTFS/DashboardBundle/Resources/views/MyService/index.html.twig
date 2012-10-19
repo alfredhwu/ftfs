@@ -10,3 +10,45 @@
         <p>Please report this bug to your tech support !</p>
     {% endif %}
 {% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script>
+    $(document).ready(function () {
+        var filter = $('select#ticket-filter');
+        var url = document.location.href;
+        $.getJSON("{{ path('ftfs_config_service_json') }}", function(data) {
+            var items = [];
+            $.each(data, function(key, val) {
+                items.push('<option value="'+val+'">'+key+'</option>');
+            });
+            filter.html(items.join(''));
+
+            var type = url.match(/type=[a-zA-Z0-9_]*/);
+            // set selected
+            if(null != type) {
+                var pairs = type[0].split("=");
+                if(pairs.length == 2) {
+                    filter.val(pairs[1]);
+                }
+            }
+        });
+
+
+        $('select#ticket-filter').change(function() {
+            $('table tbody').html($(this).val());
+
+            
+            //
+            var loc = document.location;
+            var href = loc.href;
+            if(!href.match(/type=[a-zA-Z0-9_]*/)) {
+                href += ("" == loc.search) ? '?' : "&";
+                href += 'type=type';
+            }
+            href = href.replace(/type=[a-zA-Z0-9_]*/, 'type='+$(this).val());
+            //window.location.replace(href);
+        });
+    });
+</script>
+{% endblock %}

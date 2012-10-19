@@ -3,6 +3,11 @@
 {% block crud_form %}
     <input type="hidden" id="role" name="role" value="client">
     <input type="hidden" id="mode" name="mode" value="new_only">
+    <ul class='devices' data-prototype="{{ form_widget(form.devices.vars.prototype)|e }}">
+        {% for device in form.devices %}
+            <div>{{ form_row(device) }}</div>
+        {% endfor %}
+    </ul>
     {{ parent() }}
 {% endblock %}
 
@@ -38,4 +43,3 @@
     </div>
 </div>
 {% endblock %}
-

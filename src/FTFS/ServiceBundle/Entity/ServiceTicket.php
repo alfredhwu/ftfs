@@ -98,13 +98,11 @@ class ServiceTicket
      */
     private $assigned_to;
 
-    private $asset;
-
     /**
-     * @ORM\ManyToMany(targetEntity="\FTFS\AssetBundle\Entity\Device")
+     * @ORM\ManyToMany(targetEntity="\FTFS\AssetBundle\Entity\Device", cascade={"persist"})
      * @ORM\JoinTable(name="ftfs_service_ticket_devices",
      *      joinColumns={@ORM\JoinColumn(name="ticket_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="device_id", referencedColumnName="id")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="device_id", referencedColumnName="id", unique=true)}
      *      )
      */
     private $devices;
@@ -167,6 +165,7 @@ class ServiceTicket
     public function __construct()
     {
         $this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
         $this->share_list = array();
     }
 
@@ -568,23 +567,13 @@ class ServiceTicket
     }
 
     /**
-     * Set asset
+     * Delete devices
      *
-     * @param FTFS\AssetBundle\Entity\Asset $asset
+     * @param FTFS\AssetBundle\Entity\Device $devices
      */
-    public function setAsset(\FTFS\AssetBundle\Entity\Asset $asset)
+    public function deleteDevice(\FTFS\AssetBundle\Entity\Device $device)
     {
-        $this->asset = $asset;
-    }
-
-    /**
-     * Get asset
-     *
-     * @return FTFS\AssetBundle\Entity\Asset 
-     */
-    public function getAsset()
-    {
-        return $this->asset;
+        $this->devices->removeElement($device);
     }
 
     /**
@@ -601,7 +590,7 @@ class ServiceTicket
      * Set devices
      *
      */
-    public function setDevices($devices)
+    public function setDevices(\Doctrine\Common\Collections\ArrayCollection $devices)
     {
         $this->devices = $devices;
     }

@@ -1,0 +1,30 @@
+{% extends "FTFSDashboardBundle::layout.html.twig" %}
+
+{% block body_content %}
+{% include 'FTFSDashboardBundle:MyService:crud_box.html.twig' %}
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script>
+    $(document).ready(function () {
+        //$('div#crud-box').html('blbl');
+        var href = "{{ path('ftfs_dashboardbundle_myservice_list_table') }}";
+
+        $('select#ticket-filter').change(function() {
+            var loc = document.location;
+            var search = loc.search;
+            if(!search.match(/type=[a-zA-Z0-9_]*/)) {
+                search += ("" == search) ? '?' : "&";
+                search += 'type=type';
+            }
+            search = search.replace(/type=[a-zA-Z0-9_]*/, 'type='+$(this).val());
+            //alert(href + search);
+            //window.location.replace(url);
+            $.post(href+search, function(data) { 
+                $('div#crud-box-content').html(data);
+            });
+        });
+    });
+</script>
+{% endblock %}

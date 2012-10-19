@@ -1,26 +1,32 @@
 ################################################################################### my service            
 ftfs_dashboardbundle_myservice:
+    devices:
+        title:              'All devices related:'
+        add:
+            new:            'Click to add a new device'
+            form.submit:    'Submit'
+        cancel.new:         'Click to cancel'
     sharelist:
-        title: 'All emails in the share list:'
-        cancel.new: 'Click to cancel the operation'
-        delete.confirm: 'Really want to remove "%name%" from your share list?'
-        add.new:    'Click to add a new email'
+        title:              'All emails in the share list:'
+        cancel.new:         'Click to cancel the operation'
+        delete.confirm:     'Really want to remove "%name%" from your share list?'
+        add.new:            'Click to add a new email'
         add.form.submit:    'add'
     attachment:
         list:
-            title:  'All attached documents:'
-            attach.new:    'Click to attach a new document'
-            cancel.attach: 'Click to cancel attachment'
-            updated_by: 'updated by'
-            at:     'at'
+            title:          'All attached documents:'
+            attach.new:     'Click to attach a new document'
+            cancel.attach:  'Click to cancel attachment'
+            updated_by:     'updated by'
+            at:             'at'
             delete.confirm: 'Really want delete the attachment "%attachment_name%"?'
         upload.form:
-            file.label: 'Select document to be attached:'
-            filename.label:   'Rename the document as:'
-            submit: 'Upload the document'
+            file.label:     'Select document to be attached:'
+            filename.label: 'Rename the document as:'
+            submit:         'Upload the document'
     observation:
-        empty.list: 'No observation' 
-        user.me: "Me"
+        empty.list:         'No observation' 
+        user.me:            "Me"
     notification:
         action:
             edit:
@@ -32,8 +38,8 @@ ftfs_dashboardbundle_myservice:
             take:
                 success:    "You have successfully taken the ticket!"
     table:
-        caption:    "Service Ticket List"
-        operations: "Operations"
+        caption:            "Service Ticket List"
+        operations:         "Operations"
         action:
             new:                "Open a New Service Ticket"
             new.success.flash:  "New service request created successfully !"
@@ -52,12 +58,12 @@ ftfs_dashboardbundle_myservice:
             transfer.success.flash: "Service transfered successfully"
     form:
         legend:
-            show: "Service Ticket Detail"
-            new:  "New Service Ticket"
-            edit: "Modify Service Ticket"
+            show:               "Service Ticket Detail"
+            new:                "New Service Ticket"
+            edit:               "Modify Service Ticket"
         action:
             show:
-                transfer:   "Transfer"
+                transfer:       "Transfer"
                 transfer.tooltip:   "Transfer"
                 submit:             "Submit"
                 submit.tooltip:     "Submit this service request"
@@ -80,9 +86,9 @@ ftfs_dashboardbundle_myservice:
                 close.tooltip:       "Close this ticket"
                 close.success.flash: "Service closed successfully"
             new:
-                new_only:   "Save without send"
+                new_only:           "Save without send"
                 new_only.tooltip:   "Save without Send"
-                new_submit: "Save and send"
+                new_submit:         "Save and send"
                 new_submit.tooltip: "Save and Send"
             edit:
                 edit_only:          "Update Only"

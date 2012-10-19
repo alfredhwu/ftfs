@@ -1,0 +1,7 @@
+<form action="{{ path(prefix~'_devices_add', { 'id' : id }) }}" 
+      method="post" {{ form_enctype(devices_add_form) }}>
+    {{ form_widget(devices_add_form) }}
+        <button type="submit" class="btn">
+            {{ (prefix~'.devices.add.form.submit')|trans({}, 'crud') }}
+        </button>
+</form>

@@ -62,15 +62,12 @@
         </tr>
         <tr>
             <th>{{ ('ftfs.servicebundle.serviceticket.table.service') | trans({}, 'crud') }}</th>
-            <td>{{ entity.service }}</td>
             {% if is_granted('ROLE_AGENT') %}
-            <th>{{ ('ftfs.servicebundle.serviceticket.table.asset') | trans({}, 'crud') }}</th>
-            <td>{{ entity.asset }}</td>
+            <td colspan=2>{{ entity.service }}</td>
             <th>{{ ('ftfs.servicebundle.serviceticket.table.assigned.to') | trans({}, 'crud') }}</th>
-            <td>{{ entity.assignedTo }}</td>
+            <td colspan=2>{{ entity.assignedTo }}</td>
             {% else %}
-            <th>{{ ('ftfs.servicebundle.serviceticket.table.asset') | trans({}, 'crud') }}</th>
-            <td colspan="3">{{ entity.asset }}</td>
+            <td colspan=5>{{ entity.service }}</td>
             {% endif %}
         </tr>
         <tr>
@@ -80,6 +77,17 @@
         <tr>
             <th>{{ ('ftfs.servicebundle.serviceticket.table.detail') | trans({}, 'crud') }}</th>
             <td colspan="5">{{ entity.detail }}</td>
+        </tr>
+        <tr>
+            <th>{{ ('ftfs.servicebundle.serviceticket.table.devices') | trans({}, 'crud') }}</th>
+            <td colspan=5>
+                <div id="share_list">
+                {% include 'FTFSServiceBundle:ServiceTicketDevices:list.html.twig' 
+                    with { 'devices' : entity.devices,
+                            'id' : entity.id,
+                        } %}
+                </div>
+            </td>
         </tr>
         <tr>
             <th>Share list</th>

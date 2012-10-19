@@ -17,7 +17,6 @@ class AssetController extends BaseController
     public function deviceAddAction(\FTFS\AssetBundle\Entity\Asset $asset)
     {
         $entity = new \FTFS\AssetBundle\Entity\Device;
-        $entity->setInstalledAt(new \DateTime('now'));
         $form = $this->createForm(new \FTFS\AssetBundle\Form\DeviceType, $entity);
         /*
         $form = $this->createFormBuilder($entity)

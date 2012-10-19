@@ -14,6 +14,15 @@ class MyServiceController extends BaseController
         ));
     }
 
+    public function getMyServiceListAction()
+    {
+
+        return $this->render($this->getViewPath().':crud_box_index_table.html.twig', array(
+            'list' => $this->getEntityList(),
+            'prefix' => $this->getRoutingPrefix(),
+        ));
+    }
+
     /**
      * get entity list for index Action
      */
@@ -22,11 +31,14 @@ class MyServiceController extends BaseController
         $context = $this->get('security.context');
         $current_user = $context->getToken()->getUser();
         // status filter
-        $status = $this->getRequest()->query->get('status');
+        $request = $this->getRequest();
+        $status = $request->get('status');
+        $type = $request->get('type');
 
         // general ordering
         $queryBuilder = $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())
-                ->createQueryBuilder('e');
+            ->createQueryBuilder('e')
+            ->leftJoin('e.service', 's');
 
         /** 
          * role_client covers the role_agent, that is to say, if a user is both granted as role_client 
@@ -90,7 +102,33 @@ class MyServiceController extends BaseController
                     ->andWhere("e.status <> 'closed'");
         }
         
-        return $queryBuilder->getQuery()->getResult();
+        if($type) 
+        {
+            $queryBuilder
+                ->andWhere('s.id = :id')
+                ->setParameter('id', $type);
+        }
+
+        $default_limit = 10;
+        $limit = $request->get('limit');
+        $limit = $limit ? $limit : $default_limit;
+        $page = $request->get('page');
+
+        if(is_numeric($page) && is_numeric($limit)) {
+            $offset = $limit*($page-1);
+
+            $queryBuilder
+                ->setFirstResult($offset)
+                ->setMaxResults($limit)
+                ;
+        }
+
+        return new \Doctrine\Common\Collections\ArrayCollection(array(
+            'count' => 10,
+            'page' => 1,
+            'limit' => 10,
+            'entities' => $queryBuilder->getQuery()->getResult(),
+        ));
     }
 
     protected function getEntity($action, $id = -1)
@@ -114,6 +152,9 @@ class MyServiceController extends BaseController
             case 'attachment_delete':
             case 'sharelist_add':
             case 'sharelist_delete':
+            case 'devices_add':
+            case 'devices_edit':
+            case 'devices_delete':
             case 'edit':
                 if($context->isGranted('ROLE_AGENT'))
                 {
@@ -296,6 +337,23 @@ class MyServiceController extends BaseController
         }
 
         return parent::getEntityType($options);
+    }
+
+
+
+    public function indexAction()
+    {
+        // set index into session
+        $request = $this->getRequest();
+        $request->getSession()->set('index', $request->getRequestUri());
+        $services = $this->getDoctrine()->getEntityManager()->getRepository('FTFSServiceBundle:Service')->findAll();
+
+        // general twig rendering
+        return $this->render($this->getViewPath().':index2.html.twig', array(
+            'list' => $this->getEntityList(),
+            'services' => $services,
+            'prefix' => $this->getRoutingPrefix(),
+        ));
     }
 
     /**
@@ -596,5 +654,51 @@ class MyServiceController extends BaseController
             'add_to_id' => $add_to_id,
             'observation_add_form' => $form->createView(),
         ));
+    }
+
+    public function devicesAddAction($id)
+    {
+        $ticket = $this->getEntity('devices_add', $id);
+        $device = new \FTFS\AssetBundle\Entity\Device;
+        $ticket->addDevice($device);
+        $form = $this->createForm(new \FTFS\AssetBundle\Form\DeviceType, $device);
+
+        if($this->getRequest()->getMethod() === 'POST') {
+            $form->bindRequest($this->getRequest());
+            if($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($device);
+                $em->flush();
+            }
+            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
+                'id' => $id,
+            )));
+        }
+
+        return $this->render('FTFSServiceBundle:ServiceTicketDevices:devices_add_form.html.twig', array(
+            'id' => $id,
+            'prefix' => $this->getRoutingPrefix(),
+            'devices_add_form' => $form->createView(),
+        ));
+        return null;
+    }
+
+    public function devicesEditAction(\FTFS\AssetBundle\Entity\Device $device)
+    {
+        return null;
+    }
+
+    public function devicesDeleteAction($id, $device_id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $this->getEntity('devices_delete', $id);
+        $device = $em->getRepository('FTFSAssetBundle:Device')->find($device_id);
+        if(!$device) {
+            throw $this->createNotFoundException('Device to be deleted not found !');
+        }
+        $entity->deleteDevice($device);
+        $em->remove($device);
+        $em->flush();
+        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
     }
 }

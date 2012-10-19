@@ -1,0 +1,17 @@
+{% extends "FTFSServiceBundle:ServiceTicket:index_content_table.html.twig" %}
+
+{% block operations %}
+    {% if entity.status != 'closed' %}
+        <a href="{{ path(prefix~'_edit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ 'ftfs.crud.table.action.edit.tooltip'|trans({}, 'crud') }}">
+            <i class="icon-pencil"></i>
+        </a>
+    {% endif %}
+    {% if  entity.status == 'created' %}
+        <a class="crud-action" crud-message="Really want to submit this ticket request?" crud-toggle="{{ path(prefix~'_submit', { 'id' : entity.id }) }}" href="#" rel="tooltip" title="{{ (prefix~'.table.action.submit.tooltip')|trans({}, 'crud') }}">
+            <i class="icon-envelope"></i>
+        </a>
+        <a class="crud-action" crud-message="Really want to delete this ticket request draft?" crud-toggle="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" href="#" rel="tooltip" title="{{ (prefix~'.table.action.delete.tooltip')|trans({}, 'crud') }}">
+            <i class="icon-trash"></i>
+        </a>
+    {% endif %}
+{% endblock %}

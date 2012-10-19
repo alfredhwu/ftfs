@@ -1,4 +1,48 @@
+function addTypeaheadLocation(typeaheadHolder) { 
+    typeaheadHolder.attr('data-provide', 'typeahead');
+    //alert(typeaheadHolder.parent().html());
+    typeaheadHolder.typeahead().on('keyup', function(ev) {
+       // $(this).typeahead(options.source=["hewwl", "hell"]);
+        ev.stopPropagation();
+        ev.preventDefault();
+
+        if($.inArray(ev.keyCode, [40, 38, 9, 13, 27]) === -1 ) {
+            target = $(this);
+            target.data('typeahead').source = [];
+
+            if(!target.data('active') && target.val().length > 0) {
+                target.data('active', true);
+                $.getJSON("http://ws.geonames.org/searchJSON?callback=?", {
+                    featureClass: "P",
+                    style: "full",
+                    maxRows: 8,
+                    name_startsWith: $(this).val()
+                }, function(data) {
+                    target.data('active', true);
+                    var arr = [], i = data.geonames.length, item;
+                    while(i--) {
+                        item = data.geonames[i];
+                        arr[i] = item.name + (item.adminName1 ? ", "+item.adminName1 : "") + ", " + item.countryName;
+                    }
+                    target.data('typeahead').source = arr;
+                    target.trigger('keyup');
+                    target.data('active', false);
+                });
+            }
+        }
+    });
+}
+
 $(document).ready(function () {
+    // add device info dynamique
+    $('#ftfs_servicebundle_serviceticket_form_asset').each(function() { 
+        $(this).after('<a class="btn btn-success" href="#"><i class="icon-plus icon-white"></i></a>');
+        var add = $(this).siblings('a');
+        add.click(function(e) { 
+            e.preventDefault();
+            alert('clicked');
+        });
+    });
     // service ticket requested by selecter helper
     var helper = $('select#ftfs_servicebundle_serviceticket_form_company');
     addSelecterFilter(helper, $('select#ftfs_servicebundle_serviceticket_form_requested_by'), '-');
@@ -44,40 +88,10 @@ $(document).ready(function () {
     });
     */
     // type ahead of country/city
-    $('input#ftfs_assetbundle_asset_form_installed_in').addClass('typeahead-location');
-    $('input#ftfs_assetbundle_asset_form_installed_in').attr('data-provide', 'typeahead');
+    //$('input#ftfs_assetbundle_asset_form_installed_in').addClass('typeahead-location');
+    //$('input#ftfs_assetbundle_asset_form_installed_in').attr('data-provide', 'typeahead');
     //$('input#ftfs_assetbundle_asset_form_installed_in').addClass('typeahead');
-    $('input.typeahead-location').typeahead().on('keyup', function(ev) {
-       // $(this).typeahead(options.source=["hewwl", "hell"]);
-        ev.stopPropagation();
-        ev.preventDefault();
-
-        if($.inArray(ev.keyCode, [40, 38, 9, 13, 27]) === -1 ) {
-            target = $(this);
-            target.data('typeahead').source = [];
-
-            if(!target.data('active') && target.val().length > 0) {
-                target.data('active', true);
-                $.getJSON("http://ws.geonames.org/searchJSON?callback=?", {
-                    featureClass: "P",
-                    style: "full",
-                    maxRows: 8,
-                    name_startsWith: $(this).val()
-                }, function(data) {
-                    target.data('active', true);
-                    var arr = [], i = data.geonames.length, item;
-                    while(i--) {
-                        item = data.geonames[i];
-                        arr[i] = item.name + (item.adminName1 ? ", "+item.adminName1 : "") + ", " + item.countryName;
-                    }
-                    target.data('typeahead').source = arr;
-                    target.trigger('keyup');
-                    target.data('active', false);
-                });
-            }
-        }
-    });
-
+    addTypeaheadLocation($('input#ftfs_assetbundle_asset_form_installed_in'));
     // a.tic-tac
     // tic-tac-target
     $('a.tic-tac').click(function(e) {

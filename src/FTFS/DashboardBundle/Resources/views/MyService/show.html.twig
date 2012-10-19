@@ -16,6 +16,36 @@
     {{ parent() }}
     <script>
     $(document).ready(function () {
+        // loading share list to 'div#devices-add-ajax'
+        $('a.device-modification').click(function(e) {
+            e.preventDefault();
+            modify_device($(this));    
+        });
+        function modify_device(trigger) {
+            var device_id = trigger.attr('device-id');
+            var href = "{{ path(prefix~'_devices_edit', {'device_id' : '_device_id' }) }}";
+            $.ajax({
+                type:   "GET",
+                url:    href.replace(/_device_id/, device_id),
+                data:   "",
+                cache:  false,
+                success: function(data) {
+                    trigger.parent().parent().html(data);
+                },
+            });
+        }
+        $.ajax({
+            type:   "GET",
+            url:    "{{ path(prefix~'_devices_add', {'id' : entity.id }) }}",
+            data:   "",
+            cache:  false,
+            success: function(data) {
+                $('div#devices-add-ajax').html(data);
+                },
+            error:   function() {
+                alert("Ooups ... something's got wrong: the ajax connection failed in rendering attachment devices-add-form:(");
+                },
+        });
         // loading share list to 'div#share-list-add-ajax'
         $.ajax({
             type:   "GET",

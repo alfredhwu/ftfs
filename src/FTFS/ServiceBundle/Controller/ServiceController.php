@@ -14,6 +14,17 @@ class ServiceController extends BaseController
         ));
     }
 
+    public function getServiceListByJSONAction()
+    {
+        $entities = $this->getDoctrine()->getEntityManager()->getRepository('FTFSServiceBundle:Service')->findAll();
+        $list = array();
+        foreach($entities as $entity) {
+            $list[$entity->getName()] = $entity->getId();
+        }
+        $response = new \Symfony\Component\HttpFoundation\Response(json_encode($list));
+        return $response;
+    }
+
     /**
      * init new create entity
      * for new action only

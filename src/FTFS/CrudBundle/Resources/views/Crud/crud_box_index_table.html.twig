@@ -1,30 +1,3 @@
-{% extends "FTFSCrudBundle::layout.html.twig" %}
-
-{% block crud %}
-{% if read_only is defined and read_only %}
-<h2 class="pull-left">{{ (prefix~'.table.caption')|trans({}, 'crud') }}</h2>
-<form class="form-search pull-right">
-    <div class="input-append">
-        <input type="text" class="search-query input-medium" placeholder="search"><button type="submit" class="btn btn-primary btn-small"><i class="icon-search icon-white"></i></button>
-    </div>
-</form>
-<br>
-<hr>
-{% else %}
-<h2>{{ (prefix~'.table.caption')|trans({}, 'crud') }}</h2>
-<hr>
-<a class="btn btn-success pull-left" href="{{ path(prefix~'_new') }}">
-    <i class="icon-edit icon-white"></i>
-    {{ (prefix~'.table.action.new')|trans({}, 'crud') }}
-</a>
-<form class="form-search pull-right">
-    <div class="input-append">
-        <input type="text" class="search-query input-medium" placeholder="search"><button type="submit" class="btn btn-primary btn-small"><i class="icon-search icon-white"></i></button>
-    </div>
-</form>
-{% endif %}
-{% block crud_filter_bar %}
-{% endblock %}
 <table class="table table-bordered table-striped table-condensed table-smart">
     <thead>
         <tr>
@@ -36,7 +9,7 @@
     </thead>
     <tbody>
     {% set i = 0 %}
-    {% for entity in entities %}
+    {% for entity in list.entities %}
         {% set i = i+1 %}
         <tr>
             <td class="tight">
@@ -65,4 +38,18 @@
     {% endfor %}
     </tbody>
 </table>
-{% endblock %}
+<div class="pagination pagination-centered">
+    {% set npages = list.count %}
+    {% set limit = list.limit %}
+    {% set page = list.page %}
+    {% set range = 5 %}
+    <ul>
+        <li><a href="#">&lt;&lt;</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">&gt;&gt;</a></li>
+    </ul>
+</div>

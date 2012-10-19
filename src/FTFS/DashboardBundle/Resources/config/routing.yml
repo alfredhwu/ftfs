@@ -11,6 +11,10 @@ ftfs_dashboardbundle_myservice_body_menu_count:
     defaults: { _controller: FTFSDashboardBundle:MyService:bodyMenuCount }
 
 ##
+ftfs_dashboardbundle_myservice_list_table:
+    pattern:  /myservice/list/table
+    defaults: { _controller: FTFSDashboardBundle:MyService:getMyServiceList }
+
 ftfs_dashboardbundle_myservice_index:
     pattern:  /myservice/list
     defaults: { _controller: FTFSDashboardBundle:MyService:index }
@@ -52,6 +56,19 @@ ftfs_dashboardbundle_myservice_attachment_download:
 ftfs_dashboardbundle_myservice_attachment_delete:
     pattern:  /myservice/{id}/attachment/delete/{attachment_id}
     defaults: { _controller: FTFSDashboardBundle:MyService:attachmentDelete }
+
+## device
+ftfs_dashboardbundle_myservice_devices_add:
+    pattern:  /myservice/{id}/devices/add
+    defaults: { _controller: FTFSDashboardBundle:MyService:devicesAdd }
+
+ftfs_dashboardbundle_myservice_devices_delete:
+    pattern:  /myservice/{id}/devices/{device_id}/delete
+    defaults: { _controller: FTFSDashboardBundle:MyService:devicesDelete }
+
+ftfs_dashboardbundle_myservice_devices_edit:
+    pattern:  /myservice/devices/{device_id}/edit
+    defaults: { _controller: FTFSDashboardBundle:MyService:devicesEdit }
 
 ## observation
 ftfs_dashboardbundle_myservice_observation_add:

@@ -12,7 +12,9 @@
     <li class="divider"></li>
 
     <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'created' }) }}"><i class="icon-indent-left"></i> My Service Requests <span class="pull-right badge">{% if app.session.has('counter-menu-created') %}{{ app.session.get('counter-menu-created') }}{% else %}...{% endif %}</span></a></li>
+    {# 
     <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'interrupted' }) }}"><i class="icon-indent-left"></i> My Tickets Interrupted <span class="pull-right badge">{% if app.session.has('counter-menu-interrupted') %}{{ app.session.get('counter-menu-interrupted') }}{% else %}...{% endif %}</span></a></li>
+#}
     <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'awaiting' }) }}"><i class="icon-indent-left"></i> My Tickets Submitted <span class="pull-right badge">{% if app.session.has('counter-menu-awaiting') %}{{ app.session.get('counter-menu-awaiting') }}{% else %}...{% endif %}</span></a></li>
     <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'opened' }) }}"><i class="icon-indent-left"></i> My Tickets Opened <span class="pull-right badge">{% if app.session.has('counter-menu-opened') %}{{ app.session.get('counter-menu-opened') }}{% else %}...{% endif %}</span></a></li>
     <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'closed' }) }}"><i class="icon-indent-left"></i> My Tickets Closed <span class="pull-right badge">{% if app.session.has('counter-menu-closed') %}{{ app.session.get('counter-menu-closed') }}{% else %}...{% endif %}</span></a></li>

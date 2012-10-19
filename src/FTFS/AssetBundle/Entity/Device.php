@@ -27,37 +27,39 @@ class Device
     private $product;
 
     /**
-     * @var string $name
+     * @var string $module_name
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="module_name", type="string", length=255)
      */
-    private $name;
+    private $module_name;
 
     /**
-     * @var string $serial
+     * @var string $serial_pn
      *
-     * @ORM\Column(name="serial", type="string", length=255, nullable=true)
+     * @ORM\Column(name="serial_pn", type="string", length=255, nullable=true)
      */
-    private $serial;
+    private $serial_pn;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Asset", inversedBy="devices")
+     * @var string $serial_sn
+     *
+     * @ORM\Column(name="serial_sn", type="string", length=255, nullable=true)
      */
-    private $asset;
+    private $serial_sn;
 
     /**
-     * @var datetime $installed_at
+     * @var string $location
      *
-     * @ORM\Column(name="installed_at", type="datetime", nullable=true)
+     * @ORM\Column(name="location", type="string", length=255)
      */
-    private $installed_at;
+    private $location;
 
     /**
-     * @var text $observation
+     * @var text $specification
      *
-     * @ORM\Column(name="observation", type="text", nullable=true)
+     * @ORM\Column(name="specification", type="text", nullable=true)
      */
-    private $observation;
+    private $specification;
 
     /** 
      * Get __toString
@@ -66,7 +68,7 @@ class Device
      */
     public function __toString()
     {
-        return $this->getName().' ('.$this->getProduct()->getName().')'.' * '.$this->getAsset();
+        return $this->getModuleName();
     }
 
     /**
@@ -80,43 +82,83 @@ class Device
     }
 
     /**
-     * Set serial
+     * Set module_name
      *
-     * @param string $serial
+     * @param string $moduleName
      */
-    public function setSerial($serial)
+    public function setModuleName($moduleName)
     {
-        $this->serial = $serial;
+        $this->module_name = $moduleName;
     }
 
     /**
-     * Get serial
+     * Get module_name
      *
      * @return string 
      */
-    public function getSerial()
+    public function getModuleName()
     {
-        return $this->serial;
+        return $this->module_name;
     }
 
     /**
-     * Set observation
+     * Set serial_pn
      *
-     * @param text $observation
+     * @param string $serialPn
      */
-    public function setObservation($observation)
+    public function setSerialPn($serialPn)
     {
-        $this->observation = $observation;
+        $this->serial_pn = $serialPn;
     }
 
     /**
-     * Get observation
+     * Get serial_pn
+     *
+     * @return string 
+     */
+    public function getSerialPn()
+    {
+        return $this->serial_pn;
+    }
+
+    /**
+     * Set serial_sn
+     *
+     * @param string $serialSn
+     */
+    public function setSerialSn($serialSn)
+    {
+        $this->serial_sn = $serialSn;
+    }
+
+    /**
+     * Get serial_sn
+     *
+     * @return string 
+     */
+    public function getSerialSn()
+    {
+        return $this->serial_sn;
+    }
+
+    /**
+     * Set specification
+     *
+     * @param text $specification
+     */
+    public function setSpecification($specification)
+    {
+        $this->specification = $specification;
+    }
+
+    /**
+     * Get specification
      *
      * @return text 
      */
-    public function getObservation()
+    public function getSpecification()
     {
-        return $this->observation;
+        return $this->specification;
     }
 
     /**
@@ -140,62 +182,22 @@ class Device
     }
 
     /**
-     * Set asset
+     * Set location
      *
-     * @param FTFS\AssetBundle\Entity\Asset $asset
+     * @param string $location
      */
-    public function setAsset(\FTFS\AssetBundle\Entity\Asset $asset)
+    public function setLocation($location)
     {
-        $this->asset = $asset;
+        $this->location = $location;
     }
 
     /**
-     * Get asset
-     *
-     * @return FTFS\AssetBundle\Entity\Asset 
-     */
-    public function getAsset()
-    {
-        return $this->asset;
-    }
-
-    /**
-     * Set installed_at
-     *
-     * @param datetime $installedAt
-     */
-    public function setInstalledAt($installedAt)
-    {
-        $this->installed_at = $installedAt;
-    }
-
-    /**
-     * Get installed_at
-     *
-     * @return datetime 
-     */
-    public function getInstalledAt()
-    {
-        return $this->installed_at;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * Get name
+     * Get location
      *
      * @return string 
      */
-    public function getName()
+    public function getLocation()
     {
-        return $this->name;
+        return $this->location;
     }
 }
