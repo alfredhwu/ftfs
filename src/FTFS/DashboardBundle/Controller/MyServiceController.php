@@ -26,7 +26,7 @@ class MyServiceController extends BaseController
     /**
      * get entity list for index Action
      */
-    protected function getEntityList()
+    protected function getEntityList(array $options = array())
     {
         $context = $this->get('security.context');
         $current_user = $context->getToken()->getUser();
@@ -39,6 +39,33 @@ class MyServiceController extends BaseController
         $queryBuilder = $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())
             ->createQueryBuilder('e')
             ->leftJoin('e.service', 's');
+
+        // filter by type
+        if($type) 
+        {
+            $queryBuilder
+                ->andWhere('s.id = :id')
+                ->setParameter('id', $type);
+        }
+
+        // pagination
+        if(!array_key_exists('no_pagination', $options) or !$options['no_pagination']) {
+            $default_limit = 5;
+            $default_page = 1;
+            $limit = $request->get('limit');
+            $limit = $limit != '' ? $limit : $default_limit;
+            $page = $request->get('page');
+            $page = $page != '' ? $page : $default_page;
+
+            if(is_numeric($page) && is_numeric($limit) && $page>0) {
+                $offset = $limit*($page-1);
+
+                $queryBuilder
+                    ->setFirstResult($offset)
+                    ->setMaxResults($limit)
+                    ;
+            }
+        }
 
         /** 
          * role_client covers the role_agent, that is to say, if a user is both granted as role_client 
@@ -65,11 +92,21 @@ class MyServiceController extends BaseController
             {
                 $queryBuilder
                     ->andWhere("e.status <> 'created'");
-                return $queryBuilder->getQuery()->getResult();
+                return new \Doctrine\Common\Collections\ArrayCollection(array(
+                    'count' => 10,
+                    'page' => 1,
+                    'limit' => 10,
+                    'entities' => $queryBuilder->getQuery()->getResult(),
+                ));
             }elseif($status == 'allunassigned'){
                 $queryBuilder
                     ->andWhere("e.status = 'submitted'");
-                return $queryBuilder->getQuery()->getResult();
+                return new \Doctrine\Common\Collections\ArrayCollection(array(
+                    'count' => 10,
+                    'page' => 1,
+                    'limit' => 10,
+                    'entities' => $queryBuilder->getQuery()->getResult(),
+                ));
             }
             // default, filtered by assignedTo
             $queryBuilder
@@ -102,26 +139,6 @@ class MyServiceController extends BaseController
                     ->andWhere("e.status <> 'closed'");
         }
         
-        if($type) 
-        {
-            $queryBuilder
-                ->andWhere('s.id = :id')
-                ->setParameter('id', $type);
-        }
-
-        $default_limit = 10;
-        $limit = $request->get('limit');
-        $limit = $limit ? $limit : $default_limit;
-        $page = $request->get('page');
-
-        if(is_numeric($page) && is_numeric($limit)) {
-            $offset = $limit*($page-1);
-
-            $queryBuilder
-                ->setFirstResult($offset)
-                ->setMaxResults($limit)
-                ;
-        }
 
         return new \Doctrine\Common\Collections\ArrayCollection(array(
             'count' => 10,
@@ -484,15 +501,20 @@ class MyServiceController extends BaseController
         $session = $this->getRequest()->getSession();
         $filter = $this->getRequest()->query->get('status');
         $filter = $filter ? $filter : 'current';
-        $entities = $this->getEntityList();
-        $count = count($entities);
-        // refresh the session
-        $name = 'counter-menu-'.$filter;
-        if($session->has($name)) {
-            $session->remove($name);
+        $entityList = $this->getEntityList(array(
+            'no_pagination' => true,
+        ));
+        if($entityList) {
+            $count = count($entityList['entities']);
+            // refresh the session
+            $name = 'counter-menu-'.$filter;
+            if($session->has($name)) {
+                $session->remove($name);
+            }
+            $session->set($name, $count);
+            return new \Symfony\Component\HttpFoundation\Response($count);
         }
-        $session->set($name, $count);
-        return new \Symfony\Component\HttpFoundation\Response($count);
+        return new \Symfony\Component\HttpFoundation\Response(0);
     }
 
     /** 

@@ -26,8 +26,8 @@
 {% block tbody %}
     <td class="tight">{{ entity.name }}</td>
     <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status)|trans({}, 'crud') }}</span></td>
-    <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity)|trans({}, 'crud') }}</td>
-    <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.priority.'~entity.priority~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.priority.'~entity.priority)|trans({}, 'crud') }}</td>
+    <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity)|trans({}, 'crud') }}</span></td>
+    <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.priority.'~entity.priority~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.priority.'~entity.priority)|trans({}, 'crud') }}</span></td>
     <td class="extend">{{ entity.summary }}</td>
     {% if not is_granted('ROLE_CLIENT') %}
     <td>{{ entity.assignedTo }}</td>

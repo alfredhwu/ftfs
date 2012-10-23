@@ -9,6 +9,7 @@
 <script>
     $(document).ready(function () {
         //$('div#crud-box').html('blbl');
+        $('select#ticket-filter').val(0);
         var href = "{{ path('ftfs_dashboardbundle_myservice_list_table') }}";
 
         $('select#ticket-filter').change(function() {
