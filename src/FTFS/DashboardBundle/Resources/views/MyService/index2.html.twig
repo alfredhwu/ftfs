@@ -8,10 +8,10 @@
 {{ parent() }}
 <script>
     $(document).ready(function () {
-        //$('div#crud-box').html('blbl');
-        $('select#ticket-filter').val(0);
-        var href = "{{ path('ftfs_dashboardbundle_myservice_list_table') }}";
+        var href = "{{ path('ftfs_dashboardbundle_myservice_index') }}";
 
+        var type = {{ app.request.query.get('type') | default(0) }};
+        $('select#ticket-filter').val(type);
         $('select#ticket-filter').change(function() {
             var loc = document.location;
             var search = loc.search;
@@ -21,10 +21,16 @@
             }
             search = search.replace(/type=[a-zA-Z0-9_]*/, 'type='+$(this).val());
             //alert(href + search);
-            //window.location.replace(url);
+            window.location.replace(href+search);
+            /*
             $.post(href+search, function(data) { 
                 $('div#crud-box-content').html(data);
             });
+            */
+        });
+
+        $('div.pagination ul li a').click(function(e) { 
+            e.preventDefault();
         });
     });
 </script>

@@ -38,18 +38,35 @@
     {% endfor %}
     </tbody>
 </table>
+{% if list.pagination %}
 <div class="pagination pagination-centered">
-    {% set npages = list.count %}
-    {% set limit = list.limit %}
+    {% set npages = list.count // list.limit + (list.limit == 1 ? 0 : 1) %}
     {% set page = list.page %}
+    {% set limit = list.limit %}
     {% set range = 5 %}
+
     <ul>
         <li><a href="#">&lt;&lt;</a></li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
+        {% if npages > range %}
+            {% if page <= range // 2 %}{# left align #}
+            {% for i in 1..range %}
+            <li {% if i == page %}class="active"{% endif %}%><a href="#">{{i}}</a></li>
+            {% endfor %}
+            {% elseif npages - page > range // 2 %}{# center align #}
+            {% for i in (page-range//2)..(page+range//2) %}
+            <li {% if i == page %}class="active"{% endif %}%><a href="#">{{i}}</a></li>
+            {% endfor %}
+            {% else %}{# right align#}
+            {% for i in (npages-range+1)..npages %}
+            <li {% if i == page %}class="active"{% endif %}%><a href="#">{{i}}</a></li>
+            {% endfor %}
+            {% endif %}
+        {% else %}
+            {% for i in 1..npages %}
+            <li {% if i == page %}class="active"{% endif %}%><a href="#">{{i}}</a></li>
+            {% endfor %}
+        {% endif %}
         <li><a href="#">&gt;&gt;</a></li>
     </ul>
 </div>
+{% endif %}

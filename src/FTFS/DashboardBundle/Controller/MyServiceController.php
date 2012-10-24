@@ -28,19 +28,16 @@ class MyServiceController extends BaseController
      */
     protected function getEntityList(array $options = array())
     {
-        $context = $this->get('security.context');
-        $current_user = $context->getToken()->getUser();
-        // status filter
+        // get request object
         $request = $this->getRequest();
-        $status = $request->get('status');
-        $type = $request->get('type');
 
-        // general ordering
+        // general query builder with ordering
         $queryBuilder = $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())
             ->createQueryBuilder('e')
             ->leftJoin('e.service', 's');
 
-        // filter by type
+        /* type filter ************************************************************************************/
+        $type = $request->get('type');
         if($type) 
         {
             $queryBuilder
@@ -48,30 +45,15 @@ class MyServiceController extends BaseController
                 ->setParameter('id', $type);
         }
 
-        // pagination
-        if(!array_key_exists('no_pagination', $options) or !$options['no_pagination']) {
-            $default_limit = 5;
-            $default_page = 1;
-            $limit = $request->get('limit');
-            $limit = $limit != '' ? $limit : $default_limit;
-            $page = $request->get('page');
-            $page = $page != '' ? $page : $default_page;
-
-            if(is_numeric($page) && is_numeric($limit) && $page>0) {
-                $offset = $limit*($page-1);
-
-                $queryBuilder
-                    ->setFirstResult($offset)
-                    ->setMaxResults($limit)
-                    ;
-            }
-        }
 
         /** 
+         * role filter ***************************************************************************************
          * role_client covers the role_agent, that is to say, if a user is both granted as role_client 
          * and role_agent, or any other sup role, only get priviledge of role_client
          *
          */
+        $context = $this->get('security.context');
+        $current_user = $context->getToken()->getUser();
         if($context->isGranted('ROLE_CLIENT'))
         {
             /**
@@ -85,29 +67,6 @@ class MyServiceController extends BaseController
         }elseif($context->isGranted('ROLE_AGENT')){
             $queryBuilder
                 ->add('orderBy', 'e.status asc, e.priority asc, e.severity asc, e.last_modified_at desc');
-            // additional channel for agent
-            // all services     'status' = 'alldeployed'
-            // all new requests 'status' = 'allunassigned'
-            if($status == 'alldeployed')
-            {
-                $queryBuilder
-                    ->andWhere("e.status <> 'created'");
-                return new \Doctrine\Common\Collections\ArrayCollection(array(
-                    'count' => 10,
-                    'page' => 1,
-                    'limit' => 10,
-                    'entities' => $queryBuilder->getQuery()->getResult(),
-                ));
-            }elseif($status == 'allunassigned'){
-                $queryBuilder
-                    ->andWhere("e.status = 'submitted'");
-                return new \Doctrine\Common\Collections\ArrayCollection(array(
-                    'count' => 10,
-                    'page' => 1,
-                    'limit' => 10,
-                    'entities' => $queryBuilder->getQuery()->getResult(),
-                ));
-            }
             // default, filtered by assignedTo
             $queryBuilder
                 ->andWhere('e.assigned_to = :assigned_to')
@@ -116,8 +75,11 @@ class MyServiceController extends BaseController
             throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Normally you have to be granted as client or agent in order to enter this controller : MyServiceController:list ! You see this error page because of an internal error or you tried to access a ressource without permission.');
         }
         
+        /* status filter *****************************************************************************/
+        $status = $request->get('status');
         switch($status)
         {
+            // general filter
             //case 'submitted':
             case 'assigned':
             case 'created':
@@ -134,17 +96,47 @@ class MyServiceController extends BaseController
                 break;
             case 'all':
                 break;
-            default:        // by default if no filter is set, return no closed
+            // additional filter for agent
+            case 'alldeployed':
+                $queryBuilder
+                    ->andWhere("e.status <> 'created'");
+                break;
+            case 'allunassigned':
+                $queryBuilder
+                    ->andWhere("e.status = 'submitted'");
+                break;
+            // by default if no filter is set, return no closed
+            default:        
                 $queryBuilder
                     ->andWhere("e.status <> 'closed'");
         }
         
+        // pagination
+        $count = count($queryBuilder->getQuery()->getResult());
+        $limit = 5; // default limit and page value
+        $page = 1;
+        $pagination = false; // default, no pagination
+        // if pagination
+        if(!array_key_exists('no_pagination', $options) or !$options['no_pagination']) {
+            $request_limit = $request->get('limit');
+            $limit = is_numeric($request_limit) ? $request_limit : $limit;
 
+            $request_page = $request->get('page');
+            $page = (is_numeric($request_page) && $request_page >0) ? $request_page : $page;
+
+            $offset = $limit*($page-1);
+            $queryBuilder
+                ->setFirstResult($offset)
+                ->setMaxResults($limit)
+                ;
+            $pagination = true;
+        }
         return new \Doctrine\Common\Collections\ArrayCollection(array(
-            'count' => 10,
-            'page' => 1,
-            'limit' => 10,
+            'count' => $count,
+            'page' => $page,
+            'limit' => $limit,
             'entities' => $queryBuilder->getQuery()->getResult(),
+            'pagination' => $pagination,
         ));
     }
 
