@@ -46,44 +46,49 @@
                             <span class="icon-bar"></span>
                         </a>
                         <a class="brand" href="#">{% block project_name %}FTFS Support{% endblock %}</a>
-                        <!-- header navbar session -->
-                        {% block navbar_session %}
-                        <div class="btn-group pull-right">
-                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %} 
-
-                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="icon-user"></i> 
-                                <span>
-                                {{ app.user.title~' '~app.user.firstName~' '~app.user.surname }}
-                                </span>
-                                <span class="label label-inverse">
-                                    <i class="icon-envelope icon-white"></i>
-                                    (<span class="notification-count">{% if app.session.has('counter-notification') %}{{ app.session.get('counter-notification') }}{% else %}...{% endif %}</span>)
-                                </span>
-                                &nbsp;
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ path('fos_user_profile_show') }}">
-                                    <i class="icon-user"></i>
-                                    Profile
-                                </a></li>
-                                <li><a href="{{ path('ftfs_preferencebundle_user_preference', { 'id' : app.user.id }) }}">
-                                    <i class="icon-wrench"></i>
-                                    Preference
-                                </a></li>
-                                <li class="divider"></li>
-                                <li><a href="{{ path('fos_user_security_logout') }}">
-                                    <i class="icon-off"></i>
-                                    Sign Out
-                                </a></li>
-                            </ul>
-                        {% else %}
-
-                            <a class="btn" href="{{ path('fos_user_security_login') }}"><i class="icon-user"></i> Sign in</a>
-                        {% endif %}
+                        <!-- header navbar right side -->
+                        <div class="pull-right">
+                            <!-- header navbar session -->
+                            <div class="btn-group">
+                            {% block navbar_session %}
+                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %} 
+                                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="icon-user"></i> 
+                                        <span>
+                                        {{ app.user.title~' '~app.user.firstName~' '~app.user.surname }}
+                                        </span>
+                                        <span class="label label-inverse">
+                                            <i class="icon-envelope icon-white"></i>
+(<span id="notification-counter" url="{{ path('ftfs_notificationbundle_dashboard_get_notification_count') }}">{% if app.session.has('counter-notification') %}{{ app.session.get('counter-notification') }}{% else %}...{% endif %}</span>)
+                                        </span>
+                                        &nbsp;
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ path('fos_user_profile_show') }}">
+                                            <i class="icon-user"></i>
+                                            Profile
+                                        </a></li>
+                                        <li><a href="{{ path('ftfs_preferencebundle_user_preference', { 'id' : app.user.id }) }}">
+                                            <i class="icon-wrench"></i>
+                                            Preference
+                                        </a></li>
+                                        <li><a href="{{ path('ftfs_notificationbundle_dashboard_index') }}">
+                                            <i class="icon-envelope"></i>
+                                            Notification Center
+                                        </a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="{{ path('fos_user_security_logout') }}">
+                                            <i class="icon-off"></i>
+                                            Sign Out
+                                        </a></li>
+                                    </ul>
+                                {% else %}
+                                    <a class="btn" href="{{ path('fos_user_security_login') }}"><i class="icon-user"></i> Sign in</a>
+                                {% endif %}
+                            {% endblock %}
+                            </div>
                         </div>
-                        {% endblock %}
 
                         <!-- header navbar menu -->
                         <div class="nav-collapse">

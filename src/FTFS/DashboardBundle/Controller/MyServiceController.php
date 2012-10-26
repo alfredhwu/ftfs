@@ -18,10 +18,41 @@ class MyServiceController extends BaseController
     {
 
         return $this->render($this->getViewPath().':crud_box_index_table.html.twig', array(
-            'list' => $this->getEntityList(),
+            'list' => $this->getEntityList(array(
+                'pagination' => false,
+            )),
             'prefix' => $this->getRoutingPrefix(),
         ));
     }
+
+    public function getMyServiceListFileAction()
+    {
+        /*
+        $content = file_get_contents($attachment->getAbsolutePath());
+        $response = new \Symfony\Component\HttpFoundation\Response();
+        $response->headers->set('Content-Type', 'mime/type');
+        $response->headers->set('Content-Disposition', 'attachment;filename='.$attachment->getName());
+        $response->setContent($content);
+         */
+        $response = new \Symfony\Component\HttpFoundation\Response();
+
+        $filename = 'my_ticket_list.csv';
+        $response = $this->render($this->getViewPath().':crud_box_index_table.csv.twig', array(
+            'list' => $this->getEntityList(array(
+                'pagination' => false,
+            )),
+        ));
+        $content = $response->getContent();
+        $sep = ';';
+        $content = str_replace('<span>', '', $content);
+        $content = str_replace('</span>', $sep, $content);
+        $response->setContent($content);
+
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment;filename='.$filename);
+        return $response;
+    }
+
 
     /**
      * get entity list for index Action
@@ -38,7 +69,7 @@ class MyServiceController extends BaseController
 
         /* type filter ************************************************************************************/
         $type = $request->get('type');
-        if($type) 
+        if(is_numeric($type) && $type > 0) 
         {
             $queryBuilder
                 ->andWhere('s.id = :id')
@@ -62,15 +93,22 @@ class MyServiceController extends BaseController
             $queryBuilder
                 ->andWhere('e.requested_by = :requested_by')
                 ->setParameter('requested_by', $current_user)
-                ->add('orderBy', 'e.status asc, e.severity asc, e.last_modified_at desc');
+                //->add('orderBy', 'e.status asc, e.severity asc, e.last_modified_at desc');
+                ->add('orderBy', 'e.last_modified_at desc, e.status asc, e.severity asc');
 
         }elseif($context->isGranted('ROLE_AGENT')){
             $queryBuilder
-                ->add('orderBy', 'e.status asc, e.priority asc, e.severity asc, e.last_modified_at desc');
-            // default, filtered by assignedTo
-            $queryBuilder
-                ->andWhere('e.assigned_to = :assigned_to')
-                ->setParameter('assigned_to', $current_user);
+                //->add('orderBy', 'e.status asc, e.priority asc, e.severity asc, e.last_modified_at desc');
+                ->add('orderBy', 'e.last_modified_at desc, e.priority asc, e.severity asc, e.status asc');
+
+            // filter by user if not alldeployed, nor allunassgiend
+            $status = $request->get('status');
+            if($status != 'alldeployed' && $status != 'allunassigned') {
+                // default, filtered by assignedTo
+                $queryBuilder
+                    ->andWhere('e.assigned_to = :assigned_to')
+                    ->setParameter('assigned_to', $current_user);
+            }
         }else{
             throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Normally you have to be granted as client or agent in order to enter this controller : MyServiceController:list ! You see this error page because of an internal error or you tried to access a ressource without permission.');
         }
@@ -110,7 +148,13 @@ class MyServiceController extends BaseController
                 $queryBuilder
                     ->andWhere("e.status <> 'closed'");
         }
+
+        /* fime filter ***************************************************************************************************/
+        //
+        $from = $request->get('from');
+        $to = $request->get('to');
         
+
         // pagination
         $count = count($queryBuilder->getQuery()->getResult());
         $limit = 5; // default limit and page value
@@ -131,6 +175,7 @@ class MyServiceController extends BaseController
                 ;
             $pagination = true;
         }
+
         return new \Doctrine\Common\Collections\ArrayCollection(array(
             'count' => $count,
             'page' => $page,

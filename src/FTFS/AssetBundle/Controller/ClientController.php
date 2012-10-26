@@ -18,7 +18,7 @@ class ClientController extends BaseController
     /**
      * get entity list for index Action
      */
-    protected function getEntityList()
+    protected function getEntityList(array $options = array())
     {
         // ToDo: add some filter here
         return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findBy(array(

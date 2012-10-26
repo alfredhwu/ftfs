@@ -11,7 +11,7 @@
         </span>
         {% if is_granted('ROLE_ADMIN') or attachment.uploadedBy == app.user %}
         <span>
-            <a class="crud-action" crud-message="{{ (prefix~'.attachment.list.delete.confirm')|trans({ '%attachment_name%' : attachment.name }, 'crud') }}" crue-toggle="{{ path(prefix~'_attachment_delete', { 'id' : id, 'attachment_id' : attachment.id }) }}" href="#">
+            <a class="crud-action" crud-message="{{ (prefix~'.attachment.list.delete.confirm')|trans({ '%attachment_name%' : attachment.name }, 'crud') }}" crud-toggle="{{ path(prefix~'_attachment_delete', { 'id' : id, 'attachment_id' : attachment.id }) }}" href="#">
                 <i class="icon-trash"></i>
             </a>
         </span>

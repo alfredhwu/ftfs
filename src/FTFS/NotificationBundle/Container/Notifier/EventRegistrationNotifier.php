@@ -22,6 +22,8 @@ class EventRegistrationNotifier
 
     public function register($eventkey, UserInterface $actor=null, array $action=null, DateTime $acted_at=null)
     {
+        //throw new \Exception('event ['.$eventkey.'] triggered !');
+
         // find the $event; if not found, throw the exception
         $event = $this->em->getRepository('FTFSNotificationBundle:Event')->findOneBy(array('event_key' => $eventkey));
         if(!$event) {
@@ -32,6 +34,5 @@ class EventRegistrationNotifier
         $this->em->persist($eventlog);
         //$this->em->flush();
 
-//        throw new \Exception('event ['.$eventkey.'] triggered !');
     }
 }

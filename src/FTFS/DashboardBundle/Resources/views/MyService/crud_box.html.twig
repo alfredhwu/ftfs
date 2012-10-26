@@ -1,19 +1,22 @@
 {% extends 'FTFSCrudBundle:Crud:crud_box.html.twig' %}
 
 {% block crud_box_index_title_filter %}
-    <div class="pull-left">
-        <select id="ticket-filter" class="btn span10">
+    <span class="pull-left">
+        &nbsp;
+        &nbsp;
+        &nbsp;
+    </span>
+    <form id="crud-box-index-title-filter" class="pull-left">
+        <select id="ticket-filter-type" class="btn">
             <option value="0">&lt;Service Type&gt;</option>
         {% for service in services %}
             <option value="{{ service.id }}">{{ service.name }}</option>
         {% endfor%}
         </select>
-    </div>
-    <div class="pull-left">
-        <span class="input-prepend"><span class="add-on">from</span><input class="span2" type="text"></span>
-        <span class="input-prepend"><span class="add-on">to</span><input class="span2" type="text"></span>
-        <span><a href="" class="btn btn-primary"><i class="icon-download-alt icon-white"></i></a></span>
-    </div>
+        <span class="input-prepend"><span class="add-on">from</span><input id="ticket-filter-from" class="span2" type="text"></span>
+        <span class="input-prepend"><span class="add-on">to</span><input id="ticket-filter-to" class="span2" type="text"></span>
+        <span><a id="ticket-filter-action" href="#" data-source="{{ path('ftfs_dashboardbundle_myservice_list_table_download', { 'type' : '_type' , 'from' : '_from' , 'to' : '_to', 'status' : '_status' }) }}" class="btn btn-primary"><i class="icon-download-alt icon-white"></i></a></span>
+    </form>
 {% endblock %}
 
 {% block crud_box_index_content %}

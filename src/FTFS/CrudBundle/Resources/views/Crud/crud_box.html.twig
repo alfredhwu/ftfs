@@ -3,38 +3,30 @@
 {% block crud %}
     {% block crud_box_title %}
     <div id="crud-box-title">
-        {% if read_only is defined and read_only %}
-        <h2>{{ (prefix~'.table.caption')|trans({}, 'crud') }}</h2>
-        <form class="form-search pull-right">
-            <div class="input-append">
-                <input type="text" class="search-query input-medium" placeholder="search"><button type="submit" class="btn btn-primary btn-small"><i class="icon-search icon-white"></i></button>
-            </div>
-        </form>
-        <br>
-        <hr>
-        {% else %}
         <h2>{{ (prefix~'.table.caption')|trans({}, 'crud') }}</h2>
         <hr>
-        <a class="btn btn-success pull-left" href="{{ path(prefix~'_new') }}">
-            <i class="icon-edit icon-white"></i>
-            {{ (prefix~'.table.action.new')|trans({}, 'crud') }}
-        </a>
-        <form class="form-search pull-right">
-            <div class="input-append">
-                <input type="text" class="search-query input-medium" placeholder="search"><button type="submit" class="btn btn-primary btn-small"><i class="icon-search icon-white"></i></button>
-            </div>
-        </form>
-        {% endif %}
-        {% block crud_box_index_title_filter %}
-        {% endblock %}
+        <div id="crud-box-title-control">
+            <form class="form-search pull-right">
+                <div class="input-append">
+                    <input type="text" class="search-query input-medium" placeholder="search"><button type="submit" class="btn btn-primary btn-small"><i class="icon-search icon-white"></i></button>
+                </div>
+            </form>
+            {% if read_only is not defined or not read_only %}
+            <span class="pull-left">
+                <a class="btn btn-success" href="{{ path(prefix~'_new') }}">
+                    <i class="icon-edit icon-white"></i>
+                    {{ (prefix~'.table.action.new')|trans({}, 'crud') }}
+                </a>
+            </span>
+            {% endif %}
+            {% block crud_box_index_title_filter %}
+            {% endblock %}
+        </div>
     </div><!-- end of crud-box-title -->
-    <br>
-    <br>
-    <br>
     {% endblock crud_box_title %}
 
     {% block crud_box_content %}
-    <div id="crud-box-content">
+    <div id="crud-box-content" class="pull-left">
         {% block crud_box_index_content %}
         {% endblock %}
     </div><!-- end of crud-box-content -->

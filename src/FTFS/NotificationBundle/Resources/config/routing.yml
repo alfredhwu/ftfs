@@ -1,6 +1,6 @@
 ## dashboard
 ftfs_notificationbundle_dashboard_index:
-    pattern:  /dashboard/
+    pattern:  /dashboard/notification/index
     defaults: { _controller: FTFSNotificationBundle:Dashboard:index }
 
 ftfs_notificationbundle_dashboard_clear_system_notification:

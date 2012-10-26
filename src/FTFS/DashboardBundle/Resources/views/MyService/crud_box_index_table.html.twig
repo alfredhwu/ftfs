@@ -1,8 +1,8 @@
 {% extends 'FTFSCrudBundle:Crud:crud_box_index_table.html.twig' %}
 
-
 {% block thead %}
     <th class="tight">{{ ('ftfs.servicebundle.serviceticket.table.name') | trans({}, 'crud') }}</th>
+    <th>{{ ('ftfs.servicebundle.serviceticket.table.last.modified.at') | trans({}, 'crud') }}</th>
     <th class="tight">{{ ('ftfs.servicebundle.serviceticket.table.status.title') | trans({}, 'crud') }}</th>
     <th class="tight">{{ ('ftfs.servicebundle.serviceticket.table.severity.title') | trans({}, 'crud') }}</th>
     <th class="tight">{{ ('ftfs.servicebundle.serviceticket.table.priority.title') | trans({}, 'crud') }}</th>
@@ -12,7 +12,6 @@
     {% endif %}
     <th>{{ ('ftfs.servicebundle.serviceticket.table.requested.by') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.serviceticket.table.service') | trans({}, 'crud') }}</th>
-    <th>{{ ('ftfs.servicebundle.serviceticket.table.last.modified.at') | trans({}, 'crud') }}</th>
     {#
     <th>{{ ('ftfs.servicebundle.serviceticket.table.request.received.at') | trans({}, 'crud') }}</th>
     <th>{{ ('ftfs.servicebundle.serviceticket.table.detail') | trans({}, 'crud') }}</th>
@@ -25,6 +24,7 @@
 
 {% block tbody %}
     <td class="tight">{{ entity.name }}</td>
+    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status)|trans({}, 'crud') }}</span></td>
     <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity)|trans({}, 'crud') }}</span></td>
     <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.priority.'~entity.priority~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.priority.'~entity.priority)|trans({}, 'crud') }}</span></td>
@@ -34,7 +34,6 @@
     {% endif %}
     <td>{{ entity.requestedBy }}</td>
     <td>{{ entity.service }}</td>
-    <td>{% if entity.lastModifiedAt is not empty %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     {#
     <td>{% if entity.lastModifiedAt is not empty %}{{ entity.requestReceivedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     <td>{{ entity.detail }}</td>

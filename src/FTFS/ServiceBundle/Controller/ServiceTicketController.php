@@ -28,7 +28,7 @@ class ServiceTicketController extends BaseController
         }
     }
 
-    protected function getEntityList()
+    protected function getEntityList(array $options = array())
     {
         return $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())->findBy(
             array(

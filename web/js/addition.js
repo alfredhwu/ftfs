@@ -115,7 +115,8 @@ $(document).ready(function () {
         bootbox.confirm(message, function(result) {
             e.preventDefault();
             if(result) {
-                window.location = action;
+                //window.location = action;
+                window.location.replace(action);
             }
         });
     });
@@ -169,7 +170,8 @@ $(document).ready(function () {
     }
 
     function notification_count_notifier () {
-        $('li.navmenu-item.navmenu-item-notification-countable > a > span').each(function() {
+        //$('li.navmenu-item.navmenu-item-notification-countable > a > span').each(function() {
+        $('span#notification-counter').each(function() {
             var href = $(this).attr('url');
             var target = $(this);
             $.ajax({
@@ -181,7 +183,7 @@ $(document).ready(function () {
                     if(target.html() != data) {
                         target.html(data);
                     }
-                    $('span.notification-count').html(data);
+                    //$('span.notification-count').html(data);
                 },
                 error:   function() {
                 //    alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for " + url);

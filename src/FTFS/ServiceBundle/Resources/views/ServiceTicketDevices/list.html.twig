@@ -23,7 +23,7 @@
 </div>
 {% endif %}
 
-{% if entity.requestedBy == app.user or is_granted('ROLE_AGENT') %}
+{% if entity.requestedBy == app.user or entity.assignedTo == app.user %}
 <div>
     <!-- devices add control toggle -->
     <span><a class="tic-tac" tic-tac-target="#devices-add" href="#">

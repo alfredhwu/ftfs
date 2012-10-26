@@ -46,19 +46,21 @@ class EventNotificationNotifier
      */
     public function notify(EventLog $eventlog, $persist_log = true)
     {
+        //throw new \Exception('test');
         // parsing the event to notifications
         $this->parseEventToNotifications($eventlog);
 
         // sending notifications
         $this->sender->send($this->notifications);
+        //throw new \Exception(count($this->notifications));
 
-  //      throw new \Exception('debugging...');
         // if persist, persisting all notifications
         if($persist_log) {
             foreach($this->notifications as $notification) {
                 $this->em->persist($notification);
             }
-            //$this->em->flush();
+            //ToDo: eliminate this flushing ....
+            $this->em->flush();
         }
     }
 
@@ -100,7 +102,7 @@ class EventNotificationNotifier
                         switch($action['option']) {
                             // owner; responsible
                             case 'create.open':
-                                throw new \Exception(print_r($service_ticket->getName()));
+                                throw new \Exception('debuging');
                                 if($service_ticket->getAssignedTo()) {
                                     $this->registerNotifications($eventlog, $service_ticket->getAssignedTo());
                                 }

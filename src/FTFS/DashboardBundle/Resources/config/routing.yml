@@ -1,7 +1,7 @@
 ftfs_dashboardbundle_homepage:
     pattern:  /
-    #defaults: { _controller: FTFSDashboardBundle:Default:index }
-    defaults: { _controller: FTFSNotificationBundle:Dashboard:index }
+    defaults: { _controller: FTFSDashboardBundle:Default:index }
+    #defaults: { _controller: FTFSNotificationBundle:Dashboard:index }
 
 ############################################################################ service ticket
 ## service routing
@@ -14,6 +14,10 @@ ftfs_dashboardbundle_myservice_body_menu_count:
 ftfs_dashboardbundle_myservice_list_table:
     pattern:  /myservice/list/table
     defaults: { _controller: FTFSDashboardBundle:MyService:getMyServiceList }
+
+ftfs_dashboardbundle_myservice_list_table_download:
+    pattern:  /myservice/list/table/download
+    defaults: { _controller: FTFSDashboardBundle:MyService:getMyServiceListFile }
 
 ftfs_dashboardbundle_myservice_index:
     pattern:  /myservice/list
