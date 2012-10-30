@@ -47,7 +47,7 @@
 </div>
 {% endif %}
 
-<div id="attachment-upload" class="hide">
+<div id="attachment-upload" class="hide" callback="get_ajax_resource" method='get' url="{{ path(prefix~'_attachment_upload', {'id' : entity.id }) }}" callback-toggle="div#attachment-upload-ajax">
     <div id="attachment-upload-ajax">
     <!-- loaded by ajax -->
     {# 

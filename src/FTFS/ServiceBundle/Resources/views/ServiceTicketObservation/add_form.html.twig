@@ -1,5 +1,79 @@
-<form id="observation-add-form" name="observation_add_form" action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
-    {{ form_widget(observation_add_form) }}
-    <input type="hidden" name="add-to-id" value="{{ add_to_id }}">
-    <input type="submit">
-</form>
+{% spaceless %}
+<div> 
+    <ul id="observation-add-tab" class="nav nav-tabs">
+        <li class="active"><a href="#message" data-toggle="tab">Message</a></li>
+        <li><a href="#intervention" data-toggle="tab">Intervention</a></li>
+        <li><a href="#logistic" data-toggle="tab">Logistic</a></li>
+    </ul>
+    <div id="observation-add-contents" class="tab-content">
+        <div class="tab-pane fade in active" id="message">
+            <form id="observation-add-form" name="observation_add_form" action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
+                {{ form_row(observation_add_form.message_message) }}
+                <input type="hidden" name="add-to-id" value="{{ add_to_id }}">
+                <input type="submit" class="btn btn-primary">
+            </form>
+        </div>
+        <div class="tab-pane fade" id="intervention">
+            <form id="observation-add-form" name="observation_add_form" action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
+                {{ form_row(observation_add_form.intervention_site) }}
+                <div class="control-group">
+                    <label class="control-label">Time of intervention:</label>
+                    <div class="controls">
+                        <span class="input-prepend">
+                            <span class="add-on">from</span>{{ form_widget(observation_add_form.intervention_from, { 'attr': {
+                                'class' : 'span2 datepicker-from'
+                                } }) }}
+                        </span>
+                        <span class="input-prepend">
+                            <span class="add-on">to</span>{{ form_widget(observation_add_form.intervention_to, { 'attr': {
+                                'class' : 'span2 datepicker-to'
+                                } }) }}
+                        </span>
+                    </div>
+                </div>
+                {{ form_row(observation_add_form.intervention_agent) }}
+                {{ form_row(observation_add_form.intervention_report) }}
+                <input type="hidden" name="add-to-id" value="{{ add_to_id }}">
+                <input type="submit" class="btn btn-primary">
+            </form>
+        </div>
+        <div class="tab-pane fade" id="logistic">
+            <form id="observation-add-form" name="observation_add_form" action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
+                {{ form_row(observation_add_form.logistic_by) }}
+                {{ form_row(observation_add_form.logistic_at) }}
+                {{ form_row(observation_add_form.logistic_operation) }}
+                {{ form_row(observation_add_form.logistic_agent) }}
+                <input type="hidden" name="add-to-id" value="{{ add_to_id }}">
+                <input type="submit" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $('ul#observation-add-tab > li > a').click(function(e) {
+        $(window).scrollTop(400);
+    });
+
+    // add jquery-ui datepicker
+    $('input.datepicker-from').datepicker({
+        defaultDate: "+1w",
+        changeMonth: true,
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        numberOfMonth: 1,
+        onClose: function(selectedDate) {
+            $('input.datepicker-to').datepicker("option", "minDate", selectedDate);
+        }
+    });
+    $('input.datepicker-to').datepicker({
+        defaultDate: "+1w",
+        changeMonth: true,
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        numberOfMonth: 1,
+        onClose: function(selectedDate) {
+            $('input.datepicker-from').datepicker("option", "maxDate", selectedDate);
+        }
+    });
+</script>
+{% endspaceless %}

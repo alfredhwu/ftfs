@@ -1,4 +1,7 @@
 <div id="observation-list">
+    <div id="observation-plugin">
+    {% include 'FTFSServiceBundle:ServiceTicketObservation:plugin.html.twig' %}
+    </div>
     <table class="table table-striped" width="100%">
         <!-- new observation -->
         <tr id="observation-add-target" class="hide">
@@ -50,3 +53,16 @@
         {% endif %}
     </table>
 </div>
+<script>
+    $('a.observation-add').click(function() {
+
+        var add_to_id = $(this).attr('add-to-id');
+
+        // loading observation form to 'div#observation-add-ajax'
+        $.get("{{ path(prefix~'_observation_add', {'id' : entity.id }) }}", "add-to-id="+add_to_id, function(data) {
+            $('#observation-add-target').hide();
+            $('div#observation-add-ajax').html(data);
+            $('#observation-add-target').show();
+        });
+    });
+</script>

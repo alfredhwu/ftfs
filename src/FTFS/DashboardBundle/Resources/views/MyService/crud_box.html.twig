@@ -7,14 +7,16 @@
         &nbsp;
     </span>
     <form id="crud-box-index-title-filter" class="pull-left">
+        {% set selected = app.request.query.get('type') | default(0) %}
         <select id="ticket-filter-type" class="btn">
-            <option value="0">&lt;Service Type&gt;</option>
+            <option value="0" {% if 0==selected %}selected="selected"{% endif %}>&lt;Service Type&gt;</option>
         {% for service in services %}
-            <option value="{{ service.id }}">{{ service.name }}</option>
+            <option value="{{ service.id }}" {% if service.id==selected %}selected="selected"{% endif %}>{{ service.name }}</option>
         {% endfor%}
         </select>
-        <span class="input-prepend"><span class="add-on">from</span><input id="ticket-filter-from" class="span2" type="text"></span>
-        <span class="input-prepend"><span class="add-on">to</span><input id="ticket-filter-to" class="span2" type="text"></span>
+        <span class="input-prepend"><span class="add-on">from</span><input id="ticket-filter-from" class="span2 datepicker-from" type="text" value="{{ app.request.query.get('from') | default('') }}"></span>
+        <span class="input-prepend"><span class="add-on">to</span><input id="ticket-filter-to" class="span2 datepicker-to" type="text" value="{{ app.request.query.get('to') | default('') }}"></span>
+        <span><a id="ticket-filter-clear" href="#" class="btn"><i class="icon-refresh"></i></a></span>
         <span><a id="ticket-filter-action" href="#" data-source="{{ path('ftfs_dashboardbundle_myservice_list_table_download', { 'type' : '_type' , 'from' : '_from' , 'to' : '_to', 'status' : '_status' }) }}" class="btn btn-primary"><i class="icon-download-alt icon-white"></i></a></span>
     </form>
 {% endblock %}

@@ -152,8 +152,22 @@ class MyServiceController extends BaseController
         /* fime filter ***************************************************************************************************/
         //
         $from = $request->get('from');
+        if(preg_match('/^[0-9]+\/[0-9]+\/[0-9]+$/', $from)) {
+            $from = strtotime($from);
+            $queryBuilder
+                ->andWhere("e.last_modified_at >= :from")
+                ->setParameter('from', date('Y-m-d H:i:s', $from));
+        }
         $to = $request->get('to');
-        
+        if(preg_match('/^[0-9]+\/[0-9]+\/[0-9]+$/', $to)) {
+            $to = strtotime('+1 day', strtotime($to));
+            $queryBuilder
+                ->andWhere("e.last_modified_at <= :to")
+                ->setParameter('to', date('Y-m-d H:i:s', $to));
+        }
+        //throw new \Exception(date('Y-m-d H:i:s', $from));
+        //throw new \Exception($from.'::'.date('Y-m-d H:i:s', strtotime('-1 day', strtotime($from))));
+
 
         // pagination
         $count = count($queryBuilder->getQuery()->getResult());
@@ -621,9 +635,6 @@ class MyServiceController extends BaseController
                 $em->persist($attachment);
                 $em->flush();
             }
-            // flash notification
-            // $this->notify('attachment_upload'); 
-            //
             return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
                 'id' => $id,
             )));
@@ -669,22 +680,53 @@ class MyServiceController extends BaseController
         $request = $this->get('request');
         $add_to_id = $request->get('add-to-id');
 
-        $observation = new \FTFS\ServiceBundle\Entity\ServiceTicketObservation;
         $em = $this->getDoctrine()->getEntityManager();
+
+        $observation = array('observation' => 'observation detail');
         $attach = $em->getRepository('FTFSServiceBundle:ServiceTicketObservation')->find($add_to_id);
-        $form = $this->createFormBuilder($observation);
+        $form = $this->createFormBuilder($observation)
+                    // message
+                    ->add('message_message', 'textarea')
+                    // intervention
+                    ->add('intervention_site', 'text')
+                    ->add('intervention_agent', 'text')
+                    ->add('intervention_from', 'datetime', array(
+                        'widget' => 'single_text',
+                    ))
+                    ->add('intervention_to', 'datetime', array(
+                        'widget' => 'single_text',
+                    ))
+                    ->add('intervention_report', 'textarea')
+                    // logistic
+                    ->add('logistic_agent', 'text')
+                    ->add('logistic_at', 'datetime', array(
+                        'widget' => 'single_text',
+                    ))
+                    ->add('logistic_operation', 'choice', array(
+                        'choices' => array(
+                            'Send' => 'Send',
+                            'Receive' => 'Receive',
+                        ),
+                    ))
+                    ->add('logistic_by', 'choice', array(
+                        'choices' => array(
+                            'Nippon Express' => 'Nippon Express',
+                            'DHL' => 'DHL',
+                        ),
+                    ))
+        ;
+
         if($attach)
         {
             // if not null, retrive messages from ancient messages...
             // $attach->retrive(3);
-            $form->add('content');
-        }else{
-            $form->add('content');
         }
+
         $form = $form->getForm();
 
         if('POST'===$request->getMethod())
         {
+            throw new \Exception('coucou');
             $form->bindRequest($request);
             if($form->isValid())
             {
@@ -738,13 +780,40 @@ class MyServiceController extends BaseController
             'id' => $id,
             'prefix' => $this->getRoutingPrefix(),
             'devices_add_form' => $form->createView(),
+            'action' => $this->generateUrl($this->getRoutingPrefix().'_devices_add', array(
+                'id' => $id
+            )),
         ));
-        return null;
     }
 
-    public function devicesEditAction(\FTFS\AssetBundle\Entity\Device $device)
+    public function devicesEditAction($id, $device_id)
     {
-        return null;
+        $em = $this->getDoctrine()->getEntityManager();
+        $device = $em->getRepository('FTFSAssetBundle:Device')->find($device_id);
+        if(!$device) {
+            throw $this->createNotFoundException('Device to be edited not found !');
+        }
+        $form = $this->createForm(new \FTFS\AssetBundle\Form\DeviceType, $device);
+
+        if($this->getRequest()->getMethod() === 'POST') {
+            $form->bindRequest($this->getRequest());
+            if($form->isValid()) {
+                $em->flush();
+            }
+            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
+                'id' => $id,
+            )));
+        }
+
+        return $this->render('FTFSServiceBundle:ServiceTicketDevices:devices_add_form.html.twig', array(
+            'id' => $id,
+            'prefix' => $this->getRoutingPrefix(),
+            'devices_add_form' => $form->createView(),
+            'action' => $this->generateUrl($this->getRoutingPrefix().'_devices_edit', array(
+                'id' => $id,
+                'device_id' => $device_id,
+            )),
+        ));
     }
 
     public function devicesDeleteAction($id, $device_id)

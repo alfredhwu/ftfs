@@ -41,32 +41,33 @@
 {% if list.pagination %}
 <div class="pagination pagination-centered">
     {% set npages = list.count // list.limit + ((list.count % list.limit) == 0 ? 0 : 1) %}
+    {% set npages = npages==0 ? 1 : npages %}
     {% set page = list.page %}
     {% set limit = list.limit %}
     {% set range = 5 %}
 
     <ul>
-        <li><a href="#">&lt;&lt;</a></li>
+        <li><a href="#" index="prev" of="{{ npages }}" {% if page <=1 %}class="disabled"{% endif %}>&lt;&lt;</a></li>
         {% if npages > range %}
             {% if page <= range // 2 %}{# left align #}
             {% for i in 1..range %}
-            <li {% if i == page %}class="active"{% endif %}><a href="#">{{i}}</a></li>
+            <li {% if i == page %}class="active disabled"{% endif %}><a href="#" index="{{i}}" of="{{ npages }}">{{i}}</a></li>
             {% endfor %}
             {% elseif npages - page > range // 2 %}{# center align #}
             {% for i in (page-range//2)..(page+range//2) %}
-            <li {% if i == page %}class="active"{% endif %}><a href="#">{{i}}</a></li>
+            <li {% if i == page %}class="active disabled"{% endif %}><a href="#" index="{{i}}" of="{{ npages }}">{{i}}</a></li>
             {% endfor %}
             {% else %}{# right align#}
             {% for i in (npages-range+1)..npages %}
-            <li {% if i == page %}class="active"{% endif %}><a href="#">{{i}}</a></li>
+            <li {% if i == page %}class="active disabled"{% endif %}><a href="#" index="{{i}}" of="{{ npages }}">{{i}}</a></li>
             {% endfor %}
             {% endif %}
         {% else %}
             {% for i in 1..npages %}
-            <li {% if i == page %}class="active"{% endif %}><a href="#">{{i}}</a></li>
+            <li {% if i == page %}class="active disabled"{% endif %}><a href="#" index="{{i}}" of="{{ npages }}">{{i}}</a></li>
             {% endfor %}
         {% endif %}
-        <li><a href="#">&gt;&gt;</a></li>
+        <li><a href="#" index="next" of="{{ npages }}" {% if page == npages %}class="disabled"{% endif %}>&gt;&gt;</a></li>
     </ul>
 </div>
 {% endif %}

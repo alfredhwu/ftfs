@@ -81,7 +81,7 @@
         <tr>
             <th>{{ ('ftfs.servicebundle.serviceticket.table.devices') | trans({}, 'crud') }}</th>
             <td colspan=5>
-                <div id="share_list">
+                <div id="devices">
                 {% include 'FTFSServiceBundle:ServiceTicketDevices:list.html.twig' 
                     with { 'devices' : entity.devices,
                             'id' : entity.id,
@@ -92,7 +92,7 @@
         <tr>
             <th>Share list</th>
             <td colspan="5">
-                <div id="share_list">
+                <div id="sharelist">
                 {% include 'FTFSServiceBundle:ServiceTicketSharelist:list.html.twig' 
                     with { 'sharelist' : entity.shareList,
                             'id' : entity.id,
@@ -127,7 +127,8 @@
 
     <div id="observation">
         {% include 'FTFSServiceBundle:ServiceTicketObservation:list.html.twig' 
-            with { 'observations' : entity.observations } %}
+            with { 'observations' : entity.observations,
+            } %}
     </div>
     {% endblock %}
 </div>

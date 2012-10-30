@@ -21,7 +21,7 @@ ftfs_dashboardbundle_myservice:
             at:             'at'
             delete.confirm: 'Really want delete the attachment "%attachment_name%"?'
         upload.form:
-            file.label:     'Select document to be attached:'
+            file.label:     'Select document to be attached ( < 2M):'
             filename.label: 'Rename the document as:'
             submit:         'Upload the document'
     observation:

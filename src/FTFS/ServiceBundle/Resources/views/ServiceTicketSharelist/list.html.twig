@@ -37,7 +37,7 @@
     </a></span>
 </div>
 {% endif %}
-<div id="sharelist-add" class="hide">
+<div id="sharelist-add" class="hide" callback="get_ajax_resource" method='get' url="{{ path(prefix~'_sharelist_add', {'id' : entity.id }) }}" callback-toggle="div#sharelist-add-ajax">
     <div id="sharelist-add-ajax">
     <!-- loaded by ajax -->
     {# 

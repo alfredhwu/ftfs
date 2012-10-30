@@ -49,9 +49,41 @@ class ServiceTicketObservation
     /**
      * @var text $content
      *
-     * @ORM\Column(name="content", type="text")
+     * @ORM\Column(name="content", type="array")
      */
     private $content;
+
+    /**
+     * constructor
+     */
+    public function __construct()
+    {
+        $this->content = array();
+    }
+
+    /**
+     * Get content
+     *
+     * @return text 
+     */
+    public function getContent()
+    {
+        return 'cocuouo';
+        //return $this->content;
+    }
+
+    /**
+     * Set content
+     *
+     * @param text $content
+     */
+    public function setContent(array $content)
+    {
+        $this->content = $content;
+    }
+
+    /** ********************************************* end of specification */
+
 
     /**
      * Get id
@@ -81,26 +113,6 @@ class ServiceTicketObservation
     public function getSendAt()
     {
         return $this->send_at;
-    }
-
-    /**
-     * Set content
-     *
-     * @param text $content
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-    }
-
-    /**
-     * Get content
-     *
-     * @return text 
-     */
-    public function getContent()
-    {
-        return $this->content;
     }
 
     /**

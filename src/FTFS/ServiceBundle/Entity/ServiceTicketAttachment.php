@@ -56,7 +56,8 @@ class ServiceTicketAttachment
     private $uploaded_at;
 
     /**
-     * @Assert\File(maxSize="1000000")
+     * @Assert\File(maxSize="2000000")
+     * temp var for file
      */
     private $file;
 
@@ -84,7 +85,7 @@ class ServiceTicketAttachment
      */
     public function preUpload()
     {
-        if(null !== $this->file) {
+        if(null !== $this->getFile()) {
             // generate a unique name
             //$this->setPath(uniqid().'.'.$this->getFile()->guessExtension());
             $this->setPath(uniqid('attachment_',true));

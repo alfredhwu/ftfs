@@ -11,7 +11,7 @@
             </a>
         </span>
         <span>
-            <a href="#" class="device-modification" device-id={{ entity.id }}>
+            <a href="#" class="device-modification" device-id={{ device.id }} ticket-id={{ entity.id }}>
                 <i class="icon-pencil"></i>
             </a>
         </span>
@@ -42,7 +42,7 @@
     </a></span>
 </div>
 {% endif %}
-<div id="devices-add" class="hide">
+<div id="devices-add" class="hide" callback="get_ajax_resource" method='get' url="{{ path(prefix~'_devices_add', {'id' : entity.id }) }}" callback-toggle="div#devices-add-ajax">
     <div id="devices-add-ajax">
     <!-- loaded by ajax -->
     {# 
@@ -51,4 +51,17 @@
     #}
     </div>
 </div>
-
+<script>
+    $('a.device-modification').click(function(e) {
+        e.preventDefault();
+        var target = $(this);
+        var device_id = target.attr('device-id');
+        var ticket_id = target.attr('ticket-id');
+        var href = "{{ path(prefix~'_devices_edit', { 'device_id' : '_device_id', 'id' : '_ticket_id' }) }}";
+        href = href.replace(/_device_id/, device_id);
+        href = href.replace(/_ticket_id/, ticket_id);
+        $.get(href, function(data) {
+            target.parent().parent().html(data);
+        });
+    });
+</script>

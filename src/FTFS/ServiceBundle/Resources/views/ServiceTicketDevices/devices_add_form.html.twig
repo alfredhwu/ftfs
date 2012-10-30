@@ -1,7 +1,8 @@
-<form action="{{ path(prefix~'_devices_add', { 'id' : id }) }}" 
+<form action="{{ action }}" 
       method="post" {{ form_enctype(devices_add_form) }}>
     {{ form_widget(devices_add_form) }}
-        <button type="submit" class="btn">
+        <button type="submit" class="btn btn-primary">
             {{ (prefix~'.devices.add.form.submit')|trans({}, 'crud') }}
         </button>
+        <a href="{{ path('ftfs_dashboardbundle_myservice_show', { 'id' : id }) }}" class="btn">Cancel</a>
 </form>

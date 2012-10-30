@@ -71,7 +71,7 @@ ftfs_dashboardbundle_myservice_devices_delete:
     defaults: { _controller: FTFSDashboardBundle:MyService:devicesDelete }
 
 ftfs_dashboardbundle_myservice_devices_edit:
-    pattern:  /myservice/devices/{device_id}/edit
+    pattern:  /myservice/{id}/devices/{device_id}/edit
     defaults: { _controller: FTFSDashboardBundle:MyService:devicesEdit }
 
 ## observation

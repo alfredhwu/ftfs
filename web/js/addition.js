@@ -1,38 +1,3 @@
-function addTypeaheadLocation(typeaheadHolder) { 
-    typeaheadHolder.attr('data-provide', 'typeahead');
-    //alert(typeaheadHolder.parent().html());
-    typeaheadHolder.typeahead().on('keyup', function(ev) {
-       // $(this).typeahead(options.source=["hewwl", "hell"]);
-        ev.stopPropagation();
-        ev.preventDefault();
-
-        if($.inArray(ev.keyCode, [40, 38, 9, 13, 27]) === -1 ) {
-            target = $(this);
-            target.data('typeahead').source = [];
-
-            if(!target.data('active') && target.val().length > 0) {
-                target.data('active', true);
-                $.getJSON("http://ws.geonames.org/searchJSON?callback=?", {
-                    featureClass: "P",
-                    style: "full",
-                    maxRows: 8,
-                    name_startsWith: $(this).val()
-                }, function(data) {
-                    target.data('active', true);
-                    var arr = [], i = data.geonames.length, item;
-                    while(i--) {
-                        item = data.geonames[i];
-                        arr[i] = item.name + (item.adminName1 ? ", "+item.adminName1 : "") + ", " + item.countryName;
-                    }
-                    target.data('typeahead').source = arr;
-                    target.trigger('keyup');
-                    target.data('active', false);
-                });
-            }
-        }
-    });
-}
-
 $(document).ready(function () {
     // add device info dynamique
     $('#ftfs_servicebundle_serviceticket_form_asset').each(function() { 
@@ -97,7 +62,14 @@ $(document).ready(function () {
     $('a.tic-tac').click(function(e) {
         e.preventDefault();
         $(this).children('span').toggle();
-        $($(this).attr('tic-tac-target')).toggle();
+        var target = $($(this).attr('tic-tac-target'));
+        // call back of target
+        var callback = target.attr('callback');
+        if(typeof window.settings[callback] == "function") {
+            window.settings[callback](target);
+        }
+        // end of call back of target
+        $(target).toggle();
     });
     // new edit helper
     $('a.crud-submit').click(function (e) {
@@ -221,4 +193,157 @@ $(document).ready(function () {
             });
         });
     }
+
+
 });
+// ##################### type ahead location
+function addTypeaheadLocation(typeaheadHolder) { 
+    typeaheadHolder.attr('data-provide', 'typeahead');
+    //alert(typeaheadHolder.parent().html());
+    typeaheadHolder.typeahead().on('keyup', function(ev) {
+       // $(this).typeahead(options.source=["hewwl", "hell"]);
+        ev.stopPropagation();
+        ev.preventDefault();
+
+        if($.inArray(ev.keyCode, [40, 38, 9, 13, 27]) === -1 ) {
+            target = $(this);
+            target.data('typeahead').source = [];
+
+            if(!target.data('active') && target.val().length > 0) {
+                target.data('active', true);
+                $.getJSON("http://ws.geonames.org/searchJSON?callback=?", {
+                    featureClass: "P",
+                    style: "full",
+                    maxRows: 8,
+                    name_startsWith: $(this).val()
+                }, function(data) {
+                    target.data('active', true);
+                    var arr = [], i = data.geonames.length, item;
+                    while(i--) {
+                        item = data.geonames[i];
+                        arr[i] = item.name + (item.adminName1 ? ", "+item.adminName1 : "") + ", " + item.countryName;
+                    }
+                    target.data('typeahead').source = arr;
+                    target.trigger('keyup');
+                    target.data('active', false);
+                });
+            }
+        }
+    });
+}
+
+
+
+// general help func ############################################### url manipulation
+function urlSearchGetQuery(key, search) {
+    // return the value of key 'key'
+    var queries = parseSearchToQueries(getSearchString(search));
+    return queries[key];
+}
+
+function urlSearchSetQuery(key, value, search) {
+    // return a search string with a query key=value
+    if(key===undefined || value===undefined) {
+        return '?'+getSearchString(search);
+    }
+    var queries = parseSearchToQueries(getSearchString(search)); // by default, current search string
+    var new_search = '?';
+    for(var query in queries) {
+        if(query!==key) {
+            new_search += query+'='+queries[query]+'&';
+        }
+    }
+    return new_search + escape(key)+'='+escape(value);
+}
+
+function urlSearchUnsetQuery(key, search) {
+    var new_search = '_';
+    if(key===undefined) {
+        new_search = '&'+getSearchString(search);
+    }else{
+        var queries = parseSearchToQueries(getSearchString(search)); // by default, current search string
+        for(var query in queries) {
+            if(query!==key) {
+                new_search += '&'+query+'='+queries[query];
+            }
+        }
+    }
+    if(new_search.length>1) {
+        new_search = new_search.replace(/_&/, '?');
+    }else if(new_search.length=1) {
+        new_search = '';
+    }
+    return new_search;
+}
+
+function parseSearchToQueries(search) {
+    // search: string with form, key=value&key=value...
+    // all other form will be ignored
+    var queries = {};
+    if(typeof(search)!=='string') {
+        return queries;
+    }
+    var pairs = search.split('&');
+    for(i=0;i<pairs.length;i++) {
+        var pair = pairs[i].split('=');
+        if(pair.length === 2) {
+            queries[pair[0]] = pair[1];
+        }
+    }
+    return queries;
+}
+
+function getSearchString(search) {
+    // return first sub string after ? of search
+    // by default, the current query string
+    if(search===undefined) {
+        // default, current search string
+        search = document.location.search;
+    }
+    var strings = search.split('?');
+    if(strings.length > 1) {
+        return strings[1];
+    }
+    return strings[0];
+}
+
+function pageGoto(args) {
+    if(typeof(args) !== 'object') {
+        return undefined;
+    }
+    //var host = typeof(args['host'])==='string' ? args['host'] : window.location.host;
+    var pathname = typeof(args['pathname'])==='string' ? args['pathname'] : window.location.pathname;
+    var search = typeof(args['search'])==='string' ? args['search'] : window.location.search;
+    var hash = typeof(args['hash'])==='string' ? args['hash'] : window.location.hash;
+
+    var href = pathname+search+hash;
+    if(args['session'] === false) {
+        window.location.replace(href);
+    }else{
+        window.location = href;
+    }
+}
+// ########################################################################### end of url manipulation
+window.settings = {
+    'get_ajax_resource': get_ajax_resource
+};
+
+function get_ajax_resource(target) {
+    var method = target.attr('method');
+    var url = target.attr('url');
+    var data = target.attr('data');
+    var toggle = target.attr('callback-toggle');
+    var animation = ajax_animation(target);
+    if(method==='get') {
+        $.get(url, function(data) { 
+            $(toggle).html(data);
+            animation.remove();
+        });
+    }else{
+        $.post(url, data, function(data) { 
+            $(toglle).html(data);
+            animation.remove();
+        });
+    }
+}
+

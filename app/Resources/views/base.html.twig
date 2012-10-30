@@ -5,10 +5,14 @@
         <title>{% block title %}Welcome to Fujitsu Telecom France SAS{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <!-- jquery lib -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
         <!-- le styles -->
         {% block stylesheets %}
         <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
         <link href="{{ asset('css/addition.css') }}" rel="stylesheet">
+        <link href="{{ asset('jquery-ui/css/smoothness/jquery-ui-1.9.1.custom.css') }}" rel="stylesheet">
         <style type="text/css">
             body { 
                 padding-top: 60px;
@@ -128,13 +132,22 @@
 					
         {% block javascript %}
         <!-- javascript -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script src="{{ asset('js/bootstrap.js') }}"></script>     
+        <script src="{{ asset('jquery-ui/js/jquery-ui-1.9.1.custom.min.js') }}"></script>     
         <script src="{{ asset('js/bootbox.js') }}"></script>     
         <script src="{{ asset('js/addition.js') }}"></script>
         <!-- activate the menu item -->
         <script>
+        // get ajax loading image
+        // ToDo: deplace this function in addition.js
+        function ajax_animation(target) {
+            return $('<span><img src="{{ asset("img/ajax-loader.gif") }}"></span>')
+                .prependTo(target)
+            ;
+        }
+
         $(document).ready(function () {
+            // menu init
             // nav menu
             $('li.navbar-item').each(function() {
                 var href = $(this).children('a').attr('href'); 
@@ -156,7 +169,6 @@
                     $(this).removeClass('active');
                 }
             });
-        //    $('li.nav-item').html("{{ app.request.pathInfo~','~app.request.requestUri~','~app.request.baseUrl~','~app.request.basePath}}");
         });
         </script>
         {% endblock %}
