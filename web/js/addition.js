@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    // add device info dynamique
+    // add device info dynamique ****************************************************
     $('#ftfs_servicebundle_serviceticket_form_asset').each(function() { 
         $(this).after('<a class="btn btn-success" href="#"><i class="icon-plus icon-white"></i></a>');
         var add = $(this).siblings('a');
@@ -39,6 +39,8 @@ $(document).ready(function () {
         return substrs[pos].trim();
     }
 
+    // ******************************************************************************************
+    //
     /*
     bootbox.alert("Custom label text !", "Custom button", function() {
         // code after dismission

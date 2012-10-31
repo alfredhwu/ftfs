@@ -55,6 +55,9 @@ class UserController extends Controller
             if($form->isValid())
             {
                 $this->get('fos_user.user_manager')->updateUser($user);
+                //
+                $user->setIsAgent($user->isAgent());
+                $this->get('fos_user.user_manager')->updateUser($user);
             }
             return $this->redirect($this->generateUrl('ftfsuserbundle_user_index'));
         }

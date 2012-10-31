@@ -62,12 +62,20 @@
         </tr>
         <tr>
             <th>{{ ('ftfs.servicebundle.serviceticket.table.service') | trans({}, 'crud') }}</th>
-            {% if is_granted('ROLE_AGENT') %}
-            <td colspan=2>{{ entity.service }}</td>
-            <th>{{ ('ftfs.servicebundle.serviceticket.table.assigned.to') | trans({}, 'crud') }}</th>
-            <td colspan=2>{{ entity.assignedTo }}</td>
+            <td colspan=1>{{ entity.service }}</td>
+            {% if 'rma' in meta|keys %}
+            <th>{{ ('RMA') | trans({}, 'crud') }}</th>
+            <td>{{ meta['rma'] }}</td>
+            {% elseif entity.assignedTo == app.user and entity.service.id == 2 %}
+            <td colspan=2><a href="{{ path('ftfs_dashboardbundle_myservice_generate_rma', { 'id':entity.id } ) }}">{{ ('click to generate a RMA') | trans({}, 'crud') }}</a></td>
             {% else %}
-            <td colspan=5>{{ entity.service }}</td>
+            <td colspan=2></td>
+            {% endif %}
+            {% if is_granted('ROLE_AGENT') %}
+            <th>{{ ('ftfs.servicebundle.serviceticket.table.assigned.to') | trans({}, 'crud') }}</th>
+            <td>{% if entity.assignedTo is not null %}{{ entity.assignedTo.getFullName() }}{% endif %}</td>
+            {% else %}
+            <td colspan=2></td>
             {% endif %}
         </tr>
         <tr>

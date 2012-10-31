@@ -1,0 +1,27 @@
+{% if entity.service.id == 1 or entity.service.id == 3 %}{# assistance & maintain #}
+    <h4>Intervention Records</h4>
+    {% if observations|length > 0%}
+        <table class="table table-striped" width="100%">
+        {% for ob in observations|reverse if ob.content['type'] == 'intervention' %}
+            <tr>
+                <th width=10%>{{ ob.sendBy.getFullName() }} @{{ ob.sendAt | date('Y-m-d H:i:s') }}</th>
+                <td>{{ ob.getContentSummary() }}</td>
+                <td width=10%></td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+{% elseif entity.service.id == 2%}{# logistic #}
+    <h4>Logistic Records</h4>
+    {% if observations|length > 0%}
+        <table class="table table-striped" width="100%">
+        {% for ob in observations|reverse if ob.content['type'] == 'logistic' %}
+            <tr>
+                <th width=10%>{{ ob.sendBy.getFullName() }} @{{ ob.sendAt | date('Y-m-d H:i:s') }}</th>
+                <td>{{ ob.getContentSummary() }}</td>
+                <td width=10%></td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+{% endif %}

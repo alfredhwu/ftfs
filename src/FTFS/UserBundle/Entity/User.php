@@ -79,11 +79,26 @@ class User extends BaseUser
      */
     protected $other_phone_2;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $is_agent;
+
+    public function isAgent()
+    {
+        return $this->hasRole('ROLE_AGENT') || $this->hasRole('ROLE_ADMIN');
+    }
+
     public function __construct()
     {
         parent::__construct();
         // your own logic
         $this->setUsername('anonymous');
+    }
+
+    public function getFullName()
+    {
+        return $this->getFirstName().' '.$this->getSurname();
     }
 
     public function __toString()
@@ -332,5 +347,25 @@ class User extends BaseUser
     public function getCompany()
     {
         return $this->company;
+    }
+
+    /**
+     * Set is_agent
+     *
+     * @param boolean $isAgent
+     */
+    public function setIsAgent($isAgent)
+    {
+        $this->is_agent = $isAgent;
+    }
+
+    /**
+     * Get is_agent
+     *
+     * @return boolean 
+     */
+    public function getIsAgent()
+    {
+        return $this->is_agent;
     }
 }

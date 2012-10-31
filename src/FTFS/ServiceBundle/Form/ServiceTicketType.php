@@ -28,121 +28,10 @@ class ServiceTicketType extends AbstractType
     {
         $view = $this->getOption('view');
         $role = $this->getOption('role');
-        switch($view)
+        switch($role)
         {
-            case 'new':
-                if($role == 'client')
-                {
-                    $builder
-                        ->add('severity', 'choice', array(
-                            'preferred_choices' => array(300),
-                            'choices' => array(
-                                100 => 'Very High',
-                                200 => 'High',
-                                300 => 'Normal',
-                                400 => 'Low',
-                                500 => 'Very Low',
-                            ),
-                        ))
-                        ->add('requested_by', 'text', array(
-                            'read_only' => true,
-                        ))
-                        ->add('service')
-                        ->add('summary')
-                        ->add('detail')
-                        ->add('devices', 'collection', array(
-                            'type' => new \FTFS\AssetBundle\Form\DeviceType(),
-                            'allow_add' => true,
-                            'allow_delete' => true,
-                            'by_reference' => false,
-                        ))
-                    ;
-                }elseif($role=='agent'){
-                    $builder
-                        ->add('severity', 'choice', array(
-                            'preferred_choices' => array(300),
-                            'choices' => array(
-                                100 => 'Very High',
-                                200 => 'High',
-                                300 => 'Normal',
-                                400 => 'Low',
-                                500 => 'Very Low',
-                            ),
-                        ))
-                        ->add('priority', 'choice', array(
-                            'preferred_choices' => array(300),
-                            'choices' => array(
-                                100 => 'Very High',
-                                200 => 'High',
-                                300 => 'Normal',
-                                400 => 'Low',
-                                500 => 'Very Low',
-                            ),
-                        ))
-                        ->add('company', 'entity', array(
-                            'class' => 'FTFSUserBundle:Company',
-                            'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                                return $er->createQueryBuilder('c')
-                                            ->where('c.is_client = 1')
-                                            ->orderBy('c.name', 'ASC');
-                            },
-                            'empty_value' => '<Select>',
-                            'required' => false,
-                        ))
-                        ->add('requested_by', 'entity', array(
-                            'class' => 'FTFSUserBundle:User',
-                            'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                                return $er->createQueryBuilder('u')
-                                            ->leftJoin('u.company', 'c')
-                                            ->where('c.is_client = 1')
-                                            ->orderBy('u.surname', 'ASC', 'u.firstname', 'ASC');
-                            },
-                            'empty_value' => '<Select>',
-                        ))
-                        ->add('requested_at', null, array(
-                            'widget' => 'single_text',
-                        ))
-                        ->add('requested_via', 'choice', array(
-                            'preferred_choices' => array('telephone'),
-                            'choices' => array(
-                                'telephone' => 'Telephone',
-                                'email' => 'Email',
-                                'fax' => 'Fax',
-                            ),
-                        ))
-                        ->add('service')
-                        /*
-                        ->add('asset', 'entity', array(
-                            'class' => 'FTFSAssetBundle:Asset',
-                            'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                                return $er->createQueryBuilder('a')
-                                            ->orderBy('a.name', 'ASC');
-                            },
-                            'empty_value' => '<Select>',
-                            'required' => false,
-                        ))
-                        ->add('devices', null, array(
-                            'empty_value' => '<Select>',
-                            'required' => false,
-                        ))
-                         */
-                        ->add('assigned_to')
-                        ->add('summary')
-                        ->add('detail')
-                        ->add('devices', 'collection', array(
-                            'type' => new \FTFS\AssetBundle\Form\DeviceType(),
-                            'allow_add' => true,
-                            'allow_delete' => true,
-                            'by_reference' => false,
-                        ))
-                    ;
-                }
-                break;
-            case 'edit':
+            case 'client':
                 $builder
-                    ->add('name', null, array(
-                        'read_only' => true,
-                    ))
                     ->add('severity', 'choice', array(
                         'preferred_choices' => array(300),
                         'choices' => array(
@@ -153,44 +42,97 @@ class ServiceTicketType extends AbstractType
                             500 => 'Very Low',
                         ),
                     ))
-                    ;
-                if($role == 'client')
-                {
-                    $builder
-                        ->add('requested_by', 'text', array(
-                            'read_only' => true,
-                        ))
-                    ;
-                }elseif($role=='agent'){
-                    $builder
-                        ->add('priority', 'choice', array(
-                            'preferred_choices' => array(300),
-                            'choices' => array(
-                                100 => 'Very High',
-                                200 => 'High',
-                                300 => 'Normal',
-                                400 => 'Low',
-                                500 => 'Very Low',
-                            ),
-                        ))
-                        ->add('requested_by')
-                        ->add('requested_at', null, array(
-                            'read_only' => true,
-                            'widget' => 'single_text',
-                        ))
-                        ->add('requested_via', 'text', array(
-                            'read_only' => true,
-                        ))
-                        ->add('assigned_to')
-                    ;
-                }
-                $builder
+                    ->add('requested_by', 'text', array(
+                        'read_only' => true,
+                    ))
                     ->add('service')
-                    //->add('asset')
-                    //->add('devices')
+                    ->add('summary')
+                    ->add('detail')
+                    ->add('devices', 'collection', array(
+                        'type' => new \FTFS\AssetBundle\Form\DeviceType(),
+                        'allow_add' => true,
+                        'allow_delete' => true,
+                        'by_reference' => false,
+                    ))
+                ;
+                break;
+            case 'agent':
+                $builder
+                    ->add('severity', 'choice', array(
+                        'preferred_choices' => array(300),
+                        'choices' => array(
+                            100 => 'Very High',
+                            200 => 'High',
+                            300 => 'Normal',
+                            400 => 'Low',
+                            500 => 'Very Low',
+                        ),
+                    ))
+                    ->add('priority', 'choice', array(
+                        'preferred_choices' => array(300),
+                        'choices' => array(
+                            100 => 'Very High',
+                            200 => 'High',
+                            300 => 'Normal',
+                            400 => 'Low',
+                            500 => 'Very Low',
+                        ),
+                    ))
+                    ->add('company', 'entity', array(
+                        'class' => 'FTFSUserBundle:Company',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                            return $er->createQueryBuilder('c')
+                                        ->where('c.is_client = 1')
+                                        ->orderBy('c.name', 'ASC');
+                        },
+                        'empty_value' => '<Select>',
+                        'required' => false,
+                    ))
+                    ->add('requested_by', 'entity', array(
+                        'class' => 'FTFSUserBundle:User',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                            return $er->createQueryBuilder('u')
+                                        ->leftJoin('u.company', 'c')
+                                        ->where('c.is_client = 1')
+                                        ->andWhere('u.is_agent = 0')
+                                        ->orderBy('u.surname', 'ASC', 'u.firstname', 'ASC');
+                        },
+                        'empty_value' => '<Select>',
+                    ))
+                    ->add('requested_at', null, array(
+                        'widget' => 'single_text',
+                    ))
+                    ->add('requested_via', 'choice', array(
+                        'preferred_choices' => array('telephone'),
+                        'choices' => array(
+                            'telephone' => 'Telephone',
+                            'email' => 'Email',
+                            'fax' => 'Fax',
+                        ),
+                    ))
+                    ->add('service')
+                    ->add('assigned_to', 'entity', array(
+                        'class' => 'FTFSUserBundle:User',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                            return $er->createQueryBuilder('u')
+                                        ->leftJoin('u.company', 'c')
+                                        ->where('u.is_agent = 1')
+                                        ->andWhere('c.is_client = 0')
+                                        ->andWhere('c.is_supplier = 0')
+                                        ->orderBy('u.surname', 'ASC', 'u.firstname', 'ASC');
+                        },
+                    ))
                     ->add('summary')
                     ->add('detail')
                     ;
+                    if($view === 'new') {
+                        $builder->add('devices', 'collection', array(
+                            'type' => new \FTFS\AssetBundle\Form\DeviceType(),
+                            'allow_add' => true,
+                            'allow_delete' => true,
+                            'by_reference' => false,
+                        ));
+                    }
                 break;
             default:
         }

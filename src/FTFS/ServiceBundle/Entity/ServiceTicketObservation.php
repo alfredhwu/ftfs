@@ -61,26 +61,35 @@ class ServiceTicketObservation
         $this->content = array();
     }
 
-    /**
-     * Get content
-     *
-     * @return text 
-     */
-    public function getContent()
+    public function getContentSummary()
     {
-        return 'cocuouo';
-        //return $this->content;
+        $content = $this->getContent();
+        switch($content['type']) {
+            case 'message':
+                $summary = '[Message:] '.$content['message'].'.';
+                break;
+            case 'intervention':
+                $summary = '[Intervention Report:] From '.$content['from'].' to '.$content['to'].', '.$content['agent'].' visited site "'.$content['site'].'" and said: '.$content['report'].'.';
+                break;
+            case 'logistic':
+                $summary = '[Logistic:] '.$content['at'].', '.$content['operator'];
+                $operation = $content['operation'];
+                if($operation === 'Send') {
+                    $summary .= ' sended ';
+                }elseif($operation === 'Received') {
+                    $summary .= ' received ';
+                }else{
+                    $summary = 'null';
+                    break;
+                }
+                $summary .= 'the package ['.$package = $content['package'].'] by '.$content['by'].'.';
+                break;
+            default:
+                $summary = 'null';
+        }
+        return $summary;
     }
 
-    /**
-     * Set content
-     *
-     * @param text $content
-     */
-    public function setContent(array $content)
-    {
-        $this->content = $content;
-    }
 
     /** ********************************************* end of specification */
 
@@ -173,5 +182,25 @@ class ServiceTicketObservation
     public function getAttachTo()
     {
         return $this->attach_to;
+    }
+
+    /**
+     * Get content
+     *
+     * @return text 
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Set content
+     *
+     * @param text $content
+     */
+    public function setContent(array $content)
+    {
+        $this->content = $content;
     }
 }

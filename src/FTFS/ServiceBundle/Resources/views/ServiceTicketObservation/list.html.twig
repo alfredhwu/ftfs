@@ -2,6 +2,7 @@
     <div id="observation-plugin">
     {% include 'FTFSServiceBundle:ServiceTicketObservation:plugin.html.twig' %}
     </div>
+    <h4>All Observations</h4>
     <table class="table table-striped" width="100%">
         <!-- new observation -->
         <tr id="observation-add-target" class="hide">
@@ -43,7 +44,6 @@
                 </a>
                 <br>
                 <span class="observation-content">
-                {{ ob.content }}
                 {% include 'FTFSServiceBundle:ServiceTicketObservation:content.html.twig' with { 'ob' : ob } %}
                 </span>
             </td>

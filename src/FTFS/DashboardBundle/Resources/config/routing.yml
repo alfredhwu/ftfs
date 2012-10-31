@@ -39,6 +39,11 @@ ftfs_dashboardbundle_myservice_delete:
     pattern:  /myservice/{id}/delete
     defaults: { _controller: FTFSDashboardBundle:MyService:delete }
 
+## rma
+ftfs_dashboardbundle_myservice_generate_rma:
+    pattern:  /myservice/{id}/rma/generate
+    defaults: { _controller: FTFSDashboardBundle:MyService:generateRMA }
+
 ## share list
 ftfs_dashboardbundle_myservice_sharelist_add:
     pattern:  /myservice/{id}/sharelist/add

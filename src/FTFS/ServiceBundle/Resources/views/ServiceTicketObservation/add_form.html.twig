@@ -2,19 +2,23 @@
 <div> 
     <ul id="observation-add-tab" class="nav nav-tabs">
         <li class="active"><a href="#message" data-toggle="tab">Message</a></li>
+        {% if is_granted('ROLE_AGENT') %}
         <li><a href="#intervention" data-toggle="tab">Intervention</a></li>
         <li><a href="#logistic" data-toggle="tab">Logistic</a></li>
+        {% endif %}
     </ul>
     <div id="observation-add-contents" class="tab-content">
         <div class="tab-pane fade in active" id="message">
-            <form id="observation-add-form" name="observation_add_form" action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
+            <form action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
                 {{ form_row(observation_add_form.message_message) }}
                 <input type="hidden" name="add-to-id" value="{{ add_to_id }}">
+                <input type="hidden" name="type" value="message">
                 <input type="submit" class="btn btn-primary">
             </form>
         </div>
+        {% if is_granted('ROLE_AGENT') %}
         <div class="tab-pane fade" id="intervention">
-            <form id="observation-add-form" name="observation_add_form" action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
+            <form action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
                 {{ form_row(observation_add_form.intervention_site) }}
                 <div class="control-group">
                     <label class="control-label">Time of intervention:</label>
@@ -33,20 +37,22 @@
                 </div>
                 {{ form_row(observation_add_form.intervention_agent) }}
                 {{ form_row(observation_add_form.intervention_report) }}
-                <input type="hidden" name="add-to-id" value="{{ add_to_id }}">
+                <input type="hidden" name="type" value="intervention">
                 <input type="submit" class="btn btn-primary">
             </form>
         </div>
         <div class="tab-pane fade" id="logistic">
-            <form id="observation-add-form" name="observation_add_form" action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
+            <form action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
                 {{ form_row(observation_add_form.logistic_by) }}
                 {{ form_row(observation_add_form.logistic_at) }}
+                {{ form_row(observation_add_form.logistic_package_name) }}
                 {{ form_row(observation_add_form.logistic_operation) }}
-                {{ form_row(observation_add_form.logistic_agent) }}
-                <input type="hidden" name="add-to-id" value="{{ add_to_id }}">
+                {{ form_row(observation_add_form.logistic_operator) }}
+                <input type="hidden" name="type" value="logistic">
                 <input type="submit" class="btn btn-primary">
             </form>
         </div>
+        {% endif %}
     </div>
 </div>
 <script>
@@ -54,25 +60,52 @@
         $(window).scrollTop(400);
     });
 
+    $('ul#observation-add-tab > li > a').click(function(e) {
+        $(window).scrollTop(400);
+    });
+
+    // type ahead
+    addTypeaheadLocation($('input#form_intervention_site'));
+
     // add jquery-ui datepicker
-    $('input.datepicker-from').datepicker({
-        defaultDate: "+1w",
+    $('input#form_logistic_at').datepicker({
+        defaultDate: 0,
         changeMonth: true,
+        changeYear: true,
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        numberOfMonth: 1,
+    });
+    $('input.datepicker-from').datepicker({
+        defaultDate: 0,
+        changeMonth: true,
+        changeYear: true,
         showOtherMonths: true,
         selectOtherMonths: true,
         numberOfMonth: 1,
         onClose: function(selectedDate) {
-            $('input.datepicker-to').datepicker("option", "minDate", selectedDate);
+            var to = $('input.datepicker-to');
+            if(to.val() == '') {
+                to.val($(this).val());
+            }else{
+                to.datepicker("option", "minDate", selectedDate);
+            }
         }
     });
     $('input.datepicker-to').datepicker({
-        defaultDate: "+1w",
+        defaultDate: 0,
         changeMonth: true,
+        changeYear: true,
         showOtherMonths: true,
         selectOtherMonths: true,
         numberOfMonth: 1,
         onClose: function(selectedDate) {
-            $('input.datepicker-from').datepicker("option", "maxDate", selectedDate);
+            var from = $('input.datepicker-from');
+            if(from.val() == '') {
+                from.val($(this).val());
+            }else{
+                from.datepicker("option", "maxDate", selectedDate);
+            }
         }
     });
 </script>

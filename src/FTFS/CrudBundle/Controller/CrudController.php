@@ -8,6 +8,31 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 abstract class CrudController extends Controller
 {
     protected $namespaces;
+   
+    private $meta = array();
+    
+    public function setMeta($key, $value)
+    {
+        $this->meta[$key] = $value;
+    }
+
+    public function unsetMeta($key)
+    {
+        unset($this->meta[$key]);
+    }
+
+    public function getMeta($key = null)
+    {
+        if(is_string($key)) {
+            if(array_key_exists($key, $this->meta)) {
+                return $this->meta[$key];
+            }else{
+                return null;
+            }
+        }else{
+            return $this->meta;
+        }
+    }
 
     public function __construct(array $namespaces)
     {
@@ -237,8 +262,10 @@ abstract class CrudController extends Controller
         //
         //$this->registerEvent('show', $entity);
         $entity = $this->getEntity('show', $id);
+        //throw new \Exception(print_r($this->getMeta()));
         return $this->render($this->getViewPath().':show.html.twig', array(
             'entity' => $entity,
+            'meta' => $this->getMeta(),
             'prefix' => $this->getRoutingPrefix(),
         ));
     }
