@@ -1,6 +1,8 @@
 ftfs_servicebundle_homepage:
-    pattern:  /
-    defaults: { _controller: FTFSServiceBundle:Default:index }
+    #pattern:  /
+    #defaults: { _controller: FTFSServiceBundle:Default:index }
+    pattern:  /ticket/list
+    defaults: { _controller: FTFSServiceBundle:ServiceTicket:index }
 
 ## service ticket ##############################################################
 #

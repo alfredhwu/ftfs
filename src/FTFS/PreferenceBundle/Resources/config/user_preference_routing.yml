@@ -1,3 +1,11 @@
 ftfs_preferencebundle_user_preference:
     pattern:  /{id}/home
     defaults: { _controller: FTFSPreferenceBundle:Default:userPreference }
+
+ftfs_preferencebundle_set_user_locale:
+    pattern:  /{id}/locale/setting/{locale}
+    defaults: { _controller: FTFSPreferenceBundle:Default:setUserLocale }
+
+ftfs_preferencebundle_set_user_timezone:
+    pattern:  /{id}/timezone/setting
+    defaults: { _controller: FTFSPreferenceBundle:Default:setUserTimeZone }

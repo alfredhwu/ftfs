@@ -92,7 +92,7 @@ class EventNotificationNotifier
                     case 'attachment_deleteed':
                     case 'observation_added':
                         $this->registerNotifications($eventlog, $service_ticket->getRequestedBy());
-                        if($service_ticket->getAssignedTo()) {
+                        if($service_ticket->getAssignedTo() && !$service_ticket->getAssignedTo()->isLocked()) {
                             $this->registerNotifications($eventlog, $service_ticket->getAssignedTo());
                         }
                         break;
@@ -102,8 +102,8 @@ class EventNotificationNotifier
                         switch($action['option']) {
                             // owner; responsible
                             case 'create.open':
-                                throw new \Exception('debuging');
-                                if($service_ticket->getAssignedTo()) {
+                                //throw new \Exception('debuging');
+                                if($service_ticket->getAssignedTo() && !$service_ticket->getAssignedTo()->isLocked()) {
                                     $this->registerNotifications($eventlog, $service_ticket->getAssignedTo());
                                 }
                                 $this->registerNotifications($eventlog, $service_ticket->getRequestedBy());
@@ -209,9 +209,9 @@ class EventNotificationNotifier
             'destinaire' => $notified_to,
             'subject' => $service_ticket,
             'subject_href' => $this->router->generate(
-                'ftfs_dashboardbundle_myservice_show', 
+                'ftfs_dashboardbundle_myservice_show_by_name', 
                 array(
-                    'id' => $this->getSubject('serviceticket', $event_action)->getId(),
+                    'name' => $event_action['serviceticket_name'],
                 ), 
                 true
             ),
@@ -268,9 +268,31 @@ class EventNotificationNotifier
     {
         if(array_key_exists($subject.'_class', $action) && 
             array_key_exists($subject.'_name', $action)) {
-                return $this->em->getRepository($action[$subject.'_class'])
+                $entity = $this->em->getRepository($action[$subject.'_class'])
                     ->findOneBy(array('name' => $action[$subject.'_name']));
+                if($entity) {
+                    return $entity;
+                }else{
+                    return $this->getNewTicket($subject, $action);
+                }
         }
         return null;
+    }
+
+    protected function getNewTicket($subject, array $action)
+    {
+        $entity = new \FTFS\ServiceBundle\Entity\ServiceTicket;
+        $entity->setName($action['serviceticket_name']);
+        $entity->setStatus($action['serviceticket_status']);
+        $entity->setLastModifiedAt($action['serviceticket_last_modified_at']);
+        $entity->setRequestedAt($action['serviceticket_requested_at']);
+        $entity->setRequestedBy($this->em->getRepository('FTFSUserBundle:User')->find($action['serviceticket_requested_by']));
+        $user = $this->em->getRepository('FTFSUserBundle:User')->find($action['serviceticket_assigned_to']);
+        if($user) {
+            $entity->setAssignedTo($user);
+        }
+        $entity->setSummary($action['serviceticket_summary']);
+        $entity->setDetail($action['serviceticket_detail']);
+        return $entity;
     }
 }

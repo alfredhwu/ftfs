@@ -1,0 +1,14 @@
+config_navbar:
+    menu.items:
+        dashboard:   'Dashboard'
+        service:     'Service'
+        asset:       'Asset'
+        product:     'Product'
+        user:        'User'
+        preferences: 'Preferences'
+        help:        'Help'
+    session.items:
+        profile:     'Profile'
+        preferences: 'Preferences'
+        notification_center: 'Notification Center'
+        sign_out:    'Sign Out'

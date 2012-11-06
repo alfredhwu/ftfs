@@ -1,11 +1,12 @@
 {% block menu_content %}
     <li class="nav-header">User Management</li>
-    <li class="navmenu-item"><a href="{{ path('ftfsuserbundle_user_index') }}"><i class="icon-user"></i> All Users</a></li>
-    <li class="navmenu-item"><a href="{{ path('ftfsuserbundle_user_invite') }}"><i class="icon-home"></i> Invite a user</a></li>
+    <li class="navmenu-item"><a href="{{ path('ftfsuserbundle_user_index', {'role':'client'}) }}"><i class="icon-user"></i> All Clients</a></li>
+    <li class="navmenu-item"><a href="{{ path('ftfsuserbundle_user_index', {'role':'agent'}) }}"><i class="icon-user"></i> All Agents</a></li>
+    <li class="navmenu-item"><a href="{{ path('ftfsuserbundle_user_invite') }}"><i class="icon-plus"></i> Invite a user</a></li>
 
     <li class="nav-header">Company Management</li>
     <li class="navmenu-item"><a href="{{ path('ftfs_userbundle_company_index') }}"><i class="icon-home"></i> All Registered Companies</a></li>
 
     <li class="nav-header">Role Management</li>
-    <li class="navmenu-item"><a href="{{ path('ftfsuserbundle_role_index') }}"><i class="icon-home"></i> All Roles</a></li>
+    <li class="navmenu-item"><a href="{{ path('ftfsuserbundle_role_index') }}"><i class="icon-user"></i> All Roles</a></li>
 {% endblock %}

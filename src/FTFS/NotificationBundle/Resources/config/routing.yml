@@ -1,47 +1,46 @@
 ## dashboard
 ftfs_notificationbundle_dashboard_index:
-    pattern:  /dashboard/notification/index
-    defaults: { _controller: FTFSNotificationBundle:Dashboard:index }
+    pattern:  /dashboard/{_locale}/notification/index
+    defaults: { _controller: FTFSNotificationBundle:Dashboard:index, _locale: en}
 
 ftfs_notificationbundle_dashboard_clear_system_notification:
-    pattern:  /dashboard/notification/clear
-    defaults: { _controller: FTFSNotificationBundle:Dashboard:systemNotificationClear }
+    pattern:  /dashboard/{_locale}/notification/clear
+    defaults: { _controller: FTFSNotificationBundle:Dashboard:systemNotificationClear, _locale: en}
 
 ftfs_notificationbundle_dashboard_remove_system_notification:
-    pattern:  /dashboard/notification/remove/{id}
-    defaults: { _controller: FTFSNotificationBundle:Dashboard:systemNotificationRemove }
+    pattern:  /dashboard/{_locale}/notification/remove/{id}
+    defaults: { _controller: FTFSNotificationBundle:Dashboard:systemNotificationRemove, _locale: en}
 
 # ajax url for count filter
 ftfs_notificationbundle_dashboard_get_one_notification:
-    pattern:  /dashboard/notification/get_one_notification
-    defaults: { _controller: FTFSNotificationBundle:Dashboard:getOneNotification }
+    pattern:  /dashboard/{_locale}/notification/get_one_notification
+    defaults: { _controller: FTFSNotificationBundle:Dashboard:getOneNotification, _locale: en}
 
 ftfs_notificationbundle_dashboard_get_notification_count:
-    pattern:  /dashboard/notification/get_notification_count
-    defaults: { _controller: FTFSNotificationBundle:Dashboard:getNotificationCount }
+    pattern:  /dashboard/{_locale}/notification/get_notification_count
+    defaults: { _controller: FTFSNotificationBundle:Dashboard:getNotificationCount, _locale: en}
 
 ## preference
 ftfs_notificationbundle_preference_event_definition:
-    pattern:  /admin/preference/notification/event_definition
-    defaults: { _controller: FTFSNotificationBundle:Preference:eventDefinition }
+    pattern:  /admin/{_locale}/preference/notification/event_definition
+    defaults: { _controller: FTFSNotificationBundle:Preference:eventDefinition, _locale: en}
 
 ftfs_notificationbundle_preference_event_add:
-    pattern:  /admin/preference/notification/event_add
-    defaults: { _controller: FTFSNotificationBundle:Preference:eventAdd }
+    pattern:  /admin/{_locale}/preference/notification/event_add
+    defaults: { _controller: FTFSNotificationBundle:Preference:eventAdd, _locale: en}
 
 ftfs_notificationbundle_preference_event_catch_filter_default:
-    pattern:  /admin/preference/notification/event_catch_filter_default/{id}/{auto}
-    defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilterDefault }
+    pattern:  /admin/{_locale}/preference/notification/event_catch_filter_default/{id}/{auto}
+    defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilterDefault, _locale: en}
 
 ftfs_notificationbundle_preference_event_catch_filter_index:
-    pattern:  /dashboard/preference/{id}/notification/event_catch_filter
-    defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilterList }
+    pattern:  /dashboard/{_locale}/preference/{id}/notification/event_catch_filter
+    defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilterList, _locale: en}
 
 ftfs_notificationbundle_preference_event_catch_filter_reset:
-    pattern:  /dashboard/preference/{id}/notification/event_catch_filter/resetting
-    defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilterReset }
+    pattern:  /dashboard/{_locale}/preference/{id}/notification/event_catch_filter/resetting
+    defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilterReset, _locale: en}
 
 ftfs_notificationbundle_preference_event_catch_filter:
-    pattern:  /dashboard/preference/{id}/notification/event_catch_filter/{event_id}/{auto}
-    defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilter }
-
+    pattern:  /dashboard/{_locale}/preference/{id}/notification/event_catch_filter/{event_id}/{auto}
+    defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilter, _locale: en}

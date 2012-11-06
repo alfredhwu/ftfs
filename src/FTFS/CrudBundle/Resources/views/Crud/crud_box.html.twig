@@ -6,11 +6,13 @@
         <h2>{{ (prefix~'.table.caption')|trans({}, 'crud') }}</h2>
         <hr>
         <div id="crud-box-title-control">
+            {% if searchable is defined and searchable %}
             <form class="form-search pull-right">
                 <div class="input-append">
                     <input type="text" class="search-query input-medium" placeholder="search"><button type="submit" class="btn btn-primary btn-small"><i class="icon-search icon-white"></i></button>
                 </div>
             </form>
+            {% endif %}
             {% if read_only is not defined or not read_only %}
             <span class="pull-left">
                 <a class="btn btn-success" href="{{ path(prefix~'_new') }}">

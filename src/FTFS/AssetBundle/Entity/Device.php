@@ -29,7 +29,7 @@ class Device
     /**
      * @var string $module_name
      *
-     * @ORM\Column(name="module_name", type="string", length=255)
+     * @ORM\Column(name="module_name", type="string", length=255, nullable=true)
      */
     private $module_name;
 

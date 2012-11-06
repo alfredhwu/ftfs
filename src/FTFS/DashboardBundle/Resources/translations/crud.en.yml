@@ -37,6 +37,8 @@ ftfs_dashboardbundle_myservice:
                 success:    "New service ticket created successfully !"
             take:
                 success:    "You have successfully taken the ticket!"
+            submit:
+                success:    "You have successfully submit the request!"
     table:
         caption:            "Service Ticket List"
         operations:         "Operations"

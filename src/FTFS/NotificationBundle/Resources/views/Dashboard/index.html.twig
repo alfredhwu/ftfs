@@ -1,4 +1,8 @@
-{% extends "FTFSDashboardBundle::layout.html.twig" %}
+{% extends "FTFSUserBundle::layout.html.twig" %}
+
+{% block body_menu %}
+{% include "FTFSUserBundle:Profile:body_menu.html.twig" %}
+{% endblock %}
 
 {% block body_content %}
 <h3>

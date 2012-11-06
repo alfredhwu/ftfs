@@ -1,0 +1,9 @@
+{% set ob = action.observation %}
+{% if ob.type == 'intervention' %}
+Intervention at {{ ob.site }} from {{ ob.from }} to {{ ob.to }} by {{ ob.agent }}
+{{ ob.report }}
+{% elseif ob.type == 'logistic' %}
+{{ ob.package }} {{ ob.operation }} via {{ ob.by }} at {{ ob.at }} by {{ ob.operator }}
+{% else %} {# message by default #}
+{{ ob.message }}
+{% endif %}

@@ -2,3 +2,10 @@ ftfs_preferencebundle_homepage:
     pattern:  /
     defaults: { _controller: FTFSPreferenceBundle:Default:index }
 
+ftfs_preferencebundle_set_locale:
+    pattern:  /locale/setting/{locale}
+    defaults: { _controller: FTFSPreferenceBundle:Default:setLocale }
+
+ftfs_preferencebundle_set_timezone:
+    pattern:  /timezone/setting
+    defaults: { _controller: FTFSPreferenceBundle:Default:setTimeZone }

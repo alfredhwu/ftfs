@@ -1,12 +1,18 @@
+FTFSSystemBundle:
+    resource: "@FTFSSystemBundle/Resources/config/routing.yml"
+    prefix:   /
+
 ################## general json entry point
 ##############3
 FTFSProductBundle:
     resource: "@FTFSProductBundle/Resources/config/routing.yml"
-    prefix:   /admin/product
+    prefix:   /admin/{_locale}/product
+    defaults: {_locale: en}
 
 FTFSAssetBundle:
     resource: "@FTFSAssetBundle/Resources/config/routing.yml"
-    prefix:   /admin/asset
+    prefix:   /admin/{_locale}/asset
+    defaults: {_locale: en}
 
 # homepage of ftfs, routing to dashboardbundle:default:index by default,
 # to be updated in the prod version
@@ -18,19 +24,23 @@ ftfshomepage:
 #############################################################################
 FTFSDashboardBundle:
     resource: "@FTFSDashboardBundle/Resources/config/routing.yml"
-    prefix:   /dashboard
+    prefix:   /dashboard/{_locale}
+    defaults: {_locale: en}
 
 FTFSUserBundle:
     resource: "@FTFSUserBundle/Resources/config/routing/user_routing.yml"
-    prefix:   /admin/user
+    prefix:   /admin/{_locale}/user
+    defaults: {_locale: en}
 
 FTFSUserBundle_role:
     resource: "@FTFSUserBundle/Resources/config/routing/role_routing.yml"
-    prefix:   /admin/role
+    prefix:   /admin/{_locale}/role
+    defaults: {_locale: en}
 
 FTFSServiceBundle:
     resource: "@FTFSServiceBundle/Resources/config/routing.yml"
-    prefix:   /admin/service
+    prefix:   /admin/{_locale}/service
+    defaults: {_locale: en}
 
 # fos_userbundle routing rules
 fos_user_security:
@@ -58,14 +68,17 @@ fos_user_change_password:
 
 FTFSNotificationBundle:
     resource: "@FTFSNotificationBundle/Resources/config/routing.yml"
+    prefix:   /
 
 FTFSPreferenceBundle:
     resource: "@FTFSPreferenceBundle/Resources/config/routing.yml"
-    prefix:   /admin/preference
+    prefix:   /admin/{_locale}/preference
+    defaults: {_locale: en}
 
 FTFSPreferenceBundle_user:
     resource: "@FTFSPreferenceBundle/Resources/config/user_preference_routing.yml"
-    prefix:   /dashboard/preference
+    prefix:   /dashboard/{_locale}/preference
+    defaults: {_locale: en}
 
 
 # Internal routing configuration to handle ESI

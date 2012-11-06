@@ -12,8 +12,16 @@ class UserController extends Controller
     
     public function indexAction()
     {
+        /*
         $userManager = $this->get('fos_user.user_manager');
         $users = $userManager->findUsers();
+         */
+        $role = $this->getRequest()->get('role');
+        $is_agent = $role === 'agent' ? true : false;
+        $users = $this->getDoctrine()->getEntityManager()
+            ->getRepository('FTFSUserBundle:User')->findBy(array(
+                'is_agent' => $is_agent,
+            ));
         return $this->render('FTFSUserBundle:User:index.html.twig', array('users' => $users));
     }
 
@@ -55,7 +63,7 @@ class UserController extends Controller
             if($form->isValid())
             {
                 $this->get('fos_user.user_manager')->updateUser($user);
-                //
+                // add an indicator
                 $user->setIsAgent($user->isAgent());
                 $this->get('fos_user.user_manager')->updateUser($user);
             }
@@ -73,6 +81,20 @@ class UserController extends Controller
         return null;
     }
 
+    public function lockAction(User $user)
+    {
+        $user->setLocked(true);
+        $this->getDoctrine()->getEntityManager()->flush();
+        return $this->redirect($this->generateUrl('ftfsuserbundle_user_index'));
+    }
+
+    public function unlockAction(User $user)
+    {
+        $user->setLocked(false);
+        $this->getDoctrine()->getEntityManager()->flush();
+        return $this->redirect($this->generateUrl('ftfsuserbundle_user_index'));
+    }
+
     public function inviteAction()
     {
         $request = $this->getRequest();
@@ -83,9 +105,11 @@ class UserController extends Controller
                     ->add('email', 'email')
                     ->add('roles', 'choice', array(
                         'choices' => array(
+                            'ROLE_CLIENT' => 'ROLE_CLIENT',
+                            'ROLE_CLIENT_COMPANY' => 'ROLE_CLIENT_COMPANY',
                             'ROLE_ADMIN' => 'ROLE_ADMIN',
                             'ROLE_AGENT' => 'ROLE_AGENT',
-                            'ROLE_CLIENT' => 'ROLE_CLIENT',
+                            'ROLE_COORDINATOR' => 'ROLE_COORDINATOR',
                         ),
                         'multiple' => true,
                     ))

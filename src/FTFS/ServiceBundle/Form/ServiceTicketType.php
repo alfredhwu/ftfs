@@ -48,13 +48,15 @@ class ServiceTicketType extends AbstractType
                     ->add('service')
                     ->add('summary')
                     ->add('detail')
-                    ->add('devices', 'collection', array(
+                ;
+                if($view==='new') {
+                    $builder->add('devices', 'collection', array(
                         'type' => new \FTFS\AssetBundle\Form\DeviceType(),
                         'allow_add' => true,
                         'allow_delete' => true,
                         'by_reference' => false,
-                    ))
-                ;
+                    ));
+                }
                 break;
             case 'agent':
                 $builder

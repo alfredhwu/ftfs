@@ -3,12 +3,12 @@
 {% block navbar_menu %}
     <ul class="nav">
         {% if is_granted('ROLE_CLIENT') or is_granted('ROLE_AGENT') %}
-        <li class="navbar-item"><a href="{{ path('ftfs_dashboardbundle_homepage') }}">Dashboard</a></li>
+        <li class="navbar-item"><a href="{{ path('ftfs_dashboardbundle_homepage') }}">{{ 'config_navbar.menu.items.dashboard' | trans }}</a></li>
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
         <li class="dropdown navbar-item">
             <a href="#" pseudo-href="{{ path('ftfs_servicebundle_homepage') }}" class="dropdown-toggle" data-toggle="dropdown">
-                Service 
+                {{ 'config_navbar.menu.items.service' | trans }}
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
@@ -17,21 +17,29 @@
                 <li><a href="#">Maintainance Service</a></li>
             </ul>
         </li>
-        <li>
-            <a href="{{ path('ftfs_assetbundle_homepage') }}">Asset</a>
-        </li>
-        <li>
-            <a href="{{ path('ftfs_productbundle_homepage') }}">Product</a>
+        <li class="navbar-item">
+            <a href="{{ path('ftfs_assetbundle_homepage') }}">{{ 'config_navbar.menu.items.asset' | trans }}</a>
         </li>
         <li class="navbar-item">
-            <a href="{{ path('ftfsuserbundle_user_index') }}">User</a>
+            <a href="{{ path('ftfs_productbundle_homepage') }}">
+            {{ 'config_navbar.menu.items.product' | trans }}
+            </a>
         </li>
         <li class="navbar-item">
-            <a href="{{ path('ftfs_preferencebundle_homepage') }}">Preferences</a>
+            <a href="{{ path('ftfsuserbundle_user_index') }}">
+            {{ 'config_navbar.menu.items.user' | trans }}
+            </a>
+        </li>
+        <li class="navbar-item">
+            <a href="{{ path('ftfs_preferencebundle_homepage') }}">
+            {{ 'config_navbar.menu.items.preferences' | trans }}
+            </a>
         </li>
         {% endif %}
         <li>
-            <a href="#">Help</a>
+            <a href="#">
+            {{ 'config_navbar.menu.items.help' | trans }}
+            </a>
         </li>
     </ul>
 {% endblock %}

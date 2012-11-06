@@ -31,9 +31,37 @@ ftfs_serviceticket:
     detail:     'detail description'
     asset:      'related asset no.'
 
-ftfs_notification_key:
-    event.serviceticket.create: 'Service Ticket Creation'
-    event.serviceticket.update: 'Service Ticket Modification'
-    event.serviceticket.attachment_upload: 'Add a document to a service ticket'
-    event.serviceticket.attachment_delete: 'Delete a document to a service ticket'
-    event.serviceticket.observation_add: 'Add a new observation'
+ftfs_notification_key.event.serviceticket:
+    created: 
+        auto:   'Confirm me when I started a new service ticket'
+        other:  'Inform me when a client started a new service ticket'
+    submitted: 
+        auto:   'Confirm me when I submitted a new service ticket request'
+        other:  'Inform me when a client submitted a new service ticket request'
+    assigned: 
+        auto:   'Confirm me when I took a new service ticket'
+        other:  'Inform me when other agent took a new service ticket'
+    reassigned: 
+        auto:   'Confirm me when I retook a new service ticket'
+        other:  'Inform me when other agent retook a new service ticket'
+    opened: 
+        auto:   'Confirm me when I opened a service ticket for a client'
+        other:  'Inform me when my service ticket has been confirmed and opened'
+    closed: 
+        auto:   'Confirm me when I closed a service ticket for a client'
+        other:  'Inform me when my service ticket has been closed'
+    updated: 
+        auto:   'Confirm me when I modified a service ticket'
+        other:  'Inform me when my service ticket has been modified by others'
+    attachment_uploaded: 
+        auto:   'Confirm me when I uploaded an attachment to a service ticket'
+        other:  'Inform me when others uploaded an attachment to my service ticket'
+    attachment_removed: 
+        auto:   'Confirm me when I removed an attachment of a service ticket'
+        other:  'Inform me when others removed an attachment from my service ticket'
+    attachment_downloaded: 
+        auto:   'Confirm me when I downloaded an attachment to a service ticket'
+        other:  'Inform me when others downloaded an attachment to my service ticket'
+    observation_added: 
+        auto:   'Confirm me when I left an observation to a service ticket'
+        other:  'Inform me when others left an observation to my service ticket'

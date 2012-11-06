@@ -41,8 +41,12 @@ security:
         #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
 
     role_hierarchy:
-        ROLE_AGENT:       ROLE_USER
+        # client roles
+        ROLE_CLIENT_COMPANY: ROLE_USER
         ROLE_CLIENT:      ROLE_USER
+        # agent roles
+        ROLE_AGENT:       ROLE_USER
         ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_COORDINATOR: [ROLE_AGENT, ROLE_ADMIN]
+        ROLE_SUPER_ADMIN: [ROLE_COORDINATOR, ROLE_ALLOWED_TO_SWITCH]
 

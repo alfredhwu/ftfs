@@ -1,30 +1,28 @@
 {% extends "FTFSCrudBundle::layout.html.twig" %}
 
 {% block crud %}
-{% if read_only is defined and read_only %}
-<h2 class="pull-left">{{ (prefix~'.table.caption')|trans({}, 'crud') }}</h2>
-<form class="form-search pull-right">
-    <div class="input-append">
-        <input type="text" class="search-query input-medium" placeholder="search"><button type="submit" class="btn btn-primary btn-small"><i class="icon-search icon-white"></i></button>
+    <h2>{{ (prefix~'.table.caption')|trans({}, 'crud') }}</h2>
+    <hr>
+    <div>
+        {% if read_only is defined and read_only %}
+        {% else %}
+            <a class="btn btn-success pull-left" href="{{ path(prefix~'_new') }}">
+                <i class="icon-edit icon-white"></i>
+                {{ (prefix~'.table.action.new')|trans({}, 'crud') }}
+            </a>
+            {% if searchable is defined and searchable %}
+            <form class="form-search pull-right">
+                <div class="input-append">
+                    <input type="text" class="search-query input-medium" placeholder="search"><button type="submit" class="btn btn-primary btn-small"><i class="icon-search icon-white"></i></button>
+                </div>
+            </form>
+            {% endif %}
+        {% endif %}
+        {% block crud_filter_bar %}
+        {% endblock %}
     </div>
-</form>
-<br>
-<hr>
-{% else %}
-<h2>{{ (prefix~'.table.caption')|trans({}, 'crud') }}</h2>
-<hr>
-<a class="btn btn-success pull-left" href="{{ path(prefix~'_new') }}">
-    <i class="icon-edit icon-white"></i>
-    {{ (prefix~'.table.action.new')|trans({}, 'crud') }}
-</a>
-<form class="form-search pull-right">
-    <div class="input-append">
-        <input type="text" class="search-query input-medium" placeholder="search"><button type="submit" class="btn btn-primary btn-small"><i class="icon-search icon-white"></i></button>
-    </div>
-</form>
-{% endif %}
-{% block crud_filter_bar %}
-{% endblock %}
+    <br>
+    <br>
 <table class="table table-bordered table-striped table-condensed table-smart">
     <thead>
         <tr>

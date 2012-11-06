@@ -1,1 +1,40 @@
 {% extends 'FTFSPreferenceBundle::layout.html.twig' %}
+
+{% block body_content %}
+    <h2>{{ 'ftfs_preferencebundle_homepage.default_locale.title' | trans() }}</h2>
+    <hr>
+    <table>
+        <tr>
+            <th>{{ 'ftfs_preferencebundle_homepage.default_locale.select' | trans() }}</th>
+            <td>
+                <select id="default_locale">
+                    <option {% if options['locale'] == 'fr_FR' %}selected="selected"{% endif%}>fr_FR</option>
+                    <option {% if options['locale'] == 'en_US' %}selected="selected"{% endif%}>en_US</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>{{ 'ftfs_preferencebundle_homepage.default_timezone.select' | trans() }}</th>
+            <td>
+                {{ form_widget(form.timezone) }}
+            </td>
+        </tr>
+    </table>
+    <script>
+        // load default timezone
+        $('option[value="{{ options['timezone'] }}"]').attr('selected', 'selected');
+
+        // set default timezone
+        $('select#form_timezone').change(function(){
+            var href = "{{ path('ftfs_preferencebundle_set_timezone', {'timezone' : '_timezone'} ) }}";
+            window.location.replace(href.replace('_timezone', $(this).val()));
+        });
+
+        // set default locale
+        $('select#default_locale').change(function(){
+            var href = "{{ path('ftfs_preferencebundle_set_locale', {'locale' : '_locale'} ) }}";
+            window.location.replace(href.replace('_locale', $(this).val()));
+        });
+    </script>
+{% endblock body_content %}
+

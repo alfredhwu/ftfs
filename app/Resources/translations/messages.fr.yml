@@ -1,0 +1,14 @@
+config_navbar:
+    menu.items:
+        dashboard:   'Tableau de Bord'
+        service:     'Service'
+        asset:       'Asset'
+        product:     'Produit'
+        user:        'Utilisateur'
+        preferences: 'Préférences'
+        help:        'Aide'
+    session.items:
+        profile:     'Profile'
+        preferences: 'Préférences'
+        notification_center: 'Centre du Notification'
+        sign_out:    'Déconnexter'

@@ -32,7 +32,7 @@
                 <tr>
                     {% set index = index + 1 %}
                     <td class="tight">{{ index }}</td>
-                    <td>{{ ('ftfs_notification_key.'~event.eventKey) |trans({}, 'notification') }}</td>
+                    <td>{{ ('ftfs_notification_key.'~event.eventKey~'.auto') |trans({}, 'notification') }}</td>
                     <td><ul>
                         {% for method in auto_methods[event.eventKey]%}
                         <li>{{ method }}</li>
@@ -62,7 +62,7 @@
                 <tr>
                     {% set index = index + 1 %}
                     <td class="tight">{{ index }}</td>
-                    <td>{{ ('ftfs_notification_key.'~event.eventKey) |trans({}, 'notification') }}</td>
+                    <td>{{ ('ftfs_notification_key.'~event.eventKey~'.other') |trans({}, 'notification') }}</td>
                     <td><ul>
                         {% for method in other_methods[event.eventKey]%}
                         <li>{{ method }}</li>

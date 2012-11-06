@@ -25,7 +25,7 @@
                 <tr>
                     {% set index = index + 1 %}
                     <td class="tight">{{ index }}</td>
-                    <td>{{ ('ftfs_notification_key.'~event.eventKey) |trans({}, 'notification') }}</td>
+                    <td>{{ ('ftfs_notification_key.'~event.eventKey~'.auto') |trans({}, 'notification') }}</td>
                     <td><ul>
                         {% for auto_filter in auto_filters[event.eventKey]%}
                         <li>{{ auto_filter.method }}</li>
@@ -55,7 +55,7 @@
                 <tr>
                     {% set index = index + 1 %}
                     <td class="tight">{{ index }}</td>
-                    <td>{{ ('ftfs_notification_key.'~event.eventKey) |trans({}, 'notification') }}</td>
+                    <td>{{ ('ftfs_notification_key.'~event.eventKey~'.other') |trans({}, 'notification') }}</td>
                     <td><ul>
                         {% for other_filter in other_filters[event.eventKey]%}
                         <li>{{ other_filter.method }}</li>

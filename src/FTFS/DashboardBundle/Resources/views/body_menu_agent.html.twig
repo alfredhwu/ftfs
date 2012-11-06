@@ -8,7 +8,7 @@
     <li class="divider"></li>
 
     {# closed, opened, interrupted, assigned #}
-    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'all' }) }}"><i class="icon-list"></i> All My Assigned Tickets <span class="pull-right badge">{% if app.session.has('counter-menu-all') %}{{ app.session.get('counter-menu-all') }}{% else %}...{% endif %}</span></a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'allassigned' }) }}"><i class="icon-list"></i> All My Assigned Tickets <span class="pull-right badge">{% if app.session.has('counter-menu-allassigned') %}{{ app.session.get('counter-menu-allassigned') }}{% else %}...{% endif %}</span></a></li>
 
     <li class="divider"></li>
 

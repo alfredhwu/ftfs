@@ -132,7 +132,7 @@ class MyServiceController extends BaseController
                 $queryBuilder
                     ->andWhere("e.status = 'submitted' or e.status = 'assigned'");
                 break;
-            case 'all':
+            case 'allassigned':
                 break;
             // additional filter for agent
             case 'alldeployed':
@@ -894,5 +894,14 @@ class MyServiceController extends BaseController
         $em->flush();
 
         return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
+    }
+
+    public function showByNameAction($name)
+    {
+        $entity = $this->getDoctrine()->getEntityManager()->getRepository('FTFSServiceBundle:ServiceTicket')->findOneByName($name);
+        if(!$entity) {
+            throw $this->createNotFoundException('Service ticket: '.$name.' not found !');
+        }
+        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $entity->getId())));
     }
 }

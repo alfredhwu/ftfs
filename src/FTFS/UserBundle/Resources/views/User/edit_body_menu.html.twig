@@ -1,10 +1,14 @@
 {% extends "FTFSUserBundle::body_menu.html.twig" %}
 {% block menu_content %}
     <li class="nav-header">User Profile</li>
-    <li class="navmenu-item"><a href="{{ path('ftfsuserbundle_user_edit', { 'username' : user.username }) }}"><i class="icon-user"></i> Modify Profile</a></li>
+    <li class="navmenu-item"><a href="{{ path('ftfsuserbundle_user_edit', { 'username' : user.username }) }}"><i class="icon-edit"></i> Modify Profile</a></li>
     <li class="navmenu"><a href="{{ path('ftfsuserbundle_user_edit_roles', { 'username' : user.username }) }}"><i class="icon-user"></i> Modify Roles</a></li>
-    <li class="navmenu"><a href="{{ path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) }}"><i class="icon-user"></i> Reset Password</a></li>
-    <li class="navmenu"><a href="{{ path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) }}"><i class="icon-user"></i> Lock This User</a></li>
+    <li class="navmenu"><a href="{{ path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) }}"><i class="icon-qrcode"></i> Reset Password</a></li>
+    {% if not user.locked %}
+    <li class="navmenu"><a href="{{ path('ftfsuserbundle_user_lock_account', { 'username' : user.username }) }}"><i class="icon-lock"></i> Lock This User</a></li>
+    {% else %}
+    <li class="navmenu"><a href="{{ path('ftfsuserbundle_user_unlock_account', { 'username' : user.username }) }}"><i class="icon-lock"></i> Unlock This User</a></li>
+    {% endif %}
     {% if is_granted('ROLE_SUPER_ADMIN') %}
         {% if 'ROLE_SUPER_ADMIN' in user.roles %}
     <li class="navmenu"><a href="{{ path('ftfsuserbundle_user_edit_password', { 'username' : user.username }) }}"><i class="icon-user"></i> 

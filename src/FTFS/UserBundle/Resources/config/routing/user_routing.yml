@@ -11,6 +11,14 @@ ftfsuserbundle_user_edit:
     pattern:  /user/{username}/edit
     defaults: { _controller: FTFSUserBundle:User:edit }
 
+ftfsuserbundle_user_lock_account:
+    pattern:  /user/{username}/lock
+    defaults: { _controller: FTFSUserBundle:User:lock }
+
+ftfsuserbundle_user_unlock_account:
+    pattern:  /user/{username}/unlock
+    defaults: { _controller: FTFSUserBundle:User:unlock }
+
 ftfsuserbundle_user_edit_roles:
     pattern:  /user/{username}/edit_roles
     defaults: { _controller: FTFSUserBundle:User:editRoles }

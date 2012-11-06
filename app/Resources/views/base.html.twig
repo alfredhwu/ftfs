@@ -71,20 +71,20 @@
                                     <ul class="dropdown-menu">
                                         <li><a href="{{ path('fos_user_profile_show') }}">
                                             <i class="icon-user"></i>
-                                            Profile
+                                            {{ 'config_navbar.session.items.profile' | trans }}
                                         </a></li>
                                         <li><a href="{{ path('ftfs_preferencebundle_user_preference', { 'id' : app.user.id }) }}">
                                             <i class="icon-wrench"></i>
-                                            Preference
+                                            {{ 'config_navbar.session.items.preferences' | trans }}
                                         </a></li>
                                         <li><a href="{{ path('ftfs_notificationbundle_dashboard_index') }}">
                                             <i class="icon-envelope"></i>
-                                            Notification Center
+                                            {{ 'config_navbar.session.items.notification_center' | trans }}
                                         </a></li>
                                         <li class="divider"></li>
                                         <li><a href="{{ path('fos_user_security_logout') }}">
                                             <i class="icon-off"></i>
-                                            Sign Out
+                                            {{ 'config_navbar.session.items.sign_out' | trans }}
                                         </a></li>
                                     </ul>
                                 {% else %}
@@ -125,7 +125,7 @@
         <hr> 
         <footer>
         {% block footer %}
-            <p class="pull-left">{% block version %}Version 0.1.0{% endblock %}</p> <p class="pull-right">&copy;Fujitsu Télécom France SAS 2012</p>
+            <p class="pull-left">{% block version %}Version 0.3.0{% endblock %}</p> <p class="pull-right">&copy;Fujitsu Télécommunication France SAS 2012, All Rights Reserved</p>
         {% endblock %}
         </footer>
         </div>
@@ -162,12 +162,24 @@
             });
             // body menu
             $('li.navmenu-item').each(function() {
-                var href = $(this).children('a').attr('href'); 
-                if(href == "{{ app.request.requestUri }}") {
+                var href = $(this).children('a').attr('href').split('?'); 
+                href[1] = typeof href[1] === 'undefined' ? 'undefined' : href[1];
+                var url = "{{ app.request.requestUri }}".split('?');
+                url[1] = typeof url[1] === 'undefined' ? 'undefined' : url[1];
+                if(url[0] === href[0] && url[1].match(href[1])) {
                     $(this).addClass('active');
                 }else{
                     $(this).removeClass('active');
                 }
+            /*
+                var href = $(this).children('a').attr('href'); 
+                var url = "{{ app.request.requestUri }}";
+                if((url.replace('?', '_and_')).match(href.replace('?', '_and_'))) {
+                    $(this).addClass('active');
+                }else{
+                    $(this).removeClass('active');
+                }
+                */
             });
         });
         </script>

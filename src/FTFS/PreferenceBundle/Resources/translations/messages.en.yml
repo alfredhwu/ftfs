@@ -1,0 +1,4 @@
+ftfs_preferencebundle_homepage:
+    default_locale.title:   'System Default Configurations:'
+    default_locale.select:  'Default System Locale:'
+    default_timezone.select: 'Default Time Zone:'

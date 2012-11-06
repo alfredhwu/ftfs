@@ -78,6 +78,13 @@ class ServiceTicketListener
             }
             if($option) {
                 $action['option']=$option;
+                $action['serviceticket_status']=$entity->getStatus();
+                $action['serviceticket_last_modified_at']=$entity->getLastModifiedAt();
+                $action['serviceticket_requested_at']=$entity->getRequestedAt();
+                $action['serviceticket_requested_by']=$entity->getRequestedBy()->getId();
+                $action['serviceticket_summary']=$entity->getSummary();
+                $action['serviceticket_detail']=$entity->getDetail();
+                $action['serviceticket_assigned_to']=$entity->getAssignedTo()?$entity->getAssignedTo()->getId():-1;
                 $action_name = $action['name'];
                 $this->notify('event.serviceticket.'.$action_name, $action);
             }

@@ -24,9 +24,10 @@ class NameGenerator
     {
         $base = 500;
         $next = strval($base + $offset);
-        $date = new \DateTime('now');
-        $date = $date->format('Ymd');
-        $name = strtoupper('RMA'.$date).'______';
+        //$date = new \DateTime('now');
+        //$date = $date->format('Ymd');
+        //$name = strtoupper('RMA'.$date).'______';
+        $name = strtoupper('RMA').'-______';
         $name = substr($name, 0, strlen($name)-strlen($next)).$next;
         $name = preg_replace('/_/', '0', $name);
         return $name;

@@ -11,9 +11,12 @@ class EditRolesFormType extends AbstractType
     {
         $builder->add('roles', 'choice', array(
             'choices' => array(
+                'ROLE_CLIENT_COMPANY' => 'ROLE_CLIENT_COMPANY',
+                'ROLE_CLIENT' => 'ROLE_CLIENT',
+                //
                 'ROLE_ADMIN' => 'ROLE_ADMIN',
                 'ROLE_AGENT' => 'ROLE_AGENT',
-                'ROLE_CLIENT' => 'ROLE_CLIENT',
+                'ROLE_COORDINATOR' => 'ROLE_COORDINATOR',
             ),
             'multiple' => true,
         ))        
