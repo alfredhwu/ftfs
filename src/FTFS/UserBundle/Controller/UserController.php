@@ -103,6 +103,7 @@ class UserController extends Controller
 
         $form = $this->createFormBuilder($invitation)
                     ->add('email', 'email')
+                    ->add('company')
                     ->add('roles', 'choice', array(
                         'choices' => array(
                             'ROLE_CLIENT' => 'ROLE_CLIENT',
@@ -125,24 +126,8 @@ class UserController extends Controller
                 // test if email already exists
                 $em->persist($invitation);
                 $em->flush();
-                $message = \Swift_Message::newInstance()
-                            ->setSubject('Invitation for inscription to Support Service of Fujitsu Telecom France SAS')
-                            ->setFrom(array('support@fujitsu-telecom.fr'=>'Support Service - Fujitsu Telecom France SAS'))
-                            ->setTo($invitation->getEmail())
-                            ->setBody(
-                                $this->renderView('FTFSUserBundle:User:invitation_email.html.twig', array(
-                                    'code' => $invitation->getCode(), 
-                                    'email' => $invitation->getEmail(),
-                                )),
-                                'text/html'
-                            )
-                            ->addPart($this->renderView('FTFSUserBundle:User:invitation_email.txt.twig', array(
-                                'code' => $invitation->getCode(),
-                                'email' => $invitation->getEmail(),
-                            )))
-                            ;
-                $this->get('mailer')->send($message);
-                return $this->redirect($this->generateUrl('ftfsuserbundle_user_index'));
+
+                return $this->redirect($this->generateUrl('ftfsuserbundle_user_invitation_send', array('code'=>$invitation->getCode())));
             }
         }
 
@@ -151,4 +136,60 @@ class UserController extends Controller
         ));
     }
 
+    public function invitationSendAction($code)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $invitation = $em->getRepository('FTFSUserBundle:Invitation')->findOneByCode($code);
+        if(!$invitation) {
+            throw $this->createNotFoundException('invitaion not found !');
+        }
+        $message = \Swift_Message::newInstance()
+                    ->setSubject('Invitation for inscription to Support Service of Fujitsu Telecom France SAS')
+                    ->setFrom(array('support@fujitsu-telecom.fr'=>'Support Service - Fujitsu Telecom France SAS'))
+                    ->setTo($invitation->getEmail())
+                    ->setBody(
+                        $this->renderView('FTFSUserBundle:User:invitation_email.html.twig', array(
+                            'code' => $invitation->getCode(), 
+                            'email' => $invitation->getEmail(),
+                        )),
+                        'text/html'
+                    )
+                    ->addPart($this->renderView('FTFSUserBundle:User:invitation_email.txt.twig', array(
+                        'code' => $invitation->getCode(),
+                        'email' => $invitation->getEmail(),
+                    )))
+                    ;
+        $result = $this->get('mailer')->send($message);
+        if($result > 0) {
+            // callback: if sent, updating invitation
+            $invitation->send();
+            $em->flush();
+        }
+        return $this->redirect($this->generateUrl('ftfsuserbundle_user_invitation_list'));
+    }
+
+    public function invitationListAction()
+    {
+        $invitations = $this->getDoctrine()->getEntityManager()
+            ->getRepository('FTFSUserBundle:Invitation')->findBy(
+                array('accepted' => false),
+                array('email' => 'asc')
+            );
+        return $this->render('FTFSUserBundle:User:invitation_list.html.twig', array(
+            'invitations' => $invitations,
+        ));
+    }
+
+    public function invitationDeleteAction($code)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $invitation = $em->getRepository('FTFSUserBundle:Invitation')->findOneByCode($code);
+        if(!$invitation) {
+            throw $this->createNotFoundException('invitaion not found !');
+        }
+        $em->remove($invitation);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('ftfsuserbundle_user_index'));
+    }
 }

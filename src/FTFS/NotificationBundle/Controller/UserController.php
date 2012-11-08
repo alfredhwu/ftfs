@@ -5,7 +5,7 @@ namespace FTFS\NotificationBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
-class DashboardController extends Controller
+class UserController extends Controller
 {
     public function indexAction()
     {
@@ -16,7 +16,7 @@ class DashboardController extends Controller
             ), array(
                 'id' => 'desc',
             ));
-        return $this->render('FTFSNotificationBundle:Dashboard:index.html.twig', array(
+        return $this->render('FTFSNotificationBundle:User:index.html.twig', array(
             'notifications' => $notifications,
         ));
     }
@@ -51,7 +51,7 @@ class DashboardController extends Controller
             }
         }
         $em->flush();
-        return $this->redirect($this->generateUrl('ftfs_notificationbundle_dashboard_index'));
+        return $this->redirect($this->generateUrl('ftfs_notificationbundle_user_index'));
     }
 
     /**

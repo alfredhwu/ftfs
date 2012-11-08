@@ -63,7 +63,7 @@
                                         </span>
                                         <span class="label label-inverse">
                                             <i class="icon-envelope icon-white"></i>
-(<span id="notification-counter" url="{{ path('ftfs_notificationbundle_dashboard_get_notification_count') }}">{% if app.session.has('counter-notification') %}{{ app.session.get('counter-notification') }}{% else %}...{% endif %}</span>)
+(<span id="notification-counter" url="{{ path('ftfs_notificationbundle_user_get_notification_count') }}">{% if app.session.has('counter-notification') %}{{ app.session.get('counter-notification') }}{% else %}...{% endif %}</span>)
                                         </span>
                                         &nbsp;
                                         <span class="caret"></span>
@@ -77,7 +77,7 @@
                                             <i class="icon-wrench"></i>
                                             {{ 'config_navbar.session.items.preferences' | trans }}
                                         </a></li>
-                                        <li><a href="{{ path('ftfs_notificationbundle_dashboard_index') }}">
+                                        <li><a href="{{ path('ftfs_notificationbundle_user_index') }}">
                                             <i class="icon-envelope"></i>
                                             {{ 'config_navbar.session.items.notification_center' | trans }}
                                         </a></li>

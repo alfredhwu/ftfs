@@ -29,21 +29,21 @@ class Device
     /**
      * @var string $module_name
      *
-     * @ORM\Column(name="module_name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="module_name", type="string", length=255)
      */
     private $module_name;
 
     /**
      * @var string $serial_pn
      *
-     * @ORM\Column(name="serial_pn", type="string", length=255, nullable=true)
+     * @ORM\Column(name="serial_pn", type="string", length=255)
      */
     private $serial_pn;
 
     /**
      * @var string $serial_sn
      *
-     * @ORM\Column(name="serial_sn", type="string", length=255, nullable=true)
+     * @ORM\Column(name="serial_sn", type="string", length=255)
      */
     private $serial_sn;
 

@@ -7,7 +7,7 @@
 {% block body_content %}
 <h3>
     Notifications 
-    <a href="{{ path('ftfs_notificationbundle_dashboard_clear_system_notification') }}" class="pull-right btn">clear all</a>
+    <a href="{{ path('ftfs_notificationbundle_user_clear_system_notification') }}" class="pull-right btn">clear all</a>
 </h3>
 <hr>
 <p>
@@ -15,7 +15,7 @@
     <ul>
     {% for notification in notifications %}
         <li class="alert alert-info">
-        <a href="#" url="{{ path('ftfs_notificationbundle_dashboard_remove_system_notification', { 'id' : notification.id }) }}" class="close" data-dismiss="alert">x</a>
+        <a href="#" url="{{ path('ftfs_notificationbundle_user_remove_system_notification', { 'id' : notification.id }) }}" class="close" data-dismiss="alert">x</a>
         {{ notification.message|raw }}
         </li>
     {% endfor %}

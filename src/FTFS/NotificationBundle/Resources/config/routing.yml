@@ -1,24 +1,24 @@
-## dashboard
-ftfs_notificationbundle_dashboard_index:
-    pattern:  /dashboard/{_locale}/notification/index
-    defaults: { _controller: FTFSNotificationBundle:Dashboard:index, _locale: en}
+## all user
+ftfs_notificationbundle_user_index:
+    pattern:  /user/{_locale}/notification/index
+    defaults: { _controller: FTFSNotificationBundle:User:index, _locale: en}
 
-ftfs_notificationbundle_dashboard_clear_system_notification:
-    pattern:  /dashboard/{_locale}/notification/clear
-    defaults: { _controller: FTFSNotificationBundle:Dashboard:systemNotificationClear, _locale: en}
+ftfs_notificationbundle_user_clear_system_notification:
+    pattern:  /user/{_locale}/notification/clear
+    defaults: { _controller: FTFSNotificationBundle:User:systemNotificationClear, _locale: en}
 
-ftfs_notificationbundle_dashboard_remove_system_notification:
-    pattern:  /dashboard/{_locale}/notification/remove/{id}
-    defaults: { _controller: FTFSNotificationBundle:Dashboard:systemNotificationRemove, _locale: en}
+ftfs_notificationbundle_user_remove_system_notification:
+    pattern:  /user/{_locale}/notification/remove/{id}
+    defaults: { _controller: FTFSNotificationBundle:User:systemNotificationRemove, _locale: en}
 
 # ajax url for count filter
-ftfs_notificationbundle_dashboard_get_one_notification:
-    pattern:  /dashboard/{_locale}/notification/get_one_notification
-    defaults: { _controller: FTFSNotificationBundle:Dashboard:getOneNotification, _locale: en}
+ftfs_notificationbundle_user_get_one_notification:
+    pattern:  /user/{_locale}/notification/get_one_notification
+    defaults: { _controller: FTFSNotificationBundle:User:getOneNotification, _locale: en}
 
-ftfs_notificationbundle_dashboard_get_notification_count:
-    pattern:  /dashboard/{_locale}/notification/get_notification_count
-    defaults: { _controller: FTFSNotificationBundle:Dashboard:getNotificationCount, _locale: en}
+ftfs_notificationbundle_user_get_notification_count:
+    pattern:  /user/{_locale}/notification/get_notification_count
+    defaults: { _controller: FTFSNotificationBundle:User:getNotificationCount, _locale: en}
 
 ## preference
 ftfs_notificationbundle_preference_event_definition:
@@ -33,14 +33,15 @@ ftfs_notificationbundle_preference_event_catch_filter_default:
     pattern:  /admin/{_locale}/preference/notification/event_catch_filter_default/{id}/{auto}
     defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilterDefault, _locale: en}
 
+## personal preferences for all user
 ftfs_notificationbundle_preference_event_catch_filter_index:
-    pattern:  /dashboard/{_locale}/preference/{id}/notification/event_catch_filter
+    pattern:  /user/{_locale}/preference/{id}/notification/event_catch_filter
     defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilterList, _locale: en}
 
 ftfs_notificationbundle_preference_event_catch_filter_reset:
-    pattern:  /dashboard/{_locale}/preference/{id}/notification/event_catch_filter/resetting
+    pattern:  /user/{_locale}/preference/{id}/notification/event_catch_filter/resetting
     defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilterReset, _locale: en}
 
 ftfs_notificationbundle_preference_event_catch_filter:
-    pattern:  /dashboard/{_locale}/preference/{id}/notification/event_catch_filter/{event_id}/{auto}
+    pattern:  /user/{_locale}/preference/{id}/notification/event_catch_filter/{event_id}/{auto}
     defaults: { _controller: FTFSNotificationBundle:Preference:eventCatchFilter, _locale: en}

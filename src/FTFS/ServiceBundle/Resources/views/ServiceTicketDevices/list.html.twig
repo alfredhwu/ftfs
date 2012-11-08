@@ -16,7 +16,12 @@
             </a>
         </span>
         {% endif %}
-        [{{ device.location }}][{{ device.product }}][{{ device.specification }}][{{ device.moduleName }}][{{ device.serialPn }}][{{ device.serialSn }}]
+        [{{ device.product }}]<br>
+        Location: [{{ device.location }}]<br> 
+        Specification: [{{ device.specification }}]</br>
+        Module Name:[{{ device.moduleName }}]</br>
+        P/N: [{{ device.serialPn }}]</br>
+        S/N: [{{ device.serialSn }}]
     </li>
     {% endfor %}
     </ul>

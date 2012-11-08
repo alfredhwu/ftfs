@@ -77,7 +77,7 @@ FTFSPreferenceBundle:
 
 FTFSPreferenceBundle_user:
     resource: "@FTFSPreferenceBundle/Resources/config/user_preference_routing.yml"
-    prefix:   /dashboard/{_locale}/preference
+    prefix:   /user/{_locale}/preference
     defaults: {_locale: en}
 
 

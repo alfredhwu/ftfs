@@ -1,10 +1,10 @@
 {% extends '::menu.html.twig' %}
 {% block menu_content %}
     <li class="nav-header">Service Tickets</li>
-    <li class="navmenu-item"><a href="{{ path('ftfs_servicebundle_serviceticket_index') }}"><i class="icon-home"></i> All Service Tickets</a></li>
+    <li class="navmenu-item"><a href="{{ path('ftfs_servicebundle_serviceticket_index') }}"><i class="icon-list"></i> All Service Tickets</a></li>
    
     <li class="nav-header">Service Definition</li>
-    <li class="navmenu-item"><a href="{{ path('ftfs_servicebundle_service_index') }}"><i class="icon-home"></i> All Available Services</a></li>
-    <li class="navmenu-item"><a href="{{ path('ftfs_servicebundle_service_new') }}"><i class="icon-home"></i> Add a Service Type</a></li>
+    <li class="navmenu-item"><a href="{{ path('ftfs_servicebundle_service_index') }}"><i class="icon-tags"></i> All Available Services</a></li>
+    <li class="navmenu-item"><a href="{{ path('ftfs_servicebundle_service_new') }}"><i class="icon-plus"></i> Add a Service Type</a></li>
     {{ parent() }}
 {% endblock %}

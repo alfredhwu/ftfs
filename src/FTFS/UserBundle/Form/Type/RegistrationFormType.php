@@ -23,7 +23,7 @@ class RegistrationFormType extends BaseType
                 ))
                 ->add('surname')
                 ->add('first_name')
-                ->add('company')
+//                ->add('company')
                 ->add('address', null, array(
                     'required' => false,
                 ))

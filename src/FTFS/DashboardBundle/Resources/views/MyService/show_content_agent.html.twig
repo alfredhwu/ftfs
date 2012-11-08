@@ -12,7 +12,7 @@
                 <i class="icon-share"></i>
             </a>
             {% else %}
-            <a class="btn btn-small crud-action" href="#" crud-message="{{ (prefix~'.form.action.show.close.confirm')|trans({}, 'crud') }}" crud-toggle="{{ path(prefix~'_close', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.close.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+            <a class="btn btn-small" href="{{ path(prefix~'_close', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.close.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
                 <i class="icon-check"></i>
             </a>
             {% endif %}
@@ -23,4 +23,17 @@
             {% endif %}
         {% endif %}
     {% endif %}
+{% endblock %}
+
+{% block crud_content %}
+    {% if action_form is defined %}
+    <form method="post" class="form-horizontal well">
+        {{ form_widget(action_form) }}
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit">
+            <a class="btn" href="{{ path(prefix~'_show', { 'id' : entity.id }) }}">Cancel</a>
+        </div>
+    </form>
+    {% endif %}
+    {{ parent() }}
 {% endblock %}

@@ -116,6 +116,9 @@ class User extends BaseUser
         $invitation = $this->getInvitation();
         if($invitation){
             $this->setRoles($invitation->getRoles());
+            $this->setIsAgent($this->isAgent());
+            $this->setCompany($invitation->getCompany());
+            $invitation->setAccepted(true);
         }
         // set username <= email
         $this->setUsername($this->getEmail());
@@ -128,6 +131,8 @@ class User extends BaseUser
      */
     private $invitation;
 
+
+    // auto generated code ************************************************************/
     public function setInvitation(Invitation $invitation)
     {
         $this->invitation = $invitation;

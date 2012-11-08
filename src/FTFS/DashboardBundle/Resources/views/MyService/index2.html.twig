@@ -42,6 +42,10 @@
         });
 
         // filter: action/download
+        $('input#filename').click(function(e) {
+            var filename = $(this).attr('placeholder');
+            $(this).val(filename);
+        });
         $('a#ticket-filter-action').click(function(e) {
             e.preventDefault();
             var href = $(this).attr('data-source');
@@ -49,10 +53,15 @@
             var from = $('input.datepicker-from').val();
             var to = $('input.datepicker-to').val();
             var status = '';
+
+            var filename = $('input#filename').val();
+            filename = filename && filename.length > 0 ? filename : $(this).attr('placeholder');
+
             href = href.replace(/_type/, type);
             href = href.replace(/_from/, from);
             href = href.replace(/_to/, to);
             href = href.replace(/_status/, status);
+            href = href.replace(/_filename/, filename);
             window.location.replace(href);
         });
         // clear filter

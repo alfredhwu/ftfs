@@ -50,4 +50,18 @@ class ServiceController extends BaseController
         $this->notify('activate');
         return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_index'));
     }
+
+
+
+    public function showAction($id)
+    {
+        $entity = $this->getEntity('show', $id);
+        $form = $this->createForm(new \FTFS\ServiceBundle\Form\ServiceType, $entity);
+        return $this->render($this->getViewPath().':show.html.twig', array(
+            'entity' => $entity,
+            'meta' => $this->getMeta(),
+            'prefix' => $this->getRoutingPrefix(),
+            'form' => $form->createView(),
+        ));
+    }
 }

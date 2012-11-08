@@ -45,7 +45,13 @@ class ServiceTicketType extends AbstractType
                     ->add('requested_by', 'text', array(
                         'read_only' => true,
                     ))
-                    ->add('service')
+                    ->add('service', 'entity', array(
+                        'class' => 'FTFSServiceBundle:Service',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                            return $er->createQueryBuilder('s')
+                                        ->where('s.active = 1');
+                        },
+                    ))
                     ->add('summary')
                     ->add('detail')
                 ;
@@ -112,7 +118,13 @@ class ServiceTicketType extends AbstractType
                             'fax' => 'Fax',
                         ),
                     ))
-                    ->add('service')
+                    ->add('service', 'entity', array(
+                        'class' => 'FTFSServiceBundle:Service',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                            return $er->createQueryBuilder('s')
+                                        ->where('s.active = 1');
+                        },
+                    ))
                     ->add('assigned_to', 'entity', array(
                         'class' => 'FTFSUserBundle:User',
                         'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {

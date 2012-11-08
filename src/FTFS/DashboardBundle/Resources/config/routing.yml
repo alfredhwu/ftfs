@@ -103,7 +103,7 @@ ftfs_dashboardbundle_myservice_open:
     
 ftfs_dashboardbundle_myservice_close:
     pattern:  /myservice/{id}/close
-    defaults: { _controller: FTFSDashboardBundle:MyService:deliver }
+    defaults: { _controller: FTFSDashboardBundle:MyService:close }
     
 ftfs_dashboardbundle_myservice_cancel:
     pattern:  /myservice/{id}/cancel

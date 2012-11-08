@@ -170,6 +170,17 @@ class ServiceTicket
     }
 
     /**
+     * Set assigned_to
+     *
+     * @param FTFS\UserBundle\Entity\User $assignedTo
+     */
+    public function clearAssignedTo()
+    {
+        $this->assigned_to = null;
+    }
+
+
+    /**
      * Get id
      *
      * @return integer 

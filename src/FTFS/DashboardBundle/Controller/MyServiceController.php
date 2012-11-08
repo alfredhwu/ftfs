@@ -36,7 +36,9 @@ class MyServiceController extends BaseController
          */
         $response = new \Symfony\Component\HttpFoundation\Response();
 
-        $filename = 'my_ticket_list.csv';
+        $filename = $this->getRequest()->get('filename');
+        $filename = $filename && strlen($filename) > 0 ? $filename : 'ticket-list.csv';
+
         $response = $this->render($this->getViewPath().':crud_box_index_table.csv.twig', array(
             'list' => $this->getEntityList(array(
                 'pagination' => false,
@@ -460,8 +462,38 @@ class MyServiceController extends BaseController
     public function closeAction($id)
     {
         $entity = $this->getEntity('close', $id);
-        $this->flushEntity($entity, 'close');
-        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $entity->getId())));
+
+        $container = array('observation' => 'observation detail');
+        $action_form = $this->createFormBuilder($container)
+            ->add('report', 'textarea')
+            ->getForm();
+
+        $request = $this->getRequest();
+        if($request->getMethod() === 'POST') {
+            $action_form->bindRequest($request);
+            if($action_form->isValid()) {
+                $observation = new \FTFS\ServiceBundle\Entity\ServiceTicketObservation;
+                $observation->setSendAt(new \DateTime('now'));
+                $observation->setSendBy($this->get('security.context')->getToken()->getUser());
+                $observation->setTicket($entity);
+                $content = array();
+                $content['type'] = 'closure';
+                $data = $action_form->getData();
+                $content['report'] = $data['report'];
+                $observation->setContent($content);
+                $this->getDoctrine()->getEntityManager()->persist($observation);
+                $this->flushEntity($entity, 'close');
+            }
+            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
+                'id' => $id,
+            )));
+        }
+        return $this->render($this->getViewPath().':show.html.twig', array(
+            'entity' => $entity,
+            'meta' => $this->getMeta(),
+            'prefix' => $this->getRoutingPrefix(),
+            'action_form' => $action_form->createView(),
+        ));
     }
 
     /**
@@ -474,11 +506,51 @@ class MyServiceController extends BaseController
     {
         // either to a certain agent
         // or null, if to the admin
-        throw new \Exception('not available yet');
         $entity = $this->getEntity('transfer', $id);
-        $entity->setStatus('20_delivered');
-        $this->getDoctrine()->getEntityManager()->flush();
-        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_index'));
+        $current_user = $this->get('security.context')->getToken()->getUser();
+
+        $data = array(
+            'agent' => $current_user,
+        );
+        $action_form = $this->createFormBuilder($data)
+            ->add('agent', 'entity', array(
+                'class' => 'FTFSUserBundle:User',
+                'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                                ->where('u.is_agent = 1');
+                },
+                'empty_value' => '<Any Agent>',
+                'required' => false,
+                'label' => 'Select the agent to assign to:',
+            ))
+            ->getForm();
+
+        $request = $this->getRequest();
+        if($request->getMethod() === 'POST') {
+            $action_form->bindRequest($request);
+            if($action_form->isValid()) {
+                $data = $action_form->getData();
+                $target = $data['agent'];
+                if($target) {
+                    if($target !== $current_user) {
+                        $entity->setAssignedTo($target);
+                    }
+                }else{
+                    // to all agents
+                    $entity->clearAssignedTo();
+                }
+                $this->getDoctrine()->getEntityManager()->flush();
+            }
+            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
+                'id' => $id,
+            )));
+        }
+        return $this->render($this->getViewPath().':show.html.twig', array(
+            'entity' => $entity,
+            'meta' => $this->getMeta(),
+            'prefix' => $this->getRoutingPrefix(),
+            'action_form' => $action_form->createView(),
+        ));
     }
 
     /**

@@ -42,9 +42,22 @@ class Invitation
     private $sent = false;
 
     /**
+     * @var boolean $accepted
+     *
+     * @ORM\Column(name="accepted", type="boolean")
+     */
+    private $accepted = false;
+
+    /**
      * @ORM\OneToOne(targetEntity="User", inversedBy="invitation", cascade={"persist", "merge"})
      */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Company")
+     */
+    private $company;
+
 
     public function __construct()
     {
@@ -192,5 +205,45 @@ class Invitation
 
         $roles[] = static::ROLE_DEFAULT;
         return array_unique($roles);
+    }
+
+    /**
+     * Set company
+     *
+     * @param FTFS\UserBundle\Entity\Company $company
+     */
+    public function setCompany(\FTFS\UserBundle\Entity\Company $company)
+    {
+        $this->company = $company;
+    }
+
+    /**
+     * Get company
+     *
+     * @return FTFS\UserBundle\Entity\Company 
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    /**
+     * Set accepted
+     *
+     * @param boolean $accepted
+     */
+    public function setAccepted($accepted)
+    {
+        $this->accepted = $accepted;
+    }
+
+    /**
+     * Get accepted
+     *
+     * @return boolean 
+     */
+    public function getAccepted()
+    {
+        return $this->accepted;
     }
 }

@@ -31,6 +31,18 @@ ftfsuserbundle_user_invite:
     pattern:  /invite
     defaults: { _controller: FTFSUserBundle:User:invite }
 
+ftfsuserbundle_user_invitation_send:
+    pattern:  /invitation/{code}/send
+    defaults: { _controller: FTFSUserBundle:User:invitationSend }
+
+ftfsuserbundle_user_invitation_delete:
+    pattern:  /invitation/{code}/delete
+    defaults: { _controller: FTFSUserBundle:User:invitationDelete }
+
+ftfsuserbundle_user_invitation_list:
+    pattern:  /invitation/list
+    defaults: { _controller: FTFSUserBundle:User:invitationList }
+
 ##
 ftfsuserbundle_role_index:
     pattern:  /role/

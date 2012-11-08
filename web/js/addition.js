@@ -83,6 +83,7 @@ $(document).ready(function () {
     });
 
     // prod
+    // use bootbox pop a dialog of confirmation
     $('.crud-action').click(function (e) {
         var message = $(this).attr('crud-message');
         var action = $(this).attr('crud-toggle');
@@ -198,6 +199,9 @@ $(document).ready(function () {
 
 
 });
+
+
+
 // ##################### type ahead location
 function addTypeaheadLocation(typeaheadHolder) { 
     typeaheadHolder.attr('data-provide', 'typeahead');
