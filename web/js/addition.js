@@ -339,10 +339,11 @@ function get_ajax_resource(target) {
     var url = target.attr('url');
     var url_handle = target.attr('url-handle');
     url_handle = typeof url_handle == 'undefined' || url_handle == '' ? url : url_handle;
-    alert(url_handle);
+    url_handle = escape(url_handle);
     var data = target.attr('data');
     var toggle = target.attr('callback-toggle');
     var animation = ajax_animation(target);
+    alert(url_handle);
     if(method==='get') {
         $.get(url, { action: url_handle }, function(data) { 
             $(toggle).html(data);
