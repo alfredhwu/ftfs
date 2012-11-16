@@ -84,6 +84,10 @@ ftfs_dashboardbundle_myservice_devices_edit:
     defaults: { _controller: FTFSDashboardBundle:MyService:devicesEdit }
 
 ## observation
+ftfs_dashboardbundle_myservice_observation_attachment_upload:
+    pattern:  /myservice/{id}/observation/attachment/upload
+    defaults: { _controller: FTFSDashboardBundle:MyService:observationAttachmentUpload }
+
 ftfs_dashboardbundle_myservice_observation_add:
     pattern:  /myservice/{id}/observation/add
     defaults: { _controller: FTFSDashboardBundle:MyService:observationAdd }

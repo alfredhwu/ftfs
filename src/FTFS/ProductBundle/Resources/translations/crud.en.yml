@@ -1,5 +1,11 @@
 # product
 ftfs_productbundle_product:
+    notification:
+        action:
+            new:
+                success:    "New Product Added Successfully !"
+            edit:
+                success:    "Product Information Modified Successfully !"
     form:
         legend:
             new:    "Register a new product product"
@@ -21,6 +27,10 @@ ftfs.productbundle.product:
 
 # product category
 ftfs_productbundle_category:
+    notification:
+        action:
+            new:
+                success:    "New Category Added Successfully !"
     form:
         legend:
             new:    "Register a new product category"

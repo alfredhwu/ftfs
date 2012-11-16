@@ -3,8 +3,11 @@
     <ul id="observation-add-tab" class="nav nav-tabs">
         <li class="active"><a href="#message" data-toggle="tab">Message</a></li>
         {% if is_granted('ROLE_AGENT') %}
-        <li><a href="#intervention" data-toggle="tab">Intervention</a></li>
-        <li><a href="#logistic" data-toggle="tab">Logistic</a></li>
+            {% if ticket.service.id == 1 %}
+            <li><a href="#intervention" data-toggle="tab">Intervention</a></li>
+            {% elseif ticket.service.id == 2%}
+            <li><a href="#logistic" data-toggle="tab">Logistic</a></li>
+            {% endif %}
         {% endif %}
     </ul>
     <div id="observation-add-contents" class="tab-content">
@@ -17,41 +20,44 @@
             </form>
         </div>
         {% if is_granted('ROLE_AGENT') %}
-        <div class="tab-pane fade" id="intervention">
-            <form action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
-                {{ form_row(observation_add_form.intervention_site) }}
-                <div class="control-group">
-                    <label class="control-label">Time of intervention:</label>
-                    <div class="controls">
-                        <span class="input-prepend">
-                            <span class="add-on">from</span>{{ form_widget(observation_add_form.intervention_from, { 'attr': {
-                                'class' : 'span2 datepicker-from'
-                                } }) }}
-                        </span>
-                        <span class="input-prepend">
-                            <span class="add-on">to</span>{{ form_widget(observation_add_form.intervention_to, { 'attr': {
-                                'class' : 'span2 datepicker-to'
-                                } }) }}
-                        </span>
+            {% if ticket.service.id == 1 %}
+            <div class="tab-pane fade" id="intervention">
+                <form action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
+                    {{ form_row(observation_add_form.intervention_site) }}
+                    <div class="control-group">
+                        <label class="control-label">Time of intervention:</label>
+                        <div class="controls">
+                            <span class="input-prepend">
+                                <span class="add-on">from</span>{{ form_widget(observation_add_form.intervention_from, { 'attr': {
+                                    'class' : 'span2 datepicker-from'
+                                    } }) }}
+                            </span>
+                            <span class="input-prepend">
+                                <span class="add-on">to</span>{{ form_widget(observation_add_form.intervention_to, { 'attr': {
+                                    'class' : 'span2 datepicker-to'
+                                    } }) }}
+                            </span>
+                        </div>
                     </div>
-                </div>
-                {{ form_row(observation_add_form.intervention_agent) }}
-                {{ form_row(observation_add_form.intervention_report) }}
-                <input type="hidden" name="type" value="intervention">
-                <input type="submit" class="btn btn-primary">
-            </form>
-        </div>
-        <div class="tab-pane fade" id="logistic">
-            <form action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
-                {{ form_row(observation_add_form.logistic_by) }}
-                {{ form_row(observation_add_form.logistic_at) }}
-                {{ form_row(observation_add_form.logistic_package_name) }}
-                {{ form_row(observation_add_form.logistic_operation) }}
-                {{ form_row(observation_add_form.logistic_operator) }}
-                <input type="hidden" name="type" value="logistic">
-                <input type="submit" class="btn btn-primary">
-            </form>
-        </div>
+                    {{ form_row(observation_add_form.intervention_agent) }}
+                    {{ form_row(observation_add_form.intervention_report) }}
+                    <input type="hidden" name="type" value="intervention">
+                    <input type="submit" class="btn btn-primary">
+                </form>
+            </div>
+            {% elseif ticket.service.id == 2%}
+            <div class="tab-pane fade" id="logistic">
+                <form action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
+                    {{ form_row(observation_add_form.logistic_by) }}
+                    {{ form_row(observation_add_form.logistic_at) }}
+                    {{ form_row(observation_add_form.logistic_package_name) }}
+                    {{ form_row(observation_add_form.logistic_operation) }}
+                    {{ form_row(observation_add_form.logistic_operator) }}
+                    <input type="hidden" name="type" value="logistic">
+                    <input type="submit" class="btn btn-primary">
+                </form>
+            </div>
+            {% endif %}
         {% endif %}
     </div>
 </div>

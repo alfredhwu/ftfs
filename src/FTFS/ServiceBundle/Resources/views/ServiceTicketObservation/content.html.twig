@@ -1,4 +1,32 @@
 {{ ob.getContentSummary() }}
+{# attachment #}
+{% if ob.content.attachment is defined %}
+<hr>
+<div>Attachments:</div>
+<ul>
+    {% for attachment in attachments if attachment.id in ob.content.attachment %}
+    <li>
+        <span>
+            <a class="attachment-download" href="#" action-toggle="{{ path(prefix~'_attachment_download', { 'id' : entity.id, 'attachment_id' : attachment.id }) }}">
+                {{ attachment.name }}
+            </a>
+        </span>
+        {% if is_granted('ROLE_ADMIN') or attachment.uploadedBy == app.user %}
+        <span>
+            <a class="crud-action" crud-message="{{ (prefix~'.attachment.list.delete.confirm')|trans({ '%attachment_name%' : attachment.name }, 'crud') }}" crud-toggle="{{ path(prefix~'_attachment_delete', { 'id' : entity.id, 'attachment_id' : attachment.id }) }}" href="#">
+                <i class="icon-trash"></i>
+            </a>
+        </span>
+        {% endif %}
+        <span class="muted">
+        {{ (prefix~'.attachment.list.updated_by')|trans({}, 'crud') }}
+        {{ attachment.uploadedBy }} 
+        {{ (prefix~'.attachment.list.at')|trans({}, 'crud') }}
+        {{ attachment.uploadedAt | date('Y-m-d H:i:s') }}</span>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
 {# prev messages #}
 {% set obvar = ob.attachTo %}
 {% if obvar is not null %}
@@ -17,7 +45,7 @@
     {% if obvar.sendAt is not empty %} {{ obvar.sendAt | date('Y-m-d H:i:s') }}{% endif %} 
     </div>
     <div>
-    {{ obvar.content }}
+    {{ obvar.getContentSummary()}}
     </div>
     {% set obvar = obvar.attachTo %}
     {% if obvar is not null %}
@@ -32,7 +60,7 @@
         {% if obvar.sendAt is not empty %} {{ obvar.sendAt | date('Y-m-d H:i:s') }}{% endif %} 
         </div>
         <div>
-        {{ obvar.content }}
+        {{ obvar.getContentSummary()}}
         </div>
         {% set obvar = obvar.attachTo %}
         {% if obvar is not null %}
@@ -47,7 +75,7 @@
             {% if obvar.sendAt is not empty %} {{ obvar.sendAt | date('Y-m-d H:i:s') }}{% endif %} 
             </div>
             <div>
-            {{ obvar.content }}
+            {{ obvar.getContentSummary()}}
             <div>
             {% set obvar = obvar.attachTo %}
         </div>

@@ -337,11 +337,14 @@ window.settings = {
 function get_ajax_resource(target) {
     var method = target.attr('method');
     var url = target.attr('url');
+    var url_handle = target.attr('url-handle');
+    url_handle = typeof url_handle == 'undefined' || url_handle == '' ? url : url_handle;
+    alert(url_handle);
     var data = target.attr('data');
     var toggle = target.attr('callback-toggle');
     var animation = ajax_animation(target);
     if(method==='get') {
-        $.get(url, function(data) { 
+        $.get(url, { action: url_handle }, function(data) { 
             $(toggle).html(data);
             animation.remove();
         });

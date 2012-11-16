@@ -55,7 +55,7 @@
             var status = '';
 
             var filename = $('input#filename').val();
-            filename = filename && filename.length > 0 ? filename : $(this).attr('placeholder');
+            filename = filename.length > 0 ? filename : $('input#filename').attr('placeholder');
 
             href = href.replace(/_type/, type);
             href = href.replace(/_from/, from);

@@ -1,0 +1,142 @@
+ftfs.servicebundle.service:
+    form:
+        name:       "Nom du Catégorie de Service:"
+        active:     "Est-ce que cette Catégorie de Service activée ?"
+        description: "Déscription de Service:"
+ftfs.servicebundle.serviceticket:
+    form:
+        name:       "Numero du Ticket:"
+        service:    "Service Catégorie:"
+        severity:   "Sévérité:"
+        priority:   "Priorité:"
+        status:     "Status:"
+        requested.at: "A:"
+        company:    "Entreprise du Client:"
+        requested.by:   "Par:"
+        requested.via:  "Via:"
+        summary:        "Synthèse du Problème:"
+        detail:         "Détail du Problème:"
+        #asset:      "Asset Name:"
+        devices:            "Equipements:"
+        devices.$$name$$:
+            location:       "Location du site:"
+            product:        "Produit:"
+            specification:  "Spécification:"
+            module.name:    "Nom du Module:"
+            serial.pn:      "P/N:"
+            serial.sn:      "S/N:"
+        assigned.to: "Assignée à:"
+        opened.at:  "Ouverte à:"
+        created.at: "Crée à:"
+        closed.at:  "Fermée à:"
+        last.modified.at:    "Dernière Modifié:"
+    table:
+        name:       "Numero du Ticket"
+        service:       "Catégorie de Service"
+        severity:
+            title:  "Sévérité"
+            100:    "Très Haut"
+            100.class:  "label label-important"
+            200:    "Haut"
+            200.class:  "label label-warning"
+            300:    "Normale"
+            300.class:  "label label-info"
+            400:    "Bas"
+            400.class:  "label label-inverse"
+            500:    "Très Bas"
+            500.class:  "label"
+        priority:
+            title:  "Priorité"
+            100:    "Très Haut"
+            100.class:  "label label-important"
+            200:    "Haut"
+            200.class:  "label label-warning"
+            300:    "Normale"
+            300.class:  "label label-info"
+            400:    "Bas"
+            400.class:  "label label-inverse"
+            500:    "Très Bas"
+            500.class:  "label"
+        status:     
+            title:  "Status" 
+            interrupted:     "Interrompu"
+            interrupted.class: "label label-important"
+            submitted:       "Envoyé"
+            submitted.class: "label label-info"
+            assigned:        "Assigné"
+            assigned.class:  "label label-info"
+            created:         "Cré"
+            created.class:   "label"
+            opened:          "Ouverte"
+            opened.class:    "label label-success"
+            closed:          "Fermé"
+            closed.class:    "label label-inverse"
+        requested.at:   "A"
+        requested.by:   "Par"
+        requested.via:  "Via"
+        summary:        "Synthèse du Problème"
+        detail:         "Detail du Problème"
+        #asset:          "Asset Name"
+        devices:        "Equipements"
+        assigned.to: "Assignée à"
+        opened.at:  "Ouverte à"
+        created.at: "Crée à"
+        closed.at:  "Fermée à"
+        last.modified.at:    "Dernière Modifié"
+#
+################################################################ SERVICE #######################
+ftfs_servicebundle_serviceticket:
+    attachment:
+        list:
+            title:  'Toutes Pieces-Joints:'
+            attach.new:    'Ajouter un nouveau document'
+            cancel.attach: 'Annuler'
+            updated_by: 'Ajouté par'
+            at:     'A'
+        upload.form:
+            file.label: 'Sélectionner un document à ajouter:'
+            filename.label:   'Renommer ce document comme:'
+            submit: 'Télécharger'
+    observation:
+        empty.list: "Pas d'observation" 
+        user.me: "Moi"
+        leave.observation.tooltip: 'Rédiger une Observation' 
+    form:
+        legend: 
+            new:    "Nouveau Ticket de Service"
+            edit:   "Modifier ce Ticket de Service"
+            show:   "Afficher le Détail du Ticket"
+    table:
+        caption:    "Liste des Tickets du Service"
+        operations: "Opérations"
+        action:
+            new:    "Ajouter un nouveau ticket de service"
+            assign.tooltip: "Assginer"
+################################################################ SERVICE TYPE #####################
+ftfs_servicebundle_service:
+    notification:
+        action:
+            new:
+                success:    "New service type created !"
+            edit:
+                success:    "Service type updated !"
+    form:
+        legend: 
+            new:    "Nouvelle Catégorie de Service"
+            edit:   "Modifier Catégorie de Service"
+            show:   "Afficher le Détail de cette Catégorie de Service"
+    table:
+        caption:    "Liste de toutes Catégories de Service"
+        action:
+            new:    "Ajouter une nouvelle Catégorie de Service"
+            active:
+                activate.tooltip: "Activer" 
+                deactivate.tooltip:   "Déactiver"
+        operations: "Opérations"
+        name:       "Nom de Catégorie de Service"
+        active:
+            title:  "Status"
+            value:
+                active:   "activée"
+                inactive:  "déactivée"
+        description: "Déscription de Service"

@@ -136,6 +136,7 @@
     <div id="observation">
         {% include 'FTFSServiceBundle:ServiceTicketObservation:list.html.twig' 
             with { 'observations' : entity.observations,
+                    'attachments' : entity.attachments,
             } %}
     </div>
     {% endblock %}

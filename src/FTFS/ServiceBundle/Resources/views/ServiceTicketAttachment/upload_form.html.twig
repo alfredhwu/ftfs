@@ -1,4 +1,4 @@
-<form id="attachment-form" action="{{ path(prefix~'_attachment_upload', { 'id' : id }) }}" 
+<form id="attachment-form" action="{{ action }}" 
       method="post" {{ form_enctype(attachment_upload_form) }}>
         {{ form_row(attachment_upload_form.file, { 'label': (prefix~'.attachment.upload.form.file.label')|trans({}, 'crud') }) }}
         <span id="loading"></span>
@@ -18,12 +18,8 @@
     $('a#attachment-form-submit').click(function(e) { 
         e.preventDefault();
         var form = $('form#attachment-form');
+        alert(form.parent().html());
         var animation = ajax_animation($('span#loading'));
-        form.submit();
-        /*
-        $.post(form.attr('action'), function(data) {
-            form.parent().html(data);
-        });
-        */
+        //form.submit();
     });
 </script>

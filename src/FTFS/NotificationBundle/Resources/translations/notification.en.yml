@@ -56,7 +56,7 @@ ftfs_notification_key.event.serviceticket:
     attachment_uploaded: 
         auto:   'Confirm me when I uploaded an attachment to a service ticket'
         other:  'Inform me when others uploaded an attachment to my service ticket'
-    attachment_removed: 
+    attachment_deleted: 
         auto:   'Confirm me when I removed an attachment of a service ticket'
         other:  'Inform me when others removed an attachment from my service ticket'
     attachment_downloaded: 

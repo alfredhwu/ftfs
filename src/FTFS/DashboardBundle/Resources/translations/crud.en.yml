@@ -1,4 +1,13 @@
 ################################################################################### my service            
+ftfs_dashboardbundle_menu:
+    current:            'My Current Tickets'
+    new:                'Open a New Service Ticket'
+    all_assigned:       'All My Assigned Tickets'
+    assigned:   'My New Arriving Tickets'
+    opened:         'My Opened Tickets'
+    closed:         'My Closed Tickets'
+    all_deployed:       'All Deployed Services'
+    all_unassigned:      'All Unassigned Requests'
 ftfs_dashboardbundle_myservice:
     devices:
         title:              'All devices related:'

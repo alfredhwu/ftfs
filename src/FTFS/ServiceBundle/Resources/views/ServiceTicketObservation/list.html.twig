@@ -36,16 +36,20 @@
                 {% endif %}
             </th>
             <td width="80%">
+                <div>
                 <span class="observation-send-at">
                 {% if ob.sendAt is not empty %} {{ ob.sendAt | date('Y-m-d H:i:s') }}{% endif %} 
                 </span>
                 <a class="observation-add" add-to-id="{{ ob.id }}" href="#">
                     <i class="icon-share"></i>
                 </a>
-                <br>
-                <span class="observation-content">
+                <a class="observation-attachment-upload" add-to-id="{{ ob.id }}" href="#">
+                    <i class="icon-upload"></i>
+                </a></div>
+                <div class="observation-content">
                 {% include 'FTFSServiceBundle:ServiceTicketObservation:content.html.twig' with { 'ob' : ob } %}
-                </span>
+                </div>
+                <div class="hide" id="upload-form-{{ ob.id }}">upload frame</div>
             </td>
             <td width="10%"></td>
         </tr>
@@ -63,6 +67,19 @@
             $('#observation-add-target').hide();
             $('div#observation-add-ajax').html(data);
             $('#observation-add-target').show();
+        });
+    });
+    $('a.observation-attachment-upload').click(function(e) {
+        e.preventDefault();
+        var add_to_id = $(this).attr('add-to-id');
+        var target = $('#upload-form-'+add_to_id);
+        var action = "{{ path('ftfs_dashboardbundle_myservice_observation_attachment_upload', { 'id':entity.id,'obid':'_obid' }) }}";
+        action = action.replace(/_obid/, add_to_id);
+        alert(action);
+        $.get(action, { 'action':action }, function(data) { 
+            //alert(data);
+            target.html(data);
+            target.show();
         });
     });
 </script>

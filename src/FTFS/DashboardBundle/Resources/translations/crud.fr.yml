@@ -1,0 +1,116 @@
+################################################################################### my service            
+ftfs_dashboardbundle_menu:
+    current:            'Mes Tickets en Courant'
+    new:                'Ouvrir un nouveau Ticket de Service'
+    all_assigned:       'Tous mes Tickets'
+    assigned:           'Mes Tickes Nouveau Arrivés'
+    opened:             'Mes Tickets Ouverts'
+    closed:             'Mes Tickets Fermés'
+    all_deployed:       'Tous Tickets Dépoyés'
+    all_unassigned:      'Tous Tickets en Attent'
+ftfs_dashboardbundle_myservice:
+    devices:
+        title:              'Tous équipement:'
+        add:
+            new:            'Cliquer à ajouter un équipement'
+            form.submit:    'Envoyer'
+        cancel.new:         'Annuler cette opération'
+    sharelist:
+        title:              'Tous émail dans la liste de partage:'
+        cancel.new:         'Annuler cette opération'
+        delete.confirm:     'Attention: vous êtes en train de supprimer "%name%" de votre liste de partage ?'
+        add.new:            'Ajouter'
+        add.form.submit:    'Envoyer'
+    attachment:
+        list:
+            title:          'Toutes les pieces-joints:'
+            attach.new:     'Ajouter une autre piece-joint'
+            cancel.attach:  'Annuler'
+            updated_by:     'mis à jour par'
+            at:             'à'
+            delete.confirm: 'Attention: vous êtes en train de supprimer "%attachment_name%"?'
+        upload.form:
+            file.label:     'Sélectioner le document à télécharger ( < 2M):'
+            filename.label: 'Renommer comme:'
+            submit:         'Télécharger'
+    observation:
+        empty.list:         "Pas d'observation" 
+        user.me:            "Moi"
+    notification:
+        action:
+            edit:
+                success:    "Service ticket saved successfully !"
+            deliver:
+                success:    "Service ticket delivered successfully !"
+            new:
+                success:    "New service ticket created successfully !"
+            take:
+                success:    "You have successfully taken the ticket!"
+            submit:
+                success:    "You have successfully submit the request!"
+    table:
+        caption:            "Liste des tickets du service"
+        operations:         "Opérations"
+        action:
+            new:                "Ouvrir un Nouveau Ticket du Service"
+            new.success.flash:  "New service request created successfully !"
+            take:               "Prendre cette requête"
+            take.tooltip:       "Prendre ce ticket du service"
+            take.confirm:       "Attention: Vous êtes en train de supprimer le ticket '%name%' de %requestor%?"
+            take.success.flash: "Taken successfully !"
+            submit:             "Envoyer"
+            submit.tooltip:     "Envoyer cette requête du service"
+            submit.success.flash:   "Request submitted successfully"
+            delete:             "Supprimer"
+            delete.tooltip:     "Supprimer cette requête du service"
+            delete.success.flash:   "Request deleted successfully"
+            transfer:           "Transférer"
+            transfer.tooltip:   "Transférer cette requête du service"
+            transfer.success.flash: "Service transfered successfully"
+    form:
+        legend:
+            show:               "Détail du ticket de service"
+            new:                "Nouveau Ticket de Service"
+            edit:               "Modifier ce Ticket de Service"
+        action:
+            show:
+                transfer:       "Transférer"
+                transfer.tooltip:   "Transférer"
+                submit:             "Envoyer"
+                submit.tooltip:     "Envoyer cette requête de service"
+                submit.success.flash:   "Request submitted successfully"
+                delete:             "Supprimer"
+                delete.tooltip:     "Supprimer cette requête service"
+                delete.success.flash:   "Request deleted successfully"
+                take:               "Prendre cette requête"
+                take.tooltip:       "Prendre cette ticket de service"
+                take.success.flash: "Taken successfully !"
+                transfer:           "Transférer"
+                transfer.tooltip:   "Transférer cette requête de service"
+                transfer.success.flash: "Service transfered successfully"
+                open:               "Ouvrir"
+                open.tooltip:       "Ouvrir un ticket pour cette requête"
+                open.confirm:       "Attention: Vous êtes en train de supprimer ce ticket de service ?"
+                open.success.flash: "Service opened successfully"
+                close:               "Terminer"
+                open.confirm:       "Attention: Vous êtes en train de terminer ce ticket de service ?"
+                close.tooltip:       "Fermer ce ticket"
+                close.success.flash: "Service closed successfully"
+            new:
+                new_only:           "Sauvegarder sans envoyer"
+                new_only.tooltip:   "Sauvegarder sans Envoyer"
+                new_submit:         "Sauvegarder et envoyer"
+                new_submit.tooltip: "Sauvegarder et Envoyer"
+            edit:
+                edit_only:          "Mettre à jour"
+                edit_only.tooltip:  "Mettre à Jour"
+                edit_only.success.flash:  "Updated successfully !"
+                edit_submit:        "Mettre à jour et envoyer"
+                edit_submit.tooltip: "Mettre à Jour et Envoyer"
+                edit_submit.success.flash: "Request submitted successfully !"
+                edit_transfer:              "Mettre à jour et transférer"
+                edit_transfer.tooltip:      "Mettre à Jour et Transférer"
+                edit_transfer.success.flash: "Service ticket transfered successfully"
+                edit_open:              "Mettre à jour et ouvrir"
+                edit_open.tooltip:      "Mettre à Jour et Ouvrir"
+                edit_open.success.flash: "Ticket opened successfully !"

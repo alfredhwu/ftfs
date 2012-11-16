@@ -43,10 +43,41 @@ ftfs_servicebundle_serviceticket_attachment_delete:
     pattern:  /ticket/{id}/attachment/delete/{attachment_id}
     defaults: { _controller: FTFSServiceBundle:ServiceTicket:attachmentDelete }
 
+
 ## observation
 ftfs_servicebundle_serviceticket_observation_add:
     pattern:  /ticket/{id}/observation/add
     defaults: { _controller: FTFSServiceBundle:ServiceTicket:observationAdd }
+
+#############################################################333
+## device
+ftfs_servicebundle_serviceticket_devices_add:
+    pattern:  /ticket/{id}/devices/add
+    defaults: { _controller: FTFSDashboardBundle:MyService:devicesAdd }
+
+ftfs_servicebundle_serviceticket_devices_delete:
+    pattern:  /ticket/{id}/devices/{device_id}/delete
+    defaults: { _controller: FTFSDashboardBundle:MyService:devicesDelete }
+
+ftfs_servicebundle_serviceticket_devices_edit:
+    pattern:  /ticket/{id}/devices/{device_id}/edit
+    defaults: { _controller: FTFSDashboardBundle:MyService:devicesEdit }
+
+## rma
+ftfs_servicebundle_serviceticket_generate_rma:
+    pattern:  /ticket/{id}/rma/generate
+    defaults: { _controller: FTFSDashboardBundle:MyService:generateRMA }
+
+## share list
+ftfs_servicebundle_serviceticket_sharelist_add:
+    pattern:  /ticket/{id}/sharelist/add
+    defaults: { _controller: FTFSDashboardBundle:MyService:sharelistAdd }
+
+ftfs_servicebundle_serviceticket_sharelist_delete:
+    pattern:  /ticket/{id}/sharelist/delete/{email}
+    defaults: { _controller: FTFSDashboardBundle:MyService:sharelistDelete }
+
+
 
 ## service definition #########################################################
 #

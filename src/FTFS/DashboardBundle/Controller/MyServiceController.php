@@ -705,6 +705,8 @@ class MyServiceController extends BaseController
      */
     public function attachmentUploadAction($id)
     {
+        $action = $this->getRequest()->get('action');
+        //throw new \Exception($action);
         $ticket = $this->getEntity('attachment_upload', $id);
         $uploaded_by = $this->get('security.context')->getToken()->getUser();
         $attachment = new \FTFS\ServiceBundle\Entity\ServiceTicketAttachment($ticket, $uploaded_by);
@@ -730,6 +732,7 @@ class MyServiceController extends BaseController
             'id' => $id,
             'prefix' => $this->getRoutingPrefix(),
             'attachment_upload_form' => $form->createView(),
+            'action' => $action,
         ));
     }
 
@@ -756,6 +759,54 @@ class MyServiceController extends BaseController
         return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
             'id' => $id,
         )));
+    }
+
+    /** 
+     * observation attachement file management: upload an attachment to an observation
+     */
+    public function observationAttachmentUploadAction($id)
+    {
+        $request = $this->getRequest();
+        $action = $request->get('action');
+        $obid = $request->get('obid');
+        $ticket = $this->getEntity('attachment_upload', $id);
+        $uploaded_by = $this->get('security.context')->getToken()->getUser();
+        $attachment = new \FTFS\ServiceBundle\Entity\ServiceTicketAttachment($ticket, $uploaded_by);
+        $form = $this->createFormBuilder($attachment)
+                ->add('file')
+                ->add('filename')
+                ->getForm()
+                ;
+
+        if($this->getRequest()->getMethod() === 'POST') {
+            $form->bindRequest($this->getRequest());
+            if($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($attachment);
+                $em->flush();
+                // find obid
+                $ob = $em->getRepository('FTFSServiceBundle:ServiceTicketObservation')->find($obid);
+                if($ob) {
+                    $content = $ob->getContent();
+                    if(!array_key_exists('attachment', $content)) {
+                        $content['attachment'] = array();
+                    }
+                    $content['attachment'][] = $attachment->getId();
+                    $ob->setContent($content);
+                    $em->flush();
+                }
+                return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
+                    'id' => $id,
+                )));
+            }
+        }
+
+        return $this->render('FTFSServiceBundle:ServiceTicketAttachment:upload_form.html.twig', array(
+            'id' => $id,
+            'prefix' => $this->getRoutingPrefix(),
+            'attachment_upload_form' => $form->createView(),
+            'action' => $action,
+        ));
     }
 
     /**
@@ -874,6 +925,7 @@ class MyServiceController extends BaseController
             'id' => $id,
             'prefix' => $this->getRoutingPrefix(),
             'add_to_id' => $add_to_id,
+            'ticket' => $ticket,
             'observation_add_form' => $form->createView(),
         ));
     }

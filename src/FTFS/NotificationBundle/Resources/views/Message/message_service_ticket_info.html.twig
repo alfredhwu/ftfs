@@ -1,6 +1,6 @@
 <hr>
 <p>
-    Service Ticket No. : <a href="{{ subject_href }}">{{ subject.name }}</a><br>
+    Service Ticket No. : <a class="btn" href="{{ subject_href }}">{{ subject.name }}</a><br>
     --------------------------------------------<br>
     Service Ticket Status: {{ subject.status }}<br>
     Last Modified At: {{ subject.lastModifiedAt | date('Y-m-d H:i:s') }}<br>
