@@ -15,8 +15,7 @@ ftfs_serviceticket:
         100:    'Very High'
         200:    'High'
         300:    'Normal'
-        400:    'Low'
-        500:    'Very Low'
+        400:    'Information'
     priority:
         title:  'priority'
         100:    'Very High'

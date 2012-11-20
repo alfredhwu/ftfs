@@ -1,23 +1,29 @@
 {# head #}
 {% spaceless %}
 <span>{{ ('ftfs.servicebundle.serviceticket.table.name') | trans({}, 'crud') }}</span>
+<span>{{ ('ftfs.servicebundle.serviceticket.table.requested.by') | trans({}, 'crud') }}</span>
+<span>{{ ('ftfs.servicebundle.serviceticket.table.requested.by.company') | trans({}, 'crud') }}</span>
+<span>{{ ('ftfs.servicebundle.serviceticket.table.summary') | trans({}, 'crud') }}</span>
+<span>{{ ('ftfs.servicebundle.serviceticket.table.service') | trans({}, 'crud') }}</span>
+<span>{{ ('ftfs.servicebundle.serviceticket.table.devices') | trans({}, 'crud') }}</span>
 <span>{{ ('ftfs.servicebundle.serviceticket.table.status.title') | trans({}, 'crud') }}</span>
 <span>{{ ('ftfs.servicebundle.serviceticket.table.severity.title') | trans({}, 'crud') }}</span>
 <span>{{ ('ftfs.servicebundle.serviceticket.table.priority.title') | trans({}, 'crud') }}</span>
-<span>{{ ('ftfs.servicebundle.serviceticket.table.summary') | trans({}, 'crud') }}</span>
 {% if is_granted('ROLE_AGENT') %}
 <span>{{ ('ftfs.servicebundle.serviceticket.table.assigned.to') | trans({}, 'crud') }}</span>
 {% endif %}
-<span>{{ ('ftfs.servicebundle.serviceticket.table.requested.by') | trans({}, 'crud') }}</span>
-<span>{{ ('ftfs.servicebundle.serviceticket.table.service') | trans({}, 'crud') }}</span>
 <span>{{ ('ftfs.servicebundle.serviceticket.table.last.modified.at') | trans({}, 'crud') }}</span>
 {#
-<th>{{ ('ftfs.servicebundle.serviceticket.table.request.received.at') | trans({}, 'crud') }}
-<th>{{ ('ftfs.servicebundle.serviceticket.table.detail') | trans({}, 'crud') }}
+<span>{{ ('ftfs.servicebundle.serviceticket.table.created.at') | trans({}, 'crud') }}</span>
+#}
+<span>{{ ('ftfs.servicebundle.serviceticket.table.requested.at') | trans({}, 'crud') }}</span>
+<span>{{ ('ftfs.servicebundle.serviceticket.table.opened.at') | trans({}, 'crud') }}</span>
+<span>{{ ('ftfs.servicebundle.serviceticket.table.closed.at') | trans({}, 'crud') }}</span>
+<span>{{ ('ftfs.servicebundle.serviceticket.table.detail') | trans({}, 'crud') }}</span>
+{#
+<span><th>{{ ('ftfs.servicebundle.serviceticket.table.request.received.at') | trans({}, 'crud') }}</span>
 <th>{{ ('ftfs.servicebundle.serviceticket.table.asset.name') | trans({}, 'crud') }}
-<th>{{ ('ftfs.servicebundle.serviceticket.table.opened.at') | trans({}, 'crud') }}
 <th>{{ ('ftfs.servicebundle.serviceticket.table.resolved.at') | trans({}, 'crud') }}
-<th>{{ ('ftfs.servicebundle.serviceticket.table.closed.at') | trans({}, 'crud') }}
 #}
 {% endspaceless %}
 
@@ -25,23 +31,28 @@
 {% for entity in list.entities %}
 {% spaceless %}
 <span>{{ entity.name }}</span>
+<span>{{ entity.requestedBy.getFullName() }}</span>
+<span>{{ entity.requestedBy.company }}</span>
+<span>{{ entity.summary }}</span>
+<span>{{ entity.service }}</span>
+<span>"{% for device in entity.devices %}Module: {{ device.moduleName }}, P/N: {{ device.serialPn }}, S/N: {{ device.serialSn }}, location: '{{ device.location }}', specification: '{{ device.specification }}';{% endfor %}"</span>
 <span>{{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status)|trans({}, 'crud') }}</span>
 <span>{{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity)|trans({}, 'crud') }}</span>
 <span>{{ ('ftfs.servicebundle.serviceticket.table.priority.'~entity.priority)|trans({}, 'crud') }}</span>
-<span>{{ entity.summary }}</span>
 {% if is_granted('ROLE_AGENT') %}
 <span>{{ entity.assignedTo }}</span>
 {% endif %}
-<span>{{ entity.requestedBy }}</span>
-<span>{{ entity.service }}</span>
 <span>{% if entity.lastModifiedAt is not empty %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</span>
 {#
-<td>{% if entity.lastModifiedAt is not empty %}{{ entity.requestReceivedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
-<td>{{ entity.detail }}</td>
+<span>{% if entity.createdAt is not empty %}{{ entity.createdAt | date('Y-m-d H:i:s') }}{% endif %}</span>
+#}
+<span>{% if entity.requestedAt is not empty %}{{ entity.requestedAt | date('Y-m-d H:i:s') }}{% endif %}</span>
+<span>{% if entity.openedAt is not empty %}{{ entity.openedAt | date('Y-m-d H:i:s') }}{% endif %}</span>
+<span>{% if entity.closedAt is not empty %}{{ entity.closedAt | date('Y-m-d H:i:s') }}{% endif %}</span>
+<span>{{ entity.detail }}</span>
+{#
 <td>{{ entity.assetName }}</td>
-<td>{% if entity.lastModifiedAt is not empty %}{{ entity.openedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
 <td>{% if entity.lastModifiedAt is not empty %}{{ entity.resolvedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
-<td>{% if entity.lastModifiedAt is not empty %}{{ entity.closedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
 #}
 {% endspaceless %}
 

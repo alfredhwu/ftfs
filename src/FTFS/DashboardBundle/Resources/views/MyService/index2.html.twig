@@ -52,7 +52,7 @@
             var type = $('select#ticket-filter-type').val();
             var from = $('input.datepicker-from').val();
             var to = $('input.datepicker-to').val();
-            var status = '';
+            var status = urlSearchGetQuery('status');
 
             var filename = $('input#filename').val();
             filename = filename.length > 0 ? filename : $('input#filename').attr('placeholder');

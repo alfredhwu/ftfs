@@ -48,11 +48,25 @@ class NotificationLog
     private $method;
 
     /**
-     * @var text $message
+     * @var text $html_message
      *
-     * @ORM\Column(name="message", type="text")
+     * @ORM\Column(name="html_message", type="text", nullable=true)
      */
-    private $message;
+    private $html_message;
+
+    /**
+     * @var text $txt_message
+     *
+     * @ORM\Column(name="txt_message", type="text", nullable=true)
+     */
+    private $txt_message;
+
+    /** 
+     * @var array $attachments
+     *
+     * @ORM\Column(name="attachments", type="array")
+     */
+    private $attachments;
 
     /**
      * @var datetime $notified_at
@@ -152,26 +166,6 @@ class NotificationLog
     }
 
     /**
-     * Set message
-     *
-     * @param text $message
-     */
-    public function setMessage($message)
-    {
-        $this->message = $message;
-    }
-
-    /**
-     * Get message
-     *
-     * @return text 
-     */
-    public function getMessage()
-    {
-        return $this->message;
-    }
-
-    /**
      * Set method
      *
      * @param FTFS\NotificationBundle\Entity\NotificationMethod $method
@@ -189,5 +183,65 @@ class NotificationLog
     public function getMethod()
     {
         return $this->method;
+    }
+
+    /**
+     * Set html_message
+     *
+     * @param text $htmlMessage
+     */
+    public function setHtmlMessage($htmlMessage)
+    {
+        $this->html_message = $htmlMessage;
+    }
+
+    /**
+     * Get html_message
+     *
+     * @return text 
+     */
+    public function getHtmlMessage()
+    {
+        return $this->html_message;
+    }
+
+    /**
+     * Set txt_message
+     *
+     * @param text $txtMessage
+     */
+    public function setTxtMessage($txtMessage)
+    {
+        $this->txt_message = $txtMessage;
+    }
+
+    /**
+     * Get txt_message
+     *
+     * @return text 
+     */
+    public function getTxtMessage()
+    {
+        return $this->txt_message;
+    }
+
+    /**
+     * Set attachments
+     *
+     * @param array $attachments
+     */
+    public function setAttachments($attachments)
+    {
+        $this->attachments = $attachments;
+    }
+
+    /**
+     * Get attachments
+     *
+     * @return array 
+     */
+    public function getAttachments()
+    {
+        return $this->attachments;
     }
 }

@@ -125,7 +125,7 @@
         <a class="btn btn-small" href="{{ app.session.get('index') }}" rel="tooltip" title="{{ 'ftfs.crud.form.action.show.list.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-list"></i>
         </a>
-        {% if app.user == entity.requestedBy or app.user == entity.assignedTo %}
+        {% if app.user == entity.requestedBy or app.user == entity.assignedTo or (is_granted('ROLE_CLIENT_COMPANY') and entity.requestedBy.company == app.user.company) %}
         <a class="btn btn-small observation-add" add-to-id="0" href="#" rel="tooltip" title="{{ 'ftfs_servicebundle_serviceticket.observation.leave.observation.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-envelope"></i>
         </a>

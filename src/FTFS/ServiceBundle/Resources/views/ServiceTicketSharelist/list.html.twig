@@ -5,7 +5,7 @@
     {% for email, name in sharelist %}
     <li>
         "{{ name }}" &lt;{{ email }}&gt;
-        {% if entity.requestedBy == app.user %}
+        {% if entity.requestedBy == app.user or (is_granted('ROLE_CLIENT_COMPANY') and entity.requestedBy.company == app.user.company) %}
         <span>
             <a href="#" class="crud-action" crud-message="{{ (prefix~'.sharelist.delete.confirm')|trans({ '%name%' : name }, 'crud') }}" crud-toggle="{{ path(prefix~'_sharelist_delete', { 'id' : id, 'email' : email }) }}">
                 <i class="icon-trash"></i>
@@ -18,7 +18,7 @@
 </div>
 {% endif %}
 
-{% if entity.requestedBy == app.user %}
+{% if entity.requestedBy == app.user or (is_granted('ROLE_CLIENT_COMPANY') and entity.requestedBy.company == app.user.company) %}
 <div>
     <!-- sharelist add control toggle -->
     <span><a class="tic-tac" tic-tac-target="#sharelist-add" href="#">

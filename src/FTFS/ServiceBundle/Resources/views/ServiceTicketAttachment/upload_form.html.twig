@@ -18,8 +18,8 @@
     $('a#attachment-form-submit').click(function(e) { 
         e.preventDefault();
         var form = $('form#attachment-form');
-        alert(form.parent().html());
+        //alert(form.parent().html());
         var animation = ajax_animation($('span#loading'));
-        //form.submit();
+        form.submit();
     });
 </script>

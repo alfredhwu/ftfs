@@ -52,6 +52,7 @@ class MyServiceController extends BaseController
 
         $response->headers->set('Content-Type', 'text/csv');
         $response->headers->set('Content-Disposition', 'attachment;filename='.$filename);
+        //throw new \Exception($content);
         return $response;
     }
 
@@ -67,7 +68,8 @@ class MyServiceController extends BaseController
         // general query builder with ordering
         $queryBuilder = $this->getDoctrine()->getEntityManager()->getRepository($this->getEntityPath())
             ->createQueryBuilder('e')
-            ->leftJoin('e.service', 's');
+            ->leftJoin('e.service', 's')
+            ->leftJoin('e.requested_by', 'u');
 
         /* type filter ************************************************************************************/
         $type = $request->get('type');
@@ -87,17 +89,27 @@ class MyServiceController extends BaseController
          */
         $context = $this->get('security.context');
         $current_user = $context->getToken()->getUser();
-        if($context->isGranted('ROLE_CLIENT'))
-        {
+
+        if($context->isGranted('ROLE_CLIENT')){
             /**
              * in case of an client user, only his/her own records or shared records is visible
              */
-            $queryBuilder
-                ->andWhere('e.requested_by = :requested_by')
-                ->setParameter('requested_by', $current_user)
-                //->add('orderBy', 'e.status asc, e.severity asc, e.last_modified_at desc');
-                ->add('orderBy', 'e.last_modified_at desc, e.status asc, e.severity asc');
+            $status = $request->get('status');
+            $company = $current_user->getCompany();
 
+            if($context->isGranted('ROLE_CLIENT_COMPANY') && $status==='company'){
+                $queryBuilder
+                    ->andWhere('u.company = :company')
+                    ->setParameter('company', $company)
+                    //->add('orderBy', 'e.status asc, e.severity asc, e.last_modified_at desc');
+                    ->add('orderBy', 'e.last_modified_at desc, e.status asc, e.severity asc');
+            }else{
+                $queryBuilder
+                    ->andWhere('e.requested_by = :requested_by')
+                    ->setParameter('requested_by', $current_user)
+                    //->add('orderBy', 'e.status asc, e.severity asc, e.last_modified_at desc');
+                    ->add('orderBy', 'e.last_modified_at desc, e.status asc, e.severity asc');
+            }
         }elseif($context->isGranted('ROLE_AGENT')){
             $queryBuilder
                 //->add('orderBy', 'e.status asc, e.priority asc, e.severity asc, e.last_modified_at desc');
@@ -129,6 +141,7 @@ class MyServiceController extends BaseController
                 $queryBuilder
                     ->andWhere('e.status = :status')
                     ->setParameter('status', $status);
+            case 'company':
                 break;
             case 'awaiting': // both submitted(=unassigned) and assigned
                 $queryBuilder
@@ -214,16 +227,29 @@ class MyServiceController extends BaseController
                 break;
             // any agent and client
             // restricted to its owner (assigned to) ant his share list and of cause all agents 
-            // ToDo: share group ToDo ########################################################
+            // visible for all company memebers
             case 'show':
                 $rma = $this->getDoctrine()->getEntityManager()
                     ->getRepository('FTFSServiceBundle:RMA')->findOneByTicket($entity->getId());
                 if($rma) {
                     $this->setMeta('rma', $rma->getName());
                 }
+            case 'attachment_download':
+                if($context->isGranted('ROLE_AGENT'))
+                {
+                    // role_agent, bypass the protection
+                    break;
+                }else{
+                    // maybe restricted for the share list in the future
+                    // at the moment, if granted as role_client, senctioned for username ToDo
+                    if($entity->getRequestedBy()->getCompany()!=$current_user->getCompany())
+                    {
+                        throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" is reserved to its owner ant its owner\'s share list !');
+                    }
+                }
+                break;
             case 'observation_add':
             case 'attachment_upload':
-            case 'attachment_download':
             case 'attachment_delete':
             case 'sharelist_add':
             case 'sharelist_delete':
@@ -231,9 +257,10 @@ class MyServiceController extends BaseController
             case 'devices_edit':
             case 'devices_delete':
             case 'edit':
-                if($context->isGranted('ROLE_AGENT'))
+                if($context->isGranted('ROLE_AGENT') || $context->isGranted('ROLE_CLIENT_COMPANY') && $entity->getRequestedBy()->getCompany()===$current_user->getCompany())
                 {
                     // role_agent, bypass the protection
+                    // or company owner
                     break;
                 }else{
                     // maybe restricted for the share list in the future
@@ -244,6 +271,7 @@ class MyServiceController extends BaseController
                     }
                 }
                 break;
+
             // all agent only
             case 'generate_rma':
                 if($context->isGranted('ROLE_AGENT'))
@@ -253,6 +281,7 @@ class MyServiceController extends BaseController
                         throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('The operation "'.$action.'" is reserved to its owner ant its owner\'s share list !');
                 }
                 break;
+
             // agent except owner 
             case 'take':
                 if(!$context->isGranted('ROLE_AGENT'))
@@ -267,6 +296,7 @@ class MyServiceController extends BaseController
                     }
                 }
                 break;
+
             // reserved to agent owner 
             case 'open':    // status: submitted, assigned, not opened
             case 'transfer':    // status: assigned, opened
@@ -275,7 +305,8 @@ class MyServiceController extends BaseController
                     throw new \Exception('Action: '.$action.' is reserved to its agent owner!');
                 }
                 break;
-            // reserved to client owener
+
+            // reserved to client owener && new ticket
             case 'submit':
             case 'delete':
                 if($entity->getStatus()!='created' or $entity->getRequestedBy()!=$current_user)
@@ -374,9 +405,11 @@ class MyServiceController extends BaseController
                 $entity->setAssignedTo($current_user);
                 break;
             case 'open':
+                $entity->setOpenedAt(new \DateTime('now'));
                 $entity->setStatus('opened');
                 break;
             case 'close':
+                $entity->setClosedAt(new \DateTime('now'));
                 $entity->setStatus('closed');
                 break;
             case 'submit':
@@ -750,7 +783,8 @@ class MyServiceController extends BaseController
             throw $this->createNotFoundException('Attachment demanded not found !');        
         }
         $em->remove($attachment);
-        //*******************************************************************************ToDo: prob transaction
+        //****************************************************************************
+        //***ToDo: prob transaction
         $em->flush();
 
         // flash notification
@@ -768,6 +802,8 @@ class MyServiceController extends BaseController
     {
         $request = $this->getRequest();
         $action = $request->get('action');
+        $action = urldecode($action);
+        //throw new \Exception($action);
         $obid = $request->get('obid');
         $ticket = $this->getEntity('attachment_upload', $id);
         $uploaded_by = $this->get('security.context')->getToken()->getUser();
@@ -795,10 +831,10 @@ class MyServiceController extends BaseController
                     $ob->setContent($content);
                     $em->flush();
                 }
-                return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
-                    'id' => $id,
-                )));
             }
+            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
+                'id' => $id,
+            )));
         }
 
         return $this->render('FTFSServiceBundle:ServiceTicketAttachment:upload_form.html.twig', array(

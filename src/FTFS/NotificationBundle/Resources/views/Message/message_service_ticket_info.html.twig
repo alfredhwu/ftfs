@@ -1,26 +1,126 @@
-<hr>
-<p>
-    Service Ticket No. : <a class="btn" href="{{ subject_href }}">{{ subject.name }}</a><br>
-    --------------------------------------------<br>
-    Service Ticket Status: {{ subject.status }}<br>
-    Last Modified At: {{ subject.lastModifiedAt | date('Y-m-d H:i:s') }}<br>
-    Requested By: {{ subject.requestedBy }}<br>
-    Requested At: {{ subject.requestedAt | date('Y-m-d H:i:s') }}<br>
-    --------------------------------------------<br>
-    Problem Summary Description:        <br>
-    <br>
-    "{{ subject.summary }}"             <br>
-    --------------------------------------------<br>
-    Problem Detail Description:         <br>
-    <br>
-    "{{ subject.detail }}"              <br>
-    {% if (subject.attachments)|length > 0 %}
-    --------------------------------------------<br>
-    Attached Documents:                 <br>
-    <ul>
-    {% for attachment in subject.attachments %}
-        <li>{{ attachment.name }}</li>
+<table width='75%' border='1' cellpadding='0' cellspacing='0' style='font-size:14px'>
+    <!-- general service ticket info ------------------------------------------------------------>
+    <tr bgcolor="#EEEEEE">
+        <th colspan=2>General Information</th>
+    </tr>
+    <tr>
+        <th>Reference No.</th>
+        {% if subject_href is defined %}
+        <td><a class="btn btn-mini" href="{{ subject_href }}">{{ subject.name }}</a></td>
+        {% else %}
+        <td>{{ subject.name }}</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>Status</th><td>{{ subject.status }}</td>
+    </tr>
+    <tr>
+        <th>Severity</th><td>{{ ('ftfs_serviceticket.severity.'~subject.severity) | trans({}, 'notification') }}</td>
+    </tr>
+    <tr>
+        <th>Priority</th><td>{{ ('ftfs_serviceticket.priority.'~subject.priority) | trans({}, 'notification') }}</td>
+    </tr>
+    <tr>
+        <th>Last Modified At</th><td>{{ subject.lastModifiedAt | date('Y-m-d H:i:s') }}</td>
+    </tr>
+    <tr>
+        <th>Service Type</th><td>{{ subject.service.name }}</td>
+    </tr>
+    <tr>
+        <th>Requested By</th><td>{{ subject.requestedBy }}</td>
+    </tr>
+    <tr>
+        <th>Requested Via</th><td>{{ subject.requestedVia }}</td>
+    </tr>
+    <tr>
+        <th>Requested At</th><td>{{ subject.requestedAt | date('Y-m-d H:i:s') }}</td>
+    </tr>
+    <tr>
+        <th>Ticket Created At</th><td>{{ subject.createdAt | date('Y-m-d H:i:s') }}</td>
+    </tr>
+    <tr>
+        <th>Ticket Opened At</th><td>{{ subject.openedAt | date('Y-m-d H:i:s') }}</td>
+    </tr>
+
+    <!-- summary descritpion  ------------------------------------------------------------------>
+    <tr bgcolor="#EEEEEE">
+        <th colspan=2>Problem Summary Description</th>        
+    </tr>
+    <tr>
+        <td colspan=2>"{{ subject.summary }}"</td>
+    </tr>
+
+    <!-- devices  ------------------------------------------------------------------------------>
+    {% if (subject.devices)|length > 0 %}
+    <tr bgcolor="#EEEEEE">
+        <th colspan=2>Related Devices</th>
+    </tr>
+    {% for device in subject.devices %}
+    <tr>
+        <th>Device</th><td>{{ device.product }}</td>
+    </tr>
+    <tr>
+        <th>Module</th><td>{{ device.moduleName }}</td>
+    </tr>
+    <tr>
+        <th>P/N</th><td>{{ device.serialPn }}</td>
+    </tr>
+    <tr>
+        <th>S/N</th><td>{{ device.serialSn }}</td>
+    </tr>
+    <tr>
+        <th>Location</th><td>{{ device.location }}</td>
+    </tr>
+    <tr>
+        <th>Specification</th><td>{{ device.specification }}</td>
+    </tr>
     {% endfor %}
-    </ul>
     {% endif %}
-</p>
+
+    <!-- detail descritpion  ------------------------------------------------------------------>
+    <tr bgcolor="#EEEEEE">
+        <th colspan=2>Problem Detail Description</th>
+    </tr>
+    <tr>
+        <td colspan=2>"{{ subject.detail }}"</td>
+    </tr>
+
+    <!-- attachments -------------------------------------------------------------------------->
+    {% if (subject.attachments)|length > 0 %}
+    <tr bgcolor="#EEEEEE">
+        <th colspan=2>Attached Documents</th>
+    </tr>
+    {% for attachment in subject.attachments %}
+    <tr>
+        <td>{{ subject.openedAt | date('Y-m-d H:i:s') }}</td><td>{{ attachment.name }}</td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+
+    <!-- observation -------------------------------------------------------------------------->
+    {% if subject.service.id == 1 %}
+    <tr bgcolor="#EEEEEE">
+        <th colspan=2>Investigation</th>
+    </tr>
+    <tr>
+        <td colspan=2>(investigation)</td>
+    </tr>
+    {% elseif subject.service.id == 2 %}
+    <tr bgcolor="#EEEEEE">
+        <th colspan=2>Logistics</th>
+    </tr>
+    <tr>
+        <td colspan=2>(logistics)</td>
+    </tr>
+    {% endif%}
+
+    <!-- resolution  ------------------------------------------------------------------------>
+    <tr bgcolor="#EEEEEE">
+        <th colspan=2>Resolution</th>
+    </tr>
+
+    <!-- change log  ------------------------------------------------------------------------>
+    <tr bgcolor="#EEEEEE">
+        <th colspan=2>Change log</th>
+    </tr>
+</table>

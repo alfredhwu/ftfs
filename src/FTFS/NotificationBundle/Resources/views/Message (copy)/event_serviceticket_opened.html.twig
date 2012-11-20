@@ -1,13 +1,7 @@
 {# event sent from an action of a client #}
 {% if 'ROLE_CLIENT' in actor.roles %}
-    {# confirmation of action for a client to himself #}
-    {% if actor == destinaire %}
-    <p>You have recently requested a service from FTFS Support Service. This demand has been well registered in our system. Our agents will examin your problem and will contact you as soon as possible.</p>
-    <p>In case that your request is highly urgent, we highly suggest you to contact us via telephone at 01.xx.xx.xx.xx</p>
-    {# information of action for other observator #}
-    {% else %}
-    <p>{{ actor }} has requested a service at {{ acted_at }}. Please examin this request as soon as possible.</p>
-    {% endif %}
+    <p>We are very sorry but this is a spam message which normally you should never receive. Please contact our agents if you keep receiving this email.</p>
+    <p>spam code: 8814</p>
 {# event sent from an action of an agent #}
 {% else %}
     {# confirmation of action for a agent to himself #}
@@ -16,11 +10,10 @@
     {# information of action for ther service ticket owner #}
     {% elseif destinaire == subject.requestedBy %}
     <p>This message is to confirm you that we have opened a service ticket for you as requested.</p>
-    <p>You can review and modify this ticket in our system by the no. "{{ subject.name }}"</p>
     {# information of action for other observator #}
     {% else %}
     <p>{{ actor }} has opened a service ticket for {{ subject.requestedBy }} as requested at {{ acted_at }}.</p>
     {% endif %}
+    <p>You can review and modify this ticket in our system by the no. "{{ subject.name }}"</p>
 {% endif %}
-<hr>
 {% include "FTFSNotificationBundle:Message:message_service_ticket_info.html.twig" %}

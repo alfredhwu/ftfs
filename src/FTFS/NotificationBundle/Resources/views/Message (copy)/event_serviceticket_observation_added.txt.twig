@@ -1,0 +1,24 @@
+{# event sent from an action of a client #}
+{% if 'ROLE_CLIENT' in actor.roles %}
+    {# confirmation of action for a client to himself #}
+    {% if actor == destinaire %}
+    This message is to confirm you that you have added an observation {% if action.observation_to == destinaire %}to your former observation{% elseif action.observation_to is null %}{% else %}to {{ action.observation_to }}'s observation{% endif %} concerning the service ticket "{{ subject.name }}" at {{ acted_at }}, saying:
+    {# information of action for other observator #}
+    {% else %}
+    This message is to inform you that {{ actor }} have added an observation {% if action.observation_to == destinaire %}to your former observation{% elseif action.observation_to is null %}{% else %}to {{ action.observation_to }}'s observation{% endif %} concerning the service ticket "{{ subject.name }}" at {{ acted_at }}, saying:
+    {% endif %}
+{# event sent from an action of an agent #}
+{% else %}
+    {# confirmation of action for a agent to himself #}
+    {% if actor == destinaire %}
+    This message is to inform you that you have added an observation {% if action.observation_to == destinaire %}to your former observation{% elseif action.observation_to is null %}{% else %}to {{ action.observation_to }}'s observation{% endif %} concerning the service ticket "{{ subject.name }}" at {{ acted_at }}, saying:
+    {# information of action for ther service ticket owner #}
+    {% elseif destinaire == subject.requestedBy %}
+    This message is to inform you that we have added an observation {% if action.observation_to == destinaire %}to our former observation{% elseif action.observation_to is null %}{% else %}to {{ action.observation_to }}'s observation{% endif %} concerning the service ticket "{{ subject.name }}" at {{ acted_at }}, saying:
+    {# information of action for other observator #}
+    {% else %}
+    This message is to inform you that {{ actor }} have added an observation {% if action.observation_to == actor %}to his former observation{% elseif action.observation_to is null %}{% else %}to {{ action.observation_to }}'s observation{% endif %} concerning the service ticket "{{ subject.name }}" at {{ acted_at }}, saying:
+    {% endif %}
+{% endif %}
+{% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}
+{% include "FTFSNotificationBundle:Message:message_service_ticket_info.txt.twig" %}

@@ -1,25 +1,68 @@
-{% if method == 'sms' %}
-short description: "{{ subject.summary }}"
-{% elseif method == 'system' %}
-{# nothing #}
-{% else %}
-    Service Ticket No. : {{ subject.name }}
-    --------------------------------------------
-    Service Ticket Status: {{ subject.status }}
-    Last Modified At: {{ subject.lastModifiedAt | date('Y-m-d H:i:s') }}
-    Requested By: {{ subject.requestedBy }}
-    Requested At: {{ subject.requestedAt | date('Y-m-d H:i:s') }}
-    --------------------------------------------
-    Problem Summary Description:        
-    "{{ subject.summary }}"              
-    --------------------------------------------
-    Problem Detail Description:         
-    "{{ subject.detail }}"              
-    {% if (subject.attachments)|length > 0 %}
-    --------------------------------------------
-    Attached Documents:                 
-    {% for attachment in subject.attachments %}
-        - {{ attachment.name }}
-    {% endfor %}
-    {% endif %}
+--------------------------------------------
+General  Information
+--------------------------------------------
+Reference No. :             {{ subject.name }}
+Status:                     {{ subject.status }}
+Severity:                   {{ subject.severity | trans() }}
+Priority:                   {{ subject.priority | trans() }}
+Last Modified At:           {{ subject.lastModifiedAt | date('Y-m-d H:i:s') }}
+Service Type Requested:     {{ subject.service.name }}
+Requested By:               {{ subject.requestedBy }}
+Requested Via:              {{ subject.requestedVia }}
+Requested At:               {{ subject.requestedAt | date('Y-m-d H:i:s') }}
+Ticket Created At:          {{ subject.createdAt | date('Y-m-d H:i:s') }}
+Ticket Opened At:           {{ subject.openedAt | date('Y-m-d H:i:s') }}
+
+--------------------------------------------
+Problem Summary Description        
+--------------------------------------------
+"{{ subject.summary }}"              
+
+{% if (subject.attachments)|length > 0 %}
+--------------------------------------------
+Related Devices
+--------------------------------------------
+{% for device in subject.devices %}
+Device:                     
+Module:
+P/N:
+S/N:
+Location:
+Specification:
+{% endfor %}
+
 {% endif %}
+--------------------------------------------
+Problem Detail Description         
+--------------------------------------------
+"{{ subject.detail }}"              
+
+{% if (subject.attachments)|length > 0 %}
+--------------------------------------------
+Attached Documents
+--------------------------------------------
+{% for attachment in subject.attachments %}
+{{ subject.openedAt | date('Y-m-d H:i:s') }} - {{ attachment.name }}
+{% endfor %}
+
+{% endif %}
+{% if subject.service.id == 1 %}
+--------------------------------------------
+Investigation
+--------------------------------------------
+(investigation)
+{% elseif subject.service.id == 2 %}
+--------------------------------------------
+Logistics
+--------------------------------------------
+(logistics)
+{% endif%}
+
+--------------------------------------------
+Resolution
+--------------------------------------------
+
+--------------------------------------------
+Change Log
+--------------------------------------------
+

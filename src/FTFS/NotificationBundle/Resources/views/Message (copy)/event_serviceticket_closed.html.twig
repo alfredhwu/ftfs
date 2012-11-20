@@ -1,20 +1,20 @@
 {# event sent from an action of a client #}
 {% if 'ROLE_CLIENT' in actor.roles %}
     <p>We are very sorry but this is a spam message which normally you should never receive. Please contact our agents if you keep receiving this email.</p>
-    <p>spam code: 8814</p>
+    <p>spam code: 8184</p>
 {# event sent from an action of an agent #}
 {% else %}
     {# confirmation of action for a agent to himself #}
     {% if actor == destinaire %}
-    <p>This message is to confirm you that you have successfully opened a service for our client {{ subject.requestedBy }}.</p>
+    <p>This message is to confirm you that you have successfully closed the service ticket "{{ subject.name }}" of our client {{ subject.requestedBy }}.</p>
     {# information of action for ther service ticket owner #}
     {% elseif destinaire == subject.requestedBy %}
-    <p>This message is to confirm you that we have opened a service ticket for you as requested.</p>
+    <p>This message is to confirm you that we have closed your service ticket: "{{ subject.name }}".</p>
+    <p>If you have further problems concerning this ticket, please contact our agent by writing to support@fujitsu-telecom.fr or call the 01.xx.xx.xx </p>
     {# information of action for other observator #}
     {% else %}
-    <p>{{ actor }} has opened a service ticket for {{ subject.requestedBy }} as requested at {{ acted_at }}.</p>
+    <p>{{ actor }} has closed the service ticket "{{ subject.name }}" of {{ subject.requestedBy }} at {{ acted_at }}.</p>
     {% endif %}
-    <p>You can review and modify this ticket in our system by the no. "{{ subject.name }}"</p>
+    <p>You can still review this ticket in our system by the no. "{{ subject.name }}"</p>
 {% endif %}
-<hr>
 {% include "FTFSNotificationBundle:Message:message_service_ticket_info.html.twig" %}

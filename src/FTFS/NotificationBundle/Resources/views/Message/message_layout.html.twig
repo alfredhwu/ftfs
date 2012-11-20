@@ -1,0 +1,28 @@
+<div style="font-size:14px">
+    {% block message_head %}
+        {% if destinaire is defined and destinaire is not null %}
+        <div>Dear {{ destinaire.title }} {{ destinaire.getFullName() }},</div>
+        {% endif %}
+    {% endblock %}
+
+    <div>
+    {% block message_body %}
+    {% endblock %}
+    </div>
+
+    <div>
+    <hr>
+    {% include "FTFSNotificationBundle:Message:message_service_ticket_info.html.twig" %}
+    <hr>
+    </div>
+
+    <div>
+    {% block message_foot %}
+    Best regards,<br>
+    FTFS Support Service Team<br>
+    support@fujitsu-telecom.fr<br>
+    <hr>
+    This is a notification mail sending by the FTFS Support Service system. If you don't want to receive this email, please login the system and change your personal settings.
+    {% endblock %}
+    </div>
+</div>

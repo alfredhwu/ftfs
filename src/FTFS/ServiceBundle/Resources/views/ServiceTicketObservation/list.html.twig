@@ -75,8 +75,9 @@
         var target = $('#upload-form-'+add_to_id);
         var action = "{{ path('ftfs_dashboardbundle_myservice_observation_attachment_upload', { 'id':entity.id,'obid':'_obid' }) }}";
         action = action.replace(/_obid/, add_to_id);
-        alert(action);
-        $.get(action, { 'action':action }, function(data) { 
+        action_esc = escape(action);
+        //alert(action_esc);
+        $.get(action, { 'action':action_esc }, function(data) { 
             //alert(data);
             target.html(data);
             target.show();

@@ -157,99 +157,6 @@ class EventNotificationNotifier
     protected function registerNotifications(EventLog $eventlog, UserInterface $notified_to)
     {
         if($notified_to) {
-            // generate notification: txt_mini, txt, html
-            $eventargs = $this->getEventArgs($eventlog);
-            $service_ticket = $this->getSubject('serviceticket', $eventlog->getAction());
-            $event_action = $eventlog->getAction();
-            $message['mintxt'] = $this->templating->render('FTFSNotificationBundle:Message:event_'.$eventargs[1].
-                '.mintxt.twig', array(
-                )
-            );
-            $message['txt'] = $this->templating->render('FTFSNotificationBundle:Message:event_'.$eventargs[1].
-                '_'.$eventargs[2].'.txt.twig', array(
-                    'subject' => $service_ticket,
-                    'destinaire' => $notified_to,
-                    'subject_href' => $this->router->generate(
-                        'ftfs_dashboardbundle_myservice_show_by_name', 
-                        array(
-                            'name' => $event_action['serviceticket_name'],
-                        ), 
-                        true
-                    ),
-                    'actor' => $eventlog->getActor(),
-                    'acted_at' => $eventlog->getActedAt()->format('Y-m-d H:i:s'),
-                    'action' => $event_action,
-                )
-            );
-            /*
-            $message['txt'] = $this->templating->render('FTFSNotificationBundle:Message:event_'.$eventargs[1].
-                '_'.$eventargs[2].'.txt.twig', array(
-                )
-            );
-             */
-            $message['html'] = $this->templating->render('FTFSNotificationBundle:Message:event_'.$eventargs[1].
-                '_'.$eventargs[2].'.html.twig', array(
-                    'destinaire' => $notified_to,
-                    'subject' => $service_ticket,
-                    'subject_href' => $this->router->generate(
-                        'ftfs_dashboardbundle_myservice_show_by_name', 
-                        array(
-                            'name' => $event_action['serviceticket_name'],
-                        ), 
-                        true
-                    ),
-                    'actor' => $eventlog->getActor(),
-                    'acted_at' => $eventlog->getActedAt()->format('Y-m-d H:i:s'),
-                    'action' => $event_action,
-                )
-            );
-            // attachments 
-            $attachments[$service_ticket->getName().'.txt'] = array(
-                'content' => $this->templating->render('FTFSNotificationBundle:Message:message_service_ticket_info.txt.twig', array(
-                    'subject' => $service_ticket,
-                )),
-                'type' => 'text/txt',
-            );
-            $attachments[$service_ticket->getName().'.html'] = array(
-                'content' => $this->templating->render('FTFSNotificationBundle:Message:message_service_ticket_info.html.twig', array(
-                    'subject' => $service_ticket,
-                )),
-                'type' => 'text/html',
-            );
-            $message['attachments'] = $attachments;
-
-            //throw new \Exception($message['html']);
-            /*
-        $message = $this->templating->render('FTFSNotificationBundle:Message:event_'.$eventargs[1].
-                '_'.$eventargs[2].'.'.$format.'.twig', array(
-            'method' => $method->getName(),
-            'destinaire' => $notified_to,
-            'subject' => $service_ticket,
-            'subject_href' => $this->router->generate(
-                'ftfs_dashboardbundle_myservice_show_by_name', 
-                array(
-                    'name' => $event_action['serviceticket_name'],
-                ), 
-                true
-            ),
-            'actor' => $eventlog->getActor(),
-            'acted_at' => $eventlog->getActedAt()->format('Y-m-d H:i:s'),
-            'action' => $event_action,
-        ));
-             */
-
-
-            $methods = $this->eventCatchFilter->getNotificationMethods($notified_to, $eventlog->getEvent(), $notified_to === $eventlog->getActor());
-            $notifications = array();
-            foreach($methods as $method) {
-                $notifications[] = $this->generateNotificationLog($eventlog, $notified_to, $method, $message);
-            }
-            $this->notifications = array_merge($this->notifications, $notifications);
-            
-            
-            // generate notification log
-            // for each method
-            /*
             $methods = $this->eventCatchFilter->getNotificationMethods($notified_to, $eventlog->getEvent(), $notified_to === $eventlog->getActor());
             $notifications = array();
             foreach($methods as $method) {
@@ -267,7 +174,6 @@ class EventNotificationNotifier
                 }
             }
             $this->notifications = array_merge($this->notifications, $notifications);
-             */
         }
     }
 
@@ -275,16 +181,16 @@ class EventNotificationNotifier
      *
      * generate a notification log
      */
-    protected function generateNotificationLog(EventLog $eventlog, UserInterface $notified_to, $method = null, array $message)
+    protected function generateNotificationLog(EventLog $eventlog, UserInterface $notified_to, $method = null, $format = null)
     {
         $notificationlog = new \FTFS\NotificationBundle\Entity\NotificationLog();
         $notificationlog->setEvent($eventlog->getEvent());
 
         // generate message realted: method, format, message, cc
-        //$format = $format ? $format : 'txt';        // set default message format, method
+        $format = $format ? $format : 'txt';        // set default message format, method
         $method = $method ? $method : $this->getDefaultNotificationMethod();
+        //
         $notificationlog->setMethod($method);
-
         $notificationlog->setCc(null);              // by default, null
 
         $eventargs = $this->getEventArgs($eventlog);
@@ -294,23 +200,28 @@ class EventNotificationNotifier
         // editing cc field
         // check if $service_ticket or $action has a cc 
         $service_ticket = $this->getSubject('serviceticket', $event_action);
-
-        switch($method->getName()) {
-            case 'system':
-                $notificationlog->setHtmlMessage(trim($message['html']));
-                break;
-            case 'email':
-                $notificationlog->setCc($service_ticket->getShareList());
-                $notificationlog->setHtmlMessage(trim($message['html']));
-                $notificationlog->setTxtMessage(trim($message['txt']));
-                if(array_key_exists('attachments', $message)) {
-                    $notificationlog->setAttachments($message['attachments']);
-                }
-                break;
-            case 'sms':
-                $notificationlog->setTxtMessage(trim($message['mintxt']));
-                break;
+        if($method->getName() === 'email') {
+            $notificationlog->setCc($service_ticket->getShareList());
         }
+        $message = $this->templating->render('FTFSNotificationBundle:Message:event_'.$eventargs[1].
+                '_'.$eventargs[2].'.'.$format.'.twig', array(
+            'method' => $method->getName(),
+            'destinaire' => $notified_to,
+            'subject' => $service_ticket,
+            'subject_href' => $this->router->generate(
+                'ftfs_dashboardbundle_myservice_show_by_name', 
+                array(
+                    'name' => $event_action['serviceticket_name'],
+                ), 
+                true
+            ),
+            'actor' => $eventlog->getActor(),
+            'acted_at' => $eventlog->getActedAt()->format('Y-m-d H:i:s'),
+            'action' => $event_action,
+        ));
+        // debuging : check rendered message
+        //throw new \Exception('test rendering:'.$message);// Todo Debugging >>>
+        $notificationlog->setMessage(trim($message));
         $notificationlog->setNotifiedAt(null);
 
         return $notificationlog;

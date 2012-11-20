@@ -343,7 +343,7 @@ function get_ajax_resource(target) {
     var data = target.attr('data');
     var toggle = target.attr('callback-toggle');
     var animation = ajax_animation(target);
-    alert(url_handle);
+    //alert(url_handle);
     if(method==='get') {
         $.get(url, { action: url_handle }, function(data) { 
             $(toggle).html(data);

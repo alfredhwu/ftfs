@@ -9,7 +9,7 @@
                 {{ attachment.name }}
             </a>
         </span>
-        {% if is_granted('ROLE_ADMIN') or attachment.uploadedBy == app.user %}
+        {% if is_granted('ROLE_ADMIN') or attachment.uploadedBy == app.user or (is_granted('ROLE_CLIENT_COMPANY') and entity.requestedBy.company == app.user.company) %}
         <span>
             <a class="crud-action" crud-message="{{ (prefix~'.attachment.list.delete.confirm')|trans({ '%attachment_name%' : attachment.name }, 'crud') }}" crud-toggle="{{ path(prefix~'_attachment_delete', { 'id' : id, 'attachment_id' : attachment.id }) }}" href="#">
                 <i class="icon-trash"></i>
@@ -27,7 +27,7 @@
 </div>
 {% endif %}
 
-{% if app.user == entity.requestedBy or app.user == entity.assignedTo %}
+{% if app.user == entity.requestedBy or app.user == entity.assignedTo or (is_granted('ROLE_CLIENT_COMPANY') and entity.requestedBy.company == app.user.company) %}
 <div>
     <!-- attachment add control toggle -->
     <span><a class="tic-tac" tic-tac-target="#attachment-upload" href="#">
