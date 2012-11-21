@@ -25,13 +25,19 @@
     <p><ul>
     {% for fieldname, fieldchange in action.change_set %}
         {% if fieldname in ['severity', 'priority'] %}
-        <li>[{{ ('ftfs_serviceticket.'~fieldname~'.title')|trans({}, 'notification') }}] changed from "{{ ('ftfs_serviceticket.'~fieldname~'.'~fieldchange[0])|trans({}, 'notification') }}" to "{{ ('ftfs_serviceticket.'~fieldname~'.'~fieldchange[1])|trans({}, 'notification') }}"</li>
+        <li>[{{ ('ftfs_serviceticket.'~fieldname~'.title')|trans({}, 'notification') }}] changed from: <br> 
+        "{{ ('ftfs_serviceticket.'~fieldname~'.'~fieldchange[0])|trans({}, 'notification') }}"<br>
+        to:<br>
+        "{{ ('ftfs_serviceticket.'~fieldname~'.'~fieldchange[1])|trans({}, 'notification') }}"</li>
         {% elseif fieldname == 'assigned_to' %}
-        <li>The service ticket has been reassigned from [{{ ('ftfs_serviceticket.'~fieldname)|trans({}, 'notification') }}]: from "{{ fieldchange[0] }}" to "{{ fieldchange[1] }}"</li>
+        <li>The service ticket has been reassigned: from "{{ fieldchange[0] }}" to "{{ fieldchange[1] }}"</li>
         {% elseif fieldname == 'requested_by' %}
-        <li>The owner of the service ticket has been changed from [{{ ('ftfs_serviceticket.'~fieldname)|trans({}, 'notification') }}]: from "{{ fieldchange[0] }}" to "{{ fieldchange[1] }}"</li>
+        <li>The owner of the service ticket has been changed: from "{{ fieldchange[0] }}" to "{{ fieldchange[1] }}"</li>
         {% else %}
-        <li>[{{ ('ftfs_serviceticket.'~fieldname)|trans({}, 'notification') }}]: from "{{ fieldchange[0] }}" to "{{ fieldchange[1] }}"</li>
+        <li>[{{ ('ftfs_serviceticket.'~fieldname)|trans({}, 'notification') }}] from: <br>
+        "{{ fieldchange[0] }}"<br>
+        to:<br>
+        "{{ fieldchange[1] }}"</li>
         {% endif %}
     {% endfor %}
     </ul></p>

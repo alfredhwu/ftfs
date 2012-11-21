@@ -48,7 +48,7 @@ class FTFSMailer
             $message->setBody($message_options['body_html'], 'text/html', 'UTF8');
         }
         if(array_key_exists('body_txt', $message_options)) {
-            $message->addPart($message_options['body_txt'], 'text/txt', 'UTF8');
+            $message->addPart($message_options['body_txt'], 'text/plain', 'UTF8');
         }
 
         // attachment

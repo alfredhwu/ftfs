@@ -208,7 +208,7 @@ class EventNotificationNotifier
                 'content' => $this->templating->render('FTFSNotificationBundle:Message:message_service_ticket_info.txt.twig', array(
                     'subject' => $service_ticket,
                 )),
-                'type' => 'text/txt',
+                'type' => 'text/plain',
             );
             $attachments[$service_ticket->getName().'.html'] = array(
                 'content' => $this->templating->render('FTFSNotificationBundle:Message:message_service_ticket_info.html.twig', array(
