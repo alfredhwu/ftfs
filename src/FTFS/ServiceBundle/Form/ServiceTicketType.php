@@ -39,7 +39,7 @@ class ServiceTicketType extends AbstractType
                             200 => 'High',
                             300 => 'Normal',
                             400 => 'Low',
-                            500 => 'Very Low',
+                            500 => 'Information',
                         ),
                     ))
                     ->add('requested_by', 'text', array(
@@ -73,7 +73,7 @@ class ServiceTicketType extends AbstractType
                             200 => 'High',
                             300 => 'Normal',
                             400 => 'Low',
-                            500 => 'Very Low',
+                            500 => 'Information',
                         ),
                     ))
                     ->add('priority', 'choice', array(

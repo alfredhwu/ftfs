@@ -1,0 +1,26 @@
+<form id="export-form" method="post" class="form-horizontal well" action="{{ action }}">
+    {{ form_widget(action_form) }}
+    <input type="hidden" name="type" value="">
+    <input type="hidden" name="from" value="">
+    <input type="hidden" name="to" value="">
+    <input type="hidden" name="status" value="">
+    <div class="form-actions">
+        <a id="export" href="#" class="btn btn-primary">
+            {{ (prefix~'.export.form.submit')|trans({}, 'crud') }}
+        </a>
+        <a href="{{ path(prefix~'_index') }}" class="btn">{{ (prefix~'.export.form.cancel')|trans({}, 'crud') }}</a>
+    </div>
+</form>
+<script>
+    var default_file_name = 'selected_tickets';
+    $('form#export-form').find('input#form_filename').attr('placeholder', default_file_name);
+    $('form#export-form').find('a#export').click(function(e) {
+        e.preventDefault();
+        $('form#export-form').find('input[name=type]').val($('select#ticket-filter-type').val());
+        $('form#export-form').find('input[name=from]').val($('input.datepicker-from').val());
+        $('form#export-form').find('input[name=to]').val($('input.datepicker-to').val());
+        $('form#export-form').find('input[name=status]').val(urlSearchGetQuery('status'));
+        $('div#crud-box-title-toggle').hide();
+        $('form#export-form').submit();
+    });
+</script>

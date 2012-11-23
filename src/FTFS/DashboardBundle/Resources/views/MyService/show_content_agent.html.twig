@@ -9,19 +9,24 @@
         {% else %}
             {% if entity.status != 'opened' %}
             <a class="btn btn-small crud-action" href="#" crud-message="{{ (prefix~'.form.action.show.open.confirm')|trans({}, 'crud') }}" crud-toggle="{{ path(prefix~'_open', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.open.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
-                <i class="icon-share"></i>
+                <i class="icon-folder-open"></i>
             </a>
             {% else %}
             <a class="btn btn-small" href="{{ path(prefix~'_close', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.close.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
-                <i class="icon-check"></i>
+                <i class="icon-folder-close"></i>
             </a>
             {% endif %}
             {% if entity.status != 'submitted' %}
-                <a class="btn btn-small" href="{{ path(prefix~'_transfer', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.transfer.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
-                    <i class="icon-hand-right"></i>
-                </a>
+            <a class="btn btn-small" href="{{ path(prefix~'_transfer', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.transfer.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+                <i class="icon-hand-right"></i>
+            </a>
             {% endif %}
         {% endif %}
+    {% endif %}
+    {% if entity.status == 'closed' %}
+        <a class="btn btn-small crud-action" crud-toggle="{{ path(prefix~'_reopen', { 'id' : entity.id }) }}" crud-message="{{ (prefix~'.table.action.reopen.confirm')|trans({'%name%':entity.name, '%requestor%':entity.requestedBy}, 'crud') }}" href="#" rel="tooltip" title="{{ (prefix~'.table.action.reopen.tooltip')|trans({}, 'crud') }}">
+            <i class="icon-folder-open"></i>
+        </a>
     {% endif %}
 {% endblock %}
 

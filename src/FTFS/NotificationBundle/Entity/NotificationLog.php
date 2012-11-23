@@ -55,11 +55,18 @@ class NotificationLog
     private $html_message;
 
     /**
-     * @var text $txt_message
+     * @var text $text_message
      *
-     * @ORM\Column(name="txt_message", type="text", nullable=true)
+     * @ORM\Column(name="text_message", type="text", nullable=true)
      */
-    private $txt_message;
+    private $text_message;
+
+    /**
+     * @var text $mini_message
+     *
+     * @ORM\Column(name="mini_message", type="text", nullable=true)
+     */
+    private $mini_message;
 
     /** 
      * @var array $attachments
@@ -186,6 +193,26 @@ class NotificationLog
     }
 
     /**
+     * Set attachments
+     *
+     * @param array $attachments
+     */
+    public function setAttachments($attachments)
+    {
+        $this->attachments = $attachments;
+    }
+
+    /**
+     * Get attachments
+     *
+     * @return array 
+     */
+    public function getAttachments()
+    {
+        return $this->attachments;
+    }
+
+    /**
      * Set html_message
      *
      * @param text $htmlMessage
@@ -206,42 +233,42 @@ class NotificationLog
     }
 
     /**
-     * Set txt_message
+     * Set text_message
      *
-     * @param text $txtMessage
+     * @param text $textMessage
      */
-    public function setTxtMessage($txtMessage)
+    public function setTextMessage($textMessage)
     {
-        $this->txt_message = $txtMessage;
+        $this->text_message = $textMessage;
     }
 
     /**
-     * Get txt_message
+     * Get text_message
      *
      * @return text 
      */
-    public function getTxtMessage()
+    public function getTextMessage()
     {
-        return $this->txt_message;
+        return $this->text_message;
     }
 
     /**
-     * Set attachments
+     * Set mini_message
      *
-     * @param array $attachments
+     * @param text $miniMessage
      */
-    public function setAttachments($attachments)
+    public function setMiniMessage($miniMessage)
     {
-        $this->attachments = $attachments;
+        $this->mini_message = $miniMessage;
     }
 
     /**
-     * Get attachments
+     * Get mini_message
      *
-     * @return array 
+     * @return text 
      */
-    public function getAttachments()
+    public function getMiniMessage()
     {
-        return $this->attachments;
+        return $this->mini_message;
     }
 }

@@ -7,9 +7,9 @@
     {# confirmation of action for a agent to himself #}
     {% if actor == destinaire %}
         {% if actor == subject.assignedTo %}
-        <p>This message is to confirm you that you have successfully taken from {{ action.change_set['assigned_to'][0] }} a service ticket named "{{ subject.name }}" of {{ subject.requestedBy }} at {{ acted_at }}.</p>
+        <p>This message is to confirm you that you have successfully taken from {{ action.change_set['assigned_to'][0] }} a service ticket named <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a> of {{ subject.requestedBy }} at {{ acted_at }}.</p>
         {% else %}
-        <p>This message is to confirm you that you have successfully reassigned a service ticket named "{{ subject.name }}" of {{ subject.requestedBy }} from {{ action.change_set['assigned_to'][0] }} to {{ subject.assignedTo }} at {{ acted_at }}.</p>
+        <p>This message is to confirm you that you have successfully reassigned a service ticket named <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a> of {{ subject.requestedBy }} from {{ action.change_set['assigned_to'][0] }} to {{ subject.assignedTo }} at {{ acted_at }}.</p>
         {% endif %}
     {# information of action for ther service ticket owner #}
     {% elseif destinaire == subject.requestedBy %}
@@ -18,11 +18,9 @@
     {# information of action for other observator #}
     {% else %}
         {% if actor == subject.assignedTo %}
-        <p>This message is to inform you that {{ actor }} has taken from {{ action.change_set['assigned_to'][0] }} the service ticket named "{{ subject.name }}" of {{ subject.requestedBy }} at {{ acted_at }}.</p>
+        <p>This message is to inform you that {{ actor }} has taken from {{ action.change_set['assigned_to'][0] }} the service ticket named <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a> of {{ subject.requestedBy }} at {{ acted_at }}.</p>
         {% else %}
-        <p>This message is to inform you that {{ actor }} has reassigned the service ticket named "{{ subject.name }}" of {{ subject.requestedBy }} from {{ action.change_set['assigned_to'][0] }} to {{ subject.assignedTo }} at {{ acted_at }}.</p>
+        <p>This message is to inform you that {{ actor }} has reassigned the service ticket named <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a> of {{ subject.requestedBy }} from {{ action.change_set['assigned_to'][0] }} to {{ subject.assignedTo }} at {{ acted_at }}.</p>
         {% endif %}
     {% endif %}
 {% endif %}
-<hr>
-{% include "FTFSNotificationBundle:Message:message_service_ticket_info.html.twig" %}

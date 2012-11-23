@@ -1,3 +1,4 @@
+{% autoescape false %}
 <div style="font-size:14px">
     {% block message_head %}
         {% if destinaire is defined and destinaire is not null %}
@@ -7,12 +8,13 @@
 
     <div>
     {% block message_body %}
+    {{ message_body }}
     {% endblock %}
     </div>
 
     <div>
     <hr>
-    {% include "FTFSNotificationBundle:Message:message_service_ticket_info.html.twig" %}
+    {{ message_attachment }}
     <hr>
     </div>
 
@@ -26,3 +28,4 @@
     {% endblock %}
     </div>
 </div>
+{% endautoescape %}

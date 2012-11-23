@@ -20,5 +20,3 @@
     This message is to inform you that {{ actor }} have added an observation {% if action.observation_to == actor %}to his former observation{% elseif action.observation_to is null %}{% else %}to {{ action.observation_to }}'s observation{% endif %} concerning the service ticket "{{ subject.name }}" at {{ acted_at }}, saying:
     {% endif %}
 {% endif %}
-{% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}
-{% include "FTFSNotificationBundle:Message:message_service_ticket_info.txt.twig" %}

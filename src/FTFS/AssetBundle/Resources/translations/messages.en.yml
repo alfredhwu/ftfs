@@ -2,7 +2,7 @@
 ftfs_assetbundle_device_form:
     location:       "Location:"
     product:        "Product:"
-    specification:  "Specification:"
+    specification:  "Additional Info:"
     module_name:    "Module Name:"
     serial_pn:      "P/N:"
     serial_sn:      "S/N:"

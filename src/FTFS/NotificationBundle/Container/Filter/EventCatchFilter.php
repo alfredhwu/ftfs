@@ -24,6 +24,9 @@ class EventCatchFilter
 
     public function getNotificationMethods(UserInterface $user, Event $event, $auto=false) {
         //
+        if(!$user->isEnabled() || $user->isLocked()) {
+            return array();
+        }
         $filters = $this->entityRepository->findBy(array(
                     'user' => $user->getId(), 
                     'event' => $event->getId(),

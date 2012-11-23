@@ -21,7 +21,7 @@ ftfs.servicebundle.serviceticket:
         devices.$$name$$:
             location:       "Site Location:"
             product:        "Product:"
-            specification:  "Specification:"
+            specification:  "Additional Info:"
             module.name:    "Module Name:"
             serial.pn:      "P/N:"
             serial.sn:      "S/N:"
@@ -31,7 +31,8 @@ ftfs.servicebundle.serviceticket:
         closed.at:  "Ticket Closed at:"
         last.modified.at:    "Last Modified at:"
     table:
-        name:       "Service Ticket No"
+        name:       "Ticket Reference"
+        rma:        "RMA Reference"
         service:       "Service Requested"
         severity:
             title:  "Severity"
@@ -43,7 +44,7 @@ ftfs.servicebundle.serviceticket:
             300.class:  "label label-info"
             400:    "Low"
             400.class:  "label label-inverse"
-            500:    "Very Low"
+            500:    "Information"
             500.class:  "label"
         priority:
             title:  "Priority"

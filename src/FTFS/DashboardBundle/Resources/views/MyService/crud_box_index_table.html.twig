@@ -1,7 +1,34 @@
 {% extends 'FTFSCrudBundle:Crud:crud_box_index_table.html.twig' %}
 
+{% block operations %}
+    {% if entity.status != 'closed' and ((app.user.isAgent() and entity.assignedTo == app.user) or (not app.user.isAgent and entity.requestedBy == app.user))%}
+    {{ parent() }}
+    {% endif %}
+    {% if app.user.isAgent() %}
+        {% if entity.assignedTo != app.user %}
+        <a class="crud-action" crud-toggle="{{ path(prefix~'_take', { 'id' : entity.id }) }}" crud-message="{{ (prefix~'.table.action.take.confirm')|trans({'%name%':entity.name, '%requestor%':entity.requestedBy}, 'crud') }}" href="#" rel="tooltip" title="{{ (prefix~'.table.action.take.tooltip')|trans({}, 'crud') }}">
+            <i class="icon-hand-up"></i>
+        </a>
+        {% endif %}
+        {% if entity.status == 'closed' %}
+        <a class="crud-action" crud-toggle="{{ path(prefix~'_reopen', { 'id' : entity.id }) }}" crud-message="{{ (prefix~'.table.action.reopen.confirm')|trans({'%name%':entity.name, '%requestor%':entity.requestedBy}, 'crud') }}" href="#" rel="tooltip" title="{{ (prefix~'.table.action.reopen.tooltip')|trans({}, 'crud') }}">
+            <i class="icon-folder-open"></i>
+        </a>
+        {% endif %}
+    {% else %}{# current client #}
+        {% if entity.status == 'created' %}
+        <a class="crud-action" crud-toggle="{{ path(prefix~'_submit', { 'id' : entity.id }) }}" crud-message="{{ (prefix~'.table.action.submit.confirm')|trans({}, 'crud') }}" href="#" rel="tooltip" title="{{ (prefix~'.table.action.submit.tooltip')|trans({}, 'crud') }}">
+            <i class="icon-envelope"></i>
+        </a>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
 {% block thead %}
     <th class="tight">{{ ('ftfs.servicebundle.serviceticket.table.name') | trans({}, 'crud') }}</th>
+    {% for key, data in list.meta %}
+    <th class="tight">{{ ('ftfs.servicebundle.serviceticket.table.'~key) | trans({}, 'crud') }}</th>
+    {% endfor %}
     <th>{{ ('ftfs.servicebundle.serviceticket.table.last.modified.at') | trans({}, 'crud') }}</th>
     <th class="tight">{{ ('ftfs.servicebundle.serviceticket.table.status.title') | trans({}, 'crud') }}</th>
     <th class="tight">{{ ('ftfs.servicebundle.serviceticket.table.severity.title') | trans({}, 'crud') }}</th>
@@ -24,15 +51,26 @@
 
 {% block tbody %}
     <td class="tight">{{ entity.name }}</td>
+    {% for key, data in list.meta %}
+    <td class="tight">
+    {% if entity.name in data|keys %}
+    {{ data[entity.name] }}
+    {% endif %}
+    </td>
+    {% endfor %}
     <td>{% if entity.lastModifiedAt is not empty %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status)|trans({}, 'crud') }}</span></td>
     <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity)|trans({}, 'crud') }}</span></td>
     <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.priority.'~entity.priority~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.priority.'~entity.priority)|trans({}, 'crud') }}</span></td>
     <td class="extend">{{ entity.summary }}</td>
     {% if not is_granted('ROLE_CLIENT') %}
-    <td>{{ entity.assignedTo }}</td>
+    <td>{% if entity.assignedTo is not null %}{{ entity.assignedTo.getFullName() }}{% endif %}</td>
     {% endif %}
+    {% if app.user.isAgent() %}
     <td>{{ entity.requestedBy }}</td>
+    {% else %}
+    <td>{{ entity.requestedBy.getFullName() }}</td>
+    {% endif %}
     <td>{{ entity.service }}</td>
     {#
     <td>{% if entity.lastModifiedAt is not empty %}{{ entity.requestReceivedAt | date('Y-m-d H:i:s') }}{% endif %}</td>

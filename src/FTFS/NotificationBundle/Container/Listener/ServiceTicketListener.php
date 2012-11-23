@@ -84,6 +84,9 @@ class ServiceTicketListener
                 $action['serviceticket_requested_by']=$entity->getRequestedBy()->getId();
                 $action['serviceticket_summary']=$entity->getSummary();
                 $action['serviceticket_detail']=$entity->getDetail();
+                $action['serviceticket_service']=$entity->getService();
+                $action['serviceticket_severity']=$entity->getSeverity();
+                $action['serviceticket_priority']=$entity->getPriority();
                 $action['serviceticket_assigned_to']=$entity->getAssignedTo()?$entity->getAssignedTo()->getId():-1;
                 $action_name = $action['name'];
                 $this->notify('event.serviceticket.'.$action_name, $action);

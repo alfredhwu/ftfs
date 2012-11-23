@@ -38,7 +38,7 @@ class EmailSenderAgent implements SenderAgentInterface
             'to' => array($notification->getNotifiedTo()->getEmail() => $notification->getNotifiedTo()),
             'cc' => $notification->getCc(),
             'body_html' => $notification->getHtmlMessage(),
-            'body_txt' => $notification->getTxtMessage(),
+            'body_txt' => $notification->getTextMessage(),
             'attachments' => $attachments,
         ));
 

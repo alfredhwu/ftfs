@@ -27,7 +27,7 @@
 </div>
 {% endif %}
 
-{% if app.user == entity.requestedBy or app.user == entity.assignedTo or (is_granted('ROLE_CLIENT_COMPANY') and entity.requestedBy.company == app.user.company) %}
+{% if (app.user == entity.requestedBy or app.user == entity.assignedTo or (is_granted('ROLE_CLIENT_COMPANY') and entity.requestedBy.company == app.user.company)) and entity.status != 'closed' %}
 <div>
     <!-- attachment add control toggle -->
     <span><a class="tic-tac" tic-tac-target="#attachment-upload" href="#">
@@ -45,7 +45,6 @@
     </span>
     </a></span>
 </div>
-{% endif %}
 
 <div id="attachment-upload" class="hide" callback="get_ajax_resource" method='get' url="{{ path(prefix~'_attachment_upload', {'id' : entity.id }) }}" callback-toggle="div#attachment-upload-ajax">
     <div id="attachment-upload-ajax">
@@ -56,3 +55,4 @@
     #}
     </div>
 </div>
+{% endif %}

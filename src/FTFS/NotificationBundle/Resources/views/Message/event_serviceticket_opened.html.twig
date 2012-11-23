@@ -14,7 +14,5 @@
     {% else %}
     <p>{{ actor }} has opened a service ticket for {{ subject.requestedBy }} as requested at {{ acted_at }}.</p>
     {% endif %}
-    <p>You can review and modify this ticket in our system by the no. "{{ subject.name }}"</p>
+    <p>You can review and modify this ticket in our system by the <a class="btn btn-min" href="{{ subject_href }}">no. "{{ subject.name }}"</a></p>
 {% endif %}
-<hr>
-{% include "FTFSNotificationBundle:Message:message_service_ticket_info.html.twig" %}

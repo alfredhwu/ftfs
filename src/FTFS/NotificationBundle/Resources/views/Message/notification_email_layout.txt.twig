@@ -1,0 +1,21 @@
+{% autoescape false %}
+{% block message_head %}
+    {% if destinaire is defined and destinaire is not null %}
+Dear {{ destinaire.title }} {{ destinaire.getFullName() }},
+    {% endif %}
+{% endblock %}
+
+{% block message_body %}
+{{ message_body }}
+{% endblock %}
+
+{{ message_attachment }}
+
+{% block message_foot %}
+Best regards,
+FTFS Support Service Team
+support@fujitsu-telecom.fr
+--------------------
+This is a notification mail sending by the FTFS Support Service system. If you don't want to receive this email, please login the system and change your personal settings.
+{% endblock %}
+{% endautoescape %}

@@ -14,6 +14,57 @@ class MyServiceController extends BaseController
         ));
     }
 
+    public function getExportationFormAction()
+    {
+        $container = array('export' => 'export form');
+        $action_form = $this->createFormBuilder($container)
+            ->add('filename', 'text', array(
+                'required' => false,
+            ))
+            ->add('filetype', 'choice', array(
+                'choices' => array(
+                    'csv' => 'csv',
+                ),
+            ))
+            ->getForm();
+
+        $request = $this->getRequest();
+        if($request->getMethod() === 'POST') {
+            $action_form->bindRequest($request);
+            if($action_form->isValid()) {
+                // exportation
+                $data = $action_form->getData();
+                $filename = $data['filename'] == '' ? 'selected_tickets' : $data['filename'];
+                $filetype = $data['filetype'];
+                $filename = $filename.'.'.$filetype;
+
+                $response = new \Symfony\Component\HttpFoundation\Response();
+
+                $response = $this->render($this->getViewPath().':crud_box_index_table.csv.twig', array(
+                    'list' => $this->getEntityList(array(
+                        'pagination' => false,
+                    )),
+                ));
+
+                $content = $response->getContent();
+                $sep = ';';
+                $content = str_replace('<span>', '', $content);
+                $content = str_replace('</span>', $sep, $content);
+                $response->setContent($content);
+
+                $response->headers->set('Content-Type', 'text/csv');
+                $response->headers->set('Content-Disposition', 'attachment;filename='.$filename);
+                return $response;
+            }
+            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_index'));
+        }
+        return $this->render('FTFSServiceBundle:ServiceTicket:exportation_form.html.twig', array(
+            'action_form' => $action_form->createView(),
+            'action' => $this->generateUrl($this->getRoutingPrefix().'_get_exportation_form'),
+            'prefix' => $this->getRoutingPrefix(),
+        ));
+    }
+
     public function getMyServiceListAction()
     {
 
@@ -37,7 +88,7 @@ class MyServiceController extends BaseController
         $response = new \Symfony\Component\HttpFoundation\Response();
 
         $filename = $this->getRequest()->get('filename');
-        $filename = $filename && strlen($filename) > 0 ? $filename : 'ticket-list.csv';
+        $filename = $filename && strlen($filename) > 0 ? $filename : 'selected-tickets.csv';
 
         $response = $this->render($this->getViewPath().':crud_box_index_table.csv.twig', array(
             'list' => $this->getEntityList(array(
@@ -147,7 +198,8 @@ class MyServiceController extends BaseController
                 $queryBuilder
                     ->andWhere("e.status = 'submitted' or e.status = 'assigned'");
                 break;
-            case 'allassigned':
+            case 'allassigned': // all agent assigned
+            case 'all':  // all client owned
                 break;
             // additional filter for agent
             case 'alldeployed':
@@ -186,11 +238,10 @@ class MyServiceController extends BaseController
 
         // pagination
         $count = count($queryBuilder->getQuery()->getResult());
-        $limit = 5; // default limit and page value
+        $limit = 8; // default limit and page value
         $page = 1;
-        $pagination = false; // default, no pagination
-        // if pagination
-        if(!array_key_exists('no_pagination', $options) or !$options['no_pagination']) {
+        $pagination = false; 
+        if(!array_key_exists('pagination', $options) or $options['pagination']) {
             $request_limit = $request->get('limit');
             $limit = is_numeric($request_limit) ? $request_limit : $limit;
 
@@ -205,11 +256,27 @@ class MyServiceController extends BaseController
             $pagination = true;
         }
 
+        $entities = $queryBuilder->getQuery()->getResult();
+        $meta = array();
+        if($type == 2) {// show rma in meta when repair
+            $rma_er = $this->getDoctrine()->getEntityManager()->getRepository('FTFSServiceBundle:RMA');
+            $rma_meta = array();
+            foreach($entities as $entity) {
+                $rma = $rma_er->findOneByTicket($entity->getId());
+                if($rma) { // if exists
+                    $rma_meta[$entity->getName()] = $rma->getName();
+                }
+            }
+            //throw new \Exception(print_r($rma_meta));
+            $meta['rma'] = $rma_meta;
+        }
+
         return new \Doctrine\Common\Collections\ArrayCollection(array(
             'count' => $count,
             'page' => $page,
             'limit' => $limit,
-            'entities' => $queryBuilder->getQuery()->getResult(),
+            'entities' => $entities,
+            'meta' => $meta,
             'pagination' => $pagination,
         ));
     }
@@ -299,6 +366,7 @@ class MyServiceController extends BaseController
 
             // reserved to agent owner 
             case 'open':    // status: submitted, assigned, not opened
+            case 'reopen':    // status: submitted, assigned, not opened
             case 'transfer':    // status: assigned, opened
             case 'close':   // status: opened
                 if($entity->getAssignedTo()!=$current_user){
@@ -408,6 +476,9 @@ class MyServiceController extends BaseController
                 $entity->setOpenedAt(new \DateTime('now'));
                 $entity->setStatus('opened');
                 break;
+            case 'reopen':
+                $entity->setStatus('assigned');
+                break;
             case 'close':
                 $entity->setClosedAt(new \DateTime('now'));
                 $entity->setStatus('closed');
@@ -487,6 +558,19 @@ class MyServiceController extends BaseController
     }
 
     /**
+     * reopen 
+     * granted only to ROLE_AGENT
+     *
+     * reserved to owner
+     */
+    public function reopenAction($id)
+    {
+        $entity = $this->getEntity('reopen', $id);
+        $this->flushEntity($entity, 'reopen');
+        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $entity->getId())));
+    }
+
+    /**
      * close 
      * granted only to ROLE_AGENT
      *
@@ -545,17 +629,20 @@ class MyServiceController extends BaseController
         $data = array(
             'agent' => $current_user,
         );
-        $action_form = $this->createFormBuilder($data)
-            ->add('agent', 'entity', array(
+        $agent_form_options = array(
                 'class' => 'FTFSUserBundle:User',
                 'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                                 ->where('u.is_agent = 1');
                 },
-                'empty_value' => '<Any Agent>',
-                'required' => false,
                 'label' => 'Select the agent to assign to:',
-            ))
+            );
+        if($entity->getStatus()=='assigned') {
+            $agent_form_options['empty_value'] = '<Any Agent>';
+            $agent_form_options['required'] = false;
+        }
+        $action_form = $this->createFormBuilder($data)
+            ->add('agent', 'entity', $agent_form_options)
             ->getForm();
 
         $request = $this->getRequest();
@@ -570,7 +657,10 @@ class MyServiceController extends BaseController
                     }
                 }else{
                     // to all agents
-                    $entity->clearAssignedTo();
+                    if($entity->getStatus()=='assigned') {
+                        $entity->clearAssignedTo();
+                        $entity->setStatus('submitted');
+                    }
                 }
                 $this->getDoctrine()->getEntityManager()->flush();
             }
@@ -672,7 +762,7 @@ class MyServiceController extends BaseController
         $filter = $this->getRequest()->query->get('status');
         $filter = $filter ? $filter : 'current';
         $entityList = $this->getEntityList(array(
-            'no_pagination' => true,
+            'pagination' => false,
         ));
         if($entityList) {
             $count = count($entityList['entities']);
@@ -914,7 +1004,7 @@ class MyServiceController extends BaseController
                     {
                         $observation->setAttachTo($attach);
                     }
-                    $content['message'] = $message;
+                    $content['message'] = urlencode($message);
                     $flush = true;
                     break;
                 case 'intervention':
@@ -926,11 +1016,11 @@ class MyServiceController extends BaseController
                     if($report == '') {
                         break;
                     }
-                    $content['site'] = $site;
+                    $content['site'] = urlencode($site);
                     $content['from'] = $from;
                     $content['to'] = $to;
                     $content['agent'] = $agent;
-                    $content['report'] = $report;
+                    $content['report'] = urlencode($report);
                     $flush = true;
                     break;
                 case 'logistic':

@@ -9,6 +9,9 @@ ftfs_dashboardbundle_menu:
     all_deployed:       'All Deployed Services'
     all_unassigned:      'All Unassigned Requests'
 ftfs_dashboardbundle_myservice:
+    export.form:
+        submit:             'Export'
+        cancel:             'Cancel'
     devices:
         title:              'All devices related:'
         add:
@@ -48,6 +51,12 @@ ftfs_dashboardbundle_myservice:
                 success:    "You have successfully taken the ticket!"
             submit:
                 success:    "You have successfully submit the request!"
+            open:
+                success:    "You have successfully opened the request!"
+            close:
+                success:    "You have successfully closed the request!"
+            reopen:
+                success:    "You have successfully reopened the request!"
     table:
         caption:            "Service Ticket List"
         operations:         "Operations"
@@ -59,6 +68,7 @@ ftfs_dashboardbundle_myservice:
             take.confirm:       "Really want to take the service ticket '%name%' of %requestor%?"
             take.success.flash: "Taken successfully !"
             submit:             "Submit"
+            submit.confirm:     "Really want to submit the service ticket?"
             submit.tooltip:     "Submit this service request"
             submit.success.flash:   "Request submitted successfully"
             delete:             "Delete"
@@ -67,6 +77,10 @@ ftfs_dashboardbundle_myservice:
             transfer:           "Transfer"
             transfer.tooltip:   "Transfer this service request"
             transfer.success.flash: "Service transfered successfully"
+            reopen:             "Reopen"
+            reopen.tooltip:     "Reopen this service request"
+            reopen.confirm:     "Really want to reopen the service ticket?"
+            reopen.success.flash:   "Service reopened successfully"
     form:
         legend:
             show:               "Service Ticket Detail"
@@ -96,6 +110,10 @@ ftfs_dashboardbundle_myservice:
                 open.confirm:       "Do you really want to close this service ticket ?"
                 close.tooltip:       "Close this ticket"
                 close.success.flash: "Service closed successfully"
+                reopen:             "Reopen"
+                reopen.tooltip:     "Reopen this service request"
+                reopen.confirm:     "Really want to reopen the service ticket?"
+                reopen.success.flash:   "Service reopened successfully"
             new:
                 new_only:           "Save without send"
                 new_only.tooltip:   "Save without Send"

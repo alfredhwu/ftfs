@@ -1,44 +1,41 @@
-{% extends 'FTFSNotificationBundle:Message:message_layout.html.twig' %}
-{% block message_body %}
-    {# event sent from an action of a client #}
-    {% if 'ROLE_CLIENT' in actor.roles %}
-        {# confirmation of action for a client to himself #}
-        {% if actor == destinaire %}
-        <p>This message is to confirm you that you have modified your ticket named "{{ subject.name }}" at {{ acted_at }}.</p>
-        {# information of action for other agents #}
-        {% else %}
-        <p>This message is to inform you that {{ actor }} has modified his service ticket named "{{ subject.name }}" at {{ acted_at }}.</p>
-        {% endif %}
-    {# event sent from an action of an agent #}
+{# event sent from an action of a client #}
+{% if 'ROLE_CLIENT' in actor.roles %}
+    {# confirmation of action for a client to himself #}
+    {% if actor == destinaire %}
+    <p>This message is to confirm you that you have modified your ticket named <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a> at {{ acted_at }}.</p>
+    {# information of action for other agents #}
     {% else %}
-        {# confirmation of action for a agent to himself #}
-        {% if actor == destinaire %}
-        <p>This message is to confirm you that you have successfully modified the service ticket named "{{ subject.name }}" for our client {{ subject.requestedBy }}.</p>
-        {# information of action for ther service ticket owner #}
-        {% elseif destinaire == subject.requestedBy %}
-        <p>This message is to confirm you that we have modified your service ticket named "{{ subject.name }}".</p>
-        {# information of action for other observator #}
-        {% else %}
-        <p>{{ actor }} has modified the service ticket named "{{ subject.name }}" of {{ subject.requestedBy }} at {{ acted_at }}.</p>
-        {% endif %}
+    <p>This message is to inform you that {{ actor }} has modified his service ticket named <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a> at {{ acted_at }}.</p>
     {% endif %}
-    <p><ul>
-    {% for fieldname, fieldchange in action.change_set %}
-        {% if fieldname in ['severity', 'priority'] %}
-        <li>[{{ ('ftfs_serviceticket.'~fieldname~'.title')|trans({}, 'notification') }}] changed from: <br> 
-        "{{ ('ftfs_serviceticket.'~fieldname~'.'~fieldchange[0])|trans({}, 'notification') }}"<br>
-        to:<br>
-        "{{ ('ftfs_serviceticket.'~fieldname~'.'~fieldchange[1])|trans({}, 'notification') }}"</li>
-        {% elseif fieldname == 'assigned_to' %}
-        <li>The service ticket has been reassigned: from "{{ fieldchange[0] }}" to "{{ fieldchange[1] }}"</li>
-        {% elseif fieldname == 'requested_by' %}
-        <li>The owner of the service ticket has been changed: from "{{ fieldchange[0] }}" to "{{ fieldchange[1] }}"</li>
-        {% else %}
-        <li>[{{ ('ftfs_serviceticket.'~fieldname)|trans({}, 'notification') }}] from: <br>
-        "{{ fieldchange[0] }}"<br>
-        to:<br>
-        "{{ fieldchange[1] }}"</li>
-        {% endif %}
-    {% endfor %}
-    </ul></p>
-{% endblock %}
+{# event sent from an action of an agent #}
+{% else %}
+    {# confirmation of action for a agent to himself #}
+    {% if actor == destinaire %}
+    <p>This message is to confirm you that you have successfully modified the service ticket named <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a> for our client {{ subject.requestedBy }}.</p>
+    {# information of action for ther service ticket owner #}
+    {% elseif destinaire == subject.requestedBy %}
+    <p>This message is to confirm you that we have modified your service ticket named <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>.</p>
+    {# information of action for other observator #}
+    {% else %}
+    <p>{{ actor }} has modified the service ticket named <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a> of {{ subject.requestedBy }} at {{ acted_at }}.</p>
+    {% endif %}
+{% endif %}
+<p><ul>
+{% for fieldname, fieldchange in action.change_set %}
+    {% if fieldname in ['severity', 'priority'] %}
+    <li>[{{ ('ftfs_serviceticket.'~fieldname~'.title')|trans({}, 'notification') }}] changed from: <br> 
+    "{{ ('ftfs_serviceticket.'~fieldname~'.'~fieldchange[0])|trans({}, 'notification') }}"<br>
+    to:<br>
+    "{{ ('ftfs_serviceticket.'~fieldname~'.'~fieldchange[1])|trans({}, 'notification') }}"</li>
+    {% elseif fieldname == 'assigned_to' %}
+    <li>The service ticket has been reassigned: from "{{ fieldchange[0] }}" to "{{ fieldchange[1] }}"</li>
+    {% elseif fieldname == 'requested_by' %}
+    <li>The owner of the service ticket has been changed: from "{{ fieldchange[0] }}" to "{{ fieldchange[1] }}"</li>
+    {% else %}
+    <li>[{{ ('ftfs_serviceticket.'~fieldname)|trans({}, 'notification') }}] from: <br>
+    "{{ fieldchange[0] }}"<br>
+    to:<br>
+    "{{ fieldchange[1] }}"</li>
+    {% endif %}
+{% endfor %}
+</ul></p>

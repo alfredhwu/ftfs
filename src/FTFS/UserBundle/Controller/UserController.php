@@ -104,6 +104,15 @@ class UserController extends Controller
         $form = $this->createFormBuilder($invitation)
                     ->add('email', 'email')
                     ->add('company')
+                    /*
+                    ->add('company', 'entity', array(
+                        'class' => 'FTFSUserBundle:Company',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                            return $er->createQueryBuilder('c')
+                                        ->where('c.is_client = 1');
+                        },
+                    ))
+                     */
                     ->add('roles', 'choice', array(
                         'choices' => array(
                             'ROLE_CLIENT' => 'ROLE_CLIENT',

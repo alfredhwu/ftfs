@@ -6,16 +6,14 @@
 {% else %}
     {# confirmation of action for a agent to himself #}
     {% if actor == destinaire %}
-    <p>This message is to confirm you that you have successfully closed the service ticket "{{ subject.name }}" of our client {{ subject.requestedBy }}.</p>
+    <p>This message is to confirm you that you have successfully closed the service ticket <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a> of our client {{ subject.requestedBy }}.</p>
     {# information of action for ther service ticket owner #}
     {% elseif destinaire == subject.requestedBy %}
-    <p>This message is to confirm you that we have closed your service ticket: "{{ subject.name }}".</p>
+    <p>This message is to confirm you that we have closed your service ticket: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>.</p>
     <p>If you have further problems concerning this ticket, please contact our agent by writing to support@fujitsu-telecom.fr or call the 01.xx.xx.xx </p>
     {# information of action for other observator #}
     {% else %}
-    <p>{{ actor }} has closed the service ticket "{{ subject.name }}" of {{ subject.requestedBy }} at {{ acted_at }}.</p>
+    <p>{{ actor }} has closed the service ticket <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a> of {{ subject.requestedBy }} at {{ acted_at }}.</p>
     {% endif %}
-    <p>You can still review this ticket in our system by the no. "{{ subject.name }}"</p>
+    <p>You can still review this ticket in our system by the no. <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a></p>
 {% endif %}
-<hr>
-{% include "FTFSNotificationBundle:Message:message_service_ticket_info.html.twig" %}

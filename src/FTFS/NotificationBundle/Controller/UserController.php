@@ -72,7 +72,7 @@ class UserController extends Controller
         //throw new \Exception(count($notification));
         $notification->setNotifiedAt(new \DateTime('now'));
         $em->flush();
-        return new \Symfony\Component\HttpFoundation\Response($notification->getMessage());
+        return new \Symfony\Component\HttpFoundation\Response($notification->getMiniMessage());
     }
 
     public function getNotificationCountAction()

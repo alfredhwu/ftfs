@@ -1,31 +1,22 @@
 <div id="observation-list">
+    <!-- new observation -->
+    <div id="observation-add-target" class="hide">
+        <div id="observation-add-ajax">
+        <!-- loaded by ajax -->
+        {# 
+            'FTFSServiceBundle:ServiceTicketObservation:add_form.html.twig' 
+        #}
+        </div>
+    </div>
     <div id="observation-plugin">
     {% include 'FTFSServiceBundle:ServiceTicketObservation:plugin.html.twig' %}
     </div>
-    <h4>All Observations</h4>
+    <h4>All Messages</h4>
+    <hr>
     <table class="table table-striped" width="100%">
-        <!-- new observation -->
-        <tr id="observation-add-target" class="hide">
-            <th width="10%" class="observation-send-by">
-                <i class="icon-user"></i>
-                {{ (prefix~'.observation.user.me')|trans({}, 'crud') }}
-            </th>
-            <td width="80%">
-                    <div id="observation-add-ajax">
-                    <!-- loaded by ajax -->
-                    {# 
-                        'FTFSServiceBundle:ServiceTicketObservation:add_form.html.twig' 
-                    #}
-                    </div>
-            </td>
-            <td width="10%"></td>
-        </tr>
 
         <!-- list of observations -->
-        {% if observations|length == 0 %}
-        <tr>{{ (prefix~'.observation.empty.list')|trans({}, 'crud') }}</tr>
-        {% else %}
-        {% for ob in observations|reverse %}
+        {% for ob in observations|reverse if ob.content['type'] == 'message' %}
         <tr class="observation">
             <th width="10%" class="observation-send-by">
                 <i class="icon-user"></i>
@@ -54,7 +45,6 @@
             <td width="10%"></td>
         </tr>
         {% endfor %}
-        {% endif %}
     </table>
 </div>
 <script>

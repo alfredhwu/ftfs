@@ -66,7 +66,7 @@
             {% if 'rma' in meta|keys %}
             <th>{{ ('RMA') | trans({}, 'crud') }}</th>
             <td>{{ meta['rma'] }}</td>
-            {% elseif entity.assignedTo == app.user and entity.service.id == 2 %}
+            {% elseif entity.assignedTo == app.user and entity.service.id == 2 and entity.status != 'closed' %}
             <td colspan=2><a href="{{ path('ftfs_dashboardbundle_myservice_generate_rma', { 'id':entity.id } ) }}">{{ ('click to generate a RMA') | trans({}, 'crud') }}</a></td>
             {% else %}
             <td colspan=2></td>
@@ -127,7 +127,7 @@
         </a>
         {% if app.user == entity.requestedBy or app.user == entity.assignedTo or (is_granted('ROLE_CLIENT_COMPANY') and entity.requestedBy.company == app.user.company) %}
         <a class="btn btn-small observation-add" add-to-id="0" href="#" rel="tooltip" title="{{ 'ftfs_servicebundle_serviceticket.observation.leave.observation.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
-            <i class="icon-envelope"></i>
+            <i class="icon-comment"></i>
         </a>
         {% endif %}
         <strong class="btn">Observation</strong>

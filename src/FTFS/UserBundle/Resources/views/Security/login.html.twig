@@ -4,6 +4,9 @@
 <form action="{{ path('fos_user_security_check') }}" method="post" class="form-horizontal">
     <fieldset>
         <legend style="text-align:center">
+            <div class="alert alert-info" style="text-align:center">
+                test demo version
+            </div>
             Welcome to Fujitsu Telecom France SAS <br> Support Service 
         </legend>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">    
@@ -43,11 +46,4 @@
         </div>
     </fieldset>
 </form>
-<p class="alert alert-info">
-    test only, to be deleted in prod version<br>
-    login as:<br>
-    admin:admin -- admin<br>
-    client:client -- client<br>
-    agent:agent -- agent
-</p>
 {% endblock %}

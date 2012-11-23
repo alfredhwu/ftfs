@@ -1,11 +1,11 @@
 {% autoescape false %}
-----------------------------
+--------------------------------------------------------
 General  Information
-----------------------------
+--------------------------------------------------------
 Reference No. :             {{ subject.name }}
 Status:                     {{ subject.status }}
-Severity:                   {{ subject.severity | trans() }}
-Priority:                   {{ subject.priority | trans() }}
+Severity:                   {{ ('ftfs_serviceticket.severity.'~subject.severity) | trans({}, 'notification') }}
+Priority:                   {{ ('ftfs_serviceticket.priority.'~subject.priority) | trans({}, 'notification') }}
 Last Modified At:           {{ subject.lastModifiedAt | date('Y-m-d H:i:s') }}
 Service Type Requested:     {{ subject.service.name }}
 Requested By:               {{ subject.requestedBy }}
@@ -14,15 +14,30 @@ Requested At:               {{ subject.requestedAt | date('Y-m-d H:i:s') }}
 Ticket Created At:          {{ subject.createdAt | date('Y-m-d H:i:s') }}
 Ticket Opened At:           {{ subject.openedAt | date('Y-m-d H:i:s') }}
 
-----------------------------
+--------------------------------------------------------
 Problem Summary Description
-----------------------------
+--------------------------------------------------------
 "{{ subject.summary }}"              
 
-{% if (subject.attachments)|length > 0 %}
-----------------------------
+{% if (subject.devices)|length > 0 %}
+--------------------------------------------------------
 Related Devices
-----------------------------
+--------------------------------------------------------
+{% for device in subject.devices %}
+Device:                     {{ device.product }}
+Module:                     {{ device.moduleName }}
+P/N:                        {{ device.serialPn }}
+S/N:                        {{ device.serialSn }}
+Location:                   {{ device.location }}
+Additional Info:            {{ device.specification }}
+--------------------------------------------------------
+{% endfor %}
+{% endif %}
+
+{% if (subject.attachments)|length > 0 %}
+--------------------------------------------------------
+Related Devices
+--------------------------------------------------------
 {% for device in subject.devices %}
 Device:                     
 Module:
@@ -33,38 +48,38 @@ Specification:
 {% endfor %}
 
 {% endif %}
-----------------------------
+--------------------------------------------------------
 Problem Detail Description         
-----------------------------
+--------------------------------------------------------
 "{{ subject.detail }}"              
 
 {% if (subject.attachments)|length > 0 %}
-----------------------------
+--------------------------------------------------------
 Attached Documents
-----------------------------
+--------------------------------------------------------
 {% for attachment in subject.attachments %}
 {{ subject.openedAt | date('Y-m-d H:i:s') }} - {{ attachment.name }}
 {% endfor %}
 
 {% endif %}
 {% if subject.service.id == 1 %}
-----------------------------
+--------------------------------------------------------
 Investigation
-----------------------------
+--------------------------------------------------------
 (investigation)
 {% elseif subject.service.id == 2 %}
-----------------------------
+--------------------------------------------------------
 Logistics
-----------------------------
+--------------------------------------------------------
 (logistics)
 {% endif%}
 
-----------------------------
+--------------------------------------------------------
 Resolution
-----------------------------
+--------------------------------------------------------
 
-----------------------------
+--------------------------------------------------------
 Change Log
-----------------------------
+--------------------------------------------------------
 
 {% endautoescape %}

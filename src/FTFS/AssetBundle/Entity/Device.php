@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FTFS\AssetBundle\Entity\Device
  *
- * @ORM\Table(name="ftfs_config_asset_device")
+ * @ORM\Table(name="ftfs_service_ticket_asset_device")
  * @ORM\Entity
  */
 class Device

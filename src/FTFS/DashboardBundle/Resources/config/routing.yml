@@ -11,6 +11,10 @@ ftfs_dashboardbundle_myservice_body_menu_count:
     defaults: { _controller: FTFSDashboardBundle:MyService:bodyMenuCount }
 
 ##
+ftfs_dashboardbundle_myservice_get_exportation_form:
+    pattern:  /myservice/exportation/form/get
+    defaults: { _controller: FTFSDashboardBundle:MyService:getExportationForm }
+
 ftfs_dashboardbundle_myservice_list_table:
     pattern:  /myservice/list/table
     defaults: { _controller: FTFSDashboardBundle:MyService:getMyServiceList }
@@ -108,6 +112,10 @@ ftfs_dashboardbundle_myservice_open:
 ftfs_dashboardbundle_myservice_close:
     pattern:  /myservice/{id}/close
     defaults: { _controller: FTFSDashboardBundle:MyService:close }
+    
+ftfs_dashboardbundle_myservice_reopen:
+    pattern:  /myservice/{id}/reopen
+    defaults: { _controller: FTFSDashboardBundle:MyService:reopen }
     
 ftfs_dashboardbundle_myservice_cancel:
     pattern:  /myservice/{id}/cancel
