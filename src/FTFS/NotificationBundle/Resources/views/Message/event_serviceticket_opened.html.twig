@@ -1,18 +1,17 @@
-{# event sent from an action of a client #}
-{% if 'ROLE_CLIENT' in actor.roles %}
-    <p>We are very sorry but this is a spam message which normally you should never receive. Please contact our agents if you keep receiving this email.</p>
-    <p>spam code: 8814</p>
-{# event sent from an action of an agent #}
-{% else %}
-    {# confirmation of action for a agent to himself #}
+{# from agent #}
+{% if actor.isAgent() %}
+    {# to himself #}
     {% if actor == destinaire %}
-    <p>This message is to confirm you that you have successfully opened a service for our client {{ subject.requestedBy }}.</p>
-    {# information of action for ther service ticket owner #}
+    <p>This is to confirm you that you have opened a ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>) for {{ subject.requestedBy }}.</p>
+    {# to ticket owner #}
     {% elseif destinaire == subject.requestedBy %}
-    <p>This message is to confirm you that we have opened a service ticket for you as requested.</p>
-    {# information of action for other observator #}
+    <p>This is to inform you that we have opened a ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>) for you as demanded.</p>
+    {# to other agent #}
+    {# to others #}
     {% else %}
-    <p>{{ actor }} has opened a service ticket for {{ subject.requestedBy }} as requested at {{ acted_at }}.</p>
+    <p>{{ actor }} has opened a ticket for {{ subject.requestedBy }} (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>) at {{ acted_at }}.</p>
     {% endif %}
-    <p>You can review and modify this ticket in our system by the <a class="btn btn-min" href="{{ subject_href }}">no. "{{ subject.name }}"</a></p>
+{# from client #}
+{% else %}
 {% endif %}
+    <p>You can review and modify this ticket in our system by the reference no. <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>.</p>

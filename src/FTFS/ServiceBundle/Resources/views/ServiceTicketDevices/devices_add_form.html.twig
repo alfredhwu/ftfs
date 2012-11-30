@@ -1,11 +1,15 @@
-<form action="{{ action }}" 
-      method="post" {{ form_enctype(devices_add_form) }}>
+{% spaceless %}
+<form class="form-horizontal" action="{{ action }}" method="post" {{ form_enctype(devices_add_form) }}>
+    <hr>
     {{ form_widget(devices_add_form) }}
+    <div class="form-actions">
         <button type="submit" class="btn btn-primary">
             {{ (prefix~'.devices.add.form.submit')|trans({}, 'crud') }}
         </button>
         <a href="{{ path('ftfs_dashboardbundle_myservice_show', { 'id' : id }) }}" class="btn">Cancel</a>
+    </div>
 </form>
 <script>
     addTypeaheadLocation($('input#ftfs_assetbundle_device_form_location'));
 </script>
+{% endspaceless %}

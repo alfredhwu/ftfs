@@ -1,26 +1,21 @@
-{# event sent from an action of a client #}
-{% if 'ROLE_CLIENT' in actor.roles %}
-    We are very sorry but this is a spam message which normally you should never receive. Please contact our agents if you keep receiving this email.
-    spam code: 7614
-{# event sent from an action of an agent #}
-{% else %}
-    {# confirmation of action for a agent to himself #}
+{# from agent #}
+{% if actor.isAgent() %}
+    {# to himself #}
     {% if actor == destinaire %}
-        {% if actor == subject.assignedTo %}
-        This message is to confirm you that you have successfully taken a service ticket named "{{ subject.name }}".
-        {% else %}
-        This message is to confirm you that you have successfully assign a service ticket named "{{ subject.name }}" to {{ subject.assignedTo }}.
-        {% endif %}
-    {# information of action for ther service ticket owner #}
+    This is to confirm you that you have taken the ticket (Reference: "{{ subject.name }}") of {{ subject.requestedBy }}.
+    {# to ticket owner #}
     {% elseif destinaire == subject.requestedBy %}
-    We are very sorry but this is a spam message which normally you should never receive. Please contact our agents if you keep receiving this email.
-    spam code: 5498
-    {# information of action for other observator #}
+    This is to inform you that we have assigned your ticket (Reference: "{{ subject.name }}").
+    {# to other agent #}
+    {# to others #}
     {% else %}
-        {% if actor == subject.assignedTo %}
-        This message is to inform you that {{ actor }} has taken the service ticket named "{{ subject.name }}" of {{ subject.requestedBy }} at {{ acted_at }}.
-        {% else %}
-        This message is to inform you that {{ actor }} has assigned to {{ subject.assignedTo }}the service ticket named "{{ subject.name }}" of {{ subject.requestedBy }} at {{ acted_at }}.
-        {% endif %}
+    {{ actor }} has taken the ticket (Reference: "{{ subject.name }}") at {{ acted_at }}.
     {% endif %}
+{# from client #}
+{% else %}
+    {# to himself #}
+    {# to ticket owner #}
+    {# to other agent #}
+    {# to others #}
 {% endif %}
+    You can review and modify this ticket in our system by the reference no. "{{ subject.name }}".

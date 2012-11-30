@@ -131,13 +131,16 @@
         </div>
 					
         {% block javascript %}
+
         <!-- javascript -->
         <script src="{{ asset('js/bootstrap.js') }}"></script>     
         <script src="{{ asset('jquery-ui/js/jquery-ui-1.9.1.custom.min.js') }}"></script>     
+
         <script src="{{ asset('js/bootbox.js') }}"></script>     
         <script src="{{ asset('js/addition.js') }}"></script>
         <!-- activate the menu item -->
         <script>
+/* app/base ******************************************************************************/
         // get ajax loading image
         // ToDo: deplace this function in addition.js
         function ajax_animation(target) {
@@ -160,6 +163,7 @@
                     $(this).removeClass('active');
                 }
             });
+
             // body menu
             $('li.navmenu-item').each(function() {
                 var href = $(this).children('a').attr('href').split('?'); 
@@ -171,6 +175,7 @@
                 }else{
                     $(this).removeClass('active');
                 }
+
             /*
                 var href = $(this).children('a').attr('href'); 
                 var url = "{{ app.request.requestUri }}";

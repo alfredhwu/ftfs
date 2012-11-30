@@ -4,8 +4,14 @@ Intervention at {{ ob.site }} from {{ ob.from }} to {{ ob.to }} by {{ ob.agent }
 {{ ob.report }}
 {% elseif ob.type == 'logistic' %}
 {{ ob.package }} {{ ob.operation }} via {{ ob.by }} at {{ ob.at }} by {{ ob.operator }}
-{% elseif ob.type == 'closure' %}
-Report Closure: {{ ob.report }}
+{% elseif ob.type == 'close' %}
+Close Report: {{ ob.report }}
+{% elseif ob.type == 'reopen' %}
+Reopen reason: {{ ob.reason }}
+{% elseif ob.type == 'pend' %}
+Pending reason: {{ ob.reason }}
+{% elseif ob.type == 'continue' %}
+Continue Reason: {{ ob.reason }}
 {% else %} {# message by default #}
 {{ ob.message }}
 {% endif %}

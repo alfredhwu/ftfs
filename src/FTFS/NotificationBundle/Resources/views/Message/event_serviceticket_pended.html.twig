@@ -1,0 +1,17 @@
+{# from agent #}
+{% if actor.isAgent() %}
+    {# to himself #}
+    {% if actor == destinaire %}
+    <p>This is to confirm you that you have pended the ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>) of {{ subject.requestedBy }}. {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}</p>
+    {# to ticket owner #}
+    {% elseif destinaire == subject.requestedBy %}
+    <p>This is to inform you that we have pended your ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>). {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}</p>
+    {# to other agent #}
+    {# to others #}
+    {% else %}
+    <p>{{ actor }} has pended the pending ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>) at {{ acted_at }}. {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}</p>
+    {% endif %}
+{# from client #}
+{% else %}
+{% endif %}
+    <p>You can review and modify this ticket in our system by the reference no. <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a></p>

@@ -9,7 +9,7 @@ use DateTime;
 /**
  * FTFS\NotificationBundle\Entity\EventLog
  *
- * @ORM\Table(name="ftfs_notification_event_log")
+ * @ORM\Table(name="ftfs_notification_log_event")
  * @ORM\Entity
  */
 class EventLog

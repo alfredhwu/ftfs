@@ -12,6 +12,7 @@ class ServiceType extends AbstractType
         $builder
             ->add('name')
             ->add('active')
+            ->add('open_to_client')
             ->add('description')
         ;
     }

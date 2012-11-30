@@ -35,6 +35,10 @@ ftfs_dashboardbundle_myservice_show:
     pattern:  /myservice/{id}/show
     defaults: { _controller: FTFSDashboardBundle:MyService:show }
 
+ftfs_dashboardbundle_myservice_print:
+    pattern:  /myservice/{id}/print
+    defaults: { _controller: FTFSDashboardBundle:MyService:print }
+
 ftfs_dashboardbundle_myservice_show_by_name:
     pattern:  /myservice/{name}/show/by/name
     defaults: { _controller: FTFSDashboardBundle:MyService:showByName }
@@ -96,6 +100,11 @@ ftfs_dashboardbundle_myservice_observation_add:
     pattern:  /myservice/{id}/observation/add
     defaults: { _controller: FTFSDashboardBundle:MyService:observationAdd }
 
+## ajax ticket timer
+ftfs_dashboardbundle_myservice_ticket_timer_list:
+    pattern:  /myservice/{id}/ticket_timer/list
+    defaults: { _controller: FTFSDashboardBundle:MyService:ticketTimerList }
+
 ## oper agent
 ftfs_dashboardbundle_myservice_take:
     pattern:  /myservice/{id}/take
@@ -121,8 +130,25 @@ ftfs_dashboardbundle_myservice_cancel:
     pattern:  /myservice/{id}/cancel
     defaults: { _controller: FTFSDashboardBundle:MyService:cancel }
 
+ftfs_dashboardbundle_myservice_pend:
+    pattern:  /myservice/{id}/pend
+    defaults: { _controller: FTFSDashboardBundle:MyService:pend }
+
+ftfs_dashboardbundle_myservice_continue:
+    pattern:  /myservice/{id}/continue
+    defaults: { _controller: FTFSDashboardBundle:MyService:continue }
 
 ## oper client
 ftfs_dashboardbundle_myservice_submit:
     pattern:  /myservice/{id}/submit
     defaults: { _controller: FTFSDashboardBundle:MyService:submit }
+
+
+## additional display page for company client user
+ftfs_dashboardbundle_mycompany_staff_list:
+    pattern:  /mycompany/staff/list
+    defaults: { _controller: FTFSDashboardBundle:MyCompany:staffList }
+
+ftfs_dashboardbundle_mycompany_statistics_index:
+    pattern:  /mycompany/statistics/index
+    defaults: { _controller: FTFSDashboardBundle:MyCompany:statisticsIndex }

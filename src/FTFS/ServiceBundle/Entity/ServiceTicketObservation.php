@@ -84,8 +84,13 @@ class ServiceTicketObservation
                 }
                 $summary .= 'the package ['.$package = $content['package'].'] by '.$content['by'].'.';
                 break;
-            case 'closure':
+            case 'close_report':
                 $summary = $content['report'];
+                break;
+            case 'reopen':
+            case 'pend':
+            case 'continue':
+                $summary = '[reason:] '.$content['reason'].'.';
                 break;
             default:
                 $summary = 'null';

@@ -9,3 +9,19 @@ ftfs_preferencebundle_set_user_locale:
 ftfs_preferencebundle_set_user_timezone:
     pattern:  /{id}/timezone/setting
     defaults: { _controller: FTFSPreferenceBundle:Default:setUserTimeZone }
+
+ftfs_preferencebundle_default_ticket_sharelist_index:
+    pattern:  /{id}/share_list/list
+    defaults: { _controller: FTFSPreferenceBundle:Default:sharelistIndex }
+
+ftfs_preferencebundle_default_ticket_sharelist_add:
+    pattern:  /{id}/share_list/list/add
+    defaults: { _controller: FTFSPreferenceBundle:Default:sharelistAdd }
+
+ftfs_preferencebundle_default_ticket_sharelist_edit:
+    pattern:  /{id}/share_list/{email}/edit
+    defaults: { _controller: FTFSPreferenceBundle:Default:sharelistEdit }
+
+ftfs_preferencebundle_default_ticket_sharelist_remove:
+    pattern:  /{id}/share_list/{email}/remove
+    defaults: { _controller: FTFSPreferenceBundle:Default:sharelistRemove }

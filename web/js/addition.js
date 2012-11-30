@@ -125,21 +125,12 @@ $(document).ready(function () {
         $('div.notification-message').each(function() { 
             var target = $(this);
             var href = $(this).attr('url');
-            $.ajax({
-                type:   "POST",
-                url:    href,
-                data:   "",
-                cache:  false,
-                success: function(data) {
-                    if(data!='') {
-                        target.hide();
-                        target.html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">x</button> <span class="badge badge-info">!</span> <strong>System Notification:</strong>'+data+'</div>');
-                        target.fadeIn(500).delay(4000).fadeOut(500);
-                    }
-                },
-                error:   function() {
-                //    alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for ");
-                },
+            $.post(href,function(data) {
+                if(data!='') {
+                    target.hide();
+                    target.html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">x</button> <strong>System Notification:</strong>'+data+'</div>');
+                    target.fadeIn(500).delay(4000).fadeOut(500);
+                }
             });
         });
     }
@@ -149,20 +140,10 @@ $(document).ready(function () {
         $('span#notification-counter').each(function() {
             var href = $(this).attr('url');
             var target = $(this);
-            $.ajax({
-                type:   "POST",
-                url:    href,
-                data:   "",
-                cache:  false,
-                success: function(data) {
-                    if(target.html() != data) {
-                        target.html(data);
-                    }
-                    //$('span.notification-count').html(data);
-                },
-                error:   function() {
-                //    alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for " + url);
-                },
+            $.post(href, function(data) {
+                if(target.html() != data) {
+                    target.html(data);
+                }
             });
         });
     }
@@ -172,7 +153,9 @@ $(document).ready(function () {
         if(init) {
             // menu
             $('li.navmenu-item.navmenu-item-countable > a > span').each(function() {
-                $(this).addClass('pull-right badge badge-inverse');        
+                if(!$(this).hasClass('badge')) {
+                    $(this).addClass('badge badge-inverse');        
+                }
             });
         }
         // find all menu items that need a counter and get the number
@@ -180,19 +163,10 @@ $(document).ready(function () {
         $('li.navmenu-item.navmenu-item-countable > a').each(function() {
             var href = $(this).attr('href').replace(/list/,'body_menu_count');
             var target = $(this).children().last();
-            $.ajax({
-                type:   "POST",
-                url:    href,
-                data:   "",
-                cache:  false,
-                success: function(data) {
-                    if(target.html() != data) {
-                        target.html(data);
-                    }
-                },
-                error:   function() {
-                    //alert("Ooups ... something's got wrong: the ajax connection failed in rendering response for " + url);
-                },
+            $.post(href, function(data) {
+                if(target.html() != data) {
+                    target.html(data);
+                }
             });
         });
     }

@@ -1,7 +1,0 @@
-parameters:
-#    ftfs_system.example.class: FTFS\SystemBundle\Example
-
-services:
-    ftfs_configurator:
-        class:  FTFS\SystemBundle\Container\Configurator
-        arguments:  [@doctrine.orm.entity_manager]

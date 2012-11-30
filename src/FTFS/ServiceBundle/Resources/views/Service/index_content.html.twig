@@ -3,6 +3,7 @@
 {% block thead %}
 <th>{{ (prefix~'.table.name')| trans({}, 'crud') }}</th>
 <th>{{ (prefix~'.table.active.title')| trans({}, 'crud') }}</th>
+<th>{{ (prefix~'.table.open.to.client.title')| trans({}, 'crud') }}</th>
 <th class="cell-max">{{ (prefix~'.table.description')| trans({}, 'crud') }}</th>
 {% endblock %}
 
@@ -21,6 +22,13 @@
                 {{ (prefix~'.table.active.value.inactive')| trans({}, 'crud') }}
             </span>
         </a>
+    {% endif %}
+</td>
+<td>
+    {% if entity.openToClient %}
+        {{ (prefix~'.table.open.to.client.value.yes')| trans({}, 'crud') }}
+    {% else %}
+        {{ (prefix~'.table.open.to.client.value.no')| trans({}, 'crud') }}
     {% endif %}
 </td>
 <td>{{ entity.description }}</td>

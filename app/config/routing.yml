@@ -1,9 +1,4 @@
-FTFSSystemBundle:
-    resource: "@FTFSSystemBundle/Resources/config/routing.yml"
-    prefix:   /
-
 ################## general json entry point
-##############3
 FTFSProductBundle:
     resource: "@FTFSProductBundle/Resources/config/routing.yml"
     prefix:   /admin/{_locale}/product

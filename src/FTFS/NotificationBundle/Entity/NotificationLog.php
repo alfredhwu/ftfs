@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FTFS\NotificationBundle\Entity\NotificationLog
  *
- * @ORM\Table(name="ftfs_notification_notification_log")
+ * @ORM\Table(name="ftfs_notification_log_notification")
  * @ORM\Entity
  */
 class NotificationLog

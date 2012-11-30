@@ -11,8 +11,11 @@ class DeviceType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('location', null, array(
-                'label' => $this->getName().'.location',
+            ->add('local_site', null, array(
+                'label' => $this->getName().'.local.site',
+            ))
+            ->add('remote_site', null, array(
+                'label' => $this->getName().'.remote.site',
             ))
             ->add('product', 'entity', array(
                 'class' => 'FTFSProductBundle:Product',
@@ -22,17 +25,17 @@ class DeviceType extends AbstractType
                 },
                 'label' => $this->getName().'.product',
             ))
+            ->add('module_name', null, array(
+                'label' => $this->getName().'.module.name',
+            ))
+            ->add('module_pn', null, array(
+                'label' => $this->getName().'.module.pn',
+            ))
+            ->add('module_sn', null, array(
+                'label' => $this->getName().'.module.sn',
+            ))
             ->add('specification', null, array(
                 'label' => $this->getName().'.specification',
-            ))
-            ->add('module_name', null, array(
-                'label' => $this->getName().'.module_name',
-            ))
-            ->add('serial_pn', null, array(
-                'label' => $this->getName().'.serial_pn',
-            ))
-            ->add('serial_sn', null, array(
-                'label' => $this->getName().'.serial_sn',
             ))
         ;
     }

@@ -2,6 +2,7 @@ ftfs.servicebundle.service:
     form:
         name:       "Service Type Name:"
         active:     "Is This Service Type Enabled?"
+        open.to.client:     "Is This Service Open to Client?"
         description: "Service Description:"
 ftfs.servicebundle.serviceticket:
     form:
@@ -19,12 +20,13 @@ ftfs.servicebundle.serviceticket:
         #asset:      "Asset Name:"
         devices:            "Related Devices:"
         devices.$$name$$:
-            location:       "Site Location:"
+            local.site:     "Local Site:"
+            remote.site:    "Remote Site:"
             product:        "Product:"
             specification:  "Additional Info:"
             module.name:    "Module Name:"
-            serial.pn:      "P/N:"
-            serial.sn:      "S/N:"
+            module.pn:      "Module P/N:"
+            module.sn:      "Module S/N:"
         assigned.to: "Assigned to:"
         opened.at:  "Ticket Opened at:"
         created.at: "Ticket Created at:"
@@ -36,16 +38,14 @@ ftfs.servicebundle.serviceticket:
         service:       "Service Requested"
         severity:
             title:  "Severity"
-            100:    "Very High"
+            100:    "Critical"
             100.class:  "label label-important"
-            200:    "High"
+            200:    "Major"
             200.class:  "label label-warning"
-            300:    "Normal"
+            300:    "Minor"
             300.class:  "label label-info"
-            400:    "Low"
+            400:    "Information"
             400.class:  "label label-inverse"
-            500:    "Information"
-            500.class:  "label"
         priority:
             title:  "Priority"
             100:    "Very High"
@@ -60,18 +60,20 @@ ftfs.servicebundle.serviceticket:
             500.class:  "label"
         status:     
             title:  "Status" 
-            interrupted:     "Interrupted"
-            interrupted.class: "label label-important"
+            pending:         "Pending"
+            pending.class:   "label label-important"
             submitted:       "Submitted"
             submitted.class: "label label-info"
             assigned:        "Assigned"
-            assigned.class:  "label label-info"
+            assigned.class:  "label label-warning"
             created:         "Created"
-            created.class:   "label"
+            created.class:   "label label-inverse"
             opened:          "Open"
             opened.class:    "label label-success"
+            reopened:          "Re-opened"
+            reopened.class:    "label label-success"
             closed:          "Closed"
-            closed.class:    "label label-inverse"
+            closed.class:    "label"
         requested.at:   "Requested at"
         requested.by:   "Requested by"
         requested.by.company:   "Company"
@@ -136,6 +138,11 @@ ftfs_servicebundle_service:
                 deactivate.tooltip:   "Click to disable this type"
         operations: "Operations"
         name:       "Service Name"
+        open.to.client:
+            title:  "Open to Client"
+            value:
+                yes:    'yes'
+                no:     'no'
         active:
             title:  "Status"
             value:

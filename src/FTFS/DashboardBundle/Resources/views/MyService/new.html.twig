@@ -24,15 +24,23 @@
 
             var devicesHolder = $('#ftfs_servicebundle_serviceticket_form_devices').parent().parent().parent().after('<div></div>');
             collectionHolder.appendTo(devicesHolder);
-            var $addDeviceLink = $('<a href="#" class="add_device_link">Add a device</a>');
+
+            var $addDeviceLink = $('<a href="#" class="add_device_link">Add additional device</a>');
             var $newLinkLi = $('<li></li>').append($addDeviceLink);
-            collectionHolder.append($newLinkLi);
+
+            $firstLinkLi = addDeviceForm(collectionHolder, collectionHolder, false);
+            //collectionHolder.append($newLinkLi);
+            $firstLinkLi.after($newLinkLi);
+
+            // bind action to add-link
             $addDeviceLink.click(function(e) {
                 e.preventDefault();
                 addDeviceForm(collectionHolder, $newLinkLi);
             });
         });
-        function addDeviceForm(collectionHolder, $newLinkLi) {
+
+        // add a form after $newLinkLi
+        function addDeviceForm(collectionHolder, $newLinkLi, removable) {
             var prototype = collectionHolder.attr('data-prototype');
             var index = collectionHolder.children().length;
             var newForm = prototype.replace(/\$\$name\$\$/g, index);
@@ -42,8 +50,15 @@
             //alert($('input#ftfs_servicebundle_serviceticket_form_devices_'+index+'_location').parent().html());
             addTypeaheadLocation($('input#ftfs_servicebundle_serviceticket_form_devices_'+index+'_location'));
             // delete link for new added device
-            addDeviceFormDeleteLink($newFormLi);
+            if(typeof removable === 'undefined') {
+                removable = true;
+            }
+            if(removable) {
+                addDeviceFormDeleteLink($newFormLi);
+            }
+            return $newFormLi;
         }
+
         function addDeviceFormDeleteLink($newFormLi) {
             var $removeFormA = $('<a href="#">Delete this device</a><hr>');
             $newFormLi.prepend($removeFormA);

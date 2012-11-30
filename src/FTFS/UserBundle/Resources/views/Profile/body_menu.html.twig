@@ -2,7 +2,9 @@
 <li class="navmenu-item"><a href="{{ path('fos_user_profile_show') }}"><i class="icon-user"></i> User Profile</a></li>
 <li class="navmenu-item"><a href="{{ path('fos_user_profile_edit') }}"><i class="icon-edit"></i> Modify Profile</a></li>
 <li class="navmenu-item"><a href="{{ path('fos_user_change_password') }}"><i class="icon-lock"></i> Change Password</a></li>
+
 <li class="nav-header">Preference</li>
 <li class="navmenu-item"><a href="{{ path('ftfs_preferencebundle_user_preference', { 'id' : app.user.id }) }}"><i class="icon-globe"></i> Local, timezone, etc.</a></li>
+<li class="navmenu-item"><a href="{{ path('ftfs_preferencebundle_default_ticket_sharelist_index', { 'id' : app.user.id }) }}"><i class="icon-envelope"></i> Default Ticket Share List</a></li>
 <li class="navmenu-item"><a href="{{ path('ftfs_notificationbundle_preference_event_catch_filter_index', { 'id' : app.user.id }) }}"><i class="icon-wrench"></i> Notification Preference</a></li>
 <li class="navmenu-item"><a href="{{ path('ftfs_notificationbundle_user_index') }}"><i class="icon-info-sign"></i> Notification Center</a></li>

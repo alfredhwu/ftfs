@@ -59,7 +59,13 @@
     </td>
     {% endfor %}
     <td>{% if entity.lastModifiedAt is not empty %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
-    <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status)|trans({}, 'crud') }}</span></td>
+    <td class="tight">
+    {% if entity.pending %}
+        <span class="{{ ('ftfs.servicebundle.serviceticket.table.status.pending.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.status.pending')|trans({}, 'crud') }}</span>
+    {% else %}
+        <span class="{{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status)|trans({}, 'crud') }}</span>
+    {% endif %}
+    </td>
     <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity)|trans({}, 'crud') }}</span></td>
     <td class="tight"><span class="{{ ('ftfs.servicebundle.serviceticket.table.priority.'~entity.priority~'.class')|trans({}, 'crud') }}">{{ ('ftfs.servicebundle.serviceticket.table.priority.'~entity.priority)|trans({}, 'crud') }}</span></td>
     <td class="extend">{{ entity.summary }}</td>

@@ -1,8 +1,9 @@
 <?php
 
-namespace FTFS\SystemBundle\Container;
+namespace FTFS\PreferenceBundle\Container;
 
 use Doctrine\ORM\EntityManager;
+use FTFS\UserBundle\Entity\User;
 
 /**
  *
@@ -16,11 +17,13 @@ class Configurator
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
-        $this->system_config = $entityManager->getRepository('FTFSSystemBundle:Configuration');
-        $this->user_config = $entityManager->getRepository('FTFSSystemBundle:UserConfiguration');
+        $this->system_config = $entityManager->getRepository('FTFSPreferenceBundle:Configuration');
+        $this->user_config = $entityManager->getRepository('FTFSPreferenceBundle:UserConfiguration');
     }
 
-    private function getConfig($name, $user = null)
+    // get config named $name
+    // return null if not found
+    private function getConfig($name, User $user = null)
     {
         if($user === null) {
             // system default config
@@ -35,11 +38,12 @@ class Configurator
         return $config;
     }
 
-    public function get($name, $user = null)
+    public function get($name, User $user = null)
     {
         $config = $this->getConfig($name, $user);
+
+        // if no user config, return default config
         if(!$config) {
-            // if no user config, return default config
             $config = $this->getConfig($name);
         }
 
@@ -50,14 +54,14 @@ class Configurator
         return null;
     }
 
-    public function set($name, $value, $user = null)
+    public function set($name, array $value, User $user = null)
     {
         if($user) { // user config setting
             $config = $this->getConfig($name, $user);
             if($config) {
                 $config->setValue($value);
             }else{
-                $config = new \FTFS\SystemBundle\Entity\UserConfiguration;
+                $config = new \FTFS\PreferenceBundle\Entity\UserConfiguration;
                 $config->setName($name);
                 $config->setValue($value);
                 $config->setUser($user);
@@ -70,7 +74,7 @@ class Configurator
             if($config) {
                 $config->setValue($value);
             }else{
-                $config = new \FTFS\SystemBundle\Entity\Configuration;
+                $config = new \FTFS\PreferenceBundle\Entity\Configuration;
                 $config->setName($name);
                 $config->setValue($value);
                 $this->em->persist($config);
@@ -79,5 +83,4 @@ class Configurator
             return array($name => $this->get($name));
         }
     }
-
 }

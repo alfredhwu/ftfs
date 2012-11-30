@@ -100,10 +100,19 @@ class ServiceTicketListener
             $this->notify('event.serviceticket.'.$action_name, $action);
         }
 
+        /*
         if($entity instanceof ServiceTicketObservation) {
             //throw new \Exception('coucou');
             $action = $this->generateAction('observation_added', $entity->getTicket(), $entityManager);
             $action['observation'] = $entity->getContent(); 
+
+            $type = $action['observation']['type'];
+            throw new \Exception($type);
+            switch($type) {
+                case 'message':
+                case 'intervention':
+                case 'logistics':
+            }
             if($entity->getAttachTo()) {
                 $action['observation_to'] = $entity->getAttachTo()->getSendBy();
             }else{
@@ -112,6 +121,7 @@ class ServiceTicketListener
             $action_name = $action['name'];
             $this->notify('event.serviceticket.'.$action_name, $action);
         }
+         */
     }
 
     public function preUpdate(PreUpdateEventArgs $args)
@@ -147,20 +157,30 @@ class ServiceTicketListener
             $session =  $this->container->get('session');
             if($session->has('change_set['.$entity->getName().']')) {
                 $change_set = $session->get('change_set['.$entity->getName().']');
-                // treatement of change_set
-                //throw new \Exception(print_r(array_keys($change_set)));
-
                 
                 if(array_key_exists('status', $change_set)){
                     $action = $this->generateAction($change_set['status'][1], $entity, $entityManager);
+                }elseif(array_key_exists('pending', $change_set)){
+                    if($entity->getPending()) {
+                        $action = $this->generateAction('pended', $entity, $entityManager);
+                    }else{
+                        $action = $this->generateAction('continued', $entity, $entityManager);
+                    }
                 }elseif(array_key_exists('assigned_to', $change_set)){
                     $action = $this->generateAction('reassigned', $entity, $entityManager);
+                }elseif(array_key_exists('share_list', $change_set)){
+                    $action = $this->generateAction('share_list_updated', $entity, $entityManager);
                 }else{
                     $action = $this->generateAction('updated', $entity, $entityManager);
                 }
-                $action_name = $action['name'];
-                $action['change_set'] = $change_set;
-                $this->notify('event.serviceticket.'.$action_name, $action);
+
+                // ignore the following event;
+                // rendering in observationlistener
+                if(!in_array($action['name'], array('closed', 'reopened', 'pended', 'continued', 'share_list_updated'))) {
+                    $action_name = $action['name'];
+                    $action['change_set'] = $change_set;
+                    $this->notify('event.serviceticket.'.$action_name, $action);
+                }
                 $session->remove('change_set['.$entity->getName().']');
             }
         }

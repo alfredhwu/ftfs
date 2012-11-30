@@ -35,11 +35,10 @@ class ServiceTicketType extends AbstractType
                     ->add('severity', 'choice', array(
                         'preferred_choices' => array(300),
                         'choices' => array(
-                            100 => 'Very High',
-                            200 => 'High',
-                            300 => 'Normal',
-                            400 => 'Low',
-                            500 => 'Information',
+                            100 => 'Critical',
+                            200 => 'Major',
+                            300 => 'Minor',
+                            400 => 'Information',
                         ),
                     ))
                     ->add('requested_by', 'text', array(
@@ -49,7 +48,8 @@ class ServiceTicketType extends AbstractType
                         'class' => 'FTFSServiceBundle:Service',
                         'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                             return $er->createQueryBuilder('s')
-                                        ->where('s.active = 1');
+                                        ->where('s.active = 1')
+                                        ->andWhere('s.open_to_client = 1');
                         },
                     ))
                     ->add('summary')
@@ -69,11 +69,10 @@ class ServiceTicketType extends AbstractType
                     ->add('severity', 'choice', array(
                         'preferred_choices' => array(300),
                         'choices' => array(
-                            100 => 'Very High',
-                            200 => 'High',
-                            300 => 'Normal',
-                            400 => 'Low',
-                            500 => 'Information',
+                            100 => 'Critical',
+                            200 => 'Major',
+                            300 => 'Minor',
+                            400 => 'Information',
                         ),
                     ))
                     ->add('priority', 'choice', array(

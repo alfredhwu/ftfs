@@ -5,3 +5,13 @@ services:
     ftfs_servicebundle.name_generator:
         class: FTFS\ServiceBundle\Container\NameGenerator
         ##arguments: []
+        #
+    ftfs_servicebundle.ticket_timer:
+        class: FTFS\ServiceBundle\Container\TicketTimer
+        arguments:  [@doctrine.orm.entity_manager]
+
+    ftfs_servicebundle.service_ticket_observation_listener:
+        class: FTFS\ServiceBundle\Container\Listener\ServiceTicketObservationListener
+        arguments:  [@service_container]
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }

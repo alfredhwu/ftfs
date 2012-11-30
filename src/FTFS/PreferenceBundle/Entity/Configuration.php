@@ -1,13 +1,13 @@
 <?php
 
-namespace FTFS\SystemBundle\Entity;
+namespace FTFS\PreferenceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * FTFS\SystemBundle\Entity\Configuration
+ * FTFS\PreferenceBundle\Entity\Configuration
  *
- * @ORM\Table(name="ftfs_config_preferences_default")
+ * @ORM\Table(name="ftfs_preferences_configuration_default")
  * @ORM\Entity
  */
 class Configuration
@@ -29,12 +29,11 @@ class Configuration
     private $name;
 
     /**
-     * @var string $value
+     * @var array $value
      *
-     * @ORM\Column(name="value", type="string", length=255)
+     * @ORM\Column(name="value", type="array")
      */
     private $value;
-
 
     /**
      * Get id
@@ -69,7 +68,7 @@ class Configuration
     /**
      * Set value
      *
-     * @param string $value
+     * @param array $value
      */
     public function setValue($value)
     {
@@ -79,7 +78,7 @@ class Configuration
     /**
      * Get value
      *
-     * @return string 
+     * @return array 
      */
     public function getValue()
     {

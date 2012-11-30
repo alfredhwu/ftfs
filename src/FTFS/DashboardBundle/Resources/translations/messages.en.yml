@@ -1,3 +1,8 @@
 ftfs.servicebundle.serviceticket.form.devices.$$name$$:
-    product:        "product"
-    specification:  "specification"
+    #local.site:     "Local Site:"
+    #remote.site:    "Remote Site:"
+    #product:        "Product:"
+    #specification:  "Additional Info:"
+    #module.name:    "Module Name:"
+    #module.pn:      "Module P/N:"
+    #module.sn:      "Module S/N:"

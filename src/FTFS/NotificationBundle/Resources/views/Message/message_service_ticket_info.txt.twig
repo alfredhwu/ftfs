@@ -1,9 +1,9 @@
 {% autoescape false %}
---------------------------------------------------------
+========================================================
 General  Information
 --------------------------------------------------------
 Reference No. :             {{ subject.name }}
-Status:                     {{ subject.status }}
+Status:                     {{ ('ftfs_serviceticket.status.'~subject.status) | trans({}, 'notification') }}
 Severity:                   {{ ('ftfs_serviceticket.severity.'~subject.severity) | trans({}, 'notification') }}
 Priority:                   {{ ('ftfs_serviceticket.priority.'~subject.priority) | trans({}, 'notification') }}
 Last Modified At:           {{ subject.lastModifiedAt | date('Y-m-d H:i:s') }}
@@ -13,73 +13,81 @@ Requested Via:              {{ subject.requestedVia }}
 Requested At:               {{ subject.requestedAt | date('Y-m-d H:i:s') }}
 Ticket Created At:          {{ subject.createdAt | date('Y-m-d H:i:s') }}
 Ticket Opened At:           {{ subject.openedAt | date('Y-m-d H:i:s') }}
+========================================================
 
---------------------------------------------------------
+========================================================
 Problem Summary Description
 --------------------------------------------------------
 "{{ subject.summary }}"              
-
+========================================================
 {% if (subject.devices)|length > 0 %}
---------------------------------------------------------
+
+========================================================
 Related Devices
---------------------------------------------------------
 {% for device in subject.devices %}
-Device:                     {{ device.product }}
-Module:                     {{ device.moduleName }}
-P/N:                        {{ device.serialPn }}
-S/N:                        {{ device.serialSn }}
-Location:                   {{ device.location }}
-Additional Info:            {{ device.specification }}
 --------------------------------------------------------
+Local Site:                  {{ device.localSite }}
+Remote Site:                 {{ device.remoteSite }}
+Product:                     {{ device.product }}
+Module Name:                 {{ device.moduleName }}
+Module P/N:                  {{ device.modulePn }}
+Module S/N:                  {{ device.moduleSn }}
+Additional Info:             {{ device.specification }}
 {% endfor %}
+========================================================
 {% endif %}
 
-{% if (subject.attachments)|length > 0 %}
---------------------------------------------------------
-Related Devices
---------------------------------------------------------
-{% for device in subject.devices %}
-Device:                     
-Module:
-P/N:
-S/N:
-Location:
-Specification:
-{% endfor %}
-
-{% endif %}
---------------------------------------------------------
+========================================================
 Problem Detail Description         
 --------------------------------------------------------
 "{{ subject.detail }}"              
-
+========================================================
 {% if (subject.attachments)|length > 0 %}
---------------------------------------------------------
+
+========================================================
 Attached Documents
 --------------------------------------------------------
 {% for attachment in subject.attachments %}
-{{ subject.openedAt | date('Y-m-d H:i:s') }} - {{ attachment.name }}
+{{ attachment.uploadedAt | date('Y-m-d H:i:s') }} - {{ attachment.name }} by {{ attachment.uploadedBy }}
 {% endfor %}
-
+========================================================
 {% endif %}
 {% if subject.service.id == 1 %}
---------------------------------------------------------
+
+========================================================
 Investigation
 --------------------------------------------------------
-(investigation)
+{% for ob in subject.observations | reverse if ob.content['type'] == 'intervention' %}
+{% set content = ob.content %}
+{{ content.from }}@{{ content.site }} {{ content.agent }} finished an investigation from {{ content.from }} to {{ content.to }}. {{ content.report }}
+{% endfor %}
+========================================================
 {% elseif subject.service.id == 2 %}
---------------------------------------------------------
+
+========================================================
 Logistics
 --------------------------------------------------------
-(logistics)
+{% for ob in subject.observations | reverse if ob.content['type'] == 'logistics' %}
+{% set content = ob.content %}
+under dev...
+{% endfor %}
+========================================================
 {% endif%}
 
---------------------------------------------------------
+========================================================
 Resolution
 --------------------------------------------------------
+{% for ob in subject.observations | reverse if ob.content['type'] == 'close_report' %}
+{% set content = ob.content %}
+{{ ob.sendAt | date('Y-m-d H:i:s') }} by {{ ob.sendBy.getFullName() }}. {{ content.report }}
+{% endfor %}
+========================================================
 
---------------------------------------------------------
+========================================================
 Change Log
 --------------------------------------------------------
-
+{% for record in timer | reverse %}
+{{ record.quand | date('Y-m-d H:i:s') }} {{ record.quoi }} by {{ record.qui }}. {{ record.pourquoi }}
+{% endfor %}
+========================================================
 {% endautoescape %}

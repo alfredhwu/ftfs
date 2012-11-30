@@ -1,0 +1,16 @@
+{# from agent #}
+{% if actor.isAgent() %}
+    {# to himself #}
+    {% if destinaire == actor %}
+    <p>This is to confirm you that you have left an investigation report.</p>
+    {# to ticket owner #}
+    {% elseif destinaire == subject.requestedBy %}
+    <p>This is to inform you that we have finish a session of investigation and left an investigation report concerning your service ticket.</p>
+    {# to other agent #}
+    {# to others #}
+    {% else %}
+    <p>{{ actor }} has finished a session of investigation and left an investigation report.</p>
+    {% endif %}
+{# from client #}
+{% endif %}
+    <p>You can review and modify this ticket in our system by the reference no. <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>.</p>

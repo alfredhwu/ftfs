@@ -1,0 +1,17 @@
+{% extends 'FTFSUserBundle::layout.html.twig' %}
+
+{% block body_menu %}
+{% include 'FTFSUserBundle:Profile:body_menu.html.twig' %}
+{% endblock %}
+
+{% block body_content %}
+    <legend>Add New Contact</legend>
+    <form class="form-horizontal" method="post">
+        {{ form_widget(form) }}
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary">
+            <a href="{{ path('ftfs_preferencebundle_default_ticket_sharelist_index', {'id':user.id}) }}" class="btn">Cancel</a>
+        </div>
+    </form>
+{% endblock body_content %}
+

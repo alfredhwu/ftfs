@@ -1,26 +1,21 @@
-{# event sent from an action of a client #}
-{% if 'ROLE_CLIENT' in actor.roles %}
-    We are very sorry but this is a spam message which normally you should never receive. Please contact our agents if you keep receiving this email.
-    (spam code: 7164)
-{# event sent from an action of an agent #}
-{% else %}
-    {# confirmation of action for a agent to himself #}
+{# from agent #}
+{% if actor.isAgent() %}
+    {# to himself #}
     {% if actor == destinaire %}
-        {% if actor == subject.assignedTo %}
-        This message is to confirm you that you have successfully taken from {{ action.change_set['assigned_to'][0] }} a service ticket named "{{ subject.name }}" of {{ subject.requestedBy }} at {{ acted_at }}.
-        {% else %}
-        This message is to confirm you that you have successfully reassigned a service ticket named "{{ subject.name }}" of {{ subject.requestedBy }} from {{ action.change_set['assigned_to'][0] }} to {{ subject.assignedTo }} at {{ acted_at }}.
-        {% endif %}
-    {# information of action for ther service ticket owner #}
+    This is to confirm you that you have reassigned the ticket (Reference: "{{ subject.name }}") of {{ subject.requestedBy }}.
+    {# to ticket owner #}
     {% elseif destinaire == subject.requestedBy %}
-    We are very sorry but this is a spam message which normally you should never receive. Please contact our agents if you keep receiving this email.
-    (spam code: 5948)
-    {# information of action for other observator #}
+    This is to inform you that we have reassigned your ticket (Reference: "{{ subject.name }}").
+    {# to other agent #}
+    {# to others #}
     {% else %}
-        {% if actor == subject.assignedTo %}
-        This message is to inform you that {{ actor }} has taken from {{ action.change_set['assigned_to'][0] }} the service ticket named "{{ subject.name }}" of {{ subject.requestedBy }} at {{ acted_at }}.
-        {% else %}
-        This message is to inform you that {{ actor }} has reassigned the service ticket named "{{ subject.name }}" of {{ subject.requestedBy }} from {{ action.change_set['assigned_to'][0] }} to {{ subject.assignedTo }} at {{ acted_at }}.
-        {% endif %}
+    {{ actor }} has reassigned the ticket (Reference: "{{ subject.name }}") at {{ acted_at }}.
     {% endif %}
+{# from client #}
+{% else %}
+    {# to himself #}
+    {# to ticket owner #}
+    {# to other agent #}
+    {# to others #}
 {% endif %}
+    You can review and modify this ticket in our system by the reference no. "{{ subject.name }}".

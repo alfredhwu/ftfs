@@ -55,6 +55,13 @@ class ServiceTicket
     private $status;
 
     /**
+     * @var boolean $pending
+     *
+     * @ORM\Column(name="pending", type="boolean")
+     */
+    private $pending;
+
+    /**
      * @var datetime $requested_at
      *
      * @ORM\Column(name="requested_at", type="datetime", nullable=true)
@@ -167,6 +174,7 @@ class ServiceTicket
         $this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
         $this->share_list = array();
+        $this->setPending(false);
     }
 
     /**
@@ -614,5 +622,25 @@ class ServiceTicket
     public function getDevices()
     {
         return $this->devices;
+    }
+
+    /**
+     * Set pending
+     *
+     * @param boolean $pending
+     */
+    public function setPending($pending)
+    {
+        $this->pending = $pending;
+    }
+
+    /**
+     * Get pending
+     *
+     * @return boolean 
+     */
+    public function getPending()
+    {
+        return $this->pending;
     }
 }

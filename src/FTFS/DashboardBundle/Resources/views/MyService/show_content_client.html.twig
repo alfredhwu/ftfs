@@ -9,7 +9,23 @@
             <a class="btn btn-small" href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.delete.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
                 <i class="icon-trash"></i>
             </a>
+        {% elseif entity.pending %}
+            <a class="btn btn-small" href="{{ path(prefix~'_continue', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.continue.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+                <i class="icon-play"></i>
+            </a>
         {% endif %}
     {% endif %}
 {% endblock %}
 
+{% block crud_content %}
+    {% if action_form is defined %}
+    <form method="post" class="form-horizontal well">
+        {{ form_widget(action_form) }}
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit">
+            <a class="btn" href="{{ path(prefix~'_show', { 'id' : entity.id }) }}">Cancel</a>
+        </div>
+    </form>
+    {% endif %}
+    {{ parent() }}
+{% endblock %}

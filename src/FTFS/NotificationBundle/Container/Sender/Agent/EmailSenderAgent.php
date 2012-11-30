@@ -32,6 +32,7 @@ class EmailSenderAgent implements SenderAgentInterface
         foreach($notification->getAttachments() as $name => $attachment){
             $attachments[] = \Swift_Attachment::newInstance($attachment['content'], $name, $attachment['type']);
         };
+        
         $this->ftfs_mailer->send(array(
             'subject' => $subject,
             //'from' => 'blabla',
@@ -42,16 +43,6 @@ class EmailSenderAgent implements SenderAgentInterface
             'attachments' => $attachments,
         ));
 
-        /*
-        if(array_key_exists('attachment_name', $message_options)) {
-            $attachment_name = $message_options['attachment_name'];
-        }else{
-            $attachment_name = 'attachment';
-        }
-        if(array_key_exists('attachment_name', $message_options)) {
-            $attachment_html = \Swift_Attachment::newInstance($message_options['body_html'], $attachment_name.'.html', 'text/html');
-            $attachment_txt = \Swift_Attachment::newInstance($message_options['body_txt'], $attachment_name.'.txt', 'text/txt');
-         */
         $notification->setNotifiedAt(new \DateTime('now'));
     }
 

@@ -4,7 +4,7 @@
     <ul>
     {% for device in devices %}
     <li>
-        {% if entity.requestedBy == app.user or is_granted('ROLE_AGENT') %}
+        {% if entity.requestedBy == app.user or entity.assignedTo == app.user %}
         <span>
             <a href="#" class="crud-action" crud-message="{{ (prefix~'.devices.delete.confirm')|trans({}, 'crud') }}" crud-toggle="{{ path(prefix~'_devices_delete', { 'id' : id, 'device_id' : device.id }) }}">
                 <i class="icon-trash"></i>
@@ -16,12 +16,13 @@
             </a>
         </span>
         {% endif %}
-        [{{ device.product }}]<br>
-        Location: [{{ device.location }}]<br> 
-        Specification: [{{ device.specification }}]</br>
-        Module Name:[{{ device.moduleName }}]</br>
-        P/N: [{{ device.serialPn }}]</br>
-        S/N: [{{ device.serialSn }}]
+        Product:         [{{ device.product }}]<br>
+        Local Site:      [{{ device.localSite }}]<br> 
+        Remote Site:     [{{ device.remoteSite }}]<br> 
+        Module Name:     [{{ device.moduleName }}]<br>
+        Module P/N:      [{{ device.modulePn }}]<br>
+        Module S/N:      [{{ device.moduleSn }}]<br>
+        Additional Info: [{{ device.specification }}]<br>
     </li>
     {% endfor %}
     </ul>

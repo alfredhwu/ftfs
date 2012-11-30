@@ -12,7 +12,7 @@
         {% endif %}
     </tr>
     <tr>
-        <th>Status</th><td>{{ subject.status }}</td>
+        <th>Status</th><td>{% if subject.pending %}{{ ('ftfs_serviceticket.status.pending') | trans({}, 'notification') }}{% else %}{{ ('ftfs_serviceticket.status.'~subject.status) | trans({}, 'notification') }}{% endif %}</td>
     </tr>
     <tr>
         <th>Severity</th><td>{{ ('ftfs_serviceticket.severity.'~subject.severity) | trans({}, 'notification') }}</td>
@@ -57,19 +57,22 @@
     </tr>
     {% for device in subject.devices %}
     <tr>
-        <th>Device</th><td>{{ device.product }}</td>
+        <th>Local Site</th><td>{{ device.localSite }}</td>
     </tr>
     <tr>
-        <th>Module</th><td>{{ device.moduleName }}</td>
+        <th>Remote Site</th><td>{{ device.remoteSite }}</td>
     </tr>
     <tr>
-        <th>P/N</th><td>{{ device.serialPn }}</td>
+        <th>Product</th><td>{{ device.product }}</td>
     </tr>
     <tr>
-        <th>S/N</th><td>{{ device.serialSn }}</td>
+        <th>Module Name</th><td>{{ device.moduleName }}</td>
     </tr>
     <tr>
-        <th>Location</th><td>{{ device.location }}</td>
+        <th>Module P/N</th><td>{{ device.modulePn }}</td>
+    </tr>
+    <tr>
+        <th>Module S/N</th><td>{{ device.moduleSn }}</td>
     </tr>
     <tr>
         <th>Additional Info</th><td>{{ device.specification }}</td>
@@ -92,35 +95,55 @@
     </tr>
     {% for attachment in subject.attachments %}
     <tr>
-        <td>{{ subject.openedAt | date('Y-m-d H:i:s') }}</td><td>{{ attachment.name }}</td>
+        <th>{{ attachment.uploadedAt | date('Y-m-d H:i:s') }}</th><td>{{ attachment.name }} by {{ attachment.uploadedBy }}</td>
     </tr>
     {% endfor %}
     {% endif %}
 
     <!-- observation -------------------------------------------------------------------------->
     {% if subject.service.id == 1 %}
-    <tr bgcolor="#EEEEEE">
-        <th colspan=2>Investigation</th>
-    </tr>
-    <tr>
-        <td colspan=2>(investigation)</td>
-    </tr>
+        <tr bgcolor="#EEEEEE">
+            <th colspan=2>Investigation</th>
+        </tr>
+        {% for ob in subject.observations | reverse if ob.content['type'] == 'intervention' %}
+        {% set content = ob.content %}
+        <tr>
+            <th>{{ content.from }}</th>
+            <td>{{ content.agent }} finished an investigation at {{ content.site }} from {{ content.from }} to {{ content.to }}. {{ content.report }}</td>
+        </tr>
+        {% endfor %}
     {% elseif subject.service.id == 2 %}
-    <tr bgcolor="#EEEEEE">
-        <th colspan=2>Logistics</th>
-    </tr>
-    <tr>
-        <td colspan=2>(logistics)</td>
-    </tr>
+        <tr bgcolor="#EEEEEE">
+            <th colspan=2>Logistics</th>
+        </tr>
+        {% for ob in subject.observations | reverse if ob.content['type'] == 'logistics' %}
+        {% set content = ob.content %}
+        <tr>
+            <td colspan=2>under dev...</td>
+        </tr>
+        {% endfor %}
     {% endif%}
 
     <!-- resolution  ------------------------------------------------------------------------>
     <tr bgcolor="#EEEEEE">
         <th colspan=2>Resolution</th>
     </tr>
+    {% for ob in subject.observations | reverse if ob.content['type'] == 'close_report' %}
+    {% set content = ob.content %}
+    <tr>
+        <th>{{ ob.sendAt | date('Y-m-d H:i:s') }}</th>
+        <td>by {{ ob.sendBy.getFullName() }}: {{ content.report }}</td>
+    </tr>
+    {% endfor %}
 
     <!-- change log  ------------------------------------------------------------------------>
     <tr bgcolor="#EEEEEE">
-        <th colspan=2>Change log</th>
+        <th colspan=2>Key Change Log</th>
     </tr>
+    {% for record in timer | reverse %}
+    <tr>
+        <th>{{ record.quand | date('Y-m-d H:i:s') }}</th>
+        <td>{{ record.quoi }} by {{ record.qui }}. {{ record.pourquoi }}</td>
+    </tr>
+    {% endfor %}
 </table>

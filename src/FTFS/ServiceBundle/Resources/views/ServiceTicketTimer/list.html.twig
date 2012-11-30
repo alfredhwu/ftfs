@@ -1,0 +1,11 @@
+<div id="ticket-timer-list">
+        <!-- loaded by ajax -->
+</div>
+<script>
+/* ticket/timer ****************************************************/
+$(document).ready(function() {
+    $.post("{{ path('ftfs_dashboardbundle_myservice_ticket_timer_list', { 'id' : entity.id }) }}", function(data) {
+        $('div#ticket-timer-list').html(data);
+    });
+});
+</script>

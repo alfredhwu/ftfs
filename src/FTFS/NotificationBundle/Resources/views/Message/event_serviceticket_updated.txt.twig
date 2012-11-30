@@ -1,25 +1,31 @@
-{# event sent from an action of a client #}
-{% if 'ROLE_CLIENT' in actor.roles %}
-    {# confirmation of action for a client to himself #}
+{# from agent #}
+{% if actor.isAgent() %}
+    {# to himself #}
     {% if actor == destinaire %}
-    This message is to confirm you that you have modified your ticket named "{{ subject.name }}" at {{ acted_at }}.
-    {# information of action for other agents #}
-    {% else %}
-    This message is to inform you that {{ actor }} has modified his service ticket named "{{ subject.name }}" at {{ acted_at }}.
-    {% endif %}
-{# event sent from an action of an agent #}
-{% else %}
-    {# confirmation of action for a agent to himself #}
-    {% if actor == destinaire %}
-    This message is to confirm you that you have successfully modified the service ticket named "{{ subject.name }}" for our client {{ subject.requestedBy }}.
-    {# information of action for ther service ticket owner #}
+    This is to confirm you that you have modified the ticket (Reference: "{{ subject.name }}") of {{ subject.requestedBy }}.
+    {# to ticket owner #}
     {% elseif destinaire == subject.requestedBy %}
-    This message is to confirm you that we have modified your service ticket named "{{ subject.name }}".
-    {# information of action for other observator #}
+    This is to inform you that we have modified your ticket (Reference: "{{ subject.name }}").
+    {# to other agent #}
+    {# to others #}
     {% else %}
-    {{ actor }} has modified the service ticket named "{{ subject.name }}" of {{ subject.requestedBy }} at {{ acted_at }}.
+    {{ actor }} has modified the ticket (Reference: "{{ subject.name }}") at {{ acted_at }}.
+    {% endif %}
+{# from client #}
+{% else %}
+    {# to himself #}
+    {% if actor == destinaire %}
+    This is to confirm you that you have modified the ticket (Reference: "{{ subject.name }}").
+    {# to ticket owner #}
+    {% elseif destinaire == subject.assignedTo %}
+    {{ actor }} has modified the service ticket (Reference: "{{ subject.name }}") at {{ acted_at }}. Please examin this request as soon as possible.
+    {# to other agent #}
+    {# to others #}
+    {% else %}
+    {{ actor }} has modified the ticket (Reference: "{{ subject.name }}") at {{ acted_at }}.
     {% endif %}
 {% endif %}
+
 {% for fieldname, fieldchange in action.change_set %}
     {% if fieldname in ['severity', 'priority'] %}
     - [{{ ('ftfs_serviceticket.'~fieldname~'.title')|trans({}, 'notification') }}] changed from "{{ ('ftfs_serviceticket.'~fieldname~'.'~fieldchange[0])|trans({}, 'notification') }}" to "{{ ('ftfs_serviceticket.'~fieldname~'.'~fieldchange[1])|trans({}, 'notification') }}"
@@ -31,3 +37,5 @@
     - [{{ ('ftfs_serviceticket.'~fieldname)|trans({}, 'notification') }}]: from "{{ fieldchange[0] }}" to "{{ fieldchange[1] }}"
     {% endif %}
 {% endfor %}
+
+    You can review and modify this ticket in our system by the reference no. "{{ subject.name }}".

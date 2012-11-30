@@ -59,26 +59,7 @@ class FTFSMailer
             }
         }
 
-        /*
-        if(array_key_exists('body_html', $message_options)) {
-            $titles = array_values($message_options['to']);
-            $message->addPart($this->templating->render('FTFSMailerBundle:Message:notification.html.twig',array(
-                'title' => $titles[0],
-                'body' => $message_options['body_html'])
-            ), 'text/html', 'UTF8');
-        }elseif(array_key_exists('body_txt', $message_options)) {
-            $titles = array_values($message_options['to']);
-            $message->addPart($this->templating->render('FTFSMailerBundle:Message:notification.txt.twig',array(
-                'title' => $titles[0],
-                'body' => $message_options['body_txt'])
-            ), 'text/plain', 'UTF8');
-        }else{
-            throw new \Exception('Body can not be null');
-        }
-         */
-
         $this->mailer->send($message);
-        //throw new \Exception('coucou, mailer called in ftfs_mailer');
     }
 
 }

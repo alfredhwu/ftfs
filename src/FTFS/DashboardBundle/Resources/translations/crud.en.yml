@@ -23,7 +23,8 @@ ftfs_dashboardbundle_myservice:
         cancel.new:         'Click to cancel the operation'
         delete.confirm:     'Really want to remove "%name%" from your share list?'
         add.new:            'Click to add a new email'
-        add.form.submit:    'add'
+        add.form.submit:    'Add'
+        add.form.cancel:    'Cancel'
     attachment:
         list:
             title:          'All attached documents:'
@@ -57,6 +58,10 @@ ftfs_dashboardbundle_myservice:
                 success:    "You have successfully closed the request!"
             reopen:
                 success:    "You have successfully reopened the request!"
+            continue:
+                success:    "You have successfully continued the request!"
+            pend:
+                success:    "You have successfully pended the request!"
     table:
         caption:            "Service Ticket List"
         operations:         "Operations"
@@ -88,8 +93,9 @@ ftfs_dashboardbundle_myservice:
             edit:               "Modify Service Ticket"
         action:
             show:
-                transfer:       "Transfer"
-                transfer.tooltip:   "Transfer"
+                print:              "Print"
+                print.tooltip:      "Print this service request"
+                print.success.flash:   "Printed successfully"
                 submit:             "Submit"
                 submit.tooltip:     "Submit this service request"
                 submit.success.flash:   "Request submitted successfully"
@@ -98,7 +104,12 @@ ftfs_dashboardbundle_myservice:
                 delete.success.flash:   "Request deleted successfully"
                 take:               "Take this request"
                 take.tooltip:       "Take this service ticket"
+                take.confirm:       "Do you really want to take this service ticket ?"
                 take.success.flash: "Taken successfully !"
+                pend:               "Pend"
+                pend.tooltip:       "Pend this service ticket"
+                continue:           "Continue"
+                continue.tooltip:   "Continue this service ticket"
                 transfer:           "Transfer"
                 transfer.tooltip:   "Transfer this service request"
                 transfer.success.flash: "Service transfered successfully"
@@ -107,7 +118,7 @@ ftfs_dashboardbundle_myservice:
                 open.confirm:       "Do you really want to open this service ticket ?"
                 open.success.flash: "Service opened successfully"
                 close:               "Close"
-                open.confirm:       "Do you really want to close this service ticket ?"
+                close.confirm:       "Do you really want to close this service ticket ?"
                 close.tooltip:       "Close this ticket"
                 close.success.flash: "Service closed successfully"
                 reopen:             "Reopen"

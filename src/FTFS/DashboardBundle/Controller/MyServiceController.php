@@ -110,6 +110,7 @@ class MyServiceController extends BaseController
 
     /**
      * get entity list for index Action
+     * getEntityListDefinition
      */
     protected function getEntityList(array $options = array())
     {
@@ -184,10 +185,15 @@ class MyServiceController extends BaseController
         {
             // general filter
             //case 'submitted':
-            case 'assigned':
-            case 'created':
-            case 'interrupted':
             case 'opened':
+                $queryBuilder
+                    ->andWhere("e.status = 'opened' or e.status = 'reopened'")
+                    ->andWhere("e.pending = 0");
+                break;
+            case 'created':
+            case 'assigned':
+                $queryBuilder
+                    ->andWhere("e.pending = 0");
             case 'closed':
                 $queryBuilder
                     ->andWhere('e.status = :status')
@@ -196,7 +202,8 @@ class MyServiceController extends BaseController
                 break;
             case 'awaiting': // both submitted(=unassigned) and assigned
                 $queryBuilder
-                    ->andWhere("e.status = 'submitted' or e.status = 'assigned'");
+                    ->andWhere("e.status = 'submitted' or e.status = 'assigned'")
+                    ->andWhere("e.pending = 0");
                 break;
             case 'allassigned': // all agent assigned
             case 'all':  // all client owned
@@ -211,6 +218,10 @@ class MyServiceController extends BaseController
                     ->andWhere("e.status = 'submitted'");
                 break;
             // by default if no filter is set, return no closed
+            case 'pending':
+                $queryBuilder
+                    ->andWhere("e.pending = 1");
+                break;
             default:        
                 $queryBuilder
                     ->andWhere("e.status <> 'closed'");
@@ -281,6 +292,9 @@ class MyServiceController extends BaseController
         ));
     }
 
+    /*
+     * getEntityDefinition
+     */
     protected function getEntity($action, $id = -1)
     {
         $context = $this->get('security.context');
@@ -295,6 +309,7 @@ class MyServiceController extends BaseController
             // any agent and client
             // restricted to its owner (assigned to) ant his share list and of cause all agents 
             // visible for all company memebers
+            case 'ticket_timer_list':
             case 'show':
                 $rma = $this->getDoctrine()->getEntityManager()
                     ->getRepository('FTFSServiceBundle:RMA')->findOneByTicket($entity->getId());
@@ -315,6 +330,7 @@ class MyServiceController extends BaseController
                     }
                 }
                 break;
+            case 'continue':
             case 'observation_add':
             case 'attachment_upload':
             case 'attachment_delete':
@@ -366,6 +382,7 @@ class MyServiceController extends BaseController
 
             // reserved to agent owner 
             case 'open':    // status: submitted, assigned, not opened
+            case 'pend':    // status: submitted, assigned, opened
             case 'reopen':    // status: submitted, assigned, not opened
             case 'transfer':    // status: assigned, opened
             case 'close':   // status: opened
@@ -477,7 +494,17 @@ class MyServiceController extends BaseController
                 $entity->setStatus('opened');
                 break;
             case 'reopen':
-                $entity->setStatus('assigned');
+                $entity->setStatus('reopened');
+                break;
+            case 'pend':
+                //$entity->setOpenedAt(new \DateTime('now'));
+                //$entity->setStatus('opened');
+                $entity->setPending(true);
+                break;
+            case 'continue':
+                //$entity->setOpenedAt(new \DateTime('now'));
+                //$entity->setStatus('opened');
+                $entity->setPending(false);
                 break;
             case 'close':
                 $entity->setClosedAt(new \DateTime('now'));
@@ -534,7 +561,18 @@ class MyServiceController extends BaseController
         // set index into session
         $request = $this->getRequest();
         $request->getSession()->set('index', $request->getRequestUri());
-        $services = $this->getDoctrine()->getEntityManager()->getRepository('FTFSServiceBundle:Service')->findAll();
+
+        $context = $this->get('security.context');
+        if($context->isGranted('ROLE_AGENT')){
+            $services = $this->getDoctrine()->getEntityManager()
+                ->getRepository('FTFSServiceBundle:Service')->findAll();
+        }else{
+            $services = $this->getDoctrine()->getEntityManager()
+                ->getRepository('FTFSServiceBundle:Service')->findBy(array(
+                'open_to_client' => true,
+            ));
+        }
+
 
         // general twig rendering
         return $this->render($this->getViewPath().':index2.html.twig', array(
@@ -566,8 +604,43 @@ class MyServiceController extends BaseController
     public function reopenAction($id)
     {
         $entity = $this->getEntity('reopen', $id);
-        $this->flushEntity($entity, 'reopen');
-        return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $entity->getId())));
+
+        $container = array('reopen' => 'reopen detail');
+        $action_form = $this->createFormBuilder($container)
+            ->add('reason', 'textarea')
+            ->getForm();
+
+        $request = $this->getRequest();
+        if($request->getMethod() === 'POST') {
+            $action_form->bindRequest($request);
+            if($action_form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+
+                // message to client
+                $message = new \FTFS\ServiceBundle\Entity\ServiceTicketObservation;
+                $message->setSendAt(new \DateTime('now'));
+                $message->setSendBy($this->get('security.context')->getToken()->getUser());
+                $message->setTicket($entity);
+                $data = $action_form->getData();
+                $content['type'] = 'reopen';
+                $content['timer'] = 'reopen'; // reg in timer log
+                $content['reason'] = $data['reason'];
+                $message->setContent($content);
+
+                $entity->setStatus('reopened');
+                $em->persist($message);
+                $this->flushEntity($entity, 'reopen');
+            }
+            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
+                'id' => $id,
+            )));
+        }
+        return $this->render($this->getViewPath().':show.html.twig', array(
+            'entity' => $entity,
+            'meta' => $this->getMeta(),
+            'prefix' => $this->getRoutingPrefix(),
+            'action_form' => $action_form->createView(),
+        ));
     }
 
     /**
@@ -580,9 +653,63 @@ class MyServiceController extends BaseController
     {
         $entity = $this->getEntity('close', $id);
 
-        $container = array('observation' => 'observation detail');
+        $container = array('closure_report' => 'closure_report detail');
         $action_form = $this->createFormBuilder($container)
             ->add('report', 'textarea')
+            ->getForm();
+
+        $request = $this->getRequest();
+        if($request->getMethod() === 'POST') {
+            $action_form->bindRequest($request);
+            if($action_form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+
+                // closure report
+                $closure_report = new \FTFS\ServiceBundle\Entity\ServiceTicketObservation;
+                $closure_report->setSendAt(new \DateTime('now'));
+                $closure_report->setSendBy($this->get('security.context')->getToken()->getUser());
+                $closure_report->setTicket($entity);
+                $content = array();
+                $content['type'] = 'close_report';
+                $content['timer'] = 'closed';
+                $data = $action_form->getData();
+                $content['report'] = $data['report'];
+                $closure_report->setContent($content);
+
+                $entity->setStatus('closed');
+                $em->persist($closure_report);
+                $this->flushEntity($entity, 'close');
+            }
+            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
+                'id' => $id,
+            )));
+        }
+        return $this->render($this->getViewPath().':show.html.twig', array(
+            'entity' => $entity,
+            'meta' => $this->getMeta(),
+            'prefix' => $this->getRoutingPrefix(),
+            'action_form' => $action_form->createView(),
+        ));
+    }
+
+    /**
+     * pend 
+     * granted only to ROLE_AGENT
+     *
+     * reserved to owner
+     */
+    public function pendAction($id)
+    {
+        $entity = $this->getEntity('pend', $id);
+        if($entity->getPending()) { // already pending...
+            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
+                'id' => $id,
+            )));
+        }
+
+        $container = array('observation' => 'observation detail');
+        $action_form = $this->createFormBuilder($container)
+            ->add('reason', 'textarea')
             ->getForm();
 
         $request = $this->getRequest();
@@ -594,12 +721,66 @@ class MyServiceController extends BaseController
                 $observation->setSendBy($this->get('security.context')->getToken()->getUser());
                 $observation->setTicket($entity);
                 $content = array();
-                $content['type'] = 'closure';
+                $content['type'] = 'pend';
+                $content['timer'] = 'pended'; // reg in timer log
                 $data = $action_form->getData();
-                $content['report'] = $data['report'];
+                $content['reason'] = $data['reason'];
                 $observation->setContent($content);
+
+                $entity->setPending(true);
                 $this->getDoctrine()->getEntityManager()->persist($observation);
-                $this->flushEntity($entity, 'close');
+                $this->flushEntity($entity, 'pend');
+            }
+            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
+                'id' => $id,
+            )));
+        }
+        return $this->render($this->getViewPath().':show.html.twig', array(
+            'entity' => $entity,
+            'meta' => $this->getMeta(),
+            'prefix' => $this->getRoutingPrefix(),
+            'action_form' => $action_form->createView(),
+        ));
+    }
+
+    /**
+     * continue 
+     * granted only to ROLE_AGENT
+     *
+     * reserved to owner
+     */
+    public function continueAction($id)
+    {
+        $entity = $this->getEntity('continue', $id);
+        if(!$entity->getPending()) { // not pending...
+            return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
+                'id' => $id,
+            )));
+        }
+
+        $container = array('observation' => 'observation detail');
+        $action_form = $this->createFormBuilder($container)
+            ->add('reason', 'textarea')
+            ->getForm();
+
+        $request = $this->getRequest();
+        if($request->getMethod() === 'POST') {
+            $action_form->bindRequest($request);
+            if($action_form->isValid()) {
+                $observation = new \FTFS\ServiceBundle\Entity\ServiceTicketObservation;
+                $observation->setSendAt(new \DateTime('now'));
+                $observation->setSendBy($this->get('security.context')->getToken()->getUser());
+                $observation->setTicket($entity);
+                $content = array();
+                $content['type'] = 'continue';
+                $content['timer'] = 'continued'; // reg in timer log
+                $data = $action_form->getData();
+                $content['reason'] = $data['reason'];
+                $observation->setContent($content);
+
+                $entity->setPending(false);
+                $this->getDoctrine()->getEntityManager()->persist($observation);
+                $this->flushEntity($entity, 'continue');
             }
             return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
                 'id' => $id,
@@ -710,8 +891,28 @@ class MyServiceController extends BaseController
     public function sharelistAddAction($id)
     {
         $ticket = $this->getEntity('sharelist_add', $id);
+
+        $current_list = $ticket->getShareList();
+        $current_user = $this->get('security.context')->getToken()->getUser();
+        $user_list = $this->get('ftfs_configurator')->get('sharelist', $current_user);
+        if(!$user_list) {
+            $user_list = array();
+        }
+
+        $available_choices = array();
+        $available_list = array();
+        foreach($user_list as $email => $name) {
+            if(!array_key_exists($email, $current_list)) {
+                $available_choices[$email] = $name.' ('.$email.')';
+                $available_list[$email] = $name;
+            }
+        }
+
+        //throw new \Exception(print_r($available_choices));
+
         $share_entry = array('sharelist' => 'entry detail');
         $form = $this->createFormBuilder($share_entry)
+                ->add('email')
                 ->add('title', 'choice', array(
                     'choices' => array(
                         'Ms.' => 'Ms.',
@@ -721,29 +922,55 @@ class MyServiceController extends BaseController
                 ))
                 ->add('firstname')
                 ->add('surname')
-                ->add('email')
+                ->add('add_to_default', 'checkbox', array(
+                    'label' => 'Add to default list?',
+                    'required' => false,
+                ))
+                ->add('available_emails', 'choice', array(
+                    'choices' => $available_choices,
+                    'multiple' => true,
+     //               'expanded' => true,
+                    'required' => false,
+                ))
                 ->getForm()
                 ;
 
         if($this->getRequest()->getMethod() === 'POST') {
             $form->bindRequest($this->getRequest());
-            if($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
-                $data = $form->getData();
-                $name = $data['title'].' '.$data['firstname'].' '.$data['surname'];
-                $ticket->addShareList(array(
-                    $data['email'] => $name,
-                ));
-                /*
-                throw new \Exception(print_r(array(
-                    $data['email'] => $name,
-                )));
-                 */
-                $em->flush();
+
+            $data = $form->getData();
+            $type = $this->getRequest()->get('type');
+            switch($type) {
+                case 'select':
+                    $selected = array();
+                    foreach($data['available_emails'] as $s) {
+                        $selected[$s] = $available_list[$s];
+                    }
+                    $ticket->addShareList($selected);
+                    //throw new \Exception(print_r($selected));
+                    break;
+                case 'add':
+                    $name = $data['title'].' '.$data['firstname'].' '.$data['surname'];
+                    $ticket->addShareList(array(
+                        $data['email'] => $name,
+                    ));
+                    // if add to list
+                    if($data['add_to_default']) {
+                        $configurator = $this->get('ftfs_configurator');
+                        $sharelist = $configurator->get('sharelist', $current_user);
+                        $sharelist = $sharelist ? $sharelist : array();
+                        if(!array_key_exists($data['email'], $sharelist)) {
+                            $sharelist[$data['email']] = $name;
+                            $configurator->set('sharelist', $sharelist, $current_user);
+                        }
+                        //throw new \Exception(print_r($sharelist));
+                    }
+                    break;
             }
-            // flash notification
-            // $this->notify('sharelist_add'); 
-            //
+
+            // flush
+            $this->getDoctrine()->getEntityManager()->flush();
+
             return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
                 'id' => $id,
             )));
@@ -753,6 +980,7 @@ class MyServiceController extends BaseController
             'id' => $id,
             'prefix' => $this->getRoutingPrefix(),
             'sharelist_add_form' => $form->createView(),
+            'available_list' => $available_list,
         ));
     }
 
@@ -986,7 +1214,6 @@ class MyServiceController extends BaseController
             $observation = new \FTFS\ServiceBundle\Entity\ServiceTicketObservation();
             $observation->setSendAt(new \DateTime('now'));
             $observation->setSendBy($this->get('security.context')->getToken()->getUser());
-            $observation->setTicket($ticket);
 
             $data = $form->getData();
             $type = $request->get('type');
@@ -1004,7 +1231,7 @@ class MyServiceController extends BaseController
                     {
                         $observation->setAttachTo($attach);
                     }
-                    $content['message'] = urlencode($message);
+                    $content['message'] = $message;
                     $flush = true;
                     break;
                 case 'intervention':
@@ -1016,11 +1243,11 @@ class MyServiceController extends BaseController
                     if($report == '') {
                         break;
                     }
-                    $content['site'] = urlencode($site);
+                    $content['site'] = $site;
                     $content['from'] = $from;
                     $content['to'] = $to;
                     $content['agent'] = $agent;
-                    $content['report'] = urlencode($report);
+                    $content['report'] = $report;
                     $flush = true;
                     break;
                 case 'logistic':
@@ -1041,6 +1268,8 @@ class MyServiceController extends BaseController
             //throw new \Exception(print_r($content));
             if($flush) {
                 $observation->setContent($content);
+                //$ticket->addServiceTicketObservation($observation);
+                $observation->setTicket($ticket);
                 $em->persist($observation);
                 $em->flush();
                 return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
@@ -1128,6 +1357,27 @@ class MyServiceController extends BaseController
         $em->flush();
         return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $id)));
     }
+
+    // ajax ticket timer list
+    public function ticketTimerListAction($id)
+    {
+        $entity = $this->getEntity('ticket_timer_list', $id);
+        $timers = $this->getDoctrine()->getEntityManager()
+            ->getRepository('FTFSServiceBundle:ServiceTicketTimer')->findBy(
+            array(
+                'ticket' => $entity->getName()
+            ),
+            array(
+                'quand' => 'desc'
+            )
+        );
+
+        return $this->render('FTFSServiceBundle:ServiceTicketTimer:content.html.twig', array(
+            'timers' => $timers,
+            'prefix' => $this->getRoutingPrefix(),
+        ));
+    }
+
 
     public function generateRMAAction($id)
     {

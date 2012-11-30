@@ -1,0 +1,14 @@
+{% extends 'FTFSDashboardBundle::layout.html.twig' %}
+
+{% block body_content %}
+    {% if is_granted('ROLE_CLIENT_COMPANY') %}
+    <h1>statistics</h1>
+    <ul>
+        <li>TDR</li>
+        <li>TDR</li>
+        <li>TDR</li>
+        <li>TDR</li>
+        <li>TDR</li>
+    </ul>
+    {% endif %}
+{% endblock %}

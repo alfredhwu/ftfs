@@ -1,0 +1,24 @@
+{% if timers | length > 0 %}
+<table class="table table-stripped table-condensed table-bordered table-smart">
+    <tr>
+        <th class="tight">When</th>
+        <th class="tight">Who</th>
+        <th class="tight">Do What</th>
+        <th class="tight">Reason</th>
+        <th class="tight">Flag</th>
+        <th class="tight">Alias</th>
+    </tr>
+    {% for timer in timers %}
+    <tr>
+        <td>{{ timer.quand | date('Y-m-d H:i:s') }}</td>
+        <td>{{ timer.qui }}</td>
+        <td>{{ timer.quoi }}</td>
+        <td>{{ timer.pourquoi }}</td>
+        <td>{{ timer.flag }}</td>
+        <td>{{ timer.alias }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No time stamps yet !</p>
+{% endif %}

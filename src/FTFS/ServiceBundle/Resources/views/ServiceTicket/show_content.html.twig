@@ -19,6 +19,9 @@
             </a>
             {% endif %}
         {% endif %}
+        <a class="btn btn-small" href="{{ path(prefix~'_print', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.print.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+            <i class="icon-print"></i>
+        </a>
         <strong class="btn">{{ (prefix~'.form.legend.show')|trans({}, 'crud') }}</strong>
     </legend>
 
@@ -32,9 +35,17 @@
         </tr>
         <tr>
             <th>{{ ('ftfs.servicebundle.serviceticket.table.status.title') | trans({}, 'crud') }}</th>
-            <td><span class="{{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status~'.class')|trans({}, 'crud') }}">
-                {{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status)|trans({}, 'crud') }}
-            </span></td>
+            <td>
+            {% if entity.pending %}
+                <span class="{{ ('ftfs.servicebundle.serviceticket.table.status.pending.class')|trans({}, 'crud') }}">
+                    {{ ('ftfs.servicebundle.serviceticket.table.status.pending')|trans({}, 'crud') }}
+                </span>
+            {% else %}
+                <span class="{{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status~'.class')|trans({}, 'crud') }}">
+                    {{ ('ftfs.servicebundle.serviceticket.table.status.'~entity.status)|trans({}, 'crud') }}
+                </span>
+            {% endif %}
+            </td>
             <th>{{ ('ftfs.servicebundle.serviceticket.table.severity.title') | trans({}, 'crud') }}</th>
             <td><span class="{{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity~'.class')|trans({}, 'crud') }}">
                 {{ ('ftfs.servicebundle.serviceticket.table.severity.'~entity.severity)|trans({}, 'crud') }}
@@ -132,11 +143,23 @@
         {% endif %}
         <strong class="btn">Observation</strong>
     </legend>
-
     <div id="observation">
         {% include 'FTFSServiceBundle:ServiceTicketObservation:list.html.twig' 
             with { 'observations' : entity.observations,
                     'attachments' : entity.attachments,
+            } %}
+    </div>
+
+    <legend class="btn-group">
+        <a class="btn btn-small" href="{{ app.session.get('index') }}" rel="tooltip" title="{{ 'ftfs.crud.form.action.show.list.tooltip'|trans({}, 'crud') }}" data-placement="bottom">
+            <i class="icon-list"></i>
+        </a>
+        <strong class="btn">Time Stamps</strong>
+    </legend>
+
+    <div id="ticket-timer">
+        {% include 'FTFSServiceBundle:ServiceTicketTimer:list.html.twig' 
+            with {
             } %}
     </div>
     {% endblock %}

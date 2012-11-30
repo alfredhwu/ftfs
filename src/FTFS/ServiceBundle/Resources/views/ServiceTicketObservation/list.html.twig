@@ -8,45 +8,60 @@
         #}
         </div>
     </div>
-    <div id="observation-plugin">
-    {% include 'FTFSServiceBundle:ServiceTicketObservation:plugin.html.twig' %}
-    </div>
-    <h4>All Messages</h4>
-    <hr>
-    <table class="table table-striped" width="100%">
 
-        <!-- list of observations -->
-        {% for ob in observations|reverse if ob.content['type'] == 'message' %}
-        <tr class="observation">
-            <th width="10%" class="observation-send-by">
-                <i class="icon-user"></i>
-                {% if ob.sendBy == app.user %}
-                    {{ (prefix~'.observation.user.me')|trans({}, 'crud') }}
-                {% else %}
-                    {{ ob.sendBy }}
-                {% endif %}
-            </th>
-            <td width="80%">
-                <div>
-                <span class="observation-send-at">
-                {% if ob.sendAt is not empty %} {{ ob.sendAt | date('Y-m-d H:i:s') }}{% endif %} 
-                </span>
-                <a class="observation-add" add-to-id="{{ ob.id }}" href="#">
-                    <i class="icon-share"></i>
+    <div class="accordion" id="accordion-observation">
+        <!-- plugin -->
+        {% include 'FTFSServiceBundle:ServiceTicketObservation:plugin.html.twig' %}
+
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-observation" href="#observation-messages">
+                    All Messages
                 </a>
-                <a class="observation-attachment-upload" add-to-id="{{ ob.id }}" href="#">
-                    <i class="icon-upload"></i>
-                </a></div>
-                <div class="observation-content">
-                {% include 'FTFSServiceBundle:ServiceTicketObservation:content.html.twig' with { 'ob' : ob } %}
+            </div>
+
+            <div id="observation-messages" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <table class="table table-striped" width="100%">
+
+                        <!-- list of observations -->
+                        {% for ob in observations|reverse if ob.content['type'] in ['message', 'reopen', 'pend', 'continue'] %}
+                        <tr class="observation">
+                            <th width="10%" class="observation-send-by">
+                                <i class="icon-user"></i>
+                                {% if ob.sendBy == app.user %}
+                                    {{ (prefix~'.observation.user.me')|trans({}, 'crud') }}
+                                {% else %}
+                                    {{ ob.sendBy }}
+                                {% endif %}
+                            </th>
+                            <td width="80%">
+                                <div>
+                                <span class="observation-send-at">
+                                {% if ob.sendAt is not empty %} {{ ob.sendAt | date('Y-m-d H:i:s') }}{% endif %} 
+                                </span>
+                                {% if (entity.requestedBy == app.user or (is_granted('ROLE_CLIENT_COMPANY') and entity.requestedBy.company == app.user.company) or entity.assignedTo == app.user) and entity.status != 'closed' %}
+                                <a class="observation-add" add-to-id="{{ ob.id }}" href="#">
+                                    <i class="icon-comment"></i>
+                                </a>
+                                <a class="observation-attachment-upload" add-to-id="{{ ob.id }}" href="#">
+                                    <i class="icon-upload"></i>
+                                </a></div>
+                                {% endif %}
+                                <div class="observation-content">
+                                {% include 'FTFSServiceBundle:ServiceTicketObservation:content.html.twig' with { 'ob' : ob } %}
+                                </div>
+                                <div class="hide" id="upload-form-{{ ob.id }}">upload frame</div>
+                            </td>
+                            <td width="10%"></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
                 </div>
-                <div class="hide" id="upload-form-{{ ob.id }}">upload frame</div>
-            </td>
-            <td width="10%"></td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+            </div>
+        </div> <!-- messages -->
+    </div><!-- end of accordion -->
+</div><!-- end of observation list -->
 <script>
     $('a.observation-add').click(function() {
 

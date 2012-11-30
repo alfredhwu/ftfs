@@ -1,0 +1,28 @@
+{# from agent #}
+{% if actor.isAgent() %}
+    {# to himself #}
+    {% if destinaire == actor %}
+    <p>This is to confirm you that you have sent a message to {% if action.observation_to is null %}{{ subject.requestedBy }}{% elseif action.observation_to == destinaire %}your former observation{% else %}{{ action.observation_to }}{% endif %} at {{ acted_at }}, saying: "{% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}".</p>
+    {# to ticket owner #}
+    {% elseif destinaire == subject.requestedBy %}
+    <p>This is to inform you that we have left a message in your ticket: "{% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}".</p>
+    {# to other agent #}
+    {# to others #}
+    {% else %}
+    <p>{{ actor }} has sent a message to the ticket refered by no. "{{ subject.name }}", saying: {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}".</p>
+    {% endif %}
+{# from client #}
+{% else %}
+    {# to himself #}
+    {% if actor == destinaire %}
+    <p>This is to confirm you that you have {% if action.observation_to is null %}left a message to your ticket{% elseif action.observation_to == destinaire %}left a comment to your former message{% else %}left a message to {{ action.observation_to }}{% endif %}, saying: "{% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}".</p>
+    {# to ticket agent owner #}
+    {% elseif destinaire == subject.assignedTo %}
+    <p>{{ actor }} has left a message to {% if action.observation_to == destinaire %}you{% else %}your ticket{% endif %}, saying: "{% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}"</p>
+    {# to other agent #}
+    {# to others #}
+    {% else %}
+    <p>{{ actor }} has sent a message to the ticket refered by no. "{{ subject.name }}", saying: {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}".</p>
+    {% endif %}
+{% endif %}
+    <p>You can review and modify this ticket in our system by the reference no. <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>.</p>

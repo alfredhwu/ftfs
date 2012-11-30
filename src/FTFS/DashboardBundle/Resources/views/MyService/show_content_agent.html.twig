@@ -1,19 +1,28 @@
 {% extends 'FTFSServiceBundle:ServiceTicket:show_content.html.twig' %}
 
 {% block crud_actions_icons %}
-    {% if entity.status in ['interrupted', 'submitted', 'assigned', 'opened'] %}
+    {% if entity.status in ['submitted', 'assigned', 'reassigned', 'opened', 'reopened'] %}
         {% if entity.assignedTo is null or entity.assignedTo.username != app.user.username %}
-            <a class="btn btn-small crud-action" href="#" crud-message="{{ (prefix~'.form.action.take.confirm')|trans({'%name%':entity.name, '%requestor%':entity.requestedBy}, 'crud') }}" crud-toggle="{{ path(prefix~'_take', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.take.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+            <a class="btn btn-small crud-action" href="#" crud-message="{{ (prefix~'.form.action.show.take.confirm')|trans({'%name%':entity.name, '%requestor%':entity.requestedBy}, 'crud') }}" crud-toggle="{{ path(prefix~'_take', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.take.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
                 <i class="icon-hand-up"></i>
             </a>
         {% else %}
-            {% if entity.status != 'opened' %}
+            {% if entity.status not in ['opened', 'reopened'] and not entity.pending %}
             <a class="btn btn-small crud-action" href="#" crud-message="{{ (prefix~'.form.action.show.open.confirm')|trans({}, 'crud') }}" crud-toggle="{{ path(prefix~'_open', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.open.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
                 <i class="icon-folder-open"></i>
+            </a>
+            {% elseif entity.pending %}
+            <a class="btn btn-small" href="{{ path(prefix~'_continue', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.continue.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+                <i class="icon-play"></i>
             </a>
             {% else %}
             <a class="btn btn-small" href="{{ path(prefix~'_close', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.close.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
                 <i class="icon-folder-close"></i>
+            </a>
+            {% endif %}
+            {% if not entity.pending %}
+            <a class="btn btn-small" href="{{ path(prefix~'_pend', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.pend.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+                <i class="icon-pause"></i>
             </a>
             {% endif %}
             {% if entity.status != 'submitted' %}
@@ -24,7 +33,7 @@
         {% endif %}
     {% endif %}
     {% if entity.status == 'closed' %}
-        <a class="btn btn-small crud-action" crud-toggle="{{ path(prefix~'_reopen', { 'id' : entity.id }) }}" crud-message="{{ (prefix~'.table.action.reopen.confirm')|trans({'%name%':entity.name, '%requestor%':entity.requestedBy}, 'crud') }}" href="#" rel="tooltip" title="{{ (prefix~'.table.action.reopen.tooltip')|trans({}, 'crud') }}">
+        <a class="btn btn-small" href="{{ path(prefix~'_reopen', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.table.action.reopen.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-folder-open"></i>
         </a>
     {% endif %}

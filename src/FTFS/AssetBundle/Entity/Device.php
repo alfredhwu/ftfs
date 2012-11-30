@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FTFS\AssetBundle\Entity\Device
  *
- * @ORM\Table(name="ftfs_service_ticket_asset_device")
+ * @ORM\Table(name="ftfs_asset_device")
  * @ORM\Entity
  */
 class Device
@@ -29,30 +29,37 @@ class Device
     /**
      * @var string $module_name
      *
-     * @ORM\Column(name="module_name", type="string", length=255)
+     * @ORM\Column(name="module_name", type="string", length=255, nullable=true)
      */
     private $module_name;
 
     /**
-     * @var string $serial_pn
+     * @var string $module_pn
      *
-     * @ORM\Column(name="serial_pn", type="string", length=255)
+     * @ORM\Column(name="module_pn", type="string", length=255, nullable=true)
      */
-    private $serial_pn;
+    private $module_pn;
 
     /**
-     * @var string $serial_sn
+     * @var string $module_sn
      *
-     * @ORM\Column(name="serial_sn", type="string", length=255)
+     * @ORM\Column(name="module_sn", type="string", length=255, nullable=true)
      */
-    private $serial_sn;
+    private $module_sn;
 
     /**
-     * @var string $location
+     * @var string $local_site
      *
-     * @ORM\Column(name="location", type="string", length=255)
+     * @ORM\Column(name="local_site", type="string", length=255)
      */
-    private $location;
+    private $local_site;
+
+    /**
+     * @var string $remote_site
+     *
+     * @ORM\Column(name="remote_site", type="string", length=255, nullable=true)
+     */
+    private $remote_site;
 
     /**
      * @var text $specification
@@ -102,43 +109,83 @@ class Device
     }
 
     /**
-     * Set serial_pn
+     * Set module_pn
      *
-     * @param string $serialPn
+     * @param string $modulePn
      */
-    public function setSerialPn($serialPn)
+    public function setModulePn($modulePn)
     {
-        $this->serial_pn = $serialPn;
+        $this->module_pn = $modulePn;
     }
 
     /**
-     * Get serial_pn
+     * Get module_pn
      *
      * @return string 
      */
-    public function getSerialPn()
+    public function getModulePn()
     {
-        return $this->serial_pn;
+        return $this->module_pn;
     }
 
     /**
-     * Set serial_sn
+     * Set module_sn
      *
-     * @param string $serialSn
+     * @param string $moduleSn
      */
-    public function setSerialSn($serialSn)
+    public function setModuleSn($moduleSn)
     {
-        $this->serial_sn = $serialSn;
+        $this->module_sn = $moduleSn;
     }
 
     /**
-     * Get serial_sn
+     * Get module_sn
      *
      * @return string 
      */
-    public function getSerialSn()
+    public function getModuleSn()
     {
-        return $this->serial_sn;
+        return $this->module_sn;
+    }
+
+    /**
+     * Set local_site
+     *
+     * @param string $localSite
+     */
+    public function setLocalSite($localSite)
+    {
+        $this->local_site = $localSite;
+    }
+
+    /**
+     * Get local_site
+     *
+     * @return string 
+     */
+    public function getLocalSite()
+    {
+        return $this->local_site;
+    }
+
+    /**
+     * Set remote_site
+     *
+     * @param string $remoteSite
+     */
+    public function setRemoteSite($remoteSite)
+    {
+        $this->remote_site = $remoteSite;
+    }
+
+    /**
+     * Get remote_site
+     *
+     * @return string 
+     */
+    public function getRemoteSite()
+    {
+        return $this->remote_site;
     }
 
     /**
@@ -179,25 +226,5 @@ class Device
     public function getProduct()
     {
         return $this->product;
-    }
-
-    /**
-     * Set location
-     *
-     * @param string $location
-     */
-    public function setLocation($location)
-    {
-        $this->location = $location;
-    }
-
-    /**
-     * Get location
-     *
-     * @return string 
-     */
-    public function getLocation()
-    {
-        return $this->location;
     }
 }

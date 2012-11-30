@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FTFS\NotificationBundle\Entity\EventCatchFilter
  *
- * @ORM\Table(name="ftfs_config_event_catch_filter")
+ * @ORM\Table(name="ftfs_notification_filter_event_catch_user")
  * @ORM\Entity
  */
 class EventCatchFilter

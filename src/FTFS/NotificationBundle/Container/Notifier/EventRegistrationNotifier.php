@@ -32,7 +32,7 @@ class EventRegistrationNotifier
         // get entity manager, register the event $event
         $eventlog = new \FTFS\NotificationBundle\Entity\EventLog($event, $actor, $acted_at, $action);
         $this->em->persist($eventlog);
-        //$this->em->flush();
+        $this->em->flush();
 
     }
 }

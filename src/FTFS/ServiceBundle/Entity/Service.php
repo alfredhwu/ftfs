@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FTFS\ServiceBundle\Entity\Service
  *
- * @ORM\Table(name="ftfs_config_service")
+ * @ORM\Table(name="ftfs_service")
  * @ORM\Entity
  */
 class Service
@@ -34,6 +34,13 @@ class Service
      * @ORM\Column(name="active", type="boolean")
      */
     private $active;
+
+    /**
+     * @var boolean $open_to_client
+     *
+     * @ORM\Column(name="open_to_client", type="boolean", nullable=true)
+     */
+    private $open_to_client;
 
     /**
      * @var text $description
@@ -130,5 +137,25 @@ class Service
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set open_to_client
+     *
+     * @param boolean $openToClient
+     */
+    public function setOpenToClient($openToClient)
+    {
+        $this->open_to_client = $openToClient;
+    }
+
+    /**
+     * Get open_to_client
+     *
+     * @return boolean 
+     */
+    public function getOpenToClient()
+    {
+        return $this->open_to_client;
     }
 }

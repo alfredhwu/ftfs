@@ -1,0 +1,51 @@
+{% extends 'FTFSDashboardBundle::layout.html.twig' %}
+
+{% block body_content %}
+    {% if is_granted('ROLE_CLIENT_COMPANY') %}
+    <table class="table table-striped table-condensed table-bordered table-smart">
+        <legend>All My Registered Staff</legend>
+        <thead>
+            <tr>
+                <th class="cell-mini">#</th>
+                <th>Roles</th>
+                <th>Status</th>
+                <th>Username</th>
+                <th class="cell-huge">E-mail</th>
+                <th>Surname</th>
+                <th>First Name</th>
+                <th class="cell-large">Company</th>
+                <th class="cell-large">Office Address</th>
+                <th>Office Phone</th>
+                <th>Office Fax</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% set i = 0 %}
+        {% for user in staff %}
+            <tr>
+        {% set i = i + 1 %}
+                <td>{{ i }}</td>
+                <td>
+                    {% if 'ROLE_CLIENT_COMPANY' in user.roles %}
+                        <span class="label label-warning">Company User</span>
+                    {% else %}
+                        <span class="label label-info">Normal User</span>
+                    {% endif %}
+                </td>
+                <td>
+                {% if user.locked %}<span class="label">Locked</span>{% else %}<span class="label label-success">Normal</span>{% endif %}
+                </td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.surname }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.company }}</td>
+                <td>{{ user.address }}</td>
+                <td>{{ user.officePhone }}</td>
+                <td>{{ user.officeFax }}</td>
+        {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+    {% endif %}
+{% endblock %}

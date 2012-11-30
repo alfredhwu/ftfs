@@ -7,6 +7,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use FTFS\NotificationBundle\Container\Filter\EventCatchFilter;
 use FTFS\NotificationBundle\Container\Sender\Sender;
+use FTFS\ServiceBundle\Container\TicketTimer;
 
 use DateTime;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -23,12 +24,13 @@ class EventNotificationNotifier
     private $templating;
     private $eventCatchFilter;
     private $sender;
+    private $timer;
 
     // notification list waiting persist
     // add to this array all new notifications
     private $notifications;
 
-    public function __construct(EntityManager $entityManager, $templating, TranslatorInterface $translator, Router $router, EventCatchFilter $eventCatchFilter, Sender $sender)
+    public function __construct(EntityManager $entityManager, $templating, TranslatorInterface $translator, Router $router, EventCatchFilter $eventCatchFilter, Sender $sender, TicketTimer $timer)
     {
         $this->em = $entityManager;
         $this->translator = $translator;
@@ -36,6 +38,7 @@ class EventNotificationNotifier
         $this->router = $router;
         $this->eventCatchFilter = $eventCatchFilter;
         $this->sender = $sender;
+        $this->timer = $timer;
 
         $this->notifications = array();
     }
@@ -74,6 +77,8 @@ class EventNotificationNotifier
         switch($eventargs[1]) {
             case 'serviceticket':
                 $service_ticket = $this->getSubject('serviceticket', $eventlog->getAction());
+                $this->triggerTimer($eventlog, $service_ticket, $eventargs[2]);
+
                 // notify both client owner and assigned agent
                 switch($eventargs[2]) {
                     // ticket assigning message, only to group agent by default
@@ -86,11 +91,16 @@ class EventNotificationNotifier
                         if(!array_key_exists('change_set', $eventlog->getAction())) {
                             break;
                         }
-                    case 'opened':
-                    case 'closed':
                     case 'attachment_uploaded':
                     case 'attachment_deleteed':
-                    case 'observation_added':
+                    case 'opened':
+                    case 'closed':
+                    case 'reopened':
+                    case 'pended':
+                    case 'continued':
+                    case 'message_sended':
+                    case 'intervention_added':
+                    case 'logistics_added':
                         $this->registerNotifications($eventlog, $service_ticket->getRequestedBy());
                         if($service_ticket->getAssignedTo() && !$service_ticket->getAssignedTo()->isLocked()) {
                             $this->registerNotifications($eventlog, $service_ticket->getAssignedTo());
@@ -128,6 +138,56 @@ class EventNotificationNotifier
                 break;
             default:
                 throw new \Exception('Unknown event "'.$eventkey.'"');
+        }
+    }
+
+    /**
+     * trigger timer
+     */
+    public function triggerTimer(EventLog $eventlog, \FTFS\ServiceBundle\Entity\ServiceTicket $ticket, $event_type)
+    {
+        $quand = $eventlog->getActedAt();
+        $qui = $eventlog->getActor();
+        $quoi = '';
+        $reason = '';
+        //$ticket
+        $flag = '';
+        $alias = '';
+
+        $trigger = true;
+
+        switch($event_type) {
+            case 'created':
+                $action = $eventlog->getAction();
+                if($action['option']=='create.submit') {
+                    $quoi = 'ticket submitted'; 
+                    $reason = $ticket->getSummary();
+                    $flag = 'tic';
+                    $alias = 'at_submit';
+                }elseif($action['option']=='create.open') {
+                    $quoi = 'ticket opened'; 
+                    $reason = 'A ticket has been opened.';
+                    $flag = 'tic';
+                    $alias = 'at_open';
+                }
+                break;
+            case 'submitted':
+                    $quoi = 'ticket submitted'; 
+                    $reason = $ticket->getSummary();
+                    $flag = 'tic';
+                    $alias = 'at_submit';
+                break;
+            case 'opened':
+                    $quoi = 'ticket opened'; 
+                    $reason = 'The ticket has been opened.';
+                    $flag = 'tic';
+                    $alias = 'at_open';
+                break;
+            default:
+                $trigger = false;
+        }
+        if($trigger) {
+            $this->timer->trigger($quand, $qui, $quoi, $reason, $ticket, $flag, $alias);
         }
     }
 
@@ -179,6 +239,9 @@ class EventNotificationNotifier
                     'action' => $event_action,
                 )
             );
+
+            //throw new \Exception($eventargs[2].':'.$notifications['txt']);
+
             $notifications['html'] = $this->templating->render('FTFSNotificationBundle:Message:event_'.$eventargs[1].
                 '_'.$eventargs[2].'.html.twig', array(
                     'subject' => $service_ticket,
@@ -198,26 +261,33 @@ class EventNotificationNotifier
             $message['notifications'] = $notifications;
 
             // attachments 
+            $timer = $this->em->getRepository('FTFSServiceBundle:ServiceTicketTimer')->findByTicket($service_ticket->getName());
+
             $attachments[$service_ticket->getName().'.txt'] = array(
                 'content' => $this->templating->render('FTFSNotificationBundle:Message:message_service_ticket_info.txt.twig', array(
                     'subject' => $service_ticket,
+                    'timer' => $timer,
                 )),
                 'type' => 'text/plain',
             );
             $attachments[$service_ticket->getName().'.html'] = array(
                 'content' => $this->templating->render('FTFSNotificationBundle:Message:message_service_ticket_info.html.twig', array(
                     'subject' => $service_ticket,
+                    'timer' => $timer,
                 )),
                 'type' => 'text/html',
             );
             $message['attachments'] = $attachments;
+            //throw new \Exception(print_r($attachments));
 
             // emails
             $emails['txt'] = $this->templating->render('FTFSNotificationBundle:Message:notification_email_layout.txt.twig', array(
+                    'destinaire' => $notified_to,
                     'message_body' => $notifications['txt'],
                     'message_attachment' => $attachments[$service_ticket->getName().'.txt']['content'],
             ));
             $emails['html'] = $this->templating->render('FTFSNotificationBundle:Message:notification_email_layout.html.twig', array(
+                    'destinaire' => $notified_to,
                     'message_body' => $notifications['html'],
                     'message_attachment' => $attachments[$service_ticket->getName().'.html']['content'],
             ));
@@ -266,7 +336,9 @@ class EventNotificationNotifier
                 $notificationlog->setHtmlMessage(trim($message['notifications']['html']));
                 break;
             case 'email':
-                $notificationlog->setCc($service_ticket->getShareList());
+                if($notified_to == $service_ticket->getRequestedBy()) {
+                    $notificationlog->setCc($service_ticket->getShareList());
+                }
                 $notificationlog->setHtmlMessage(trim($message['emails']['html']));
                 $notificationlog->setTextMessage(trim($message['emails']['txt']));
                 if(array_key_exists('attachments', $message)) {

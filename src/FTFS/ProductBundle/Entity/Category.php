@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FTFS\ProductBundle\Entity\Category
  *
- * @ORM\Table(name="ftfs_config_product_category")
+ * @ORM\Table(name="ftfs_product_category")
  * @ORM\Entity
  */
 class Category
