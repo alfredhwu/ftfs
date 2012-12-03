@@ -1,6 +1,6 @@
 <div id="observation-list">
     <!-- new observation -->
-    <div id="observation-add-target" class="hide">
+    <div id="observation-add-target">
         <div id="observation-add-ajax">
         <!-- loaded by ajax -->
         {# 
@@ -66,11 +66,13 @@
     $('a.observation-add').click(function() {
 
         var add_to_id = $(this).attr('add-to-id');
+        var animation = ajax_animation($('#observation-add-target'));
 
         // loading observation form to 'div#observation-add-ajax'
         $.get("{{ path(prefix~'_observation_add', {'id' : entity.id }) }}", "add-to-id="+add_to_id, function(data) {
             $('#observation-add-target').hide();
             $('div#observation-add-ajax').html(data);
+            animation.remove();
             $('#observation-add-target').show();
         });
     });

@@ -305,6 +305,7 @@ class MyServiceController extends BaseController
         {
             // no restriction
             case 'new':
+            case 'print':
                 break;
             // any agent and client
             // restricted to its owner (assigned to) ant his share list and of cause all agents 
@@ -1171,20 +1172,42 @@ class MyServiceController extends BaseController
         $em = $this->getDoctrine()->getEntityManager();
         $ticket = $this->getEntity('observation_add', $id);
         $request = $this->get('request');
+
+        foreach($ticket->getDevices() as $device) {
+            $name = $device->getLocalSite();
+            $sites[$name] = $name;
+        }
+        $sites = array_unique($sites);
+
         $add_to_id = $request->get('add-to-id');
 
-        $container = array('observation' => 'observation detail');
+        $container = array(
+            'observation' => 'observation detail',
+            'intervention_agent' => $this->get('security.context')->getToken()->getUser(),
+            'intervention_from' => new \DateTime('now'),
+            'intervention_to' =>  new \DateTime('now'),
+        );
         $form = $this->createFormBuilder($container)
             // message
             ->add('message_message', 'textarea')
             // intervention
-            ->add('intervention_site', 'text')
-            ->add('intervention_agent', 'text')
-            ->add('intervention_from', 'text', array(
-                'required' => false,
+            ->add('intervention_site', 'choice', array(
+                'choices' => $sites,
             ))
-            ->add('intervention_to', 'text', array(
-                'required' => false,
+            ->add('intervention_category', 'choice', array(
+                'choices' => array(
+                    'telephone' => 'telephone',
+                    'in site' => 'in site',
+                ),
+            ))
+            ->add('intervention_agent', 'text')
+            ->add('intervention_from', 'datetime', array(
+                'date_widget' => 'single_text',
+                'time_widget' => 'choice',
+            ))
+            ->add('intervention_to', 'datetime', array(
+                'date_widget' => 'single_text',
+                'time_widget' => 'choice',
             ))
             ->add('intervention_report', 'textarea')
             // logistic
@@ -1236,6 +1259,7 @@ class MyServiceController extends BaseController
                     break;
                 case 'intervention':
                     $site = $data['intervention_site'];
+                    $category = $data['intervention_category'];
                     $from = $data['intervention_from'];
                     $to = $data['intervention_to'];
                     $agent = $data['intervention_agent'];
@@ -1243,7 +1267,10 @@ class MyServiceController extends BaseController
                     if($report == '') {
                         break;
                     }
+
+                    $content['type'] = $type;
                     $content['site'] = $site;
+                    $content['category'] = $category;
                     $content['from'] = $from;
                     $content['to'] = $to;
                     $content['agent'] = $agent;
@@ -1403,5 +1430,18 @@ class MyServiceController extends BaseController
             throw $this->createNotFoundException('Service ticket: '.$name.' not found !');
         }
         return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array('id' => $entity->getId())));
+    }
+
+    public function printAction($id)
+    {
+        $entity = $this->getEntity('print', $id);
+        $timer = $this->getDoctrine()->getEntityManager()
+            ->getRepository('FTFSServiceBundle:ServiceTicketTimer')
+            ->findByTicket($entity->getName());
+        return $this->render($this->getViewPath().':print.html.twig', array(
+            'subject' => $entity,
+            'timer' => $timer,
+        ));
+        
     }
 }

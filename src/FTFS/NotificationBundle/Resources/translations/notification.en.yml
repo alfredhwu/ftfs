@@ -62,6 +62,27 @@ ftfs_notification_key.event.serviceticket:
     opened: 
         auto:   'Confirm me when I opened a service ticket for a client'
         other:  'Inform me when my service ticket has been confirmed and opened'
+    pended: 
+        auto:   'Confirm me when I pended a service ticket for a client'
+        other:  'Inform me when my service ticket has been confirmed and pended'
+    continued: 
+        auto:   'Confirm me when I continued a service ticket for a client'
+        other:  'Inform me when my service ticket has been confirmed and continued'
+    reopened: 
+        auto:   'Confirm me when I reopened a service ticket for a client'
+        other:  'Inform me when my service ticket has been confirmed and reopened'
+    message_sended: 
+        auto:   'Confirm me when I send a message'
+        other:  'Inform me when I receive a message'
+    intervention_added: 
+        auto:   'Confirm me when I add an intervention report'
+        other:  'Inform me when others add an intervention report to my ticket'
+    logistics_addes: 
+        auto:   'Confirm me when I add a logistics record'
+        other:  'Inform me when others add a logistics record to my ticket'
+    attachment_removed: 
+        auto:   'Confirm me when I remove an attachment'
+        other:  'Inform me when others remove an attachment from my ticket'
     closed: 
         auto:   'Confirm me when I closed a service ticket for a client'
         other:  'Inform me when my service ticket has been closed'

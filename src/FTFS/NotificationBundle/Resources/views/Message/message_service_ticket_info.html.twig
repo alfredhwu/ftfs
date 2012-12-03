@@ -1,4 +1,4 @@
-<table width='75%' border='1' cellpadding='0' cellspacing='0' style='font-size:14px'>
+<table border='1' cellpadding='0' cellspacing='0' style='font-size:14px'>
     <!-- general service ticket info ------------------------------------------------------------>
     <tr bgcolor="#EEEEEE">
         <th colspan=2>General Information</th>
@@ -108,8 +108,8 @@
         {% for ob in subject.observations | reverse if ob.content['type'] == 'intervention' %}
         {% set content = ob.content %}
         <tr>
-            <th>{{ content.from }}</th>
-            <td>{{ content.agent }} finished an investigation at {{ content.site }} from {{ content.from }} to {{ content.to }}. {{ content.report }}</td>
+            <th>{{ content.from | date('Y-m-d H:i:s') }}</th>
+            <td>{{ content.agent }} finished an investigation at {{ content.site }} from {{ content.from | date('Y-m-d H:i:s') }} to {{ content.to | date('Y-m-d H:i:s') }}. {{ content.report }}</td>
         </tr>
         {% endfor %}
     {% elseif subject.service.id == 2 %}

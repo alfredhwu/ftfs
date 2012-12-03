@@ -2,9 +2,9 @@
 <div> 
     <ul id="observation-add-tab" class="nav nav-tabs">
         <li class="active"><a href="#message" data-toggle="tab">Message</a></li>
-        {% if is_granted('ROLE_AGENT') %}
+        {% if app.user.isAgent() %}
             {% if ticket.service.id == 1 %}
-            <li><a href="#intervention" data-toggle="tab">Intervention</a></li>
+            <li><a href="#intervention" data-toggle="tab">Investigation</a></li>
             {% elseif ticket.service.id == 2%}
             <li><a href="#logistic" data-toggle="tab">Logistic</a></li>
             {% endif %}
@@ -19,30 +19,20 @@
                 <input type="submit" class="btn btn-primary">
             </form>
         </div>
-        {% if is_granted('ROLE_AGENT') %}
+        {% if app.user.isAgent() %}
             {% if ticket.service.id == 1 %}
             <div class="tab-pane fade" id="intervention">
-                <form action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
+                <form class="form-horizontal" action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
                     {{ form_row(observation_add_form.intervention_site) }}
-                    <div class="control-group">
-                        <label class="control-label">Time of intervention:</label>
-                        <div class="controls">
-                            <span class="input-prepend">
-                                <span class="add-on">from</span>{{ form_widget(observation_add_form.intervention_from, { 'attr': {
-                                    'class' : 'span2 datepicker-from'
-                                    } }) }}
-                            </span>
-                            <span class="input-prepend">
-                                <span class="add-on">to</span>{{ form_widget(observation_add_form.intervention_to, { 'attr': {
-                                    'class' : 'span2 datepicker-to'
-                                    } }) }}
-                            </span>
-                        </div>
-                    </div>
+                    {{ form_row(observation_add_form.intervention_category) }}
+                    {{ form_row(observation_add_form.intervention_from) }}
+                    {{ form_row(observation_add_form.intervention_to) }}
                     {{ form_row(observation_add_form.intervention_agent) }}
                     {{ form_row(observation_add_form.intervention_report) }}
                     <input type="hidden" name="type" value="intervention">
-                    <input type="submit" class="btn btn-primary">
+                    <div class="form-actions">
+                        <input type="submit" class="btn btn-primary">
+                    </div>
                 </form>
             </div>
             {% elseif ticket.service.id == 2%}
@@ -85,7 +75,7 @@
         selectOtherMonths: true,
         numberOfMonth: 1,
     });
-    $('input.datepicker-from').datepicker({
+    $('input#form_intervention_from_date').datepicker({
         defaultDate: 0,
         changeMonth: true,
         changeYear: true,
@@ -93,7 +83,7 @@
         selectOtherMonths: true,
         numberOfMonth: 1,
         onClose: function(selectedDate) {
-            var to = $('input.datepicker-to');
+            var to = $('input#form_intervention_to_date');
             if(to.val() == '') {
                 to.val($(this).val());
             }else{
@@ -101,7 +91,7 @@
             }
         }
     });
-    $('input.datepicker-to').datepicker({
+    $('input#form_intervention_to_date').datepicker({
         defaultDate: 0,
         changeMonth: true,
         changeYear: true,
@@ -109,7 +99,7 @@
         selectOtherMonths: true,
         numberOfMonth: 1,
         onClose: function(selectedDate) {
-            var from = $('input.datepicker-from');
+            var from = $('input#form_intervention_from_date');
             if(from.val() == '') {
                 from.val($(this).val());
             }else{
