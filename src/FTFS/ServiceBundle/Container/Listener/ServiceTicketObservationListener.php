@@ -39,7 +39,7 @@ class ServiceTicketObservationListener
     }
 
 
-    public function prePersist(LifecycleEventArgs $args)
+    public function postPersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();
@@ -82,7 +82,6 @@ class ServiceTicketObservationListener
                     $ignore = true;
             }
 
-            //$action_name = $action['name'];
             if(!$ignore) {
                 // create fictif ticket
                 $action = $this->generateAction($action_name, $entity->getTicket(), $entityManager);
@@ -92,6 +91,7 @@ class ServiceTicketObservationListener
                 }else{
                     $action['observation_to'] = null;
                 }
+                //throw new \Exception($type);
                 $this->notify('event.serviceticket.'.$action_name, $action);
             }
         }
@@ -122,7 +122,7 @@ class ServiceTicketObservationListener
             case 'reopened':
                 $quoi = 'ticket reopened';
                 $reason = $content['reason'];
-                $flag = 'tic';
+                $flag = '';
                 $alias = 'at_reopen';
                 break;
             case 'pended':
@@ -142,6 +142,17 @@ class ServiceTicketObservationListener
                 $reason = 'We have closed your ticket. Please refer to the close report.';
                 $flag = 'tac';
                 $alias = 'at_close';
+                break;
+            case 'intervention_added':
+                $reason = $content['report'];
+                $flag = '';
+                if($content['category']==='telephone') {
+                    $quoi = 'telephone investigation added';
+                    $alias = 'at_investigation_telephone';
+                }else{
+                    $quoi = 'in site investigation added';
+                    $alias = 'at_investigation_in_site';
+                }
                 break;
             default:
                 $trigger = false;

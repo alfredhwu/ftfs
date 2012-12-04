@@ -59,7 +59,7 @@ Investigation
 --------------------------------------------------------
 {% for ob in subject.observations | reverse if ob.content['type'] == 'intervention' %}
 {% set content = ob.content %}
-{{ content.from }}@{{ content.site }} {{ content.agent }} finished an investigation from {{ content.from }} to {{ content.to }}. {{ content.report }}
+{{ content.from | date('Y-m-d H:i:s') }}@{{ content.site }} {{ content.agent }} finished an investigation from {{ content.from | date('Y-m-d H:i:s') }} to {{ content.to | date('Y-m-d H:i:s') }}. {{ content.report }}
 {% endfor %}
 ========================================================
 {% elseif subject.service.id == 2 %}

@@ -14,4 +14,4 @@ services:
         class: FTFS\ServiceBundle\Container\Listener\ServiceTicketObservationListener
         arguments:  [@service_container]
         tags:
-            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: postPersist }

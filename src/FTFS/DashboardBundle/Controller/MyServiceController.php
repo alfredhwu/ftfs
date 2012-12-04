@@ -617,19 +617,19 @@ class MyServiceController extends BaseController
             if($action_form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
 
-                // message to client
-                $message = new \FTFS\ServiceBundle\Entity\ServiceTicketObservation;
-                $message->setSendAt(new \DateTime('now'));
-                $message->setSendBy($this->get('security.context')->getToken()->getUser());
-                $message->setTicket($entity);
+                // observation to client
+                $observation = new \FTFS\ServiceBundle\Entity\ServiceTicketObservation;
+                $observation->setSendAt(new \DateTime('now'));
+                $observation->setSendBy($this->get('security.context')->getToken()->getUser());
                 $data = $action_form->getData();
                 $content['type'] = 'reopen';
-                $content['timer'] = 'reopen'; // reg in timer log
+                $content['timer'] = 'reopened'; // reg in timer log
                 $content['reason'] = $data['reason'];
-                $message->setContent($content);
+                $observation->setContent($content);
 
+                $observation->setTicket($entity);
                 $entity->setStatus('reopened');
-                $em->persist($message);
+                $em->persist($observation);
                 $this->flushEntity($entity, 'reopen');
             }
             return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
@@ -669,7 +669,6 @@ class MyServiceController extends BaseController
                 $closure_report = new \FTFS\ServiceBundle\Entity\ServiceTicketObservation;
                 $closure_report->setSendAt(new \DateTime('now'));
                 $closure_report->setSendBy($this->get('security.context')->getToken()->getUser());
-                $closure_report->setTicket($entity);
                 $content = array();
                 $content['type'] = 'close_report';
                 $content['timer'] = 'closed';
@@ -677,6 +676,8 @@ class MyServiceController extends BaseController
                 $content['report'] = $data['report'];
                 $closure_report->setContent($content);
 
+                $closure_report->setTicket($entity);
+                //$entity->addServiceTicketObservation($observation);
                 $entity->setStatus('closed');
                 $em->persist($closure_report);
                 $this->flushEntity($entity, 'close');
@@ -720,7 +721,6 @@ class MyServiceController extends BaseController
                 $observation = new \FTFS\ServiceBundle\Entity\ServiceTicketObservation;
                 $observation->setSendAt(new \DateTime('now'));
                 $observation->setSendBy($this->get('security.context')->getToken()->getUser());
-                $observation->setTicket($entity);
                 $content = array();
                 $content['type'] = 'pend';
                 $content['timer'] = 'pended'; // reg in timer log
@@ -728,6 +728,8 @@ class MyServiceController extends BaseController
                 $content['reason'] = $data['reason'];
                 $observation->setContent($content);
 
+                $observation->setTicket($entity);
+                //$entity->addServiceTicketObservation($observation);
                 $entity->setPending(true);
                 $this->getDoctrine()->getEntityManager()->persist($observation);
                 $this->flushEntity($entity, 'pend');
@@ -771,7 +773,6 @@ class MyServiceController extends BaseController
                 $observation = new \FTFS\ServiceBundle\Entity\ServiceTicketObservation;
                 $observation->setSendAt(new \DateTime('now'));
                 $observation->setSendBy($this->get('security.context')->getToken()->getUser());
-                $observation->setTicket($entity);
                 $content = array();
                 $content['type'] = 'continue';
                 $content['timer'] = 'continued'; // reg in timer log
@@ -779,6 +780,8 @@ class MyServiceController extends BaseController
                 $content['reason'] = $data['reason'];
                 $observation->setContent($content);
 
+                //$entity->addServiceTicketObservation($observation);
+                $observation->setTicket($entity);
                 $entity->setPending(false);
                 $this->getDoctrine()->getEntityManager()->persist($observation);
                 $this->flushEntity($entity, 'continue');
@@ -1271,6 +1274,7 @@ class MyServiceController extends BaseController
                     $content['type'] = $type;
                     $content['site'] = $site;
                     $content['category'] = $category;
+                    $content['timer'] = 'intervention_added';
                     $content['from'] = $from;
                     $content['to'] = $to;
                     $content['agent'] = $agent;

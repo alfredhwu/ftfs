@@ -30,10 +30,13 @@ class TicketTimer
         $timer->setQui($qui);
         $timer->setQuoi($quoi);
         $timer->setPourquoi($pourquoi);
-        $timer->setTicket($ticket);
         $timer->setFlag($flag);  // tic, tac
         $timer->setAlias($alias); // at_submit, at_open, at_close
+
+        $timer->setTicket($ticket);
+        //throw new \Exception($quoi);
         $this->em->persist($timer);
+        $this->em->flush();
 //        throw new \Exception($quand->format('Y-m-d H:i:s'));
     }
 }

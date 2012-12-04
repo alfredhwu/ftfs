@@ -3,10 +3,10 @@
 {% block crud_actions_icons %}
     {% if read_only is null or not read_only %}
         {% if entity.status == 'created' %}
-            <a class="btn btn-small" href="{{ path(prefix~'_submit', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.submit.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+            <a class="btn btn-small crud-action" href="#" crud-toggle="{{ path(prefix~'_submit', { 'id' : entity.id }) }}" crud-message="{{ (prefix~'.show.submit.message')|trans({}, 'crud') }}" rel="tooltip" title="{{ (prefix~'.form.action.show.submit.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
                 <i class="icon-envelope"></i>
             </a>
-            <a class="btn btn-small" href="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.delete.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+            <a class="btn btn-small crud-action" href="#" crud-toggle="{{ path(prefix~'_delete', { 'id' : entity.id }) }}" crud-message="{{ (prefix~'.show.delete.message')|trans({}, 'crud') }}" rel="tooltip" title="{{ (prefix~'.form.action.show.delete.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
                 <i class="icon-trash"></i>
             </a>
         {% elseif entity.pending %}

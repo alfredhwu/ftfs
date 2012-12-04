@@ -77,6 +77,8 @@ class EventNotificationNotifier
         switch($eventargs[1]) {
             case 'serviceticket':
                 $service_ticket = $this->getSubject('serviceticket', $eventlog->getAction());
+                // trigger timer by ticket listner
+                // created, submitted, opened
                 $this->triggerTimer($eventlog, $service_ticket, $eventargs[2]);
 
                 // notify both client owner and assigned agent
@@ -169,6 +171,8 @@ class EventNotificationNotifier
                     $reason = 'A ticket has been opened.';
                     $flag = 'tic';
                     $alias = 'at_open';
+                }else{
+                    $trigger = false;
                 }
                 break;
             case 'submitted':
@@ -180,7 +184,7 @@ class EventNotificationNotifier
             case 'opened':
                     $quoi = 'ticket opened'; 
                     $reason = 'The ticket has been opened.';
-                    $flag = 'tic';
+                    $flag = '';
                     $alias = 'at_open';
                 break;
             default:
