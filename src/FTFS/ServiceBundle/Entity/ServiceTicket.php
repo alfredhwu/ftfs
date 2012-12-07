@@ -160,6 +160,12 @@ class ServiceTicket
     private $observations;
 
     /**
+     * @var array $indicators
+     * @ORM\Column(name="indicators", type="array")
+     */
+    private $indicators;
+
+    /**
      * Get __toString
      *
      * @return string 
@@ -174,6 +180,7 @@ class ServiceTicket
         $this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
         $this->share_list = array();
+        $this->indicators = array();
         $this->setPending(false);
     }
 
@@ -642,5 +649,25 @@ class ServiceTicket
     public function getPending()
     {
         return $this->pending;
+    }
+
+    /**
+     * Set indicators
+     *
+     * @param array $indicators
+     */
+    public function setIndicators($indicators)
+    {
+        $this->indicators = $indicators;
+    }
+
+    /**
+     * Get indicators
+     *
+     * @return array 
+     */
+    public function getIndicators()
+    {
+        return $this->indicators;
     }
 }

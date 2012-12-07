@@ -1,0 +1,16 @@
+parameters:
+#    ftfs_statistics.example.class: FTFS\StatisticsBundle\Example
+
+services:
+#    ftfs_statistics.example:
+#        class: %ftfs_statistics.example.class%
+
+    ftfs_statisticsbundle.service_ticket_listener:
+        class: FTFS\StatisticsBundle\Container\Listener\ServiceTicketListener
+        arguments:  [@service_container]
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+
+    ftfs_statisticsbundle.performance_observer:
+        class: FTFS\StatisticsBundle\Container\PerformanceObserver
+        arguments:  [@doctrine.orm.entity_manager]

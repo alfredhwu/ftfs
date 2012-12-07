@@ -33,7 +33,7 @@
         {% endif %}
     {% endif %}
     {% if entity.status == 'closed' %}
-        <a class="btn btn-small" href="{{ path(prefix~'_reopen', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.table.action.reopen.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+        <a class="btn btn-small" href="{{ path(prefix~'_reopen', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.reopen.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-folder-open"></i>
         </a>
     {% endif %}

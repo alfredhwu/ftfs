@@ -19,7 +19,7 @@
             </a>
             {% endif %}
         {% endif %}
-        <a class="btn btn-small" target="_black" href="{{ path(prefix~'_print', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.print.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
+        <a class="btn btn-small" target="_blank" href="{{ path(prefix~'_print', { 'id' : entity.id }) }}" rel="tooltip" title="{{ (prefix~'.form.action.show.print.tooltip')|trans({}, 'crud') }}" data-placement="bottom">
             <i class="icon-print"></i>
         </a>
         <strong class="btn">{{ (prefix~'.form.legend.show')|trans({}, 'crud') }}</strong>

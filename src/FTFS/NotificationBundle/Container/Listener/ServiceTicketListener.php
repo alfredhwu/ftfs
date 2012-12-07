@@ -21,14 +21,19 @@ class ServiceTicketListener
         $this->container = $container;
     }
 
+    // helper: calling notification services
     private function notify($event_key, array $action)
     {
-        // notify all relatives by passing throw and catch filters
-        $current_user = $this->container->get('security.context')->getToken()->getUser();
+        /*
         $this->container->get('ftfs_notification.notifier.event_registration_notifier')
             ->register($event_key, $current_user, $action);
+         */
+        $actor = $this->container->get('security.context')->getToken()->getUser();
+        $this->container->get('ftfs_notification.event_notifier')
+            ->notify($event_key, $actor, $action);
     }
 
+    // helper: generating new action
     private function generateAction($action_name, $entity, $entityManager)
     {
         $action['name'] = $action_name;
@@ -37,10 +42,10 @@ class ServiceTicketListener
         //$action['serviceticket_id'] = $metadata->getIdentifierValues($entity);
         //$action['serviceticket_id'] = $entity->getName();
         $action['serviceticket_name'] = $entity->getName();
-        //throw new \Exception($entity->getName());
         return $action;
     }
 
+    // lister ///////////////////////////////////////////////////////////////////////////
     public function postLoad(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
@@ -57,6 +62,67 @@ class ServiceTicketListener
 
         if($entity instanceof ServiceTicket) {
         }
+
+        // listen ServiceTicketObservation new entity
+        // event trigger by new ServiceTicketObservation persist
+        if($entity instanceof ServiceTicketObservation) {
+            // if timer trigger observation
+            $content = $entity->getContent();
+
+            // event type redirection
+            // defined in observation.content.type
+            // in order to prevent duplication, ignore the same event in the ServiceTicket notification
+            $ignore = false;
+            switch($content['type']) {
+                case 'message':
+                    $action_name = 'message_sended';
+                    break;
+                case 'intervention':
+                    $action_name = 'intervention_added';
+                    break;
+                case 'logistics':
+                    $action_name = 'logistics_added';
+                    break;
+                case 'pend':
+                    $action_name = 'pended';
+                    break;
+                case 'continue':
+                    $action_name = 'continued';
+                    break;
+                case 'close_report':
+                    $action_name = 'closed';
+                    break;
+                case 'reopen':
+                    $action_name = 'reopened';
+                    break;
+                default:
+                    $ignore = true;
+            }
+
+            if(!$ignore) {
+                // create fictif ticket
+                $action = $this->generateAction($action_name, $entity->getTicket(), $entityManager);
+                $action['observation'] = $entity->getContent(); 
+                if($entity->getAttachTo()) {
+                    $action['observation_to'] = $entity->getAttachTo()->getSendBy();
+                }else{
+                    $action['observation_to'] = null;
+                }
+                //throw new \Exception($type);
+                $this->notify('event.serviceticket.'.$action_name, $action);
+            }
+        }
+
+        // listen ServiceTicketAttachment new entity
+        // event trigger by new ServiceTicketObservation persist
+        if($entity instanceof ServiceTicketAttachment) {
+            $action = $this->generateAction('attachment_uploaded', $entity->getTicket(), $entityManager);
+            $action_name = $action['name'];
+            $action['attachment_name'] = $entity->getName(); 
+            $this->notify('event.serviceticket.'.$action_name, $action);
+        }
+
+        // ToDo: possibly devices listner here
     }
 
     public function prePersist(LifecycleEventArgs $args)
@@ -64,8 +130,12 @@ class ServiceTicketListener
         $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();
 
+        // listen ServiceTicket new entity
         if($entity instanceof ServiceTicket) {
+
+            /*
             $action = $this->generateAction('created', $entity, $entityManager);
+            // redirect creation event
             switch($entity->getStatus()) {
                 case 'submitted':
                     $option = 'create.submit';
@@ -76,52 +146,38 @@ class ServiceTicketListener
                 default:
                     $option = 'create.only';
             }
-            if($option) {
-                $action['option']=$option;
-                $action['serviceticket_status']=$entity->getStatus();
-                $action['serviceticket_last_modified_at']=$entity->getLastModifiedAt();
-                $action['serviceticket_requested_at']=$entity->getRequestedAt();
-                $action['serviceticket_requested_by']=$entity->getRequestedBy()->getId();
-                $action['serviceticket_summary']=$entity->getSummary();
-                $action['serviceticket_detail']=$entity->getDetail();
-                $action['serviceticket_service']=$entity->getService();
-                $action['serviceticket_severity']=$entity->getSeverity();
-                $action['serviceticket_priority']=$entity->getPriority();
-                $action['serviceticket_assigned_to']=$entity->getAssignedTo()?$entity->getAssignedTo()->getId():-1;
-                $action_name = $action['name'];
-                $this->notify('event.serviceticket.'.$action_name, $action);
+             */
+            switch($entity->getStatus()) {
+                case 'submitted':
+                    $option = 'create.submit';
+                    $action = $this->generateAction('submitted', $entity, $entityManager);
+                    break;
+                case 'opened':
+                    $option = 'create.open';
+                    $action = $this->generateAction('opened', $entity, $entityManager);
+                    break;
+                default:
+                    $option = 'create.only';
+                    $action = $this->generateAction('created', $entity, $entityManager);
             }
-        }
 
-        if($entity instanceof ServiceTicketAttachment) {
-            $action = $this->generateAction('attachment_uploaded', $entity->getTicket(), $entityManager);
+            // stocking for generating a pseudo entity later
+            // otherwise, probleme with transferation of entity
+            $action['option']=$option;
+            $action['serviceticket_status']=$entity->getStatus();
+            $action['serviceticket_last_modified_at']=$entity->getLastModifiedAt();
+            $action['serviceticket_requested_at']=$entity->getRequestedAt();
+            $action['serviceticket_requested_by']=$entity->getRequestedBy()->getId();
+            $action['serviceticket_summary']=$entity->getSummary();
+            $action['serviceticket_detail']=$entity->getDetail();
+            $action['serviceticket_service']=$entity->getService();
+            $action['serviceticket_severity']=$entity->getSeverity();
+            $action['serviceticket_priority']=$entity->getPriority();
+            $action['serviceticket_assigned_to']=$entity->getAssignedTo()?$entity->getAssignedTo()->getId():-1;
             $action_name = $action['name'];
-            $action['attachment_name'] = $entity->getName(); 
+
             $this->notify('event.serviceticket.'.$action_name, $action);
         }
-
-        /*
-        if($entity instanceof ServiceTicketObservation) {
-            //throw new \Exception('coucou');
-            $action = $this->generateAction('observation_added', $entity->getTicket(), $entityManager);
-            $action['observation'] = $entity->getContent(); 
-
-            $type = $action['observation']['type'];
-            throw new \Exception($type);
-            switch($type) {
-                case 'message':
-                case 'intervention':
-                case 'logistics':
-            }
-            if($entity->getAttachTo()) {
-                $action['observation_to'] = $entity->getAttachTo()->getSendBy();
-            }else{
-                $action['observation_to'] = null;
-            }
-            $action_name = $action['name'];
-            $this->notify('event.serviceticket.'.$action_name, $action);
-        }
-         */
     }
 
     public function preUpdate(PreUpdateEventArgs $args)
@@ -143,7 +199,7 @@ class ServiceTicketListener
             }elseif($session->has('change_set['.$entity->getName().']')) {
                 $session->remove('change_set['.$entity->getName().']');
             }
-            $test = $session->get('change_set['.$entity->getName().']');
+            //$test = $session->get('change_set['.$entity->getName().']');
  //           throw new \Exception($test['service'][1]);
         }
     }
@@ -156,6 +212,7 @@ class ServiceTicketListener
         if($entity instanceof ServiceTicket) {
             $session =  $this->container->get('session');
             if($session->has('change_set['.$entity->getName().']')) {
+
                 $change_set = $session->get('change_set['.$entity->getName().']');
                 
                 if(array_key_exists('status', $change_set)){
@@ -175,12 +232,13 @@ class ServiceTicketListener
                 }
 
                 // ignore the following event;
-                // rendering in observationlistener
+                // notified in postPersist(), ServiceTicketObservation listener
                 if(!in_array($action['name'], array('closed', 'reopened', 'pended', 'continued', 'share_list_updated'))) {
                     $action_name = $action['name'];
                     $action['change_set'] = $change_set;
                     $this->notify('event.serviceticket.'.$action_name, $action);
                 }
+
                 $session->remove('change_set['.$entity->getName().']');
             }
         }

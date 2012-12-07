@@ -1,3 +1,10 @@
+{% if indicators | length > 0 %}
+<ul>
+    {% for key, indicator in indicators %}
+    <li>{{ key }} : {{ indicator.format('%a days, %H h %I m %S s') }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 {% if timers | length > 0 %}
 <table class="table table-stripped table-condensed table-bordered table-smart">
     <tr>

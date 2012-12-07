@@ -97,6 +97,7 @@ ftfs_dashboardbundle_myservice:
                 print.tooltip:      "Print this service request"
                 print.success.flash:   "Printed successfully"
                 submit:             "Submit"
+                submit.confirm:     "Do you really want to submit this service ticket ?"
                 submit.tooltip:     "Submit this service request"
                 submit.success.flash:   "Request submitted successfully"
                 delete:             "Delete"
@@ -125,6 +126,7 @@ ftfs_dashboardbundle_myservice:
                 reopen.tooltip:     "Reopen this service request"
                 reopen.confirm:     "Really want to reopen the service ticket?"
                 reopen.success.flash:   "Service reopened successfully"
+                print.tooltip:      "Print this Ticket"
             new:
                 new_only:           "Save without send"
                 new_only.tooltip:   "Save without Send"

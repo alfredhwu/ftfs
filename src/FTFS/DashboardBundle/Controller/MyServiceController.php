@@ -316,6 +316,7 @@ class MyServiceController extends BaseController
                     ->getRepository('FTFSServiceBundle:RMA')->findOneByTicket($entity->getId());
                 if($rma) {
                     $this->setMeta('rma', $rma->getName());
+                    throw new \Exception('debug');
                 }
             case 'attachment_download':
                 if($context->isGranted('ROLE_AGENT'))
@@ -623,7 +624,6 @@ class MyServiceController extends BaseController
                 $observation->setSendBy($this->get('security.context')->getToken()->getUser());
                 $data = $action_form->getData();
                 $content['type'] = 'reopen';
-                $content['timer'] = 'reopened'; // reg in timer log
                 $content['reason'] = $data['reason'];
                 $observation->setContent($content);
 
@@ -654,9 +654,25 @@ class MyServiceController extends BaseController
     {
         $entity = $this->getEntity('close', $id);
 
+        $observer = $this->get('ftfs_statisticsbundle.performance_observer');
+        $indicators = $observer->getServiceTicketIndicators($entity);
+
         $container = array('closure_report' => 'closure_report detail');
+        foreach($indicators as $key => $indicator) {
+            /*
+            if($indicator instanceof \DateInterval){
+                $indicators[$key] = $indicator->format('%a days %H h %I m %S s');
+            }
+             */
+            $container[$key] = $indicator->format('%a days %H h %I m %S s');
+        }
+
         $action_form = $this->createFormBuilder($container)
             ->add('report', 'textarea')
+            ->add('gross_delay_open')
+            ->add('gross_delay_close')
+            ->add('gross_delay_first_telephone')
+            ->add('gross_delay_first_on_site')
             ->getForm();
 
         $request = $this->getRequest();
@@ -671,10 +687,27 @@ class MyServiceController extends BaseController
                 $closure_report->setSendBy($this->get('security.context')->getToken()->getUser());
                 $content = array();
                 $content['type'] = 'close_report';
-                $content['timer'] = 'closed';
                 $data = $action_form->getData();
                 $content['report'] = $data['report'];
                 $closure_report->setContent($content);
+
+                // performance
+                $indicators = array();
+                //throw new \Exception(print_r(new \DateInterval('P4Y2M33DT3H4M5S')));
+                $p = sscanf(strtolower($data['gross_delay_open']), '%d days %d h %d m %d s');
+                $indicators['gross_delay_open'] = new \DateInterval('P'.$p[0].'DT'.$p[1].'H'.$p[2].'M'.$p[3].'S');
+
+                $p = sscanf(strtolower($data['gross_delay_close']), '%d days %d h %d m %d s');
+                $indicators['gross_delay_close'] = new \DateInterval('P'.$p[0].'DT'.$p[1].'H'.$p[2].'M'.$p[3].'S');
+
+                $p = sscanf(strtolower($data['gross_delay_first_telephone']), '%d days %d h %d m %d s');
+                $indicators['gross_delay_first_telephone'] = new \DateInterval('P'.$p[0].'DT'.$p[1].'H'.$p[2].'M'.$p[3].'S');
+
+                $p = sscanf(strtolower($data['gross_delay_first_on_site']), '%d days %d h %d m %d s');
+                $indicators['gross_delay_first_on_site'] = new \DateInterval('P'.$p[0].'DT'.$p[1].'H'.$p[2].'M'.$p[3].'S');
+
+                //throw new \Exception(print_r($indicators));
+                $entity->setIndicators($indicators);
 
                 $closure_report->setTicket($entity);
                 //$entity->addServiceTicketObservation($observation);
@@ -723,7 +756,6 @@ class MyServiceController extends BaseController
                 $observation->setSendBy($this->get('security.context')->getToken()->getUser());
                 $content = array();
                 $content['type'] = 'pend';
-                $content['timer'] = 'pended'; // reg in timer log
                 $data = $action_form->getData();
                 $content['reason'] = $data['reason'];
                 $observation->setContent($content);
@@ -775,7 +807,6 @@ class MyServiceController extends BaseController
                 $observation->setSendBy($this->get('security.context')->getToken()->getUser());
                 $content = array();
                 $content['type'] = 'continue';
-                $content['timer'] = 'continued'; // reg in timer log
                 $data = $action_form->getData();
                 $content['reason'] = $data['reason'];
                 $observation->setContent($content);
@@ -1200,16 +1231,18 @@ class MyServiceController extends BaseController
             ->add('intervention_category', 'choice', array(
                 'choices' => array(
                     'telephone' => 'telephone',
-                    'in site' => 'in site',
+                    'on site' => 'on site',
                 ),
             ))
             ->add('intervention_agent', 'text')
             ->add('intervention_from', 'datetime', array(
                 'date_widget' => 'single_text',
+                'date_format' => 'MM/dd/yyyy',
                 'time_widget' => 'choice',
             ))
             ->add('intervention_to', 'datetime', array(
                 'date_widget' => 'single_text',
+                'date_format' => 'MM/dd/yyyy',
                 'time_widget' => 'choice',
             ))
             ->add('intervention_report', 'textarea')
@@ -1274,7 +1307,6 @@ class MyServiceController extends BaseController
                     $content['type'] = $type;
                     $content['site'] = $site;
                     $content['category'] = $category;
-                    $content['timer'] = 'intervention_added';
                     $content['from'] = $from;
                     $content['to'] = $to;
                     $content['agent'] = $agent;
@@ -1404,6 +1436,7 @@ class MyServiceController extends BaseController
         );
 
         return $this->render('FTFSServiceBundle:ServiceTicketTimer:content.html.twig', array(
+            'indicators' => $entity->getIndicators(),
             'timers' => $timers,
             'prefix' => $this->getRoutingPrefix(),
         ));

@@ -51,7 +51,7 @@ class EventLog
      */
     private $action;
 
-    public function __construct(Event $event, UserInterface $actor = null, DateTime $acted_at = null, array $action = null)
+    public function __construct(Event $event, UserInterface $actor = null, array $action = null, DateTime $acted_at = null)
     {
         $this->event = $event;
         $this->actor = $actor;

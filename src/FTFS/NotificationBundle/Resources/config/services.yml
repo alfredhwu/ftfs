@@ -1,40 +1,27 @@
 services:
-    ## service ticket listener
-    #   trigger event in life cycle call back
+    ## event notification trigger ################################################################## 
+    # listener for ServiceTicket, ServiceTicketObservation, ServiceTicketAttachment, etc.
     ftfs_notification.listener.service_ticket_listener:
         class:  FTFS\NotificationBundle\Container\Listener\ServiceTicketListener
         arguments:  [@service_container]
         tags:
-            #- { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: postUpdate }
             - { name: doctrine.event_listener, event: postLoad }
 
-    ## register an event
-    ftfs_notification.notifier.event_registration_notifier:
-        class:  FTFS\NotificationBundle\Container\Notifier\EventRegistrationNotifier
-        arguments:  [@doctrine.orm.entity_manager]
+    ## notifier ####################################################################################
+    ftfs_notification.event_notifier:
+        class:  FTFS\NotificationBundle\Container\Notifier\EventNotifier
+        arguments:  [@doctrine.orm.entity_manager, @templating, @translator, @router, @ftfs_notification.filter.event_catch_filter, @ftfs_notification.sender.sender]
 
-    ## listner the event registration, once registered -> trigger notification_notifier
-    ftfs_notification.listener.event_registration_listener:
-        class:  FTFS\NotificationBundle\Container\Listener\EventRegistrationListener
-        arguments:  [@service_container]
-        tags:
-            - { name: doctrine.event_listener, event: prePersist }
-    
-    ## triggered by event registration listner, using the event_catch_filter to notify the destinare
-    #  once notified -> trigger notification_sender
-    ftfs_notification.notifier.event_notification_notifier:
-        class:  FTFS\NotificationBundle\Container\Notifier\EventNotificationNotifier
-        arguments:  [@doctrine.orm.entity_manager, @templating, @translator, @router, @ftfs_notification.filter.event_catch_filter, @ftfs_notification.sender.sender, @ftfs_servicebundle.ticket_timer]
-
-    ## filter
+    ## filter 
     ftfs_notification.filter.event_catch_filter:
         class:  FTFS\NotificationBundle\Container\Filter\EventCatchFilter
         arguments:  [@doctrine.orm.entity_manager]
 
-    ## sender
+    ## sender 
     ftfs_notification.sender.sender:
         class:  FTFS\NotificationBundle\Container\Sender\Sender
         arguments:  [[]]

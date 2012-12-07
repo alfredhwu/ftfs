@@ -9,6 +9,10 @@ class MyCompanyController extends Controller
 {
     public function statisticsIndexAction()
     {
+        $performance = $this->get('ftfs_statisticsbundle.performance_observer');
+
+        $current_user = $this->get('security.context')->getToken()->getUser();
+        $statistics = $performance->getStatisticsByClient($current_user);
         return $this->render('FTFSDashboardBundle:MyCompany:statistics_index.html.twig', array(
         ));
     }
