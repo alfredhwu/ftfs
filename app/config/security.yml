@@ -33,21 +33,27 @@ security:
             switch_user: { role: ROLE_ALLOWED_TO_SWITCH, parameter: _su } 
 
     access_control:
-       # - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-       # - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-       # - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user/, roles: ROLE_USER }
         - { path: ^/admin/, roles: ROLE_ADMIN }
         - { path: ^/dashboard/, roles: [ROLE_CLIENT, ROLE_AGENT] }
+       # - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       # - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       # - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
 
     role_hierarchy:
         # client roles
-        ROLE_CLIENT_COMPANY: ROLE_USER
         ROLE_CLIENT:      ROLE_USER
+        ROLE_CLIENT_COMPANY: ROLE_CLIENT
         # agent roles
         ROLE_AGENT:       ROLE_USER
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_COORDINATOR: [ROLE_AGENT, ROLE_ADMIN]
+        ROLE_ADMIN:       ROLE_AGENT
+        #
+        # ROLE_CLIENT_COMPANY: ROLE_USER
+        # ROLE_CLIENT:      ROLE_USER
+        # agent roles
+        # ROLE_AGENT:       ROLE_USER
+        # ROLE_ADMIN:       ROLE_USER
+        # ROLE_COORDINATOR: [ROLE_AGENT, ROLE_ADMIN]
         ROLE_SUPER_ADMIN: [ROLE_COORDINATOR, ROLE_ALLOWED_TO_SWITCH]
 

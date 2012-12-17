@@ -6,6 +6,7 @@ config_navbar:
         product:     'Product'
         user:        'User'
         preferences: 'Preferences'
+        statistics:  'Statistics'
         help:        'Help'
     session.items:
         profile:     'Profile'

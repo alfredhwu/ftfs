@@ -1,6 +1,6 @@
 FTFSStatisticsBundle:
     resource: "@FTFSStatisticsBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /admin/{_locale}/statistics
 
 ################## general json entry point
 FTFSProductBundle:

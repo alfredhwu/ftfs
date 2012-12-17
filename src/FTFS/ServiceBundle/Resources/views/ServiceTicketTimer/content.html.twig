@@ -1,12 +1,16 @@
 {% if indicators | length > 0 %}
+<legend>Performance Indicators</legend>
 <ul>
-    {% for key, indicator in indicators %}
-    <li>{{ key }} : {{ indicator.format('%a days, %H h %I m %S s') }}</li>
+    {% for key, indicator in indicators if indicator['type'] == 'date_interval' %}
+    <li>{{ key }} : {{ indicator['value'].format('%a days, %H h %I m %S s') }}</li>
     {% endfor %}
 </ul>
+<br>
 {% endif %}
+
 {% if timers | length > 0 %}
 <table class="table table-stripped table-condensed table-bordered table-smart">
+    <legend>Key event times</legend>
     <tr>
         <th class="tight">When</th>
         <th class="tight">Who</th>

@@ -2,13 +2,44 @@
 
 {% block body_content %}
     {% if is_granted('ROLE_CLIENT_COMPANY') %}
-    <h1>statistics</h1>
-    <ul>
-        <li>TDR</li>
-        <li>TDR</li>
-        <li>TDR</li>
-        <li>TDR</li>
-        <li>TDR</li>
-    </ul>
+    {% for service, stats in statistics %}
+        <legend class="btn-group">
+            <strong class="btn">{{ service }} Service Quality Statistics</strong>
+            <a class="btn btn-small" href="" rel="tooltip" title="" data-placement="bottom">
+                <i class="icon-print"></i>
+            </a>
+            <a class="btn btn-small" href="" rel="tooltip" title="" data-placement="bottom">
+                <i class="icon-download"></i>
+                Export
+            </a>
+        </legend>
+        <div><ul>
+            <li>{{ general.all_created }} tickets created </li>
+            <li>{{ general.all_submitted }} tickets submitted </li>
+            <li>{{ general.all_opened }} tickets opened </li>
+            <li>{{ general.all_closed }} tickets closed </li>
+        </ul></div>
+        <table class="table table-condensed table-stripped table-bordered table-smart">
+            <tr>
+                <th>Indicators</th>
+                <th>Mean</th>
+                <th>Min</th>
+                <th>Max</th>
+                <th>Standard Deviation</th>
+                <th>Comments</th>
+            </tr>
+            {% for ind, value in stats %}
+            <tr>
+                <td>{{ ind }}</td>
+                <td>{{ value.result.mean | number_format(2) }}</td>
+                <td>{{ value.result.min | number_format(2) }}</td>
+                <td>{{ value.result.max | number_format(2) }}</td>
+                <td>{{ value.result.deviation | number_format(2) }}</td>
+                <td>statistics on {{ value.result.count }} samples, in minutes</td>
+             <br>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endfor %}
     {% endif %}
 {% endblock %}

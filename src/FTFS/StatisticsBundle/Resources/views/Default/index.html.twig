@@ -1,1 +1,40 @@
-Hello {{ name }}!
+{% extends 'FTFSStatisticsBundle::layout.html.twig' %}
+
+{% block body_content %}
+{% for service, stat in statistics %}
+    <legend class="btn-group">
+        <strong class="btn">{{ service }} Service Quality Statistics</strong>
+        <a class="btn btn-small" href="" rel="tooltip" title="" data-placement="bottom">
+            <i class="icon-print"></i>
+        </a>
+        <a class="btn btn-small" href="" rel="tooltip" title="" data-placement="bottom">
+            <i class="icon-download"></i>
+            Export
+        </a>
+    </legend>
+    {% for company, inds in stat if inds|length > 0 %}
+    <h4>Quality of Support Service for {{ company }}</h4>
+    <table class="table table-condensed table-stripped table-bordered table-smart">
+        <tr>
+            <th>Indicators</th>
+            <th>Avarage</th>
+            <th>Min</th>
+            <th>Max</th>
+            <th>Standard Deviation</th>
+            <th>Comments</th>
+        </tr>
+        {% for ind, value in inds %}
+        <tr>
+            <td>{{ ind }}</td>
+            <td>{{ value.result.mean | number_format(2) }}</td>
+            <td>{{ value.result.min | number_format(2) }}</td>
+            <td>{{ value.result.max | number_format(2) }}</td>
+            <td>{{ value.result.deviation | number_format(2) }}</td>
+            <td>statistics on {{ value.result.count }} samples, in minutes</td>
+         <br>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endfor %}
+{% endfor %}
+{% endblock %}

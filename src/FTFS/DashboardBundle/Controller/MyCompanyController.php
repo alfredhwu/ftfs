@@ -12,8 +12,41 @@ class MyCompanyController extends Controller
         $performance = $this->get('ftfs_statisticsbundle.performance_observer');
 
         $current_user = $this->get('security.context')->getToken()->getUser();
-        $statistics = $performance->getStatisticsByClient($current_user);
+        $stats = $performance->getStatistics($current_user);
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $services = $em->getRepository('FTFSServiceBundle:Service')->findBy(
+                array(
+                    'open_to_client' => true,
+                )
+            );
+
+
+        $statistics = array();
+        foreach($services as $service) {
+            $name = $service->getName();
+            if(array_key_exists($name, $stats) && array_key_exists('my_company_statistics', $stats[$name])) {
+                $statistics[$name] = $stats[$name]['my_company_statistics'];
+            }
+        }
+
+        // 
+        $er = $em->getRepository('FTFSServiceBundle:ServiceTicket');
+        $number_all = count($er->findAll());
+        $number_created = count($er->findByStatus('created'));
+        $number_submitted = count($er->findByStatus('submitted'));
+        $number_opened = count($er->findByStatus('opened'));
+        $number_closed = count($er->findByStatus('closed'));
+
+        //throw new \Exception(print_r($statistics));
         return $this->render('FTFSDashboardBundle:MyCompany:statistics_index.html.twig', array(
+            'general' => array(
+                'all_created' => $number_all,
+                'all_submitted' => $number_all-$number_created,
+                'all_opened' => $number_opened+$number_closed,
+                'all_closed' => $number_closed,
+            ),
+            'statistics' => $statistics,
         ));
     }
 

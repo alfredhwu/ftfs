@@ -1,0 +1,7 @@
+{% extends '::menu.html.twig' %}
+{% block menu_content %}
+    <li class="nav-header">Performance</li>
+    <li class="navmenu-item"><a href="{{ path('ftfs_statisticsbundle_homepage') }}"><i class="icon-list"></i> All Performance Statistics</a></li>
+   
+    {{ parent() }}
+{% endblock %}

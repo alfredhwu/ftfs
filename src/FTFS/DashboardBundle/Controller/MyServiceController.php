@@ -658,21 +658,25 @@ class MyServiceController extends BaseController
         $indicators = $observer->getServiceTicketIndicators($entity);
 
         $container = array('closure_report' => 'closure_report detail');
+        //throw new \Exception(print_r($indicators));
         foreach($indicators as $key => $indicator) {
-            /*
-            if($indicator instanceof \DateInterval){
-                $indicators[$key] = $indicator->format('%a days %H h %I m %S s');
+            if($indicator['type'] == 'date_interval') {
+                $container[$key] = $indicator['value']->format('%a days %H h %I m %S s');
+            }else{
+                $container[$key] = $indicator['value'];
             }
-             */
-            $container[$key] = $indicator->format('%a days %H h %I m %S s');
         }
 
         $action_form = $this->createFormBuilder($container)
             ->add('report', 'textarea')
             ->add('gross_delay_open')
             ->add('gross_delay_close')
-            ->add('gross_delay_first_telephone')
-            ->add('gross_delay_first_on_site')
+            ->add('gross_delay_first_telephone', 'text', array(
+                'required' => false,
+            ))
+            ->add('gross_delay_first_on_site', 'text', array(
+                'required' => false,
+            ))
             ->getForm();
 
         $request = $this->getRequest();
@@ -695,16 +699,32 @@ class MyServiceController extends BaseController
                 $indicators = array();
                 //throw new \Exception(print_r(new \DateInterval('P4Y2M33DT3H4M5S')));
                 $p = sscanf(strtolower($data['gross_delay_open']), '%d days %d h %d m %d s');
-                $indicators['gross_delay_open'] = new \DateInterval('P'.$p[0].'DT'.$p[1].'H'.$p[2].'M'.$p[3].'S');
+                $indicators['gross_delay_open'] = array(
+                    'type' => 'date_interval',
+                    'value' => new \DateInterval('P'.$p[0].'DT'.$p[1].'H'.$p[2].'M'.$p[3].'S'),
+                );
 
                 $p = sscanf(strtolower($data['gross_delay_close']), '%d days %d h %d m %d s');
-                $indicators['gross_delay_close'] = new \DateInterval('P'.$p[0].'DT'.$p[1].'H'.$p[2].'M'.$p[3].'S');
+                $indicators['gross_delay_close'] = array(
+                    'type' => 'date_interval',
+                    'value' => new \DateInterval('P'.$p[0].'DT'.$p[1].'H'.$p[2].'M'.$p[3].'S'),
+                );
 
-                $p = sscanf(strtolower($data['gross_delay_first_telephone']), '%d days %d h %d m %d s');
-                $indicators['gross_delay_first_telephone'] = new \DateInterval('P'.$p[0].'DT'.$p[1].'H'.$p[2].'M'.$p[3].'S');
+                if(strtolower($data['gross_delay_first_telephone']) !== '') {
+                    $p = sscanf(strtolower($data['gross_delay_first_telephone']), '%d days %d h %d m %d s');
+                    $indicators['gross_delay_first_telephone'] = array(
+                        'type' => 'date_interval',
+                        'value' => new \DateInterval('P'.$p[0].'DT'.$p[1].'H'.$p[2].'M'.$p[3].'S'),
+                    );
+                }
 
-                $p = sscanf(strtolower($data['gross_delay_first_on_site']), '%d days %d h %d m %d s');
-                $indicators['gross_delay_first_on_site'] = new \DateInterval('P'.$p[0].'DT'.$p[1].'H'.$p[2].'M'.$p[3].'S');
+                if(strtolower($data['gross_delay_first_on_site']) !== '') {
+                    $p = sscanf(strtolower($data['gross_delay_first_on_site']), '%d days %d h %d m %d s');
+                    $indicators['gross_delay_first_on_site'] = array(
+                        'type' => 'date_interval',
+                        'value' => new \DateInterval('P'.$p[0].'DT'.$p[1].'H'.$p[2].'M'.$p[3].'S'),
+                    );
+                }
 
                 //throw new \Exception(print_r($indicators));
                 $entity->setIndicators($indicators);
@@ -1221,6 +1241,7 @@ class MyServiceController extends BaseController
             'intervention_from' => new \DateTime('now'),
             'intervention_to' =>  new \DateTime('now'),
         );
+
         $form = $this->createFormBuilder($container)
             // message
             ->add('message_message', 'textarea')
