@@ -109,7 +109,7 @@
             </td>
         </tr>
         <tr>
-            <th>Share list</th>
+            <th>{{ ('ftfs.servicebundle.serviceticket.table.sharelist') | trans({}, 'crud') }}</th>
             <td colspan="5">
                 <div id="sharelist">
                 {% include 'FTFSServiceBundle:ServiceTicketSharelist:list.html.twig' 
@@ -120,7 +120,7 @@
             </td>
         </tr>
         <tr>
-            <th>Attachment</th>
+            <th>{{ ('ftfs.servicebundle.serviceticket.table.attachment') | trans({}, 'crud') }}</th>
             <td colspan="5">
                 <div id="attachment">
                 {% include 'FTFSServiceBundle:ServiceTicketAttachment:list.html.twig' 

@@ -1,24 +1,24 @@
 ftfs_userbundle_profile:
     show:
-        legend:         "User Profile"
-        modify:         "Modify"
+        legend:         "Profil Utilisateur"
+        modify:         "Modifier"
     edit:
-        submit:         "Submit"
-        cancel:         "Cancel"
+        submit:         "Valider"
+        cancel:         "Annuler"
     change_password:
-        title:          "Change Password"
-        submit:         "Submit"
-        cancel:         "Cancel"
+        title:          "Changer Mot de Passe"
+        submit:         "Valider"
+        cancel:         "Annuler"
     body_menu:
-        profile:         "Profile"
-        user_profile:    "User Profile"
-        modify_profile:  "Modify Profil"
-        change_password: "Change Password"
-        preferences:    "Preferences"
-        general:        "Local, timezone, etc."
-        sharelist:      "Share List"
-        notification_preferences:    "Notification Preferences"
-        notification_center:         "Notification Center"
+        profile:         "Profil"
+        user_profile:    "Profil Utilisateur"
+        modify_profile:  "Modifier Profil"
+        change_password: "Changer Mot de Passe"
+        preferences:    "Préférences"
+        general:        "Région, Langue, etc."
+        sharelist:      "Liste de Partage par défaut"
+        notification_preferences:    "Préférences de Notification"
+        notification_center:         "Centre de Notification"
 ftfs_userbundle_company:
     table:
         caption:        "All Registered Companies"
@@ -42,3 +42,5 @@ ftfs.userbundle.company:
         description:    "Company Description:"
         is.client:      "Our Client:"
         is.supplier:    "Our Supplier:"
+
+

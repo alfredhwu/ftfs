@@ -1,7 +1,39 @@
 {% extends 'FTFSPreferenceBundle::layout.html.twig' %}
 {% block body_content %}
+<div>
+<legend>{{ 'ftfs_notification_method.legend' | trans({}, 'notification') }}</legend>
+<table class="table table-bordered table-striped table-condensed table-smart">
+    <tr>
+        <th>Method</th>
+        <th>Enabled for agent</th>
+        <th>Enabled for client</th>
+    </tr>
+    {% for method in methods %}
+    <tr>
+        <td>
+            {{ method.name }}
+            ({{ ('ftfs_notification_method.is_enabled.'~method.isEnabledClient) | trans({}, 'notification') }})
+        </td>
+        <td>
+            {% if method.isEnabledAgent %}
+            <a class="btn btn-mini btn-success" href="{{ path('ftfs_notificationbundle_preference_method_disable', {'id':method.id }) }}">{{ ('ftfs_notification_method.action.disable') | trans({}, 'notification') }}</a>
+            {% else %}
+            <a class="btn btn-mini" href="{{ path('ftfs_notificationbundle_preference_method_enable', {'id':method.id }) }}">{{ ('ftfs_notification_method.action.enable') | trans({}, 'notification') }}</a>
+            {% endif %}
+        </td>
+        <td>
+            {% if method.isEnabledClient %}
+            <a class="btn btn-mini btn-success" href="{{ path('ftfs_notificationbundle_preference_method_disable', {'id':method.id }) }}">{{ ('ftfs_notification_method.action.disable') | trans({}, 'notification') }}</a>
+            {% else %}
+            <a class="btn btn-mini" href="{{ path('ftfs_notificationbundle_preference_method_enable', {'id':method.id }) }}">{{ ('ftfs_notification_method.action.enable') | trans({}, 'notification') }}</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
 <legend>
-<span>Notification Preference</span>
+<span>{{ 'ftfs_notification_key.legend' | trans({}, 'notification') }}</span>
 <a class="btn btn-success pull-right" href="{{ path('ftfs_notificationbundle_preference_event_add') }}">
     <i class="icon-plus-sign icon-white"></i>
     add a new event
@@ -31,7 +63,7 @@
                         <li>{{ auto_filter.method }}</li>
                         {% endfor %}
                     </ul></td>
-                    <td><a event="{{ event.id }}" auto=1 href="#">modify</a></td>
+                    <td><a class="event-method-modifier" event="{{ event.id }}" auto=1 href="#">modify</a></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -61,7 +93,7 @@
                         <li>{{ other_filter.method }}</li>
                         {% endfor %}
                     </ul></td>
-                    <td><a event="{{ event.id }}" auto=0 href="#">modify</a></td>
+                    <td><a class="event-method-modifier" event="{{ event.id }}" auto=0 href="#">modify</a></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -77,7 +109,7 @@
 <script>
 $(document).ready(function () {
     var href = "{{ path('ftfs_notificationbundle_preference_event_catch_filter_default', { 'id' : '_event', 'auto' : '_auto' }) }}";
-    $('td a').click(function() {
+    $('a.event-method-modifier').click(function() {
 
         object = $(this);
         var event = object.attr('event');
@@ -94,7 +126,7 @@ $(document).ready(function () {
                 object.parent().prev().html(data);
             },
             error:   function() {
-                alert("Ooups ... something's got wrong: the ajax connection failed in rendering methods form:(");
+                alert(data);
             },
         });
     });

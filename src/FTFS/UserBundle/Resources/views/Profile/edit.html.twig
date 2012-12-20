@@ -25,14 +25,12 @@
         {{ form_row(form.user.office_phone ) }}
         {{ form_row(form.user.office_fax ) }}
         {{ form_row(form.user.mobile_phone ) }}
-        {{ form_row(form.user.other_phone_1 ) }}
-        {{ form_row(form.user.other_phone_2 ) }}
         {{ form_rest(form) }}
         <div class="form-actions">
-            <input class="btn btn-primary" type="submit" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" />
+            <input class="btn btn-primary" type="submit" value="{{ 'ftfs_userbundle_profile.edit.submit'|trans({}, 'crud') }}" />
             &nbsp;
             &nbsp;
-            <a href="{{ path('fos_user_profile_show') }}" class="btn">Cancel</a>
+            <a href="{{ path('fos_user_profile_show') }}" class="btn">{{ 'ftfs_userbundle_profile.edit.cancel'|trans({}, 'crud') }}</a>
         </div>
     </fieldset>
 </form>

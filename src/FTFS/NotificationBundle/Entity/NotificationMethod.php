@@ -28,6 +28,20 @@ class NotificationMethod
      */
     private $name;
 
+    /**
+     * @var boolean $is_enabled_client
+     *
+     * @ORM\Column(name="is_enabled_client", type="boolean")
+     */
+    private $is_enabled_client;
+
+    /**
+     * @var boolean $is_enabled_agent
+     *
+     * @ORM\Column(name="is_enabled_agent", type="boolean")
+     */
+    private $is_enabled_agent;
+
     public function __toString()
     {
         return $this->getName();
@@ -62,5 +76,45 @@ class NotificationMethod
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set is_enabled_client
+     *
+     * @param boolean $isEnabledClient
+     */
+    public function setIsEnabledClient($isEnabledClient)
+    {
+        $this->is_enabled_client = $isEnabledClient;
+    }
+
+    /**
+     * Get is_enabled_client
+     *
+     * @return boolean 
+     */
+    public function getIsEnabledClient()
+    {
+        return $this->is_enabled_client;
+    }
+
+    /**
+     * Set is_enabled_agent
+     *
+     * @param boolean $isEnabledAgent
+     */
+    public function setIsEnabledAgent($isEnabledAgent)
+    {
+        $this->is_enabled_agent = $isEnabledAgent;
+    }
+
+    /**
+     * Get is_enabled_agent
+     *
+     * @return boolean 
+     */
+    public function getIsEnabledAgent()
+    {
+        return $this->is_enabled_agent;
     }
 }

@@ -25,6 +25,14 @@ ftfs_notificationbundle_preference_event_definition:
     pattern:  /admin/{_locale}/preference/notification/event_definition
     defaults: { _controller: FTFSNotificationBundle:Preference:eventDefinition, _locale: en}
 
+ftfs_notificationbundle_preference_method_enable:
+    pattern:  /admin/{_locale}/preference/notification/method/{id}/enable
+    defaults: { _controller: FTFSNotificationBundle:Preference:methodEnable, _locale: en}
+
+ftfs_notificationbundle_preference_method_disable:
+    pattern:  /admin/{_locale}/preference/notification/method/{id}/disable
+    defaults: { _controller: FTFSNotificationBundle:Preference:methodDisable, _locale: en}
+
 ftfs_notificationbundle_preference_event_add:
     pattern:  /admin/{_locale}/preference/notification/event_add
     defaults: { _controller: FTFSNotificationBundle:Preference:eventAdd, _locale: en}

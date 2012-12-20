@@ -1,22 +1,48 @@
 ################################################################################### my service            
 ftfs_dashboardbundle_menu:
-    current:            'Mes Tickets en Courant'
-    new:                'Ouvrir un nouveau Ticket de Service'
-    all_assigned:       'Tous mes Tickets'
-    assigned:           'Mes Tickes Nouveau Arrivés'
-    opened:             'Mes Tickets Ouverts'
-    closed:             'Mes Tickets Fermés'
-    all_deployed:       'Tous Tickets Dépoyés'
-    all_unassigned:      'Tous Tickets en Attent'
+    client:
+        current:            'Mes Tickets en Cours'
+        new:                'Ouvrir un nouveau ticket'
+        all:                'Tous Mes Tickets'
+        pending:            'Mes Tickets en Attente'
+        created:            'Mes Tickets Brouillons'
+        submitted:          'Mes Tickets Envoyés'
+        opened:             'Mes Tickets Ouverts'
+        closed:             'Mes Tickets Fermés'
+        company:            'Liste Globale des Tickets'
+        staff:              'Liste des Utilisateurs'
+        statistics:         'Statistiques'
+    agent:
+        current:            'Mes Tickets en Cours'
+        new:                'Ouvrir un nouveau ticket'
+        all_assigned:       'Tous mes Tickets'
+        assigned:           'Mes Tickes Nouveau Arrivés'
+        opened:             'Mes Tickets Ouverts'
+        closed:             'Mes Tickets Fermés'
+        all_deployed:       'Tous Tickets Dépoyés'
+        all_unassigned:      'Tous Tickets en Attent'
 ftfs_dashboardbundle_myservice:
+    title:
+        filter:
+            from:   'du'
+            to:   'au'
+            reset: 'Rétablir'
+            type: 'Type'
+        export: 
+            button: 'Exporter'
+            form:
+                filename: 'Nom Fichier:'
+                filetype: 'Format:'
+                submit: 'Exporter'
+                cancel: 'Annuler'
     devices:
-        title:              'Tous équipement:'
+        title:              'Equipements:'
         add:
             new:            'Cliquer à ajouter un équipement'
             form.submit:    'Envoyer'
         cancel.new:         'Annuler cette opération'
     sharelist:
-        title:              'Tous émail dans la liste de partage:'
+        title:              'Liste des émails:'
         cancel.new:         'Annuler cette opération'
         delete.confirm:     'Attention: vous êtes en train de supprimer "%name%" de votre liste de partage ?'
         add.new:            'Ajouter'
@@ -49,10 +75,10 @@ ftfs_dashboardbundle_myservice:
             submit:
                 success:    "You have successfully submit the request!"
     table:
-        caption:            "Liste des tickets du service"
+        caption:            "Liste des tickets"
         operations:         "Opérations"
         action:
-            new:                "Ouvrir un Nouveau Ticket du Service"
+            new:                "Ouvrir un Nouveau Ticket"
             new.success.flash:  "New service request created successfully !"
             take:               "Prendre cette requête"
             take.tooltip:       "Prendre ce ticket du service"
@@ -76,6 +102,8 @@ ftfs_dashboardbundle_myservice:
             show:
                 transfer:       "Transférer"
                 transfer.tooltip:   "Transférer"
+                print:             "Imprimer"
+                print.tooltip:     "Imprimer"
                 submit:             "Envoyer"
                 submit.tooltip:     "Envoyer cette requête de service"
                 submit.success.flash:   "Request submitted successfully"
@@ -104,13 +132,13 @@ ftfs_dashboardbundle_myservice:
             edit:
                 edit_only:          "Mettre à jour"
                 edit_only.tooltip:  "Mettre à Jour"
-                edit_only.success.flash:  "Updated successfully !"
+                edit_only.success.flash:  "Mise à jour avec succès!"
                 edit_submit:        "Mettre à jour et envoyer"
                 edit_submit.tooltip: "Mettre à Jour et Envoyer"
-                edit_submit.success.flash: "Request submitted successfully !"
+                edit_submit.success.flash: "Mise à jour avec succès!"
                 edit_transfer:              "Mettre à jour et transférer"
                 edit_transfer.tooltip:      "Mettre à Jour et Transférer"
-                edit_transfer.success.flash: "Service ticket transfered successfully"
+                edit_transfer.success.flash: "Mise à jour avec succès"
                 edit_open:              "Mettre à jour et ouvrir"
                 edit_open.tooltip:      "Mettre à Jour et Ouvrir"
-                edit_open.success.flash: "Ticket opened successfully !"
+                edit_open.success.flash: "Mise à jour avec succès!"

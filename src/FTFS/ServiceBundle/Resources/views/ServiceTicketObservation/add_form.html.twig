@@ -13,10 +13,10 @@
     <div id="observation-add-contents" class="tab-content">
         <div class="tab-pane fade in active" id="message">
             <form action="{{ path(prefix~'_observation_add', { 'id' : id }) }}" method="post" {{ form_enctype(observation_add_form) }}>
-                {{ form_row(observation_add_form.message_message) }}
+                {{ form_row(observation_add_form.message_message, {'label':'Message'}) }}
                 <input type="hidden" name="add-to-id" value="{{ add_to_id }}">
                 <input type="hidden" name="type" value="message">
-                <input type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary">button</button>
             </form>
         </div>
         {% if app.user.isAgent() %}

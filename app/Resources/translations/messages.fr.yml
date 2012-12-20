@@ -6,9 +6,10 @@ config_navbar:
         product:     'Produit'
         user:        'Utilisateur'
         preferences: 'Préférences'
+        statistics:  'Statistique'
         help:        'Aide'
     session.items:
-        profile:     'Profile'
+        profile:     'Profil'
         preferences: 'Préférences'
-        notification_center: 'Centre du Notification'
-        sign_out:    'Déconnexter'
+        notification_center: 'Centre de Notification'
+        sign_out:    'Déconnexion'

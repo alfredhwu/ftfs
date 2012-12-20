@@ -1,0 +1,37 @@
+#notification
+ftfs.crud:
+    notification:
+        success:    "success"
+        action:
+            new:
+                succeed: "Création avec succès!"
+            delete:
+                succeed: "Suppression avec sussès!"
+            edit:
+                succeed: "Modification avec succès!"
+####
+    form:
+        action:
+            new:
+                save:   "Sauvgarder"
+                save.tooltip:   "Sauvgarder"
+                cancel: "Annuler"
+                cancel.tooltip: "Retour"
+            show:
+                modify:   "Modifier"
+                modify.tooltip:   "Modifier"
+                delete.tooltip:   "Supprimer"
+                list: "Retour"
+                list.tooltip: "Retour"
+            edit:
+                update: "Mise à Jour"
+                update.tooltip: "Mise à Jour"
+                cancel: "Annuler"
+                cancel.tooltip: "Annuler"
+                list: "Annuler et Retour"
+                list.tooltip: "Annuler et Retour"
+    table:
+        action:
+            show.tooltip:   "Afficher"
+            edit.tooltip:   "Modifier"
+            delete.tooltip: "Supprimer"

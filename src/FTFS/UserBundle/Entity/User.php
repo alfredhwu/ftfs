@@ -54,8 +54,7 @@ class User extends BaseUser
     protected $address;
 
     /**
-     * @Assert\NotBlank(message="Please enter your office phone number.", groups={"Registration", "Profile"})
-     * @ORM\Column(type="string", length="255")
+     * @ORM\Column(type="string", length="255", nullable=true)
      */
     protected $office_phone;
     
@@ -68,16 +67,6 @@ class User extends BaseUser
      * @ORM\Column(type="string", length="255", nullable=true)
      */
     protected $mobile_phone;
-
-    /**
-     * @ORM\Column(type="string", length="255", nullable=true)
-     */
-    protected $other_phone_1;
-
-    /**
-     * @ORM\Column(type="string", length="255", nullable=true)
-     */
-    protected $other_phone_2;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -251,46 +240,6 @@ class User extends BaseUser
     public function getMobilePhone()
     {
         return $this->mobile_phone;
-    }
-
-    /**
-     * Set other_phone_1
-     *
-     * @param string $otherPhone1
-     */
-    public function setOtherPhone1($otherPhone1)
-    {
-        $this->other_phone_1 = $otherPhone1;
-    }
-
-    /**
-     * Get other_phone_1
-     *
-     * @return string 
-     */
-    public function getOtherPhone1()
-    {
-        return $this->other_phone_1;
-    }
-
-    /**
-     * Set other_phone_2
-     *
-     * @param string $otherPhone2
-     */
-    public function setOtherPhone2($otherPhone2)
-    {
-        $this->other_phone_2 = $otherPhone2;
-    }
-
-    /**
-     * Get other_phone_2
-     *
-     * @return string 
-     */
-    public function getOtherPhone2()
-    {
-        return $this->other_phone_2;
     }
 
     /**

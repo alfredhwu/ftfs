@@ -2,33 +2,33 @@
 {% block dash_menu_content %}
     <li class="nav-header">My Service Tickets</li>
     {# draft, opened #}
-    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index') }}"><i class="icon-home"></i> My Current Service <span class="pull-right">{% if app.session.has('counter-menu-current') %}{{ app.session.get('counter-menu-current') }}{% else %}...{% endif %}</span></a></li>
-    <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_myservice_new') }}"><i class="icon-edit"></i> Request a New Service</a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index') }}"><i class="icon-home"></i> {{ 'ftfs_dashboardbundle_menu.client.current'|trans({}, 'crud') }}<span class="pull-right">{% if app.session.has('counter-menu-current') %}{{ app.session.get('counter-menu-current') }}{% else %}...{% endif %}</span></a></li>
+    <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_myservice_new') }}"><i class="icon-edit"></i> {{ 'ftfs_dashboardbundle_menu.client.new'|trans({}, 'crud') }}</a></li>
 
     <li class="divider"></li>
 
-    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'all' }) }}"><i class="icon-list"></i> All My Service Tickets <span class="pull-right">{% if app.session.has('counter-menu-all') %}{{ app.session.get('counter-menu-all') }}{% else %}...{% endif %}</span></a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'all' }) }}"><i class="icon-list"></i> {{ 'ftfs_dashboardbundle_menu.client.all'|trans({}, 'crud') }} <span class="pull-right">{% if app.session.has('counter-menu-all') %}{{ app.session.get('counter-menu-all') }}{% else %}...{% endif %}</span></a></li>
 
     <li class="divider"></li>
 
-    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'pending' }) }}"><i class="icon-indent-left"></i> My Pending Requests <span class="pull-right badge badge-important">{% if app.session.has('counter-menu-pending') %}{{ app.session.get('counter-menu-pending') }}{% else %}...{% endif %}</span></a></li>
-    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'created' }) }}"><i class="icon-indent-left"></i> My Service Requests <span class="pull-right badge badge-inverse">{% if app.session.has('counter-menu-created') %}{{ app.session.get('counter-menu-created') }}{% else %}...{% endif %}</span></a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'pending' }) }}"><i class="icon-indent-left"></i> {{ 'ftfs_dashboardbundle_menu.client.pending'|trans({}, 'crud') }} <span class="pull-right badge badge-important">{% if app.session.has('counter-menu-pending') %}{{ app.session.get('counter-menu-pending') }}{% else %}...{% endif %}</span></a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'created' }) }}"><i class="icon-indent-left"></i> {{ 'ftfs_dashboardbundle_menu.client.created'|trans({}, 'crud') }} <span class="pull-right badge badge-inverse">{% if app.session.has('counter-menu-created') %}{{ app.session.get('counter-menu-created') }}{% else %}...{% endif %}</span></a></li>
     {# 
     <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'interrupted' }) }}"><i class="icon-indent-left"></i> My Tickets Interrupted <span class="pull-right">{% if app.session.has('counter-menu-interrupted') %}{{ app.session.get('counter-menu-interrupted') }}{% else %}...{% endif %}</span></a></li>
 #}
-    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'awaiting' }) }}"><i class="icon-indent-left"></i> My Tickets Submitted <span class="pull-right badge badge-info">{% if app.session.has('counter-menu-awaiting') %}{{ app.session.get('counter-menu-awaiting') }}{% else %}...{% endif %}</span></a></li>
-    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'opened' }) }}"><i class="icon-indent-left"></i> My Tickets Opened <span class="pull-right badge badge-success">{% if app.session.has('counter-menu-opened') %}{{ app.session.get('counter-menu-opened') }}{% else %}...{% endif %}</span></a></li>
-    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'closed' }) }}"><i class="icon-indent-left"></i> My Tickets Closed <span class="pull-right badge badge-default">{% if app.session.has('counter-menu-closed') %}{{ app.session.get('counter-menu-closed') }}{% else %}...{% endif %}</span></a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'awaiting' }) }}"><i class="icon-indent-left"></i> {{ 'ftfs_dashboardbundle_menu.client.submitted'|trans({}, 'crud') }} <span class="pull-right badge badge-info">{% if app.session.has('counter-menu-awaiting') %}{{ app.session.get('counter-menu-awaiting') }}{% else %}...{% endif %}</span></a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'opened' }) }}"><i class="icon-indent-left"></i> {{ 'ftfs_dashboardbundle_menu.client.opened'|trans({}, 'crud') }} <span class="pull-right badge badge-success">{% if app.session.has('counter-menu-opened') %}{{ app.session.get('counter-menu-opened') }}{% else %}...{% endif %}</span></a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'closed' }) }}"><i class="icon-indent-left"></i> {{ 'ftfs_dashboardbundle_menu.client.closed'|trans({}, 'crud') }} <span class="pull-right badge badge-default">{% if app.session.has('counter-menu-closed') %}{{ app.session.get('counter-menu-closed') }}{% else %}...{% endif %}</span></a></li>
 
 <!--
     <li class="divider"></li>
-    <li class="navmenu-item"><a href="#"><i class="icon-globe"></i> All My Shared Tickets (not yet available) </a></li>
+    <li class="navmenu-item"><a href="#"><i class="icon-globe"></i> {{ 'ftfs_dashboardbundle_menu.client.closed'|trans({}, 'crud') }}All My Shared Tickets (not yet available) </a></li>
 -->
     {% if is_granted('ROLE_CLIENT_COMPANY') %}
     <li class="nav-header">My Company</li>
-    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'company' }) }}"><i class="icon-list-alt"></i> All My Company Tickets <span class="pull-right">{% if app.session.has('counter-menu-company') %}{{ app.session.get('counter-menu-company') }}{% else %}...{% endif %}</span></a></li>
+    <li class="navmenu-item navmenu-item-countable"><a href="{{ path('ftfs_dashboardbundle_myservice_index', { 'status' : 'company' }) }}"><i class="icon-list-alt"></i> {{ 'ftfs_dashboardbundle_menu.client.company'|trans({}, 'crud') }} <span class="pull-right">{% if app.session.has('counter-menu-company') %}{{ app.session.get('counter-menu-company') }}{% else %}...{% endif %}</span></a></li>
     <li class="divider"></li>
-    <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_mycompany_staff_list') }}"><i class="icon-user"></i> My Staff</a></li>
-    <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_mycompany_statistics_index') }}"><i class="icon-flag"></i> Statistics</a></li>
+    <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_mycompany_staff_list') }}"><i class="icon-user"></i> {{ 'ftfs_dashboardbundle_menu.client.staff'|trans({}, 'crud') }}</a></li>
+    <li class="navmenu-item"><a href="{{ path('ftfs_dashboardbundle_mycompany_statistics_index') }}"><i class="icon-flag"></i> {{ 'ftfs_dashboardbundle_menu.client.statistics'|trans({}, 'crud') }}</a></li>
     {% endif %}
 {% endblock %}

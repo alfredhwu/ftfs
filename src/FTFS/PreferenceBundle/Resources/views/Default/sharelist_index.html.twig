@@ -6,16 +6,16 @@
 
 {% block body_content %}
     <legend>
-        <span>Sharelist</span>
-        <span class="pull-right"><a href="{{ path('ftfs_preferencebundle_default_ticket_sharelist_add', { 'id':user.id }) }}" class="btn btn-success"><i class="icon-plus-sign icon-white"></i> add new</a></span>
+        <span>{{ 'ftfs_preferencebundle.sharelist.table.legend' | trans() }}</span>
+        <span class="pull-right"><a href="{{ path('ftfs_preferencebundle_default_ticket_sharelist_add', { 'id':user.id }) }}" class="btn btn-success"><i class="icon-plus-sign icon-white"></i> {{ 'ftfs_preferencebundle.sharelist.table.add' | trans() }}</a></span>
     </legend>
     <table class="table table-bordered table-striped table-condensed table-smart">
         <thead>
             <tr>
                 <th class="tight">#</th>
-                <th class="tight">Operation</th>
-                <th>Contact Name</th>
-                <th>Email</th>
+                <th class="tight">{{ 'ftfs_preferencebundle.sharelist.table.operation.title' | trans() }}</th>
+                <th>{{ 'ftfs_preferencebundle.sharelist.table.contact' | trans() }}</th>
+                <th>{{ 'ftfs_preferencebundle.sharelist.table.email' | trans() }}</th>
             </tr>
         </thead>
         <tbody>
@@ -24,8 +24,8 @@
             <tr>
                 <td class="tight">{{ i }}</td>
                 <td class="tight">
-                    <a href="{{ path('ftfs_preferencebundle_default_ticket_sharelist_edit', { 'id':user.id, 'email':email }) }}"><i class="icon-pencil"></i> Edit</a>
-                    <a href="{{ path('ftfs_preferencebundle_default_ticket_sharelist_remove', { 'id':user.id, 'email':email }) }}"><i class="icon-trash"></i> Delete</a>
+                    <a href="{{ path('ftfs_preferencebundle_default_ticket_sharelist_edit', { 'id':user.id, 'email':email }) }}"><i class="icon-pencil"></i> {{ 'ftfs_preferencebundle.sharelist.table.operation.action.edit' | trans() }}</a>
+                    <a href="{{ path('ftfs_preferencebundle_default_ticket_sharelist_remove', { 'id':user.id, 'email':email }) }}"><i class="icon-trash"></i> {{ 'ftfs_preferencebundle.sharelist.table.operation.action.delete' | trans() }}</a>
                 </td>
                 <td>{{ name }}</td>
                 <td>{{ email }}</td>

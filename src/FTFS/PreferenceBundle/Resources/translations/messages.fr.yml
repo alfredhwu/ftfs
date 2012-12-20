@@ -1,4 +1,27 @@
 ftfs_preferencebundle_homepage:
-    default_locale.title:   'Configurations du Système par défaut:'
-    default_locale.select:  'Locale du Système par défaut:'
-    default_timezone.select: 'Time Zone par défault:'
+    default_locale.title:   'Configuration Générale'
+    default_locale.select:  'Langue:'
+    default_timezone.select: 'Fuseau Horaire:'
+ftfs_preferencebundle:
+    sharelist:
+        table:
+            legend: 'Liste de Partage par défaut'
+            operation: 
+                title:      'Opération'
+                action:
+                    edit:   'Modifier'
+                    delete: 'Supprimer'
+            add:     'Ajouter'
+            contact: 'Contact'
+            email:   'Email'
+        add:
+            legend: 'Ajouter un Nouveau Contact'
+            submit: 'Valider'
+            cancel: 'Annuler'
+        edit:
+            legend: 'Modifier le Contact'
+            submit: 'Valider'
+            cancel: 'Annuler'
+    notification_center:
+        legend: 'Notifications'
+        clear:  'Effacer Tous'

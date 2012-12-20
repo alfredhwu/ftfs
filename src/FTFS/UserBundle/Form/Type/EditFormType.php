@@ -27,8 +27,6 @@ class EditFormType extends AbstractType
                 ->add('office_phone')
                 ->add('office_fax')
                 ->add('mobile_phone')
-                ->add('other_phone_1')
-                ->add('other_phone_2')
         ;
     }
 

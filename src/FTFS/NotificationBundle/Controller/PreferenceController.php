@@ -36,10 +36,12 @@ class PreferenceController extends Controller
                             ->setParameter('auto', false)
                             ->getQuery()->getResult();
         }
+        $methods = $em->getRepository('FTFSNotificationBundle:NotificationMethod')->findAll();
         return $this->render('FTFSNotificationBundle:Preference:event_definition.html.twig', array(
             'events' => $events,
             'auto_filters' => $auto_filters,
             'other_filters' => $other_filters,
+            'methods' => $methods,
         ));
     }
 
@@ -67,6 +69,11 @@ class PreferenceController extends Controller
         $form = $this->createFormBuilder($preferences)
                     ->add('methods', 'entity', array(
                         'class' => 'FTFSNotificationBundle:NotificationMethod',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                            return $er->createQueryBuilder('m')
+                                ->where('m.is_enabled_agent = 1')
+                                ->orWhere('m.is_enabled_client = 1');
+                        },
                         'multiple' => true,
                         'expanded' => true,
                     ))
@@ -130,13 +137,31 @@ class PreferenceController extends Controller
             $preferences['methods']->add($method);
             $old_methods[$method->getName()] = $method;   // stock the old methods settings
         }
-        $form = $this->createFormBuilder($preferences)
-                    ->add('methods', 'entity', array(
-                        'class' => 'FTFSNotificationBundle:NotificationMethod',
-                        'multiple' => true,
-                        'expanded' => true,
-                    ))
-                    ->getForm();
+        if($user->isAgent()) {
+            $form = $this->createFormBuilder($preferences)
+                        ->add('methods', 'entity', array(
+                            'class' => 'FTFSNotificationBundle:NotificationMethod',
+                            'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                return $er->createQueryBuilder('m')
+                                    ->where('m.is_enabled_agent = 1');
+                            },
+                            'multiple' => true,
+                            'expanded' => true,
+                        ))
+                        ->getForm();
+        }else{
+            $form = $this->createFormBuilder($preferences)
+                        ->add('methods', 'entity', array(
+                            'class' => 'FTFSNotificationBundle:NotificationMethod',
+                            'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                return $er->createQueryBuilder('m')
+                                    ->where('m.is_enabled_client = 1');
+                            },
+                            'multiple' => true,
+                            'expanded' => true,
+                        ))
+                        ->getForm();
+        }
         $request = $this->getRequest();
         if('POST'===$request->getMethod()){
             $form->bindRequest($request);
@@ -257,4 +282,29 @@ class PreferenceController extends Controller
         ));
     }
 
+    public function methodDisableAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $method = $em->getRepository('FTFSNotificationBundle:NotificationMethod')
+            ->find($id);
+        if(!$method) {
+            throw $this->createNotFoundException('Method not found');
+        }
+        $method->setIsEnabled(false);
+        $em->flush();
+        return $this->redirect($this->generateUrl('ftfs_notificationbundle_preference_event_definition'));
+    }
+
+    public function methodEnableAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $method = $em->getRepository('FTFSNotificationBundle:NotificationMethod')
+            ->find($id);
+        if(!$method) {
+            throw $this->createNotFoundException('Method not found');
+        }
+        $method->setIsEnabled(true);
+        $em->flush();
+        return $this->redirect($this->generateUrl('ftfs_notificationbundle_preference_event_definition'));
+    }
 }

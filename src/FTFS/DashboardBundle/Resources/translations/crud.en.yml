@@ -1,17 +1,41 @@
 ################################################################################### my service            
 ftfs_dashboardbundle_menu:
-    current:            'My Current Tickets'
-    new:                'Open a New Service Ticket'
-    all_assigned:       'All My Assigned Tickets'
-    assigned:   'My New Arriving Tickets'
-    opened:         'My Opened Tickets'
-    closed:         'My Closed Tickets'
-    all_deployed:       'All Deployed Services'
-    all_unassigned:      'All Unassigned Requests'
+    client:
+        current:            'My Current Tickets'
+        new:                'Open a New Service Ticket'
+        all:                'All My Tickets'
+        pending:            'All Pending Tickets'
+        created:            'My Draft'
+        submitted:          'My Submitted Tickets'
+        opened:             'My Opened Tickets'
+        closed:             'My Closed Tickets'
+        company:            'All My Company Tickets'
+        staff:              'All My Company Staff'
+        statistics:         'Statistics'
+    agent:
+        current:            'My Current Tickets'
+        new:                'Open a New Service Ticket'
+        all_assigned:       'All My Assigned Tickets'
+        pending:            'All Pending Tickets'
+        assigned:           'My New Arriving Tickets'
+        opened:             'My Opened Tickets'
+        closed:             'My Closed Tickets'
+        all_deployed:       'All Deployed Services'
+        all_unassigned:     'All Unassigned Requests'
 ftfs_dashboardbundle_myservice:
-    export.form:
-        submit:             'Export'
-        cancel:             'Cancel'
+    title:
+        filter:
+            from:       'from'
+            to:         'to'
+            reset:      'Reset'
+            type:       'Type'
+        export: 
+            button:     'Export'
+            form:
+                filename: 'File name:'
+                filetype: 'Format:'
+                submit:   'Submit'
+                cancel:   'Cancel'
     devices:
         title:              'All devices related:'
         add:

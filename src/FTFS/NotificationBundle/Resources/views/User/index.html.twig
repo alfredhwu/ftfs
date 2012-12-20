@@ -6,8 +6,8 @@
 
 {% block body_content %}
 <h3>
-    Notifications 
-    <a href="{{ path('ftfs_notificationbundle_user_clear_system_notification') }}" class="pull-right btn">clear all</a>
+    {{ 'ftfs_preferencebundle.notification_center.legend' | trans() }}
+    <a href="{{ path('ftfs_notificationbundle_user_clear_system_notification') }}" class="pull-right btn">{{ 'ftfs_preferencebundle.notification_center.clear' | trans() }}</a>
 </h3>
 <hr>
 <p>

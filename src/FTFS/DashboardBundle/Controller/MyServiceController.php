@@ -17,14 +17,17 @@ class MyServiceController extends BaseController
     public function getExportationFormAction()
     {
         $container = array('export' => 'export form');
+        $translator = $this->get('translator');
         $action_form = $this->createFormBuilder($container)
             ->add('filename', 'text', array(
                 'required' => false,
+                'label' => $translator->trans('ftfs_dashboardbundle_myservice.title.export.form.filename', array(), 'crud'),
             ))
             ->add('filetype', 'choice', array(
                 'choices' => array(
                     'csv' => 'csv',
                 ),
+                'label' => $translator->trans('ftfs_dashboardbundle_myservice.title.export.form.filetype', array(), 'crud'),
             ))
             ->getForm();
 
@@ -333,6 +336,7 @@ class MyServiceController extends BaseController
                 }
                 break;
             case 'continue':
+            case 'reopen':    // status: submitted, assigned, not opened
             case 'observation_add':
             case 'attachment_upload':
             case 'attachment_delete':
@@ -385,7 +389,6 @@ class MyServiceController extends BaseController
             // reserved to agent owner 
             case 'open':    // status: submitted, assigned, not opened
             case 'pend':    // status: submitted, assigned, opened
-            case 'reopen':    // status: submitted, assigned, not opened
             case 'transfer':    // status: assigned, opened
             case 'close':   // status: opened
                 if($entity->getAssignedTo()!=$current_user){

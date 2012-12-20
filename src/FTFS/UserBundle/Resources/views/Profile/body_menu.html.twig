@@ -1,10 +1,10 @@
-<li class="nav-header">Profile</li>
-<li class="navmenu-item"><a href="{{ path('fos_user_profile_show') }}"><i class="icon-user"></i> User Profile</a></li>
-<li class="navmenu-item"><a href="{{ path('fos_user_profile_edit') }}"><i class="icon-edit"></i> Modify Profile</a></li>
-<li class="navmenu-item"><a href="{{ path('fos_user_change_password') }}"><i class="icon-lock"></i> Change Password</a></li>
+<li class="nav-header">{{ 'ftfs_userbundle_profile.body_menu.profile' | trans({}, 'crud') }}</li>
+<li class="navmenu-item"><a href="{{ path('fos_user_profile_show') }}"><i class="icon-user"></i> {{ 'ftfs_userbundle_profile.body_menu.user_profile' | trans({}, 'crud') }}</a></li>
+<li class="navmenu-item"><a href="{{ path('fos_user_profile_edit') }}"><i class="icon-edit"></i> {{ 'ftfs_userbundle_profile.body_menu.modify_profile' | trans({}, 'crud') }}</a></li>
+<li class="navmenu-item"><a href="{{ path('fos_user_change_password') }}"><i class="icon-lock"></i> {{ 'ftfs_userbundle_profile.body_menu.change_password' | trans({}, 'crud') }}</a></li>
 
-<li class="nav-header">Preference</li>
-<li class="navmenu-item"><a href="{{ path('ftfs_preferencebundle_user_preference', { 'id' : app.user.id }) }}"><i class="icon-globe"></i> Local, timezone, etc.</a></li>
-<li class="navmenu-item"><a href="{{ path('ftfs_preferencebundle_default_ticket_sharelist_index', { 'id' : app.user.id }) }}"><i class="icon-envelope"></i> Default Ticket Share List</a></li>
-<li class="navmenu-item"><a href="{{ path('ftfs_notificationbundle_preference_event_catch_filter_index', { 'id' : app.user.id }) }}"><i class="icon-wrench"></i> Notification Preference</a></li>
-<li class="navmenu-item"><a href="{{ path('ftfs_notificationbundle_user_index') }}"><i class="icon-info-sign"></i> Notification Center</a></li>
+<li class="nav-header">{{ 'ftfs_userbundle_profile.body_menu.preferences' | trans({}, 'crud') }}</li>
+<li class="navmenu-item"><a href="{{ path('ftfs_preferencebundle_user_preference', { 'id' : app.user.id }) }}"><i class="icon-globe"></i> {{ 'ftfs_userbundle_profile.body_menu.general' | trans({}, 'crud') }}</a></li>
+<li class="navmenu-item"><a href="{{ path('ftfs_preferencebundle_default_ticket_sharelist_index', { 'id' : app.user.id }) }}"><i class="icon-envelope"></i> {{ 'ftfs_userbundle_profile.body_menu.sharelist' | trans({}, 'crud') }}</a></li>
+<li class="navmenu-item"><a href="{{ path('ftfs_notificationbundle_preference_event_catch_filter_index', { 'id' : app.user.id }) }}"><i class="icon-wrench"></i> {{ 'ftfs_userbundle_profile.body_menu.notification_preferences' | trans({}, 'crud') }}</a></li>
+<li class="navmenu-item"><a href="{{ path('ftfs_notificationbundle_user_index') }}"><i class="icon-info-sign"></i> {{ 'ftfs_userbundle_profile.body_menu.notification_center' | trans({}, 'crud') }}</a></li>

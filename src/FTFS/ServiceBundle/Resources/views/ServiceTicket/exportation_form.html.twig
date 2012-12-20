@@ -6,9 +6,9 @@
     <input type="hidden" name="status" value="">
     <div class="form-actions">
         <a id="export" href="#" class="btn btn-primary">
-            {{ (prefix~'.export.form.submit')|trans({}, 'crud') }}
+            {{ (prefix~'.title.export.form.submit')|trans({}, 'crud') }}
         </a>
-        <a href="{{ path(prefix~'_index') }}" class="btn">{{ (prefix~'.export.form.cancel')|trans({}, 'crud') }}</a>
+        <a href="{{ path(prefix~'_index') }}" class="btn">{{ (prefix~'.title.export.form.cancel')|trans({}, 'crud') }}</a>
     </div>
 </form>
 <script>

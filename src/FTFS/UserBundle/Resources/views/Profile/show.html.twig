@@ -9,10 +9,10 @@
 
 {% block fos_user_content %}
 <h2>
-    User Profile
+    {{ 'ftfs_userbundle_profile.show.legend' | trans({}, 'crud') }}
     <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary pull-right">
         <i class="icon-edit icon-white"></i>
-        Modify
+        {{ 'ftfs_userbundle_profile.show.modify' | trans({}, 'crud') }}
     </a>
 </h2>
 <hr>
@@ -67,14 +67,6 @@
     <tr>
         <th style="text-align:right">{{ 'profile.show.mobile_phone'|trans({}, 'FOSUserBundle') }}</th>
         <td>&nbsp;&nbsp;{{ user.mobilePhone }}</td>
-    </tr>
-    <tr>
-        <th style="text-align:right">{{ 'profile.show.other_phone_1'|trans({}, 'FOSUserBundle') }}</th>
-        <td>&nbsp;&nbsp;{{ user.otherPhone1 }}</td>
-    </tr>
-    <tr>
-        <th style="text-align:right">{{ 'profile.show.other_phone_2'|trans({}, 'FOSUserBundle') }}</th>
-        <td>&nbsp;&nbsp;{{ user.otherPhone2 }}</td>
     </tr>
 </table>
 {% endblock fos_user_content %}

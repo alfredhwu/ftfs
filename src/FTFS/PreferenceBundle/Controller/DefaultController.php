@@ -66,15 +66,16 @@ class DefaultController extends Controller
         $options = array();
         // return user locale if setted, otherwise return system locale
         $locale = $this->get('ftfs_configurator')->get('locale', $user);
-        if($locale) { 
-            $options['locale'] = $locale;
+        //throw new \Exception(print_r($locale));
+        if($locale && count($locale)>0) { 
+            $options['locale'] = $locale[0];
         }else{
             $options['locale'] = 'en_US';
         }
         // the same
         $timezone = $this->get('ftfs_configurator')->get('timezone', $user);
-        if($timezone) { 
-            $options['timezone'] = $timezone;
+        if($timezone && count($timezone)>0) { 
+            $options['timezone'] = $timezone[0];
         }else{
             $options['timezone'] = 'Europe/Paris';
         }
@@ -100,7 +101,7 @@ class DefaultController extends Controller
         if(!$user) {
             throw $this->createNotFoundException('user not found !');
         }
-        $this->get('ftfs_configurator')->set('locale', $locale, $user);
+        $this->get('ftfs_configurator')->set('locale', array($locale), $user);
 
         $this->get('session')->setLocale($locale);
         return $this->redirect($this->generateUrl('ftfs_preferencebundle_user_preference', array(
@@ -118,7 +119,7 @@ class DefaultController extends Controller
         $timezone = $this->getRequest()->get('timezone');
         //throw new \Exception($timezone);
         if($timezone) {
-            $this->get('ftfs_configurator')->set('timezone', $timezone, $user);
+            $this->get('ftfs_configurator')->set('timezone', array($timezone), $user);
         }
 
         return $this->redirect($this->generateUrl('ftfs_preferencebundle_user_preference', array(

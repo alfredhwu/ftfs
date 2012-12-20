@@ -47,7 +47,8 @@ fos_user_security:
 
 fos_user_profile:
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
-    prefix: /profile
+    prefix: /{_locale}/profile
+    defaults: {_locale: en}
 
 fos_user_register:
     resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
@@ -59,7 +60,8 @@ fos_user_resetting:
 
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
-    prefix: /change-password
+    prefix: /{_locale}/change-password
+    defaults: {_locale: en}
 
 #fos_user_group:
 #    resource: "@FOSUserBundle/Resources/config/routing/group.xml"

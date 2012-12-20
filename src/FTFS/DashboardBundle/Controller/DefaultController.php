@@ -10,8 +10,8 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $locale = $this->get('ftfs_configurator')->get('locale', $this->get('security.context')->getToken()->getUser());
-        if($locale) {
-            // do nothing
+        if($locale && count($locale)>0) {
+            $locale = $locale[0];
         }else{
             $locale = 'en_US';
         }

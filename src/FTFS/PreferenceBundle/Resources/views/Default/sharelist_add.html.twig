@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block body_content %}
-    <legend>Add New Contact</legend>
+    <legend>{{ 'ftfs_preferencebundle.sharelist.add.legend' | trans() }}</legend>
     <form class="form-horizontal" method="post">
         {{ form_widget(form) }}
         <div class="form-actions">
-            <input type="submit" class="btn btn-primary">
-            <a href="{{ path('ftfs_preferencebundle_default_ticket_sharelist_index', {'id':user.id}) }}" class="btn">Cancel</a>
+            <button type="submit" class="btn btn-primary">{{ 'ftfs_preferencebundle.sharelist.add.submit' | trans() }}</button>
+            <a href="{{ path('ftfs_preferencebundle_default_ticket_sharelist_index', {'id':user.id}) }}" class="btn">{{ 'ftfs_preferencebundle.sharelist.add.cancel' | trans() }}</a>
         </div>
     </form>
 {% endblock body_content %}

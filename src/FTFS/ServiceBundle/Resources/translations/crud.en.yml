@@ -82,6 +82,8 @@ ftfs.servicebundle.serviceticket:
         detail:         "Request Detail Description"
         #asset:          "Asset Name"
         devices:        "Related Devices"
+        sharelist:      'Share List'
+        attachment:     'Attachments'
         assigned.to: "Assigned to"
         opened.at:  "Ticket Opened at"
         created.at: "Ticket Created at"

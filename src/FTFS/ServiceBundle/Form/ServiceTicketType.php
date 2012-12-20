@@ -33,7 +33,7 @@ class ServiceTicketType extends AbstractType
             case 'client':
                 $builder
                     ->add('severity', 'choice', array(
-                        'preferred_choices' => array(300),
+                        'preferred_choices' => array(400),
                         'choices' => array(
                             100 => 'Critical',
                             200 => 'Major',
@@ -67,7 +67,7 @@ class ServiceTicketType extends AbstractType
             case 'agent':
                 $builder
                     ->add('severity', 'choice', array(
-                        'preferred_choices' => array(300),
+                        'preferred_choices' => array(400),
                         'choices' => array(
                             100 => 'Critical',
                             200 => 'Major',
