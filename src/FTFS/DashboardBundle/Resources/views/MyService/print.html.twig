@@ -1,4 +1,4 @@
 <div>
-    <input type="button" value="Print this page" onclick="javascript:window.print()">
+    <input type="button" value="{{ ('ftfs_dashboardbundle_myservice.print.action')|trans({}, 'crud') }}" onclick="javascript:window.print()">
 </div>
 {% include 'FTFSNotificationBundle:Message:message_service_ticket_info.html.twig' %}

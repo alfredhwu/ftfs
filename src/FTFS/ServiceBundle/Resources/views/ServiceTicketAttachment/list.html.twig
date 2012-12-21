@@ -5,7 +5,7 @@
     {% for attachment in attachments %}
     <li>
         <span>
-            <a class="attachment-download" href="#" action-toggle="{{ path(prefix~'_attachment_download', { 'id' : id, 'attachment_id' : attachment.id }) }}">
+            <a href="{{ path(prefix~'_attachment_download', { 'id' : id, 'attachment_id' : attachment.id }) }}">
                 {{ attachment.name }}
             </a>
         </span>

@@ -2,51 +2,51 @@
 <div> 
     <ul id="sharelist-add-tab" class="nav nav-tabs">
         {% if available_list | length > 0 %}
-        <li class="active"><a href="#from_default_list" data-toggle="tab">Select From Default List</a></li>
-        <li><a href="#add_new" data-toggle="tab"><i class="icon-plus-sign"></i> Add New</a></li>
+        <li class="active"><a href="#from_default_list" data-toggle="tab">{{ (prefix~'.sharelist.add.form.title.default_list')|trans({}, 'crud') }}</a></li>
+        <li><a href="#add_new" data-toggle="tab"><i class="icon-plus-sign"></i> {{ (prefix~'.sharelist.add.form.title.add_new')|trans({}, 'crud') }}</a></li>
         {% else %}
-        <li class="active"><a href="#add_new" data-toggle="tab"><i class="icon-plus-sign"></i> Add New</a></li>
+        <li class="active"><a href="#add_new" data-toggle="tab"><i class="icon-plus-sign"></i> {{ (prefix~'.sharelist.add.form.title.add_new')|trans({}, 'crud') }}</a></li>
         {% endif %}
     </ul>
     <div id="sharelist-add-contents" class="tab-content">
         {% if available_list | length > 0 %}
         <div class="tab-pane fade in active" id="from_default_list">
             <form class="form-horizontal" action="{{ path(prefix~'_sharelist_add', { 'id' : id }) }}" method="post">
-                {{ form_row(sharelist_add_form.available_emails) }}
+                {{ form_row(sharelist_add_form.available_emails, { 'label':(prefix~'.sharelist.add.form.label.list')|trans({}, 'crud') }) }}
                 <input type="hidden" name="type" value="select">
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">{{ (prefix~'.sharelist.add.form.submit')|trans({}, 'crud') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ (prefix~'.sharelist.add.form.action.submit')|trans({}, 'crud') }}</button>
 
-                    <a href="{{ path(prefix~'_show', {'id' : id}) }}" class="btn">{{ (prefix~'.sharelist.add.form.cancel')|trans({}, 'crud') }}</a>
+                    <a href="{{ path(prefix~'_show', {'id' : id}) }}" class="btn">{{ (prefix~'.sharelist.add.form.action.cancel')|trans({}, 'crud') }}</a>
                 </div>
             </form>
         </div>
         <div class="tab-pane fade" id="add_new">
             <form class="form-horizontal" action="{{ path(prefix~'_sharelist_add', { 'id' : id }) }}" method="post">
-                {{ form_row(sharelist_add_form.title) }}
-                {{ form_row(sharelist_add_form.firstname) }}
-                {{ form_row(sharelist_add_form.surname) }}
-                {{ form_row(sharelist_add_form.email) }}
-                {{ form_row(sharelist_add_form.add_to_default) }}
+                {{ form_row(sharelist_add_form.title, { 'label':(prefix~'.sharelist.add.form.label.title')|trans({}, 'crud') }) }}
+                {{ form_row(sharelist_add_form.firstname, { 'label':(prefix~'.sharelist.add.form.label.firstname')|trans({}, 'crud') }) }}
+                {{ form_row(sharelist_add_form.surname, { 'label':(prefix~'.sharelist.add.form.label.surname')|trans({}, 'crud') }) }}
+                {{ form_row(sharelist_add_form.email, { 'label':(prefix~'.sharelist.add.form.label.email')|trans({}, 'crud') }) }}
+                {{ form_row(sharelist_add_form.add_to_default, { 'label':(prefix~'.sharelist.add.form.label.add_to_default')|trans({}, 'crud') }) }}
                 <input type="hidden" name="type" value="add">
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">{{ (prefix~'.sharelist.add.form.submit')|trans({}, 'crud') }}</button>
-                    <a href="#" class="btn">{{ (prefix~'.sharelist.add.form.cancel')|trans({}, 'crud') }}</a>
+                    <button type="submit" class="btn btn-primary">{{ (prefix~'.sharelist.add.form.action.submit')|trans({}, 'crud') }}</button>
+                    <a href="#" class="btn">{{ (prefix~'.sharelist.add.form.action.cancel')|trans({}, 'crud') }}</a>
                 </div>
             </form>
         </div>
         {% else %}
         <div class="tab-pane fade in active" id="add_new">
             <form class="form-horizontal" action="{{ path(prefix~'_sharelist_add', { 'id' : id }) }}" method="post">
-                {{ form_row(sharelist_add_form.title) }}
-                {{ form_row(sharelist_add_form.firstname) }}
-                {{ form_row(sharelist_add_form.surname) }}
-                {{ form_row(sharelist_add_form.email) }}
-                {{ form_row(sharelist_add_form.add_to_default) }}
+                {{ form_row(sharelist_add_form.title, { 'label':(prefix~'.sharelist.add.form.label.title')|trans({}, 'crud') }) }}
+                {{ form_row(sharelist_add_form.firstname, { 'label':(prefix~'.sharelist.add.form.label.firstname')|trans({}, 'crud') }) }}
+                {{ form_row(sharelist_add_form.surname, { 'label':(prefix~'.sharelist.add.form.label.surname')|trans({}, 'crud') }) }}
+                {{ form_row(sharelist_add_form.email, { 'label':(prefix~'.sharelist.add.form.label.email')|trans({}, 'crud') }) }}
+                {{ form_row(sharelist_add_form.add_to_default, { 'label':(prefix~'.sharelist.add.form.label.add_to_default')|trans({}, 'crud') }) }}
                 <input type="hidden" name="type" value="add">
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">{{ (prefix~'.sharelist.add.form.submit')|trans({}, 'crud') }}</button>
-                    <a href="#" class="btn">{{ (prefix~'.sharelist.add.form.cancel')|trans({}, 'crud') }}</a>
+                    <button type="submit" class="btn btn-primary">{{ (prefix~'.sharelist.add.form.action.submit')|trans({}, 'crud') }}</button>
+                    <a href="#" class="btn">{{ (prefix~'.sharelist.add.form.action.cancel')|trans({}, 'crud') }}</a>
                 </div>
             </form>
         </div>

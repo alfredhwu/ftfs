@@ -22,6 +22,8 @@ ftfs_dashboardbundle_menu:
         all_deployed:       'Tous Tickets Dépoyés'
         all_unassigned:      'Tous Tickets en Attent'
 ftfs_dashboardbundle_myservice:
+    print:
+        action: 'Imprimer ce ticket'
     title:
         filter:
             from:   'du'
@@ -43,10 +45,25 @@ ftfs_dashboardbundle_myservice:
         cancel.new:         'Annuler cette opération'
     sharelist:
         title:              'Liste des émails:'
-        cancel.new:         'Annuler cette opération'
-        delete.confirm:     'Attention: vous êtes en train de supprimer "%name%" de votre liste de partage ?'
-        add.new:            'Ajouter'
-        add.form.submit:    'Envoyer'
+        delete.confirm:     'Supprimer le contact de %name% de la liste de partage?'
+        action:
+            add.new:            'Ajouter nouveau contact'
+            cancel.new:         'Annuler cette opération'
+            delete.confirm:     'Attention: vous êtes en train de supprimer "%name%" de votre liste de partage ?'
+        add.form:
+            title:
+                add_new:            'Ajouter Nouveau'
+                default_list:       'Liste par défaut'
+            action:
+                submit:    'Valider'
+                cancel:    'Annuler'
+            label:
+                list:       'Liste par défaut'
+                title:      'Titre'
+                firstname:  'Prénom'
+                surname:    'Nom'
+                email:      'Email'
+                add_to_default:      'Ajouter à la liste défaut?'
     attachment:
         list:
             title:          'Toutes les pieces-joints:'
@@ -54,11 +71,12 @@ ftfs_dashboardbundle_myservice:
             cancel.attach:  'Annuler'
             updated_by:     'mis à jour par'
             at:             'à'
-            delete.confirm: 'Attention: vous êtes en train de supprimer "%attachment_name%"?'
+            delete.confirm: 'Supprimer le pierce-joint "%attachment_name%"?'
         upload.form:
             file.label:     'Sélectioner le document à télécharger ( < 2M):'
             filename.label: 'Renommer comme:'
             submit:         'Télécharger'
+            cancel:         'Annuler'
     observation:
         empty.list:         "Pas d'observation" 
         user.me:            "Moi"

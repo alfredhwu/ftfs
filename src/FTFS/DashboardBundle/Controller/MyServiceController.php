@@ -1163,9 +1163,6 @@ class MyServiceController extends BaseController
         //***ToDo: prob transaction
         $em->flush();
 
-        // flash notification
-        $this->notify('attachment_delete'); 
-
         return $this->redirect($this->generateUrl($this->getRoutingPrefix().'_show', array(
             'id' => $id,
         )));
@@ -1503,6 +1500,5 @@ class MyServiceController extends BaseController
             'subject' => $entity,
             'timer' => $timer,
         ));
-        
     }
 }

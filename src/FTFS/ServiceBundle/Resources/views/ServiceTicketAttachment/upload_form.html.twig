@@ -9,6 +9,9 @@
             <a id="attachment-form-submit" href="#" class="btn btn-primary">
                 {{ (prefix~'.attachment.upload.form.submit')|trans({}, 'crud') }}
             </a>
+            <a href="{{ path(prefix~'_show', {'id' : id}) }}" class="btn">
+                {{ (prefix~'.attachment.upload.form.cancel')|trans({}, 'crud') }}
+            </a>
         </div>
 </form>
 

@@ -10,41 +10,6 @@ event.serviceticket.update:
 
 ftfs_serviceticket:
     masked_agent:   'FTFS Support Service Agent'
-    severity:
-        title:  'severity'
-        100:    'Critical'
-        200:    'Major'
-        300:    'Minor'
-        400:    'Information'
-    priority:
-        title:  'priority'
-        100:    'Very High'
-        200:    'High'
-        300:    'Normal'
-        400:    'Low'
-        500:    'Very Low'
-    status:     
-        title:  "Status" 
-        pending:         "Pending"
-        pending.class:   "label label-important"
-        submitted:       "Submitted"
-        submitted.class: "label label-info"
-        assigned:        "Assigned"
-        assigned.class:  "label label-warning"
-        created:         "Created"
-        created.class:   "label label-inverse"
-        opened:          "Open"
-        opened.class:    "label label-success"
-        reopened:          "Re-Open"
-        reopened.class:    "label label-success"
-        closed:          "Closed"
-        closed.class:    "label"
-    service:    'service requested'
-    requested_by:   'requested by'
-    assigned_to:    'assigned to'
-    summary:    'summary description'
-    detail:     'detail description'
-    asset:      'related asset no.'
 ftfs_notification_method:
     legend:  'Global Notification Methods'
     is_enabled:

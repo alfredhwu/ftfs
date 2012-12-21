@@ -37,6 +37,7 @@ ftfs_assetbundle_client:
         name:           "Client Company Name"
         code:           "Client Company ID Code"
         description:    "Client Company Description"
+
 ftfs.assetbundle.client:
     form:
         name:           "Client company name:"

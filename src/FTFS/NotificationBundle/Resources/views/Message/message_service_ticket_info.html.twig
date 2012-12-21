@@ -4,7 +4,7 @@
         <th colspan=2>General Information</th>
     </tr>
     <tr>
-        <th>Reference No.</th>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.name' | trans({}, 'crud') }}</th>
         {% if subject_href is defined %}
         <td><a class="btn btn-mini" href="{{ subject_href }}">{{ subject.name }}</a></td>
         {% else %}
@@ -12,39 +12,39 @@
         {% endif %}
     </tr>
     <tr>
-        <th>Status</th><td>{% if subject.pending %}{{ ('ftfs_serviceticket.status.pending') | trans({}, 'notification') }}{% else %}{{ ('ftfs_serviceticket.status.'~subject.status) | trans({}, 'notification') }}{% endif %}</td>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.status.title' | trans({}, 'crud') }}</th><td>{% if subject.pending %}{{ ('ftfs.servicebundle.serviceticket.table.status.pending') | trans({}, 'crud') }}{% else %}{{ ('ftfs.servicebundle.serviceticket.table.status.'~subject.status) | trans({}, 'crud') }}{% endif %}</td>
     </tr>
     <tr>
-        <th>Severity</th><td>{{ ('ftfs_serviceticket.severity.'~subject.severity) | trans({}, 'notification') }}</td>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.severity.title' | trans({}, 'crud') }}</th><td>{{ ('ftfs.servicebundle.serviceticket.table.severity.'~subject.severity) | trans({}, 'crud') }}</td>
     </tr>
     <tr>
-        <th>Priority</th><td>{{ ('ftfs_serviceticket.priority.'~subject.priority) | trans({}, 'notification') }}</td>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.priority.title' | trans({}, 'crud') }}</th><td>{{ ('ftfs.servicebundle.serviceticket.table.priority.'~subject.priority) | trans({}, 'crud') }}</td>
     </tr>
     <tr>
-        <th>Last Modified At</th><td>{{ subject.lastModifiedAt | date('Y-m-d H:i:s') }}</td>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.last.modified.at' | trans({}, 'crud') }}</th><td>{{ subject.lastModifiedAt | date('Y-m-d H:i:s') }}</td>
     </tr>
     <tr>
-        <th>Service Type</th><td>{{ subject.service.name }}</td>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.service' | trans({}, 'crud') }}</th><td>{{ subject.service.name }}</td>
     </tr>
     <tr>
-        <th>Requested By</th><td>{{ subject.requestedBy }}</td>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.requested.by' | trans({}, 'crud') }}</th><td>{{ subject.requestedBy }}</td>
     </tr>
     <tr>
-        <th>Requested Via</th><td>{{ subject.requestedVia }}</td>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.requested.via' | trans({}, 'crud') }}</th><td>{{ subject.requestedVia }}</td>
     </tr>
     <tr>
-        <th>Requested At</th><td>{{ subject.requestedAt | date('Y-m-d H:i:s') }}</td>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.requested.at' | trans({}, 'crud') }}</th><td>{{ subject.requestedAt | date('Y-m-d H:i:s') }}</td>
     </tr>
     <tr>
-        <th>Ticket Created At</th><td>{{ subject.createdAt | date('Y-m-d H:i:s') }}</td>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.created.at' | trans({}, 'crud') }}</th><td>{{ subject.createdAt | date('Y-m-d H:i:s') }}</td>
     </tr>
     <tr>
-        <th>Ticket Opened At</th><td>{{ subject.openedAt | date('Y-m-d H:i:s') }}</td>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.opened.at' | trans({}, 'crud') }}</th><td>{{ subject.openedAt | date('Y-m-d H:i:s') }}</td>
     </tr>
 
     <!-- summary descritpion  ------------------------------------------------------------------>
     <tr bgcolor="#EEEEEE">
-        <th colspan=2>Problem Summary Description</th>        
+        <th colspan=2>{{ 'ftfs.servicebundle.serviceticket.table.summary' | trans({}, 'crud') }}</th>        
     </tr>
     <tr>
         <td colspan=2>"{{ subject.summary }}"</td>
@@ -82,7 +82,7 @@
 
     <!-- detail descritpion  ------------------------------------------------------------------>
     <tr bgcolor="#EEEEEE">
-        <th colspan=2>Problem Detail Description</th>
+        <th colspan=2>{{ 'ftfs.servicebundle.serviceticket.table.detail' | trans({}, 'crud') }}</th>
     </tr>
     <tr>
         <td colspan=2>"{{ subject.detail }}"</td>
