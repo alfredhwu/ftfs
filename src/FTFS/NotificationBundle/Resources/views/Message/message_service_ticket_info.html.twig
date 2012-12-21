@@ -1,7 +1,7 @@
 <table border='1' cellpadding='0' cellspacing='0' style='font-size:14px'>
     <!-- general service ticket info ------------------------------------------------------------>
     <tr bgcolor="#EEEEEE">
-        <th colspan=2>General Information</th>
+        <th colspan=2>{{ 'ftfs.servicebundle.serviceticket.table.general' | trans({}, 'crud') }}</th>
     </tr>
     <tr>
         <th>{{ 'ftfs.servicebundle.serviceticket.table.name' | trans({}, 'crud') }}</th>
@@ -21,7 +21,7 @@
         <th>{{ 'ftfs.servicebundle.serviceticket.table.priority.title' | trans({}, 'crud') }}</th><td>{{ ('ftfs.servicebundle.serviceticket.table.priority.'~subject.priority) | trans({}, 'crud') }}</td>
     </tr>
     <tr>
-        <th>{{ 'ftfs.servicebundle.serviceticket.table.last.modified.at' | trans({}, 'crud') }}</th><td>{{ subject.lastModifiedAt | date('Y-m-d H:i:s') }}</td>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.last.modified.at' | trans({}, 'crud') }}</th><td>{% if subject.lastModifiedAt %}{{ subject.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     </tr>
     <tr>
         <th>{{ 'ftfs.servicebundle.serviceticket.table.service' | trans({}, 'crud') }}</th><td>{{ subject.service.name }}</td>
@@ -33,13 +33,16 @@
         <th>{{ 'ftfs.servicebundle.serviceticket.table.requested.via' | trans({}, 'crud') }}</th><td>{{ subject.requestedVia }}</td>
     </tr>
     <tr>
-        <th>{{ 'ftfs.servicebundle.serviceticket.table.requested.at' | trans({}, 'crud') }}</th><td>{{ subject.requestedAt | date('Y-m-d H:i:s') }}</td>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.requested.at' | trans({}, 'crud') }}</th><td>{% if subject.requestedAt is not empty%}{{ subject.requestedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     </tr>
     <tr>
-        <th>{{ 'ftfs.servicebundle.serviceticket.table.created.at' | trans({}, 'crud') }}</th><td>{{ subject.createdAt | date('Y-m-d H:i:s') }}</td>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.created.at' | trans({}, 'crud') }}</th><td>{% if subject.createdAt is not empty%}{{ subject.createdAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     </tr>
     <tr>
-        <th>{{ 'ftfs.servicebundle.serviceticket.table.opened.at' | trans({}, 'crud') }}</th><td>{{ subject.openedAt | date('Y-m-d H:i:s') }}</td>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.opened.at' | trans({}, 'crud') }}</th><td>{% if subject.openedAt is not empty%}{{ subject.openedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+    </tr>
+    <tr>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.closed.at' | trans({}, 'crud') }}</th><td>{% if subject.closedAt is not empty%}{{ subject.closedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
     </tr>
 
     <!-- summary descritpion  ------------------------------------------------------------------>
@@ -53,7 +56,7 @@
     <!-- devices  ------------------------------------------------------------------------------>
     {% if (subject.devices)|length > 0 %}
     <tr bgcolor="#EEEEEE">
-        <th colspan=2>Related Devices</th>
+        <th colspan=2>{{ 'ftfs.servicebundle.serviceticket.table.devices' | trans({}, 'crud') }}</th>
     </tr>
     {% for device in subject.devices %}
     <tr>
@@ -91,7 +94,7 @@
     <!-- attachments -------------------------------------------------------------------------->
     {% if (subject.attachments)|length > 0 %}
     <tr bgcolor="#EEEEEE">
-        <th colspan=2>Attached Documents</th>
+        <th colspan=2>{{ 'ftfs.servicebundle.serviceticket.table.attachment' | trans({}, 'crud') }}</th>
     </tr>
     {% for attachment in subject.attachments %}
     <tr>
@@ -103,7 +106,7 @@
     <!-- observation -------------------------------------------------------------------------->
     {% if subject.service.id == 1 %}
         <tr bgcolor="#EEEEEE">
-            <th colspan=2>Investigation</th>
+            <th colspan=2>{{ 'ftfs.servicebundle.serviceticket.table.investigation' | trans({}, 'crud') }}</th>
         </tr>
         {% for ob in subject.observations | reverse if ob.content['type'] == 'intervention' %}
         {% set content = ob.content %}
@@ -126,7 +129,7 @@
 
     <!-- resolution  ------------------------------------------------------------------------>
     <tr bgcolor="#EEEEEE">
-        <th colspan=2>Resolution</th>
+        <th colspan=2>{{ 'ftfs.servicebundle.serviceticket.table.resolution' | trans({}, 'crud') }}</th>
     </tr>
     {% for ob in subject.observations | reverse if ob.content['type'] == 'close_report' %}
     {% set content = ob.content %}
@@ -138,7 +141,7 @@
 
     <!-- change log  ------------------------------------------------------------------------>
     <tr bgcolor="#EEEEEE">
-        <th colspan=2>Key Change Log</th>
+        <th colspan=2>{{ 'ftfs.servicebundle.serviceticket.table.timer' | trans({}, 'crud') }}</th>
     </tr>
     {% for record in timer | reverse %}
     <tr>

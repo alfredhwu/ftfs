@@ -41,7 +41,10 @@ ftfs_dashboardbundle_myservice:
         title:              'Equipements:'
         add:
             new:            'Cliquer à ajouter un équipement'
-            form.submit:    'Envoyer'
+            form:
+                action:
+                    submit:    'Valider'
+                    cancel:    'Annuler'
         cancel.new:         'Annuler cette opération'
     sharelist:
         title:              'Liste des émails:'

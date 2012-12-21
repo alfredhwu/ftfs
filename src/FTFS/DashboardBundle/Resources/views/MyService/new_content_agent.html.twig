@@ -3,11 +3,8 @@
 {% block crud_form %}
     <input type="hidden" id="role" name="role" value="agent">
     <input type="hidden" id="mode" name="mode" value="save_open">
-    <ul class='devices' data-prototype="{{ form_widget(form.devices.vars.prototype)|e }}">
-        {% for device in form.devices %}
-            <div>{{ form_row(device) }}</div>
-        {% endfor %}
-    </ul>
+    <div class='device' data-prototype="{{ form_widget(form.devices.vars.prototype)|e }}">
+    </div>
     {{ parent() }}
 {% endblock %}
 

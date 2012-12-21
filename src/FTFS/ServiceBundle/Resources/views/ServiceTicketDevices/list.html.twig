@@ -6,57 +6,24 @@
     <li>
         {% if entity.requestedBy == app.user or entity.assignedTo == app.user %}
         <span>
-            <a href="#" class="crud-action" crud-message="{{ (prefix~'.devices.delete.confirm')|trans({}, 'crud') }}" crud-toggle="{{ path(prefix~'_devices_delete', { 'id' : id, 'device_id' : device.id }) }}">
-                <i class="icon-trash"></i>
-            </a>
-        </span>
-        <span>
             <a href="#" class="device-modification" device-id={{ device.id }} ticket-id={{ entity.id }}>
                 <i class="icon-pencil"></i>
             </a>
         </span>
         {% endif %}
-        Product:         [{{ device.product }}]<br>
-        Local Site:      [{{ device.localSite }}]<br> 
-        Remote Site:     [{{ device.remoteSite }}]<br> 
-        Module Name:     [{{ device.moduleName }}]<br>
-        Module P/N:      [{{ device.modulePn }}]<br>
-        Module S/N:      [{{ device.moduleSn }}]<br>
-        Additional Info: [{{ device.specification }}]<br>
+        {{ 'ftfs_assetbundle_device.form.product' | trans() }} [{{ device.product }}]<br>
+        {{ 'ftfs_assetbundle_device.form.local.site' | trans() }} [{{ device.localSite }}]<br> 
+        {{ 'ftfs_assetbundle_device.form.remote.site' | trans() }} [{{ device.remoteSite }}]<br> 
+        {{ 'ftfs_assetbundle_device.form.module.name' | trans() }} [{{ device.moduleName }}]<br>
+        {{ 'ftfs_assetbundle_device.form.module.pn' | trans() }} [{{ device.modulePn }}]<br>
+        {{ 'ftfs_assetbundle_device.form.module.sn' | trans() }} [{{ device.moduleSn }}]<br>
+        {{ 'ftfs_assetbundle_device.form.specification' | trans() }} [{{ device.specification }}]<br>
     </li>
     {% endfor %}
     </ul>
 </div>
 {% endif %}
 
-{% if (entity.requestedBy == app.user or (is_granted('ROLE_CLIENT_COMPANY') and entity.requestedBy.company == app.user.company) or entity.assignedTo == app.user) and entity.status != 'closed' %}
-<div>
-    <!-- devices add control toggle -->
-    <span><a class="tic-tac" tic-tac-target="#devices-add" href="#">
-        <span>
-            <i class="icon-chevron-down"></i>
-        </span>
-        <span class="hide">
-            <i class="icon-chevron-up"></i>
-        </span>
-        <span>
-        {{ (prefix~'.devices.add.new')|trans({}, 'crud') }}
-        </span>
-        <span class="hide">
-        {{ (prefix~'.devices.cancel.new')|trans({}, 'crud') }}
-        </span>
-    </a></span>
-</div>
-{% endif %}
-<div id="devices-add" class="hide" callback="get_ajax_resource" method='get' url="{{ path(prefix~'_devices_add', {'id' : entity.id }) }}" callback-toggle="div#devices-add-ajax">
-    <div id="devices-add-ajax">
-    <!-- loaded by ajax -->
-    {# 
-    {% include 'FTFSServiceBundle:ServiceTicketdevices:devices.html.twig' 
-            with { 'id' : id, 'prefix' : prefix, } %}
-    #}
-    </div>
-</div>
 <script>
     $('a.device-modification').click(function(e) {
         e.preventDefault();

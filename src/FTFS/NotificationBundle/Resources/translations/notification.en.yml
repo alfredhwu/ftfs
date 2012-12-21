@@ -10,6 +10,7 @@ event.serviceticket.update:
 
 ftfs_serviceticket:
     masked_agent:   'FTFS Support Service Agent'
+
 ftfs_notification_method:
     legend:  'Global Notification Methods'
     is_enabled:
@@ -19,6 +20,18 @@ ftfs_notification_method:
     action:
         enable: 'Disabled, Click to Enable this Method'
         disable: 'Enabled, Click to Disable this method'
+
+ftfs_notificationbundle:
+    event_catch_filter:
+        legend: 'Configuration of Notification Methods'
+        reset:  'Reset'
+        action.modify:  'Modify'
+        title:
+            auto:   'Confirmation'
+            other:  'Information'
+            name:   'Options'
+            method: 'Methods'
+
 ftfs_notification_key:
     legend:  'Global Notification Preferences'
     event.serviceticket:
@@ -52,7 +65,7 @@ ftfs_notification_key:
         intervention_added: 
             auto:   'Confirm me when I add an intervention report'
             other:  'Inform me when others add an intervention report to my ticket'
-        logistics_addes: 
+        logistics_added: 
             auto:   'Confirm me when I add a logistics record'
             other:  'Inform me when others add a logistics record to my ticket'
         attachment_removed: 

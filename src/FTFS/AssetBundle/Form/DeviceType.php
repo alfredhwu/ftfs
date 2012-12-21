@@ -11,32 +11,19 @@ class DeviceType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('local_site', null, array(
-                'label' => $this->getName().'.local.site',
-            ))
-            ->add('remote_site', null, array(
-                'label' => $this->getName().'.remote.site',
-            ))
+            ->add('local_site')
+            ->add('remote_site')
             ->add('product', 'entity', array(
                 'class' => 'FTFSProductBundle:Product',
                 'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                     return $er->createQueryBuilder('p')
                                 ->orderBy('p.name', 'ASC');
                 },
-                'label' => $this->getName().'.product',
             ))
-            ->add('module_name', null, array(
-                'label' => $this->getName().'.module.name',
-            ))
-            ->add('module_pn', null, array(
-                'label' => $this->getName().'.module.pn',
-            ))
-            ->add('module_sn', null, array(
-                'label' => $this->getName().'.module.sn',
-            ))
-            ->add('specification', null, array(
-                'label' => $this->getName().'.specification',
-            ))
+            ->add('module_name')
+            ->add('module_pn')
+            ->add('module_sn')
+            ->add('specification')
         ;
     }
 

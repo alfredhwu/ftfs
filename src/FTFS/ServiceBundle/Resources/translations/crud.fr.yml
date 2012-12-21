@@ -33,6 +33,10 @@ ftfs.servicebundle.serviceticket:
         last.modified.at:    "Dernière Modifié:"
     table:
         name:       "Numéro de Ticket"
+        general:       "Information Générale"
+        investigation: "Intervention"
+        resolution:     "Résolution"
+        timer:          "Evénements"
         service:       "Type de Service"
         severity:
             title:  "Sévérité"
@@ -88,6 +92,7 @@ ftfs.servicebundle.serviceticket:
         last.modified.at:    "Dernière Modification"
 #
 ################################################################ SERVICE #######################
+
 ftfs_servicebundle_serviceticket:
     attachment:
         list:

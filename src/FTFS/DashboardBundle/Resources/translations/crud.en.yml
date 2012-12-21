@@ -23,6 +23,7 @@ ftfs_dashboardbundle_menu:
         all_deployed:       'All Deployed Services'
         all_unassigned:     'All Unassigned Requests'
 ftfs_dashboardbundle_myservice:
+    print.action:       'Print this page'
     title:
         filter:
             from:       'from'
@@ -40,15 +41,31 @@ ftfs_dashboardbundle_myservice:
         title:              'All devices related:'
         add:
             new:            'Click to add a new device'
-            form.submit:    'Submit'
+            form:
+                action:
+                    submit:    'Submit'
+                    cancel:    'Cancel'
         cancel.new:         'Click to cancel'
     sharelist:
         title:              'All emails in the share list:'
-        cancel.new:         'Click to cancel the operation'
-        delete.confirm:     'Really want to remove "%name%" from your share list?'
-        add.new:            'Click to add a new email'
-        add.form.submit:    'Add'
-        add.form.cancel:    'Cancel'
+        action:
+            add.new:            'Click to add a new email'
+            cancel.new:         'Click to cancel the operation'
+            delete.confirm:     'Really want to remove "%name%" from your share list?'
+        add.form:
+            title:
+                add_new:            'Add New'
+                default_list:       'Select from default'
+            action:
+                submit:    'Add'
+                cancel:    'Cancel'
+            label:
+                list:       'Default List'
+                title:      'Title'
+                firstname:  'First Name'
+                surname:    'Surname'
+                email:      'Email'
+                add_to_default:      'Add to default list?'
     attachment:
         list:
             title:          'All attached documents:'
@@ -61,6 +78,7 @@ ftfs_dashboardbundle_myservice:
             file.label:     'Select document to be attached ( < 2M):'
             filename.label: 'Rename the document as:'
             submit:         'Upload the document'
+            cancel:         'Cancel'
     observation:
         empty.list:         'No observation' 
         user.me:            "Me"

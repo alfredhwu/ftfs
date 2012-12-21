@@ -1,0 +1,88 @@
+event.serviceticket.show:
+    action.default.txt: 'Evènement [%event_key%], par %acted_by% à %acted_at%.'
+    action.system.txt: '%visited_at%: "%service_ticket%" a été vu par %visited_by%.'
+    action.email.txt: 'Ce mail vous informe que votre ticket de "%service_ticket%" a été vu par %visited_by% à %visited_at%.'
+
+event.serviceticket.update:
+    action.default.txt: 'Evènement [%event_key%], par %acted_by% à %acted_at%.'
+    action.system.txt: '%visited_at%: "%service_ticket%" a été modifié par %visited_by%.'
+    action.email.txt: 'Ce mail vous informe que votre ticket de "%service_ticket%" a été modifié par %visited_by% à %visited_at%. %change_set%'
+
+ftfs_notificationbundle:
+    event_catch_filter:
+        legend: 'Configuration de Méthod de Notification'
+        reset:  'Rétablir'
+        action.modify:  'Modifier'
+        title:
+            auto:   'Confirmation'
+            other:  'Information'
+            name:   'Options'
+            method: 'Méthodes'
+
+ftfs_serviceticket:
+    masked_agent:   'Agnet Service Support de FTFS'
+
+ftfs_notification_method:
+    legend:  'Méthodes de Notification Générale'
+    is_enabled:
+        1:  'activé'
+        0:  'désactivé'
+        '':  'désactivé'
+    action:
+        enable: 'Désactivé, Cliquer pour activer ce méthode'
+        disable: 'Activé, Cliquer pour désactiver ce méthode'
+
+ftfs_notification_key:
+    legend:  'Préférences de Notification Générale'
+    event.serviceticket:
+        created: 
+            auto:   'Me confirmer quand je crée un ticket'
+            other:  'Informer moi quand un client crée un ticket'
+        submitted: 
+            auto:   'Me confirmer quand je soumets une demande de ticket'
+            other:  'Informer moi quand un client soumet une demande de ticket'
+        assigned: 
+            auto:   'Me confirmer quand je prends un ticket'
+            other:  'Informer moi quand un agent prend un ticket'
+        reassigned: 
+            auto:   'Me confirmer quand je reprends un ticket'
+            other:  'Informer moi quand un agent reprend un ticket'
+        pended: 
+            auto:   'Me confirmer quand je mets en attente un ticket'
+            other:  'Informer moi quand un agent met en attente un ticket'
+        continued: 
+            auto:   'Me confirmer quand je continue un ticket'
+            other:  'Informer moi quand un agent continue un ticket'
+        opened: 
+            auto:   "Me confirmer quand j'ouvre un ticket"
+            other:  'Informer moi quand un agent ouvre un ticket'
+        reopened: 
+            auto:   'Me confirmer quand je ré-ouvre un ticket'
+            other:  'Informer moi quand un agent ré-ouvre un ticket'
+        message_sended: 
+            auto:   "Me confirmer quand j'envoie un message"
+            other:  "Informer moi quand quelqu'un m'envoie un message" 
+        intervention_added: 
+            auto:   "Me confirmer quand je rédige un rapport d'intervention"
+            other:  "Informer moi quand quelqu'un rédige un rapport d'intervention"
+        logistics_added: 
+            auto:   "Me confirmer quand je modifie les données de logistique"
+            other:  "Informer moi quand quelqu'un modifie les données de logistique"
+        closed: 
+            auto:   "Me confirmer quand je ferme un ticket"
+            other:  "Informer moi quand quelqu'un ferme mon ticket"
+        updated: 
+            auto:   "Me confirmer quand je modifie un ticket"
+            other:  "Informer moi quand quelqu'un modifie mon ticket"
+        attachment_removed: 
+            auto:   "Me confirmer quand je supprime un fichier attaché"
+            other:  "Informer moi quand quelqu'un supprime un fichier attaché"
+        attachment_uploaded: 
+            auto:   "Me confirmer quand j'enregistre un fichier attaché"
+            other:  "Informer moi quand quelqu'un enregistre un fichier attaché"
+        attachment_downloaded: 
+            auto:   "Me confirmer quand je télécharge un fichier attaché"
+            other:  "Informer moi quand quelqu'un télécharge un fichier attaché"
+        observation_added: 
+            auto:   "Me confirmer quand j'ajoute une observation"
+            other:  "Informer moi quand quelqu'un ajoute une observation"

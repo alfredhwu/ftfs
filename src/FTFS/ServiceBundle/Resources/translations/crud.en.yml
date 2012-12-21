@@ -34,7 +34,11 @@ ftfs.servicebundle.serviceticket:
         last.modified.at:    "Last Modified at:"
     table:
         name:       "Ticket Reference"
-        rma:        "RMA Reference"
+        general:       "General Information"
+        investigation: "Investigation"
+        resolution:     "Resolution"
+        timer:          "Events"
+        rma:            "RMA Reference"
         service:       "Service Requested"
         severity:
             title:  "Severity"

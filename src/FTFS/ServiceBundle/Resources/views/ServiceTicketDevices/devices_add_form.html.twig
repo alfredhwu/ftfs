@@ -1,12 +1,21 @@
 {% spaceless %}
 <form class="form-horizontal" action="{{ action }}" method="post" {{ form_enctype(devices_add_form) }}>
     <hr>
-    {{ form_widget(devices_add_form) }}
+    {{ form_row(devices_add_form.local_site, {'label': ('ftfs_assetbundle_device.form.local.site')|trans() }) }}
+    {{ form_row(devices_add_form.remote_site, {'label': ('ftfs_assetbundle_device.form.remote.site')|trans() }) }}
+    {{ form_row(devices_add_form.product, {'label': ('ftfs_assetbundle_device.form.product')|trans() }) }}
+    {{ form_row(devices_add_form.module_name, {'label': ('ftfs_assetbundle_device.form.module.name')|trans() }) }}
+    {{ form_row(devices_add_form.module_pn, {'label': ('ftfs_assetbundle_device.form.module.pn')|trans() }) }}
+    {{ form_row(devices_add_form.module_sn, {'label': ('ftfs_assetbundle_device.form.module.sn')|trans() }) }}
+    {{ form_row(devices_add_form.specification, {'label': ('ftfs_assetbundle_device.form.specification')|trans() }) }}
+    {{ form_rest(devices_add_form) }}
     <div class="form-actions">
         <button type="submit" class="btn btn-primary">
-            {{ (prefix~'.devices.add.form.submit')|trans({}, 'crud') }}
+            {{ (prefix~'.devices.add.form.action.submit')|trans({}, 'crud') }}
         </button>
-        <a href="{{ path('ftfs_dashboardbundle_myservice_show', { 'id' : id }) }}" class="btn">Cancel</a>
+        <a href="{{ path('ftfs_dashboardbundle_myservice_show', { 'id' : id }) }}" class="btn">
+            {{ (prefix~'.devices.add.form.action.cancel')|trans({}, 'crud') }}
+        </a>
     </div>
 </form>
 <script>

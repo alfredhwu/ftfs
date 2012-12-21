@@ -182,13 +182,11 @@ class DefaultController extends Controller
             $firstname = $data['firstname'];
             $surname = $data['surname'];
             
-            if(array_key_exists($email, $sharelist)) {
-                throw new \Exception('email registered!');
+            if(!array_key_exists($email, $sharelist)) {
+                // flush
+                $sharelist[$email] = $title.' '.$firstname.' '.$surname;
+                $configurator->set('sharelist', $sharelist, $user);
             }
-
-            // flush
-            $sharelist[$email] = $title.' '.$firstname.' '.$surname;
-            $configurator->set('sharelist', $sharelist, $user);
 
             return $this->redirect($this->generateUrl(
                 'ftfs_preferencebundle_default_ticket_sharelist_index', 

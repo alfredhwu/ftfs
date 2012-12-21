@@ -1,0 +1,8 @@
+ftfs_assetbundle_device.form:
+    local.site:     "Site Local:"
+    remote.site:    "Site Distant:"
+    product:        "Produit:"
+    specification:  "Information Complémentaire:"
+    module.name:    "Nom de Module:"
+    module.pn:      "Module P/N:"
+    module.sn:      "Module S/N:"

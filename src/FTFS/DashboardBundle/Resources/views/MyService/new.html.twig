@@ -15,28 +15,14 @@
     <script>
     //  devices related
         $(document).ready(function () {
-            var collectionHolder = $('ul.devices');
-
-            // delete link for existing device
-            collectionHolder.find('li').each(function() {
-                addDeviceFormDeleteLink($(this));
-            });
+            var collectionHolder = $('div.device');
 
             var devicesHolder = $('#ftfs_servicebundle_serviceticket_form_devices').parent().parent().parent().after('<div></div>');
             collectionHolder.appendTo(devicesHolder);
 
-            var $addDeviceLink = $('<a href="#" class="add_device_link">Add additional device</a>');
-            var $newLinkLi = $('<li></li>').append($addDeviceLink);
-
             $firstLinkLi = addDeviceForm(collectionHolder, collectionHolder, false);
-            //collectionHolder.append($newLinkLi);
-            $firstLinkLi.after($newLinkLi);
 
-            // bind action to add-link
-            $addDeviceLink.click(function(e) {
-                e.preventDefault();
-                addDeviceForm(collectionHolder, $newLinkLi);
-            });
+            $('div#ftfs_servicebundle_serviceticket_form_devices').parent().parent().hide();
         });
 
         // add a form after $newLinkLi
@@ -44,7 +30,7 @@
             var prototype = collectionHolder.attr('data-prototype');
             var index = collectionHolder.children().length;
             var newForm = prototype.replace(/\$\$name\$\$/g, index);
-            var $newFormLi = $('<li></li>').append(newForm);
+            var $newFormLi = $('<div></div>').append(newForm);
             $newLinkLi.before($newFormLi);
             //alert(newForm);
             //alert($('input#ftfs_servicebundle_serviceticket_form_devices_'+index+'_location').parent().html());
@@ -58,16 +44,6 @@
             }
             return $newFormLi;
         }
-
-        function addDeviceFormDeleteLink($newFormLi) {
-            var $removeFormA = $('<a href="#">Delete this device</a><hr>');
-            $newFormLi.prepend($removeFormA);
-            $removeFormA.click(function(e) { 
-                e.preventDefault();
-                $newFormLi.remove();
-            });
-        }
-
 
         // form submitting
         function form_submit(mode) {

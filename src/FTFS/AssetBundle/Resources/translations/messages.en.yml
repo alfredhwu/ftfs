@@ -1,5 +1,5 @@
 # asset devices
-ftfs_assetbundle_device_form:
+ftfs_assetbundle_device.form:
     local.site:     "Local Site:"
     remote.site:    "Remote Site:"
     product:        "Product:"

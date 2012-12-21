@@ -6,10 +6,10 @@
 
 {% block body_content %}
 <legend>
-    <span>Configuration of event filter</span>
+    <span>{{ 'ftfs_notificationbundle.event_catch_filter.legend' | trans({}, 'notification') }}</span>
     <a href="{{ path('ftfs_notificationbundle_preference_event_catch_filter_reset', { 'id' : app.user.id } ) }}" class="btn btn-info pull-right">
     <i class="icon-flag icon-white"></i>
-    Reset to default options
+    {{ 'ftfs_notificationbundle.event_catch_filter.reset' | trans({}, 'notification') }}
     </a>
 </legend>
 
@@ -17,14 +17,14 @@
 <div class="accordion" id="preference">
     <div class="accordion-group">
         <div class="accordion-heading">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#preference" href="#collapseAutoNotification">Auto Notification</a>
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#preference" href="#collapseAutoNotification">{{ 'ftfs_notificationbundle.event_catch_filter.title.auto' | trans({}, 'notification') }}</a>
         </div>
         <div id="collapseAutoNotification" class="accordion-body collapse in">
             <table class="table table-striped table-condensed table-bordered table-smart">
                 <tr>
                     <th class="tight"></th>
-                    <th>Name</th>
-                    <th>Notification Method</th>
+                    <th>{{ 'ftfs_notificationbundle.event_catch_filter.title.name' | trans({}, 'notification') }}</th>
+                    <th>{{ 'ftfs_notificationbundle.event_catch_filter.title.method' | trans({}, 'notification') }}</th>
                     <th class="tight"></th>
                 </tr>
                 {% set index = 0 %}
@@ -38,7 +38,7 @@
                         <li>{{ method }}</li>
                         {% endfor %}
                     </ul></td>
-                    <td><a event="{{ event.id }}" auto=1 href="#">modify</a></td>
+                    <td><a event="{{ event.id }}" auto=1 href="#">{{ 'ftfs_notificationbundle.event_catch_filter.action.modify' | trans({}, 'notification') }}</a></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -47,14 +47,14 @@
 
     <div class="accordion-group">
         <div class="accordion-heading">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#preference" href="#collapseOtherNotification">Other Notification</a>
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#preference" href="#collapseOtherNotification">{{ 'ftfs_notificationbundle.event_catch_filter.title.other' | trans({}, 'notification') }}</a>
         </div>
         <div id="collapseOtherNotification" class="accordion-body collapse">
             <table class="table table-striped table-condensed table-bordered table-smart">
                 <tr>
                     <th class="tight"></th>
-                    <th>Name</th>
-                    <th>Notification Method</th>
+                    <th>{{ 'ftfs_notificationbundle.event_catch_filter.title.name' | trans({}, 'notification') }}</th>
+                    <th>{{ 'ftfs_notificationbundle.event_catch_filter.title.method' | trans({}, 'notification') }}</th>
                     <th class="tight"></th>
                 </tr>
                 {% set index = 0 %}
