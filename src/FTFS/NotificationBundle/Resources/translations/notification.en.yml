@@ -18,8 +18,12 @@ ftfs_notification_method:
         0:  'disabled'
         '':  'disabled'
     action:
-        enable: 'Disabled, Click to Enable this Method'
-        disable: 'Enabled, Click to Disable this method'
+        agent:
+            enable: 'Disabled, Click to Enable this Method for All Agents'
+            disable: 'Enabled, Click to Disable this Method for All Agents'
+        client:
+            enable: 'Disabled, Click to Enable this Method for All Clients'
+            disable: 'Enabled, Click to Disable this Method for All Clients'
 
 ftfs_notificationbundle:
     event_catch_filter:

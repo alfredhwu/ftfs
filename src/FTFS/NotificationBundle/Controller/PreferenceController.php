@@ -282,7 +282,7 @@ class PreferenceController extends Controller
         ));
     }
 
-    public function methodDisableAction($id)
+    public function methodDisableAction($id, $for)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $method = $em->getRepository('FTFSNotificationBundle:NotificationMethod')
@@ -290,12 +290,21 @@ class PreferenceController extends Controller
         if(!$method) {
             throw $this->createNotFoundException('Method not found');
         }
-        $method->setIsEnabled(false);
+        switch($for) {
+            case 'agent':
+                $method->setIsEnabledAgent(false);
+                break;
+            case 'client':
+                $method->setIsEnabledClient(false);
+                break;
+            default:
+                throw $this->createNotFoundException('unknown target ['.$for.']');
+        }
         $em->flush();
         return $this->redirect($this->generateUrl('ftfs_notificationbundle_preference_event_definition'));
     }
 
-    public function methodEnableAction($id)
+    public function methodEnableAction($id, $for)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $method = $em->getRepository('FTFSNotificationBundle:NotificationMethod')
@@ -303,7 +312,16 @@ class PreferenceController extends Controller
         if(!$method) {
             throw $this->createNotFoundException('Method not found');
         }
-        $method->setIsEnabled(true);
+        switch($for) {
+            case 'agent':
+                $method->setIsEnabledAgent(true);
+                break;
+            case 'client':
+                $method->setIsEnabledClient(true);
+                break;
+            default:
+                throw $this->createNotFoundException('unknown target ['.$for.']');
+        }
         $em->flush();
         return $this->redirect($this->generateUrl('ftfs_notificationbundle_preference_event_definition'));
     }

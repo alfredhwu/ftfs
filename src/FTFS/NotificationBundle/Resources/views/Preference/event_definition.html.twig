@@ -12,20 +12,19 @@
     <tr>
         <td>
             {{ method.name }}
-            ({{ ('ftfs_notification_method.is_enabled.'~method.isEnabledClient) | trans({}, 'notification') }})
         </td>
         <td>
             {% if method.isEnabledAgent %}
-            <a class="btn btn-mini btn-success" href="{{ path('ftfs_notificationbundle_preference_method_disable', {'id':method.id }) }}">{{ ('ftfs_notification_method.action.disable') | trans({}, 'notification') }}</a>
+            <a class="btn btn-mini btn-success" href="{{ path('ftfs_notificationbundle_preference_method_disable', {'id':method.id, 'for':'agent' }) }}">{{ ('ftfs_notification_method.action.agent.disable') | trans({}, 'notification') }}</a>
             {% else %}
-            <a class="btn btn-mini" href="{{ path('ftfs_notificationbundle_preference_method_enable', {'id':method.id }) }}">{{ ('ftfs_notification_method.action.enable') | trans({}, 'notification') }}</a>
+            <a class="btn btn-mini" href="{{ path('ftfs_notificationbundle_preference_method_enable', {'id':method.id, 'for':'agent' }) }}">{{ ('ftfs_notification_method.action.agent.enable') | trans({}, 'notification') }}</a>
             {% endif %}
         </td>
         <td>
             {% if method.isEnabledClient %}
-            <a class="btn btn-mini btn-success" href="{{ path('ftfs_notificationbundle_preference_method_disable', {'id':method.id }) }}">{{ ('ftfs_notification_method.action.disable') | trans({}, 'notification') }}</a>
+            <a class="btn btn-mini btn-success" href="{{ path('ftfs_notificationbundle_preference_method_disable', {'id':method.id, 'for':'client' }) }}">{{ ('ftfs_notification_method.action.client.disable') | trans({}, 'notification') }}</a>
             {% else %}
-            <a class="btn btn-mini" href="{{ path('ftfs_notificationbundle_preference_method_enable', {'id':method.id }) }}">{{ ('ftfs_notification_method.action.enable') | trans({}, 'notification') }}</a>
+            <a class="btn btn-mini" href="{{ path('ftfs_notificationbundle_preference_method_enable', {'id':method.id, 'for':'client' }) }}">{{ ('ftfs_notification_method.action.client.enable') | trans({}, 'notification') }}</a>
             {% endif %}
         </td>
     </tr>
@@ -116,6 +115,7 @@ $(document).ready(function () {
         var auto = object.attr('auto');
 
         href = href.replace(/_event/, event).replace(/_auto/, auto);
+        alert(href);
         // load form
         $.ajax({
             type:   "GET",
