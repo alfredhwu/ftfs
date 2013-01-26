@@ -34,12 +34,6 @@ class RegistrationFormType extends BaseType
                 ->add('mobile_phone', null, array(
                     'required' => false,
                 ))
-                ->add('other_phone_1', null, array(
-                    'required' => false,
-                ))
-                ->add('other_phone_2', null, array(
-                    'required' => false,
-                ))
         ;
     }
 
