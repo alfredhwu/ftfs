@@ -70,9 +70,7 @@ class PreferenceController extends Controller
                     ->add('methods', 'entity', array(
                         'class' => 'FTFSNotificationBundle:NotificationMethod',
                         'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                            return $er->createQueryBuilder('m')
-                                ->where('m.is_enabled_agent = 1')
-                                ->orWhere('m.is_enabled_client = 1');
+                            return $er->createQueryBuilder('m');
                         },
                         'multiple' => true,
                         'expanded' => true,

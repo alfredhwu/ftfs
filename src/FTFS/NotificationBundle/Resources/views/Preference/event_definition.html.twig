@@ -62,7 +62,7 @@
                         <li>{{ auto_filter.method }}</li>
                         {% endfor %}
                     </ul></td>
-                    <td><a class="event-method-modifier" event="{{ event.id }}" auto=1 href="#">modify</a></td>
+                    <td><a class="event-method-modifier" event="{{ event.id }}" auto="1" href="#">modify</a></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -92,7 +92,7 @@
                         <li>{{ other_filter.method }}</li>
                         {% endfor %}
                     </ul></td>
-                    <td><a class="event-method-modifier" event="{{ event.id }}" auto=0 href="#">modify</a></td>
+                    <td><a class="event-method-modifier" event="{{ event.id }}" auto="0" href="#">modify</a></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -107,15 +107,15 @@
 <!-- loading method forms -->
 <script>
 $(document).ready(function () {
-    var href = "{{ path('ftfs_notificationbundle_preference_event_catch_filter_default', { 'id' : '_event', 'auto' : '_auto' }) }}";
+    var url = "{{ path('ftfs_notificationbundle_preference_event_catch_filter_default', { 'id' : '_event', 'auto' : '_auto' }) }}";
     $('a.event-method-modifier').click(function() {
 
         object = $(this);
         var event = object.attr('event');
         var auto = object.attr('auto');
 
-        href = href.replace(/_event/, event).replace(/_auto/, auto);
-        alert(href);
+        href = url.replace(/_event/, event).replace(/_auto/, auto);
+
         // load form
         $.ajax({
             type:   "GET",

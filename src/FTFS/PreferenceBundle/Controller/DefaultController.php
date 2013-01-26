@@ -41,7 +41,7 @@ class DefaultController extends Controller
 
     public function setLocaleAction($locale)
     {
-        $this->get('ftfs_configurator')->set('locale', $locale);
+        $this->get('ftfs_configurator')->set('locale', array($locale));
 
         $this->get('session')->setLocale($locale);
         return $this->redirect($this->generateUrl('ftfs_preferencebundle_homepage', array('_locale'=>$locale)));
@@ -52,7 +52,7 @@ class DefaultController extends Controller
         $timezone = $this->getRequest()->get('timezone');
         //throw new \Exception($timezone);
         if($timezone) {
-            $this->get('ftfs_configurator')->set('timezone', $timezone);
+            $this->get('ftfs_configurator')->set('timezone', array($timezone));
             //$this->get('session')->setTimezone($timezone);
         }
 
