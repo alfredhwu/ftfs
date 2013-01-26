@@ -1,3 +1,7 @@
+sudo setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs
+sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs
+
+
 bin/vendors install
 bin/vendors lock
 find vendor -name .git -type d | xargs rm -rvf
