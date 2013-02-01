@@ -26,6 +26,7 @@
 
 {% block thead %}
     <th class="tight">{{ ('ftfs.servicebundle.serviceticket.table.name') | trans({}, 'crud') }}</th>
+    <th class="tight">{{ ('ftfs.servicebundle.serviceticket.table.reference.client') | trans({}, 'crud') }}</th>
     {% for key, data in list.meta %}
     <th class="tight">{{ ('ftfs.servicebundle.serviceticket.table.'~key) | trans({}, 'crud') }}</th>
     {% endfor %}
@@ -51,6 +52,7 @@
 
 {% block tbody %}
     <td class="tight">{{ entity.name }}</td>
+    <td class="tight">{{ entity.referenceClient }}</td>
     {% for key, data in list.meta %}
     <td class="tight">
     {% if entity.name in data|keys %}

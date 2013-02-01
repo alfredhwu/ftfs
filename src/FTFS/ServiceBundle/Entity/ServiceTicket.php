@@ -29,6 +29,13 @@ class ServiceTicket
     private $name;
 
     /**
+     * @var string $reference_client
+     *
+     * @ORM\Column(name="reference_client", type="string", length=255, nullable=true)
+     */
+    private $reference_client;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Service")
      */
     private $service;
@@ -669,5 +676,25 @@ class ServiceTicket
     public function getIndicators()
     {
         return $this->indicators;
+    }
+
+    /**
+     * Set reference_client
+     *
+     * @param string $referenceClient
+     */
+    public function setReferenceClient($referenceClient)
+    {
+        $this->reference_client = $referenceClient;
+    }
+
+    /**
+     * Get reference_client
+     *
+     * @return string 
+     */
+    public function getReferenceClient()
+    {
+        return $this->reference_client;
     }
 }

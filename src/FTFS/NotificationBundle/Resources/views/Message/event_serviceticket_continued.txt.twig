@@ -2,27 +2,27 @@
 {% if actor.isAgent() %}
     {# to himself #}
     {% if actor == destinaire %}
-    This is to confirm you that you have continued the ticket (Reference: "{{ subject.name }}") of {{ subject.requestedBy }}. {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}
+    This is to confirm you that you have continued the ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}") of {{ subject.requestedBy }}. {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}
     {# to ticket owner #}
     {% elseif destinaire == subject.requestedBy %}
-    This is to inform you that we have continued your ticket (Reference: "{{ subject.name }}"). {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %} 
+    This is to inform you that we have continued your ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}"). {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %} 
     {# to other agent #}
     {# to others #}
     {% else %}
-    {{ actor }} has continued the pending ticket (Reference: "{{ subject.name }}") at {{ acted_at }}. {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}
+    {{ actor }} has continued the pending ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}") at {{ acted_at }}. {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}
     {% endif %}
 {# from client #}
 {% else %}
     {# to himself #}
     {% if actor == destinaire %}
-    This is to confirm you that you have continued the ticket (Reference: "{{ subject.name }}"). {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}
+    This is to confirm you that you have continued the ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}"). {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}
     {# to ticket owner #}
     {% elseif destinaire == subject.assignedTo %}
-    {{ actor }} has continued the service ticket (Reference: "{{ subject.name }}") at {{ acted_at }}. Please examin this request as soon as possible. {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}
+    {{ actor }} has continued the service ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}") at {{ acted_at }}. Please examin this request as soon as possible. {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}
     {# to other agent #}
     {# to others #}
     {% else %}
-    {{ actor }} has continued the pending ticket (Reference: "{{ subject.name }}") at {{ acted_at }}. {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}
+    {{ actor }} has continued the pending ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}") at {{ acted_at }}. {% include 'FTFSNotificationBundle:Message:message_observation_rendering.txt.twig' %}
     {% endif %}
 {% endif %}
     You can review and modify this ticket in our system by the reference no. "{{ subject.name }}".

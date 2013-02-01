@@ -12,6 +12,10 @@
         {% endif %}
     </tr>
     <tr>
+        <th>{{ 'ftfs.servicebundle.serviceticket.table.reference.client' | trans({}, 'crud') }}</th>
+        <td>{{ subject.referenceClient }}</td>
+    </tr>
+    <tr>
         <th>{{ 'ftfs.servicebundle.serviceticket.table.status.title' | trans({}, 'crud') }}</th><td>{% if subject.pending %}{{ ('ftfs.servicebundle.serviceticket.table.status.pending') | trans({}, 'crud') }}{% else %}{{ ('ftfs.servicebundle.serviceticket.table.status.'~subject.status) | trans({}, 'crud') }}{% endif %}</td>
     </tr>
     <tr>

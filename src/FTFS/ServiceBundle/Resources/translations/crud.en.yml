@@ -7,6 +7,7 @@ ftfs.servicebundle.service:
 ftfs.servicebundle.serviceticket:
     form:
         name:       "Service Ticket No:"
+        reference.client:    "Client reference No.:"
         service:    "Service Requested:"
         severity:   "Severity:"
         priority:   "Priority:"
@@ -34,6 +35,7 @@ ftfs.servicebundle.serviceticket:
         last.modified.at:    "Last Modified at:"
     table:
         name:       "Ticket Reference"
+        reference.client:    "Client reference No."
         general:       "General Information"
         investigation: "Investigation"
         resolution:     "Resolution"

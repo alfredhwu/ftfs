@@ -2,14 +2,14 @@
 {% if actor.isAgent() %}
     {# to himself #}
     {% if actor == destinaire %}
-    This is to confirm you that you have taken the ticket (Reference: "{{ subject.name }}") of {{ subject.requestedBy }}.
+    This is to confirm you that you have taken the ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}") of {{ subject.requestedBy }}.
     {# to ticket owner #}
     {% elseif destinaire == subject.requestedBy %}
-    This is to inform you that we have assigned your ticket (Reference: "{{ subject.name }}").
+    This is to inform you that we have assigned your ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}").
     {# to other agent #}
     {# to others #}
     {% else %}
-    {{ actor }} has taken the ticket (Reference: "{{ subject.name }}") at {{ acted_at }}.
+    {{ actor }} has taken the ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}") at {{ acted_at }}.
     {% endif %}
 {# from client #}
 {% else %}

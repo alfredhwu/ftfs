@@ -9,10 +9,10 @@
     {# to ticket owner #}
     {# to other agent #}
     {% elseif destinaire.isAgent() %}
-    <p>{{ actor }} has submitted the service ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>) at {{ acted_at }}. Please examin this request as soon as possible.</p>
+    <p>{{ actor }} has submitted the service ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>, Client Reference Number: "{{ subject.referenceClient }}") at {{ acted_at }}. Please examin this request as soon as possible.</p>
     {# to others #}
     {% else %}
-    <p>{{ actor }} has submitted the ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>) at {{ acted_at }}.</p>
+    <p>{{ actor }} has submitted the ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>, Client Reference Number: "{{ subject.referenceClient }}") at {{ acted_at }}.</p>
     {% endif %}
 {% endif %}
     <p>You can review and modify this ticket in our system by the reference no. <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>.</p>

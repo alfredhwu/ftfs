@@ -2,27 +2,27 @@
 {% if actor.isAgent() %}
     {# to himself #}
     {% if actor == destinaire %}
-    <p>This is to confirm you that you have modified the ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>) of {{ subject.requestedBy }}.</p>
+    <p>This is to confirm you that you have modified the ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>, Client Reference Number: "{{ subject.referenceClient }}") of {{ subject.requestedBy }}.</p>
     {# to ticket owner #}
     {% elseif destinaire == subject.requestedBy %}
-    <p>This is to inform you that we have modified your ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>).</p>
+    <p>This is to inform you that we have modified your ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>, Client Reference Number: "{{ subject.referenceClient }}").</p>
     {# to other agent #}
     {# to others #}
     {% else %}
-    <p>{{ actor }} has modified the ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>) at {{ acted_at }}.</p>
+    <p>{{ actor }} has modified the ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>, Client Reference Number: "{{ subject.referenceClient }}") at {{ acted_at }}.</p>
     {% endif %}
 {# from client #}
 {% else %}
     {# to himself #}
     {% if actor == destinaire %}
-    <p>This is to confirm you that you have modified the ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>).</p>
+    <p>This is to confirm you that you have modified the ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>, Client Reference Number: "{{ subject.referenceClient }}").</p>
     {# to ticket owner #}
     {% elseif destinaire == subject.assignedTo %}
-    <p>{{ actor }} has modified the service ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>) at {{ acted_at }}. Please examin this request as soon as possible.</p>
+    <p>{{ actor }} has modified the service ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>, Client Reference Number: "{{ subject.referenceClient }}") at {{ acted_at }}. Please examin this request as soon as possible.</p>
     {# to other agent #}
     {# to others #}
     {% else %}
-    <p>{{ actor }} has modified the ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>) at {{ acted_at }}.</p>
+    <p>{{ actor }} has modified the ticket (Reference: <a class="btn btn-min" href="{{ subject_href }}">"{{ subject.name }}"</a>, Client Reference Number: "{{ subject.referenceClient }}") at {{ acted_at }}.</p>
     {% endif %}
 {% endif %}
 

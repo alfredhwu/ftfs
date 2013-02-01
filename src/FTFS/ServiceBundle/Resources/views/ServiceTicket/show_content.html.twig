@@ -29,7 +29,9 @@
     <table class="table table-condensed table-bordered table-striped">
         <tr>
             <th>{{ ('ftfs.servicebundle.serviceticket.table.name') | trans({}, 'crud') }}</th>
-            <td colspan="3">{{ entity.name }}</td>
+            <td>{{ entity.name }}</td>
+            <th>{{ ('ftfs.servicebundle.serviceticket.table.reference.client') | trans({}, 'crud') }}</th>
+            <td>{{ entity.referenceClient }}</td>
             <th>{{ ('ftfs.servicebundle.serviceticket.table.last.modified.at') | trans({}, 'crud') }}</th>
             <td>{% if entity.lastModifiedAt is not empty %}{{ entity.lastModifiedAt | date('Y-m-d H:i:s') }}{% endif %}</td>
         </tr>

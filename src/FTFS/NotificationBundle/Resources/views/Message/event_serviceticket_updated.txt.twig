@@ -2,27 +2,27 @@
 {% if actor.isAgent() %}
     {# to himself #}
     {% if actor == destinaire %}
-    This is to confirm you that you have modified the ticket (Reference: "{{ subject.name }}") of {{ subject.requestedBy }}.
+    This is to confirm you that you have modified the ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}") of {{ subject.requestedBy }}.
     {# to ticket owner #}
     {% elseif destinaire == subject.requestedBy %}
-    This is to inform you that we have modified your ticket (Reference: "{{ subject.name }}").
+    This is to inform you that we have modified your ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}").
     {# to other agent #}
     {# to others #}
     {% else %}
-    {{ actor }} has modified the ticket (Reference: "{{ subject.name }}") at {{ acted_at }}.
+    {{ actor }} has modified the ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}") at {{ acted_at }}.
     {% endif %}
 {# from client #}
 {% else %}
     {# to himself #}
     {% if actor == destinaire %}
-    This is to confirm you that you have modified the ticket (Reference: "{{ subject.name }}").
+    This is to confirm you that you have modified the ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}").
     {# to ticket owner #}
     {% elseif destinaire == subject.assignedTo %}
-    {{ actor }} has modified the service ticket (Reference: "{{ subject.name }}") at {{ acted_at }}. Please examin this request as soon as possible.
+    {{ actor }} has modified the service ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}") at {{ acted_at }}. Please examin this request as soon as possible.
     {# to other agent #}
     {# to others #}
     {% else %}
-    {{ actor }} has modified the ticket (Reference: "{{ subject.name }}") at {{ acted_at }}.
+    {{ actor }} has modified the ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}") at {{ acted_at }}.
     {% endif %}
 {% endif %}
 

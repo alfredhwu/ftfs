@@ -4,14 +4,14 @@
 {% else %}
     {# to himself #}
     {% if actor == destinaire %}
-    This is to confirm you that you have {% if subject.status == 'submitted' %}submitted{% else %}created{% endif %} the ticket (Reference: "{{ subject.name }}").
+    This is to confirm you that you have {% if subject.status == 'submitted' %}submitted{% else %}created{% endif %} the ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}").
     {# to ticket owner #}
     {# to other agent #}
     {% elseif destinaire.isAgent() %}
-    {{ actor }} has {% if subject.status == 'submitted' %}submitted{% else %}created{% endif %} the service ticket (Reference: "{{ subject.name }}") at {{ acted_at }}. Please examin this request as soon as possible.
+    {{ actor }} has {% if subject.status == 'submitted' %}submitted{% else %}created{% endif %} the service ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}") at {{ acted_at }}. Please examin this request as soon as possible.
     {# to others #}
     {% else %}
-    {{ actor }} has {% if subject.status == 'submitted' %}submitted{% else %}created{% endif %} the ticket (Reference: "{{ subject.name }}") at {{ acted_at }}.
+    {{ actor }} has {% if subject.status == 'submitted' %}submitted{% else %}created{% endif %} the ticket (Reference: "{{ subject.name }}", Client Reference Number: "{{ subject.referenceClient }}") at {{ acted_at }}.
     {% endif %}
 {% endif %}
     You can review and modify this ticket in our system by the reference no. "{{ subject.name }}".
