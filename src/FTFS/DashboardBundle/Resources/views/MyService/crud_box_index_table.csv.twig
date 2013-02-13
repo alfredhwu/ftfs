@@ -54,7 +54,7 @@
 <span>{% if entity.requestedAt is not empty %}{{ entity.requestedAt | date('Y-m-d H:i:s') }}{% endif %}</span>
 <span>{% if entity.openedAt is not empty %}{{ entity.openedAt | date('Y-m-d H:i:s') }}{% endif %}</span>
 <span>{% if entity.closedAt is not empty %}{{ entity.closedAt | date('Y-m-d H:i:s') }}{% endif %}</span>
-<span>"{% for device in entity.devices %}Product: {{ device.product }}, Module: {{ device.moduleName }}, P/N: {{ device.serialPn }}, S/N: {{ device.serialSn }}, location: '{{ device.location }}', additional info: '{{ device.specification }}';{% endfor %}"</span>
+<span>"{% for device in entity.devices %}Product: {{ device.product }}, Module: {{ device.moduleName }}, P/N: {{ device.modulePn }}, S/N: {{ device.moduleSn }}, local site: '{{ device.localSite }}', remote site: '{{ device.remoteSite }}', additional info: '{{ device.specification }}';{% endfor %}"</span>
 <span>"{{ entity.detail }}"</span>
 {#
 <td>{{ entity.assetName }}</td>
