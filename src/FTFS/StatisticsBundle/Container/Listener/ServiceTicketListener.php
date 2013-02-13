@@ -158,14 +158,18 @@ class ServiceTicketListener
     {
         $entity = new \FTFS\ServiceBundle\Entity\ServiceTicket;
         $entity->setName($action['serviceticket_name']);
+        $entity->setReferenceClient($action['serviceticket_reference_client']);
         $entity->setStatus($action['serviceticket_status']);
         $entity->setLastModifiedAt($action['serviceticket_last_modified_at']);
+        $entity->setCreatedAt($action['serviceticket_created_at']);
         $entity->setRequestedAt($action['serviceticket_requested_at']);
         $entity->setRequestedBy($this->container->get('doctrine.orm.entity_manager')->getRepository('FTFSUserBundle:User')->find($action['serviceticket_requested_by']));
+
         $user = $this->container->get('doctrine.orm.entity_manager')->getRepository('FTFSUserBundle:User')->find($action['serviceticket_assigned_to']);
         if($user) {
             $entity->setAssignedTo($user);
         }
+
         $entity->setSummary($action['serviceticket_summary']);
         $entity->setDetail($action['serviceticket_detail']);
         $entity->setService($action['serviceticket_service']);

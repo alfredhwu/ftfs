@@ -164,10 +164,13 @@ class ServiceTicketListener
             // stocking for generating a pseudo entity later
             // otherwise, probleme with transferation of entity
             $action['option']=$option;
+            $action['serviceticket_reference_client']=$entity->getReferenceClient();
             $action['serviceticket_status']=$entity->getStatus();
             $action['serviceticket_last_modified_at']=$entity->getLastModifiedAt();
+            $action['serviceticket_created_at']=$entity->getCreatedAt();
             $action['serviceticket_requested_at']=$entity->getRequestedAt();
             $action['serviceticket_requested_by']=$entity->getRequestedBy()->getId();
+            $action['serviceticket_requested_via']=$entity->getRequestedVia();
             $action['serviceticket_summary']=$entity->getSummary();
             $action['serviceticket_detail']=$entity->getDetail();
             $action['serviceticket_service']=$entity->getService();

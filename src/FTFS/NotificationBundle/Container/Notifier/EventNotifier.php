@@ -366,9 +366,12 @@ class EventNotifier
     {
         $entity = new \FTFS\ServiceBundle\Entity\ServiceTicket;
         $entity->setName($action['serviceticket_name']);
+        $entity->setReferenceClient($action['serviceticket_reference_client']);
         $entity->setStatus($action['serviceticket_status']);
         $entity->setLastModifiedAt($action['serviceticket_last_modified_at']);
+        $entity->setCreatedAt($action['serviceticket_created_at']);
         $entity->setRequestedAt($action['serviceticket_requested_at']);
+        $entity->setRequestedVia($action['serviceticket_requested_via']);
         $entity->setRequestedBy($this->em->getRepository('FTFSUserBundle:User')->find($action['serviceticket_requested_by']));
         $user = $this->em->getRepository('FTFSUserBundle:User')->find($action['serviceticket_assigned_to']);
         if($user) {
