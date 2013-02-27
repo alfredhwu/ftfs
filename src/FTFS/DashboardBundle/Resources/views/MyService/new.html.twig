@@ -34,7 +34,8 @@
             $newLinkLi.before($newFormLi);
             //alert(newForm);
             //alert($('input#ftfs_servicebundle_serviceticket_form_devices_'+index+'_location').parent().html());
-            addTypeaheadLocation($('input#ftfs_servicebundle_serviceticket_form_devices_'+index+'_location'));
+            addTypeaheadLocation($('input#ftfs_servicebundle_serviceticket_form_devices_'+index+'_local_site'));
+            addTypeaheadLocation($('input#ftfs_servicebundle_serviceticket_form_devices_'+index+'_remote_site'));
             // delete link for new added device
             if(typeof removable === 'undefined') {
                 removable = true;

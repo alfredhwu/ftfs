@@ -35,7 +35,7 @@ ftfs.servicebundle.serviceticket:
         last.modified.at:    "Last Modified at:"
     table:
         name:       "Ticket Reference"
-        reference.client:    "Client reference No."
+        reference.client:    "Client Reference No."
         general:       "General Information"
         investigation: "Investigation"
         resolution:     "Resolution"

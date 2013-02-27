@@ -1,6 +1,7 @@
 {# head #}
 {% spaceless %}
 <span>{{ ('ftfs.servicebundle.serviceticket.table.name') | trans({}, 'crud') }}</span>
+<span>{{ ('ftfs.servicebundle.serviceticket.table.reference.client') | trans({}, 'crud') }}</span>
 {% for key, data in list.meta %}
 <span>{{ ('ftfs.servicebundle.serviceticket.table.'~key) | trans({}, 'crud') }}</span>
 {% endfor %}
@@ -34,6 +35,7 @@
 {% for entity in list.entities %}
 {% spaceless %}
 <span>{{ entity.name }}</span>
+<span>{{ entity.referenceClient }}</span>
 {% for key, data in list.meta %}
 <span>{% if entity.name in data|keys %}{{ data[entity.name] }}{% endif %}</span>
 {% endfor %}
@@ -54,7 +56,7 @@
 <span>{% if entity.requestedAt is not empty %}{{ entity.requestedAt | date('Y-m-d H:i:s') }}{% endif %}</span>
 <span>{% if entity.openedAt is not empty %}{{ entity.openedAt | date('Y-m-d H:i:s') }}{% endif %}</span>
 <span>{% if entity.closedAt is not empty %}{{ entity.closedAt | date('Y-m-d H:i:s') }}{% endif %}</span>
-<span>"{% for device in entity.devices %}Product: {{ device.product }}, Module: {{ device.moduleName }}, P/N: {{ device.serialPn }}, S/N: {{ device.serialSn }}, location: '{{ device.location }}', additional info: '{{ device.specification }}';{% endfor %}"</span>
+<span>"{% for device in entity.devices %}Product: {{ device.product }}, Module: {{ device.moduleName }}, P/N: {{ device.modulePn }}, S/N: {{ device.moduleSn }}, local site: '{{ device.localSite }}', remote site: '{{ device.remoteSite }}', additional info: '{{ device.specification }}';{% endfor %}"</span>
 <span>"{{ entity.detail }}"</span>
 {#
 <td>{{ entity.assetName }}</td>
